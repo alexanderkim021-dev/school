@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="km"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ថ្នាក់រៀន">
+<title>កម្មវិធីគ្រប់គ្រងទិន្នន័យថ្នាក់រៀន</title>
+<style>
+:root{
+  --bg:#f4f6fa;--cd:#ffffff;--tx:#0f172a;--mu:#64748b;--ak:#ffffff;--bd:#e2e8f0;
+  --ac:#2563eb;--gd:#d97706;--bk:#334155;--ok:#16a34a;--bad:#dc2626;--rd:#dc2626;
+  --hd:#f1f5f9;--warn:#fef3c7;
+  --btn-radius: 999px;
+  --card-radius: 18px;
+  --app-font: 'Leelawadee UI', 'Kantumruy Pro', 'Khmer UI', 'Noto Sans Khmer', system-ui, sans-serif;
+  --title-font: 'Khmer OS Muol Light', 'Khmer OS Muol', 'Moul', system-ui, sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.7 var(--app-font);padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+main{max-width:960px;margin:0 auto;padding:16px 14px 60px}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.top h1{flex:1;margin:0;font-size:18px;font-family:var(--title-font);font-weight:normal;color:var(--tx)}
+.home{background:var(--cd);border:1px solid var(--bd);border-radius:var(--card-radius);padding:24px 18px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.03)}
+.home h1{margin:10px 0 4px;font-size:22px;font-family:var(--title-font);font-weight:normal;line-height:1.6;color:var(--tx)}
+.home p{margin:2px 0 16px;color:var(--mu);font-size:14px}
+.hg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin-top:14px}
+.pb{border:0;border-radius:var(--btn-radius);padding:15px 12px;font:inherit;font-size:15px;font-weight:600;color:#fff;cursor:grab;box-shadow:0 3px 10px rgba(0,0,0,.08);transition:all 0.15s ease;display:flex;align-items:center;justify-content:center;user-select:none}
+.pb:active{cursor:grabbing;transform:scale(0.97)}
+.pb.dragging{opacity:0.4;transform:scale(0.95)}
+.bl{background:var(--ac)}.gd{background:var(--gd)}.bk{background:var(--bk)}.rd{background:var(--rd)}.gr{background:var(--ok)}.pu{background:#8b5cf6}.tl{background:#0d9488}
+.wide{display:block;width:100%;margin:10px 0}
+.card{background:var(--cd);border:1px solid var(--bd);border-radius:var(--card-radius);padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.02)}
+.card h2{margin:0 0 12px;font-size:16px;font-family:var(--title-font);font-weight:normal}
+.warn{background:var(--warn);border:1px solid #fde68a;border-radius:12px;padding:12px 14px;margin-bottom:14px;color:#92400e;font-weight:600;font-size:14px}
+.f{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;align-items:center}
+.f>*{flex:1;min-width:120px}
+input,select,textarea{font:inherit;color:var(--tx);background:#fff;border:1px solid var(--bd);border-radius:10px;padding:8px 10px;min-height:40px}
+textarea{width:100%;min-height:90px}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
+.bt{background:var(--ac);color:var(--ak);border:0;border-radius:10px;padding:8px 16px;min-height:40px;font:inherit;font-weight:600;cursor:pointer;transition:0.15s}
+.bt:active{transform:scale(0.98)}
+.bt.g{background:var(--cd);color:var(--tx);border:1px solid var(--bd);flex:0 0 auto}
+.bt.r{background:var(--rd)}
+.x{background:none;border:0;color:var(--bad);cursor:pointer;font:inherit;font-weight:600}
+.w{overflow:auto;max-height:72vh;border:1px solid var(--bd);border-radius:12px;-webkit-overflow-scrolling:touch}
+table{border-collapse:separate;border-spacing:0;font-size:13px;width:100%}
+th,td{padding:6px 8px;border-bottom:1px solid var(--bd);border-inline-end:1px solid var(--bd);white-space:nowrap;text-align:center;background:var(--cd)}
+th{background:var(--hd);position:sticky;top:0;z-index:1;font-weight:600;color:#334155}
+tr.h2 th{top:36px}
+.sn{position:sticky;left:0;z-index:2;text-align:start;min-width:130px}
+th.sn{z-index:3}
+td input{width:54px;padding:4px;min-height:32px;text-align:center;border-radius:6px}
+td input.t{width:120px;text-align:start}
+.lg{border:2px dashed var(--bd);border-radius:50%;margin:0 auto 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;color:var(--mu);cursor:pointer;line-height:1.3;background:#f8fafc}
+.lg img{width:100%;height:100%;object-fit:contain}
+.f>.lg{flex:0 0 auto;margin:0}
+.ph{width:40px;height:40px;border-radius:50%;border:1px dashed var(--bd);overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--mu);margin:auto;background:#f8fafc}
+.ph img{width:100%;height:100%;object-fit:cover}
+.auth{max-width:400px;margin:30px auto}
+.auth label{display:block;margin-bottom:12px;font-weight:600;font-size:13px;color:var(--mu)}
+.auth input{display:block;width:100%;margin-top:4px}
+.auth h2{text-align:center;color:var(--ac);font-size:22px;margin:0 0 16px;font-family:var(--title-font);font-weight:normal}
+.msg{font-weight:600;min-height:1.4em;margin-bottom:10px;color:var(--bad);text-align:center;font-size:14px}
+.msg.ok{color:var(--ok)}
+.small{font-size:13px}
+.mu{color:var(--mu)}
+.bad{color:var(--bad)}
+.em{padding:20px;text-align:center;color:var(--mu)}
+.sv{position:fixed;bottom:12px;right:12px;font-size:12px;background:var(--cd);border:1px solid var(--bd);padding:5px 14px;border-radius:999px;color:var(--mu);z-index:20;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+.sv.err{color:var(--bad)}
+.cp-box{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.cp-box input[type="color"]{min-height:40px;width:54px;padding:2px;cursor:pointer;border-radius:8px}
+
+/* Print Layouts */
+@media print{
+  body{background:#fff;padding:0}
+  .top,.sv,button,.bt{display:none !important}
+  main{max-width:100%;padding:0}
+  .card{box-shadow:none;border:none;padding:0}
+  .print-page{page-break-after:always}
+}
+.cert-box{border:8px double #d97706;padding:30px;border-radius:12px;background:#fff;text-align:center;margin-bottom:20px}
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.id-card{border:2px solid var(--bd);border-radius:14px;padding:14px;text-align:center;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
+</style></head><body>
+<main id="app"></main>
+<div id="sv" class="sv"></div>
+<input type="file" id="fimp" accept=".json,application/json" style="display:none" onchange="importFile(this.files[0]);this.value=''">
+
+<script>
+const $ = s => document.querySelector(s);
+const E = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&','<':'<','>':'>','"':'"'}[c]));
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+const MO = ['តុលា','វិច្ឆិកា','ធ្នូ','មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា'];
+const SUBJ = [
+  {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
+  {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
+  {n:'សិក្សាសង្គម', s:[['ចំណេះដឹង',5],['អនុវត្ត',5]]},
+  {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
+];
+const COLS = SUBJ.flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m})));
+const sum = a => a.reduce((x,y) => x + (+y || 0), 0);
+const MAXT = sum(COLS.map(c => c.m));
+const USER_RE = /^[a-z0-9_.-]{3,30}$/;
+
+const ACCKEY = 'sms_accounts_v2';
+const THEME_KEY = 'sms_theme_settings';
+const ORDER_KEY = 'sms_btn_order';
+
+const DEFAULT_BTNS = ['info','stu','sc','sem0','sem1','ab','honor','cert','idcard','bk','theme','clean'];
+
+function getBtnOrder(){
+  try {
+    const s = localStorage.getItem(ORDER_KEY);
+    return s ? JSON.parse(s) : DEFAULT_BTNS;
+  } catch(e) { return DEFAULT_BTNS; }
+}
+
+const defaultTheme = {
+  ac: '#2563eb', gd: '#d97706', ok: '#16a34a', bk: '#334155', rd: '#dc2626', bg: '#f4f6fa',
+  radius: '999px', font: "'Leelawadee UI', 'Kantumruy Pro', 'Khmer UI', sans-serif"
+};
+
+function getTheme(){
+  try { return {...defaultTheme, ...JSON.parse(localStorage.getItem(THEME_KEY) || '{}')}; }
+  catch(e){ return defaultTheme; }
+}
+
+function applyTheme(th){
+  const r = document.documentElement.style;
+  r.setProperty('--ac', th.ac);
+  r.setProperty('--gd', th.gd);
+  r.setProperty('--ok', th.ok);
+  r.setProperty('--bk', th.bk);
+  r.setProperty('--rd', th.rd);
+  r.setProperty('--bg', th.bg);
+  r.setProperty('--btn-radius', th.radius);
+  r.setProperty('--app-font', th.font);
+}
+
+function saveTheme(th){
+  localStorage.setItem(THEME_KEY, JSON.stringify(th));
+  applyTheme(th);
+}
+
+applyTheme(getTheme());
+
+// ---------- Crypto API ----------
+const enc = new TextEncoder(), dec = new TextDecoder();
+function b64(buf){
+  const b = new Uint8Array(buf); let s = '';
+  for (let i = 0; i < b.length; i += 0x8000) s += String.fromCharCode.apply(null, b.subarray(i, i + 0x8000));
+  return btoa(s);
+}
+function unb64(s){ return Uint8Array.from(atob(s), c => c.charCodeAt(0)); }
+
+async function deriveKey(pw, salt){
+  const base = await crypto.subtle.importKey('raw', enc.encode(pw), 'PBKDF2', false, ['deriveKey']);
+  return crypto.subtle.deriveKey(
+    {name:'PBKDF2', salt, iterations: 200000, hash: 'SHA-256'},
+    base, {name:'AES-GCM', length: 256}, false, ['encrypt','decrypt']);
+}
+async function seal(key, text){
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const ct = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, enc.encode(text));
+  return {iv: b64(iv), ct: b64(ct)};
+}
+async function open(key, box){
+  const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv: unb64(box.iv)}, key, unb64(box.ct));
+  return dec.decode(pt);
+}
+
+// ---------- Accounts ----------
+function readAccounts(){
+  const raw = localStorage.getItem(ACCKEY);
+  if (!raw) return {};
+  try { return JSON.parse(raw); } catch (e) { return {}; }
+}
+let accounts = readAccounts();
+function saveAccounts(){ localStorage.setItem(ACCKEY, JSON.stringify(accounts)); }
+
+async function createAccount(u, pw, fullname){
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const key = await deriveKey(pw, salt);
+  accounts[u] = {fullname, salt: b64(salt), check: await seal(key, 'ok'), data: null, created: Date.now(), backupAt: 0};
+  saveAccounts();
+  return key;
+}
+
+async function unlock(u, pw){
+  const acc = accounts[u];
+  if (!acc) throw new Error('no-account');
+  const key = await deriveKey(pw, unb64(acc.salt));
+  let ok = false;
+  try { ok = (await open(key, acc.check)) === 'ok'; } catch (e) { ok = false; }
+  if (!ok) throw new Error('bad-password');
+  return key;
+}
+
+// ---------- Session ----------
+let SESSION = null, S = null;
+let saveChain = Promise.resolve();
+let pg = Object.keys(accounts).length ? 'login' : 'create';
+let mo = 3, sem = 0, idleT = null;
+
+function emptyData(){
+  return {v: 2, n: 1, backupAt: 0,
+    info: {school:'', teacher:'', cls:'', year:'២០២៦-២០២៧', div: MAXT/10},
+    st: [], sc: {}, ab: {}, rm: {}};
+}
+function normalize(d){
+  const e = emptyData();
+  if (!d || typeof d !== 'object') return e;
+  const st = Array.isArray(d.st) ? d.st : [];
+  return {
+    ...e, ...d,
+    info: {...e.info, ...(d.info || {})},
+    st, sc: d.sc || {}, ab: d.ab || {}, rm: d.rm || {},
+    backupAt: +d.backupAt || 0,
+    n: Math.max(d.n || 1, ...st.map(s => (+s.id || 0) + 1), 1)
+  };
+}
+
+function setStatus(text, err){
+  const el = $('#sv');
+  if (el) { el.textContent = text; el.classList.toggle('err', !!err); }
+}
+
+function save(){
+  if (!SESSION || !S) return;
+  const key = SESSION.key, u = SESSION.username, snapshot = JSON.stringify(S);
+  setStatus('កំពុងរក្សាទុក...');
+  saveChain = saveChain.then(async () => {
+    try {
+      accounts[u].data = await seal(key, snapshot);
+      saveAccounts();
+      setStatus('បានរក្សាទុក ✓');
+    } catch (e) {
+      setStatus('រក្សាទុកមិនបាន: ' + e.message, true);
+    }
+  });
+}
+
+async function openSession(u, key){
+  const acc = accounts[u];
+  let data = null;
+  try { data = acc.data ? JSON.parse(await open(key, acc.data)) : null; }
+  catch (e) { alert('មិនអាចបើកទិន្នន័យបាន'); return; }
+  S = normalize(data);
+  SESSION = {username: u, key, fullname: acc.fullname};
+  pg = 'home';
+  R();
+  resetIdle();
+}
+
+async function logout(){
+  await saveChain;
+  SESSION = null; S = null;
+  clearTimeout(idleT);
+  pg = 'login';
+  R();
+}
+
+function resetIdle(){
+  clearTimeout(idleT);
+  if (SESSION) idleT = setTimeout(() => { alert('បានចាកចេញស្វ័យប្រវត្តិ'); logout(); }, 20 * 60 * 1000);
+}
+['click','keydown','touchstart'].forEach(ev => document.addEventListener(ev, resetIdle));
+
+function amsg(text, err){
+  const el = $('#amsg');
+  if (el) { el.textContent = text || ''; el.classList.toggle('ok', !err); el.classList.toggle('bad', !!err); }
+}
+
+function showCreate(){ pg = 'create'; R(); }
+function showLogin(msg){ pg = 'login'; R(); if (msg) amsg(msg, false); }
+
+async function doLogin(){
+  const u = ($('#lu').value || '').trim().toLowerCase();
+  const p = $('#lp').value;
+  if (!u || !p) return amsg('សូមបញ្ចូលឈ្មោះគណនី និងពាក្យសម្ងាត់', true);
+  amsg('កំពុងផ្ទៀងផ្ទាត់...', false);
+  try {
+    const key = await unlock(u, p);
+    await openSession(u, key);
+  } catch (e) {
+    await sleep(600);
+    amsg('ឈ្មោះគណនី ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ', true);
+  }
+}
+
+async function doCreate(){
+  const name = $('#cn').value.trim();
+  const u = $('#cu').value.trim().toLowerCase();
+  const p = $('#cp').value, p2 = $('#cp2').value;
+  if (!name) return amsg('សូមបញ្ចូលឈ្មោះគ្រូ', true);
+  if (!USER_RE.test(u)) return amsg('ឈ្មោះគណនីត្រូវជា a-z, 0-9, _ . - (៣–៣០ តួ)', true);
+  if (accounts[u]) return amsg('ឈ្មោះគណនីនេះមានរួចហើយ', true);
+  if (p.length < 6) return amsg('ពាក្យសម្ងាត់យ៉ាងតិច ៦ តួ', true);
+  if (p !== p2) return amsg('ពាក្យសម្ងាត់ទាំងពីរមិនដូចគ្នា', true);
+
+  const key = await createAccount(u, p, name);
+  SESSION = {username: u, key, fullname: name};
+  S = emptyData();
+  save();
+  pg = 'home';
+  R();
+  resetIdle();
+}
+
+// ---------- Calculations ----------
+const tot = (id, m) => sum(((S.sc[m] || {})[id]) || []);
+const av = (id, m) => tot(id, m) / (S.info.div || 10);
+const rs = (a, t) => !t ? 'គ្មាន' : a>=9 ? 'ល្អប្រសើរ' : a>=8 ? 'ល្អណាស់' : a>=7 ? 'ល្អបង្គួរ' : a>=5 ? 'មធ្យម' : 'ខ្សោយ';
+const semMonths = () => sem ? [6,7,8,9,10,11] : [0,1,2,3,4,5];
+const semAv = id => { const v = semMonths().filter(m => tot(id,m) > 0).map(m => av(id,m)); return v.length ? sum(v)/v.length : 0; };
+const rank = (f, id) => 1 + S.st.filter(s => f(s.id) > f(id)).length;
+
+const moSel = () => `<select onchange="mo=+this.value;R()">${MO.map((m,i) => `<option value="${i}" ${i===mo?'selected':''}>ខែ${m}</option>`).join('')}</select>`;
+const head = t => `<div class="top"><button class="bt g" onclick="go('home')">ទំព័រដើម</button><h1>${t}</h1><button class="bt g" style="color:var(--bad)" onclick="logout()">ចាកចេញ</button></div>`;
+const go = p => { pg = p; R(); scrollTo(0,0); };
+
+// ---------- Views ----------
+const P = {
+login(){
+  return `<div class="auth"><div class="card">
+  <h2>ចូលប្រព័ន្ធ</h2>
+  <div id="amsg" class="msg"></div>
+  <label>ឈ្មោះគណនី<input id="lu" autocomplete="username" autocapitalize="off" list="ul"></label>
+  <datalist id="ul">${Object.keys(accounts).map(n => `<option value="${E(n)}">`).join('')}</datalist>
+  <label>ពាក្យសម្ងាត់<input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></label>
+  <button class="pb bl wide" onclick="doLogin()">ចូលប្រព័ន្ធ</button>
+  <div class="f"><button class="bt g" onclick="showCreate()">បង្កើតគណនីថ្មី</button><button class="bt g" onclick="$('#fimp').click()">នាំចូល Backup</button></div>
+  </div></div>`;
+},
+
+create(){
+  const first = !Object.keys(accounts).length;
+  return `<div class="auth"><div class="card">
+  <h2>${first ? 'បង្កើតគណនីដំបូង' : 'បង្កើតគណនីថ្មី'}</h2>
+  <div id="amsg" class="msg"></div>
+  <label>ឈ្មោះគ្រូ<input id="cn" lang="km" inputmode="text" autocomplete="name"></label>
+  <label>ឈ្មោះគណនី<input id="cu" autocomplete="off" autocapitalize="off"></label>
+  <label>ពាក្យសម្ងាត់ (យ៉ាងតិច ៦ តួ)<input id="cp" type="password"></label>
+  <label>បញ្ជាក់ពាក្យសម្ងាត់<input id="cp2" type="password"></label>
+  <button class="pb gr wide" onclick="doCreate()">បង្កើត</button>
+  ${first ? '' : '<div class="f"><button class="bt g" onclick="showLogin()">ត្រឡប់</button></div>'}
+  </div></div>`;
+},
+
+home(){
+  const i = S.info;
+  const order = getBtnOrder();
+  
+  const btnDefs = {
+    info: {cls:'bl', txt:'ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
+    stu: {cls:'bl', txt:`ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
+    sc: {cls:'gd', txt:'តារាងពិន្ទុប្រចាំខែ', act:"go('sc')"},
+    sem0: {cls:'gd', txt:'សរុបពិន្ទុឆមាសទី ១', act:"sem=0;go('sem')"},
+    sem1: {cls:'gd', txt:'សរុបពិន្ទុឆមាសទី ២', act:"sem=1;go('sem')"},
+    ab: {cls:'bk', txt:'តារាងអវត្តមាន', act:"go('ab')"},
+    honor: {cls:'pu', txt:'🏅 តារាងកិត្តិយស', act:"go('honor')"},
+    cert: {cls:'tl', txt:'📜 បណ្ណសរសើរស្វ័យប្រវត្តិ', act:"go('cert')"},
+    idcard: {cls:'bl', txt:'🪪 កាតសម្គាល់ខ្លួនសិស្ស', act:"go('idcard')"},
+    bk: {cls:'gr', txt:'Backup / Restore', act:"go('bk')"},
+    theme: {cls:'', style:'background:#6366f1', txt:'🎨 កំណត់ស្ទីល និងពណ៌', act:"go('theme')"},
+    clean: {cls:'rd', txt:'សម្អាតទិន្នន័យចាស់', act:"reset()"}
+  };
+
+  const btnsHtml = order.map(k => {
+    const b = btnDefs[k];
+    if (!b) return '';
+    return `<div class="pb ${b.cls}" ${b.style?`style="${b.style}"`:''} draggable="true" data-id="${k}" onclick="${b.act}">${b.txt}</div>`;
+  }).join('');
+
+  return `<div class="home">
+  ${logo(88)}
+  <h1>កម្មវិធីគ្រប់គ្រងទិន្នន័យថ្នាក់រៀន</h1>
+  <p>${E(SESSION.fullname)} · ${E(i.school || 'សាលាបឋមសិក្សា')} · ${E(i.cls || 'ថ្នាក់រៀន')} · ឆ្នាំសិក្សា ${E(i.year)}</p>
+  <div class="mu small" style="margin-bottom:10px">💡 អ្នកអាចចុចអូស (Drag & Drop) ប៊ូតុងដើម្បីរៀបចំទីតាំងតាមចិត្តបាន</div>
+  <div class="hg" id="btnGrid">${btnsHtml}</div></div>`;
+},
+
+honor(){
+  const list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
+    .filter(s => s.tot > 0)
+    .sort((a,b) => b.av - a.av)
+    .slice(0, 5);
+
+  const rows = list.map((s, idx) => `
+    <tr>
+      <td><b>លេខ ${idx+1}</b></td>
+      <td>${photo(s)}</td>
+      <td class="sn"><b>${E(s.name)}</b></td>
+      <td>${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
+      <td>${s.tot.toFixed(2)}</td>
+      <td><b>${s.av.toFixed(2)}</b></td>
+      <td>${rs(s.av, s.tot)}</td>
+    </tr>
+  `).join('');
+
+  return head('តារាងកិត្តិយស (Top 5)') + `<div class="card">
+  <div class="f">${moSel()}<button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងកិត្តិយស</button></div>
+  <div class="w"><table>
+  <tr><th>ចំណាត់ថ្នាក់</th><th>រូបថត</th><th class="sn">គោត្តនាម និងនាម</th><th>ភេទ</th><th>ពិន្ទុសរុប</th><th>មធ្យមភាគ</th><th>និទ្ទេស</th></tr>
+  ${rows || '<tr><td colspan="7" class="em">មិនទាន់មានទិន្នន័យពិន្ទុខែនេះ</td></tr>'}
+  </table></div></div>`;
+},
+
+cert(){
+  const list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
+    .filter(s => s.tot > 0)
+    .sort((a,b) => b.av - a.av)
+    .slice(0, 5);
+
+  const certsHtml = list.map((s, idx) => `
+    <div class="cert-box print-page">
+      <h2 style="font-family:var(--title-font);font-size:24px;color:#d97706;margin:0 0 10px">ព្រះរាជាណាចក្រកម្ពុជា</h2>
+      <h3 style="font-family:var(--title-font);font-size:18px;margin:0 0 20px">ជាតិ សាសនា ព្រះមហាក្សត្រ</h3>
+      <h1 style="font-family:var(--title-font);font-size:28px;color:#2563eb;margin:15px 0">បណ្ណសរសើរ</h1>
+      <p style="font-size:16px;line-height:2">គណៈគ្រប់គ្រងសាលា <b>${E(S.info.school || '...............')}</b> សូមកោតសរសើរដល់៖</p>
+      <h2 style="font-size:26px;font-family:var(--title-font);color:#0f172a;margin:10px 0">សិស្សឈ្មោះ៖ ${E(s.name)} (ភេទ ${s.sex==='ស'?'ស្រី':'ប្រុស'})</h2>
+      <p style="font-size:16px;line-height:2">ដែលបានខិតខំប្រឹងប្រែងសិក្សាទទួលបាន <b>ចំណាត់ថ្នាក់លេខ ${idx+1}</b> មធ្យមភាគ <b>${s.av.toFixed(2)}</b> និទ្ទេស <b>${rs(s.av, s.tot)}</b></p>
+      <p style="font-size:16px;line-height:2">ក្នុងថ្នាក់ <b>${E(S.info.cls || '......')}</b> ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${E(S.info.year)}</b>។</p>
+      <div style="display:flex;justify-content:space-between;margin-top:40px;padding:0 50px">
+        <div>បានឃើញ និងឯកភាព<br><b>នាយកសាលា</b></div>
+        <div>ថ្ងៃទី.....ខែ.....ឆ្នាំ២០២...<br><b>គ្រូបន្ទុកថ្នាក់</b><br><br><br>${E(S.info.teacher || '')}</div>
+      </div>
+    </div>
+  `).join('');
+
+  return head('បណ្ណសរសើរស្វ័យប្រវត្តិ') + `<div class="card">
+  <div class="f">${moSel()}<button class="bt" onclick="window.print()">🖨️ បោះពុម្ពបណ្ណសរសើរទាំងអស់</button></div>
+  <div>${certsHtml || '<div class="em">មិនទាន់មានសិស្សមានពិន្ទុសម្រាប់ទទួលបណ្ណសរសើរទេ</div>'}</div>
+  </div>`;
+},
+
+idcard(){
+  const cardsHtml = S.st.map(s => `
+    <div class="id-card">
+      <div style="font-size:12px;font-weight:bold;color:var(--ac);margin-bottom:4px">${E(S.info.school || 'សាលាបឋមសិក្សា')}</div>
+      <div style="font-family:var(--title-font);font-size:13px;margin-bottom:8px">កាតសម្គាល់ខ្លួនសិស្ស</div>
+      <div style="width:70px;height:70px;border-radius:50%;margin:0 auto 8px;overflow:hidden;border:1px solid #ccc;background:#f8fafc">
+        ${s.ph ? `<img src="${s.ph}" style="width:100%;height:100%;object-fit:cover">` : '<div style="line-height:70px;color:#aaa">+</div>'}
+      </div>
+      <div style="font-size:15px;font-weight:bold;margin-bottom:4px">${E(s.name)}</div>
+      <div style="font-size:12px;color:var(--mu)">ភេទ៖ ${s.sex==='ស'?'ស្រី':'ប្រុស'} | ថ្នាក់៖ ${E(S.info.cls || '-')}</div>
+      <div style="font-size:11px;color:var(--mu);margin-top:4px">ឆ្នាំសិក្សា ${E(S.info.year)}</div>
+    </div>
+  `).join('');
+
+  return head('កាតសម្គាល់ខ្លួនសិស្ស') + `<div class="card">
+  <div class="f"><button class="bt" onclick="window.print()">🖨️ បោះពុម្ពកាតសិស្សទាំងអស់</button></div>
+  <div class="card-grid">${cardsHtml || '<div class="em">មិនទាន់មានសិស្ស</div>'}</div>
+  </div>`;
+},
+
+theme(){
+  const th = getTheme();
+  return head('កំណត់ស្ទីល និងពណ៌កម្មវិធី') + `<div class="card">
+  <h2>ជ្រើសរើសរាងប៊ូតុង (Shape Style)</h2>
+  <div class="f">
+    <label class="mu">រាងជ្រុង / មូល
+      <select onchange="thUpdate('radius', this.value)">
+        <option value="6px" ${th.radius==='6px'?'selected':''}>ជ្រុងស្មើរាប (Modern Minimal - 6px)</option>
+        <option value="14px" ${th.radius==='14px'?'selected':''}>ជ្រុងមូលស្រាល (iOS Style - 14px)</option>
+        <option value="20px" ${th.radius==='20px'?'selected':''}>ជ្រុងមូលធំ (Smooth - 20px)</option>
+        <option value="30px" ${th.radius==='30px'?'selected':''}>មូលរាងពងក្រពើ (Oval - 30px)</option>
+        <option value="999px" ${th.radius==='999px'?'selected':''}>រង្វង់មូលទាំងស្រុង (Fully Round / Pill - 999px)</option>
+      </select>
+    </label>
+    <label class="mu">ពុម្ពអក្សរទូទៅ (Font)
+      <select onchange="thUpdate('font', this.value)">
+        <option value="'Leelawadee UI', 'Kantumruy Pro', sans-serif" ${th.font.includes('Leelawadee')?'selected':''}>Leelawadee UI (ស្រឡះ ច្បាស់)</option>
+        <option value="'Kantumruy Pro', sans-serif" ${th.font.includes('Kantumruy') && !th.font.includes('Leelawadee')?'selected':''}>Kantumruy Pro (ទាន់សម័យ)</option>
+        <option value="'Khmer OS', sans-serif" ${th.font.includes('Khmer OS') && !th.font.includes('Muol')?'selected':''}>Khmer OS (ទូទៅ)</option>
+        <option value="'Khmer OS Muol Light', sans-serif" ${th.font.includes('Muol')?'selected':''}>Khmer OS Muol Light (អក្សរមូល)</option>
+      </select>
+    </label>
+  </div>
+  
+  <h2 style="margin-top:20px">ជ្រើសរើសពណ៌ប៊ូតុង និងផ្ទាំងក្រោយ</h2>
+  <div class="f">
+    <div class="cp-box"><input type="color" value="${th.ac}" onchange="thUpdate('ac', this.value)"><span>ប៊ូតុងខៀវ (សាលា/សិស្ស/កាត)</span></div>
+    <div class="cp-box"><input type="color" value="${th.gd}" onchange="thUpdate('gd', this.value)"><span>ប៊ូតុងលឿង (ពិន្ទុ/ឆមាស)</span></div>
+    <div class="cp-box"><input type="color" value="${th.ok}" onchange="thUpdate('ok', this.value)"><span>ប៊ូតុងបៃតង (Backup)</span></div>
+    <div class="cp-box"><input type="color" value="${th.bk}" onchange="thUpdate('bk', this.value)"><span>ប៊ូតុងខ្មៅ (វត្តមាន)</span></div>
+    <div class="cp-box"><input type="color" value="${th.rd}" onchange="thUpdate('rd', this.value)"><span>ប៊ូតុងក្រហម (សម្អាត)</span></div>
+    <div class="cp-box"><input type="color" value="${th.bg}" onchange="thUpdate('bg', this.value)"><span>ផ្ទៃខាងក្រោយ App</span></div>
+  </div>
+
+  <div style="margin-top:20px" class="f">
+    <button class="bt g" onclick="saveTheme(defaultTheme);localStorage.removeItem(ORDER_KEY);go('theme')">កំណត់ស្ទីល និងលំដាប់ប៊ូតុងដើមឡើងវិញ</button>
+  </div>
+  </div>`;
+},
+
+info(){
+  const i = S.info;
+  const k = (l, key, num) => `<label class="mu">${l}<input type="${num?'number':'text'}" ${num?'inputmode="decimal"':'lang="km" inputmode="text"'} value="${E(i[key] ?? '')}" onchange="setInfo('${key}', this.value, ${!!num})"></label>`;
+  return head('ព័ត៌មានសាលា និងគ្រូ') + `<div class="card">
+  <div class="f">${logo(88)}<button class="bt g" onclick="delete S.info.logo;save();R()">លុបរូបសាលា</button></div>
+  <div class="f">${k('ឈ្មោះសាលា','school')}${k('គ្រូបន្ទុកថ្នាក់','teacher')}${k('ថ្នាក់','cls')}${k('ឆ្នាំសិក្សា','year')}</div>
+  <div class="f">${k('តួចែកមធ្យមភាគ (ពិន្ទុសរុប ÷ តួនេះ)','div',true)}</div>
+  <p class="mu">ពិន្ទុអតិបរមាសរុប ${MAXT} ÷ ${S.info.div} = ១០។</p></div>`;
+},
+
+stu(){
+  const rows = S.st.map((s,i) => `<tr><td>${i+1}</td><td>${photo(s)}</td><td class="sn">${E(s.name)}</td><td>${s.sex==='ស'?'ស្រី':'ប្រុស'}</td><td><button class="x" onclick="del(${s.id})">លុប</button></td></tr>`).join('');
+  return head('ប្រវត្តិរូបសិស្ស') + `<div class="card">
+  <div class="f"><input id="nn" lang="km" inputmode="text" placeholder="ឈ្មោះសិស្ស"><select id="ns"><option value="ស">ស្រី</option><option value="ប">ប្រុស</option></select><button class="bt" onclick="addS()">បន្ថែម</button></div>
+  </div>
+  <div class="card"><div class="w"><table><tr><th>ល.រ</th><th>រូប</th><th class="sn">ឈ្មោះ</th><th>ភេទ</th><th></th></tr>${rows || '<tr><td colspan="5" class="em">មិនទាន់មានសិស្ស</td></tr>'}</table></div></div>`;
+},
+
+sc(){
+  const rows = S.st.map((s,k) => {
+    const a = (S.sc[mo] || {})[s.id] || [];
+    return `<tr><td>${k+1}</td><td class="sn">${E(s.name)}</td><td>${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
+    ${COLS.map((c,i) => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[i] ?? ''}" onchange="setSc(${s.id},${i},this)"></td>`).join('')}
+    <td id="t${s.id}"></td><td id="a${s.id}"></td><td id="r${s.id}"></td><td id="s${s.id}"></td>
+    <td><input class="t" lang="km" inputmode="text" value="${E(((S.rm[mo] || {})[s.id]) || '')}" onchange="setRm(${s.id},this.value)"></td></tr>`;
+  }).join('');
+  return head('តារាងពិន្ទុប្រចាំខែ') + `<div class="card"><div class="f">${moSel()}</div>
+  <div class="w"><table>
+  <tr><th rowspan="2">ល.រ</th><th rowspan="2" class="sn">គោត្តនាម និងនាម</th><th rowspan="2">ភេទ</th>${SUBJ.map(s => `<th colspan="${s.s.length}">${s.n}</th>`).join('')}<th rowspan="2">សរុប</th><th rowspan="2">មធ្យម</th><th rowspan="2">ចំណាត់ថ្នាក់</th><th rowspan="2">និទ្ទេស</th><th rowspan="2">ចំណាំ</th></tr>
+  <tr class="h2">${COLS.map(c => `<th>${c.n}<br><small class="mu">(${c.m})</small></th>`).join('')}</tr>
+  ${rows || '<tr><td colspan="30" class="em">មិនទាន់មានសិស្ស</td></tr>'}
+  </table></div></div>`;
+},
+
+sem(){
+  const ms = semMonths();
+  const rows = S.st.map((s,k) => {
+    const a = semAv(s.id), has = ms.some(m => tot(s.id,m) > 0);
+    return `<tr><td>${k+1}</td><td class="sn">${E(s.name)}</td><td>${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
+    ${ms.map(m => `<td>${tot(s.id,m) > 0 ? av(s.id,m).toFixed(2) : '-'}</td>`).join('')}
+    <td><b>${a.toFixed(2)}</b></td><td>${rank(semAv, s.id)}</td><td class="${has && a < 5 ? 'bad' : ''}">${rs(a, has ? 1 : 0)}</td></tr>`;
+  }).join('');
+  return head('សរុបពិន្ទុឆមាសទី ' + (sem+1)) + `<div class="card"><div class="f"><select onchange="sem=+this.value;R()"><option value="0" ${sem?'':'selected'}>ឆមាសទី ១</option><option value="1" ${sem?'selected':''}>ឆមាសទី ២</option></select></div>
+  <div class="w"><table><tr><th>ល.រ</th><th class="sn">ឈ្មោះ</th><th>ភេទ</th>${ms.map(m => `<th>ខែ${MO[m]}</th>`).join('')}<th>មធ្យមឆមាស</th><th>ចំណាត់ថ្នាក់</th><th>និទ្ទេស</th></tr>
+  ${rows || '<tr><td colspan="12" class="em">មិនមានសិស្ស</td></tr>'}</table></div></div>`;
+},
+
+ab(){
+  const rows = S.st.map((s,k) => {
+    const a = ((S.ab[mo] || {})[s.id]) || [0,0];
+    return `<tr><td>${k+1}</td><td class="sn">${E(s.name)}</td>
+    <td><input type="number" inputmode="numeric" min="0" value="${a[0] || ''}" onchange="setAb(${s.id},0,this.value)"></td>
+    <td><input type="number" inputmode="numeric" min="0" value="${a[1] || ''}" onchange="setAb(${s.id},1,this.value)"></td>
+    <td id="b${s.id}">${(+a[0] || 0) + (+a[1] || 0)}</td></tr>`;
+  }).join('');
+  return head('តារាងអវត្តមាន') + `<div class="card"><div class="f">${moSel()}</div>
+  <div class="w"><table><tr><th>ល.រ</th><th class="sn">ឈ្មោះ</th><th>មានច្បាប់</th><th>គ្មានច្បាប់</th><th>សរុប</th></tr>
+  ${rows || '<tr><td colspan="5" class="em">មិនមានសិស្ស</td></tr>'}</table></div></div>`;
+},
+
+bk(){
+  const last = S.backupAt ? new Date(S.backupAt).toLocaleString('km-KH') : 'មិនទាន់មាន';
+  return head('Backup / Restore') + `<div class="card">
+  <h2>ការពារទិន្នន័យ</h2>
+  <p>Backup ចុងក្រោយ៖ <b>${E(last)}</b></p>
+  <div class="f">
+    <button class="bt" style="background:var(--ok)" onclick="shareBackup()">ចែករំលែក / ផ្ញើទៅ Telegram</button>
+    <button class="bt g" onclick="exportData()">Backup (ទាញយកជា JSON)</button>
+  </div>
+  <div class="f"><button class="bt g" onclick="$('#fimp').click()">Restore (នាំចូលពី JSON)</button></div>
+  </div>`;
+}
+};
+
+function thUpdate(key, val){
+  const th = getTheme();
+  th[key] = val;
+  saveTheme(th);
+}
+
+function initDragAndDrop(){
+  const grid = $('#btnGrid');
+  if (!grid) return;
+  let dragged = null;
+
+  grid.querySelectorAll('.pb').forEach(el => {
+    el.addEventListener('dragstart', e => {
+      dragged = el;
+      el.classList.add('dragging');
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    el.addEventListener('dragend', () => {
+      if (dragged) dragged.classList.remove('dragging');
+      dragged = null;
+      const newOrder = [...grid.querySelectorAll('.pb')].map(b => b.dataset.id);
+      localStorage.setItem(ORDER_KEY, JSON.stringify(newOrder));
+    });
+    el.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (!dragged || dragged === el) return;
+      const rect = el.getBoundingClientRect();
+      const mid = rect.left + rect.width / 2;
+      if (e.clientX < mid) {
+        grid.insertBefore(dragged, el);
+      } else {
+        grid.insertBefore(dragged, el.nextSibling);
+      }
+    });
+  });
+}
+
+function R(){
+  const app = $('#app');
+  if (pg === 'login' || pg === 'create') { app.innerHTML = P[pg](); return; }
+  if (!SESSION || !S) { pg = 'login'; app.innerHTML = P.login(); return; }
+  app.innerHTML = P[pg]();
+  if (pg === 'sc') upd();
+  if (pg === 'home') initDragAndDrop();
+}
+
+function upd(){
+  S.st.forEach(s => {
+    const t = tot(s.id, mo), a = av(s.id, mo), r = rs(a, t);
+    const set = (p, v, c) => { const e = $('#' + p + s.id); if (e) { e.textContent = v; e.className = c || ''; } };
+    set('t', t.toFixed(2));
+    set('a', a.toFixed(2));
+    set('r', rank(i => av(i, mo), s.id));
+    set('s', r, t && a < 5 ? 'bad' : '');
+  });
+}
+
+const logo = z => `<div class="lg" style="width:${z}px;height:${z}px" onclick="pick(u=>{S.info.logo=u;save();R()})" title="ចុចដើម្បីដាក់រូបសាលា">${S.info.logo ? `<img src="${S.info.logo}" alt="">` : '<span>ចុចដាក់<br>រូបសាលា</span>'}</div>`;
+const photo = s => `<div class="ph" onclick="pick(u=>{S.st.find(x=>x.id==${s.id}).ph=u;save();R()})">${s.ph ? `<img src="${s.ph}" alt="">` : '+'}</div>`;
+
+function pick(cb){
+  const f = document.createElement('input');
+  f.type = 'file'; f.accept = 'image/*'; f.style.display = 'none';
+  document.body.appendChild(f);
+  f.onchange = () => {
+    const fl = f.files[0]; f.remove();
+    if (!fl) return;
+    const r = new FileReader();
+    r.onload = () => {
+      const im = new Image();
+      im.onload = () => {
+        const k = Math.min(1, 160 / Math.max(im.width, im.height));
+        const c = document.createElement('canvas');
+        c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+        const x = c.getContext('2d');
+        x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+        x.drawImage(im, 0, 0, c.width, c.height);
+        cb(c.toDataURL('image/jpeg', .75));
+      };
+      im.src = r.result;
+    };
+    r.readAsDataURL(fl);
+  };
+  f.click();
+}
+
+function setInfo(key, v, num){ S.info[key] = num ? (+v > 0 ? +v : MAXT/10) : v; save(); }
+function setSc(id, i, el){
+  const m = COLS[i].m;
+  const v = el.value === '' ? null : Math.max(0, Math.min(m, +el.value));
+  el.value = v === null ? '' : v;
+  const o = (S.sc[mo] = S.sc[mo] || {});
+  const a = (o[id] = o[id] || COLS.map(() => null));
+  a[i] = v;
+  save(); upd();
+}
+function setRm(id, v){ (S.rm[mo] = S.rm[mo] || {})[id] = v; save(); }
+function setAb(id, k, v){
+  const o = (S.ab[mo] = S.ab[mo] || {});
+  const a = (o[id] = o[id] || [0,0]);
+  a[k] = Math.max(0, +v || 0);
+  save();
+  const el = $('#b' + id);
+  if (el) el.textContent = (+a[0] || 0) + (+a[1] || 0);
+}
+function addS(){
+  const n = $('#nn').value.trim();
+  if (!n) return alert('សូមបញ្ចូលឈ្មោះសិស្ស');
+  S.st.push({id: S.n++, name: n, sex: $('#ns').value});
+  save(); R();
+}
+function del(id){
+  if (!confirm('លុបសិស្សនេះ?')) return;
+  S.st = S.st.filter(s => s.id !== id);
+  save(); R();
+}
+function reset(){
+  if (!confirm('លុបសិស្ស ពិន្ទុ និងអវត្តមានទាំងអស់?')) return;
+  const i = S.info;
+  S = {...emptyData(), info: i, backupAt: S.backupAt};
+  save(); go('home');
+}
+
+function backupFileName(){
+  const d = new Date(), p = n => String(n).padStart(2,'0');
+  return `backup-ថ្នាក់រៀន-${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}.json`;
+}
+async function makePkgBlob(){
+  S.backupAt = Date.now();
+  save();
+  await saveChain;
+  const acc = accounts[SESSION.username];
+  return new Blob([JSON.stringify({
+    app: 'school-offline', version: 2,
+    username: SESSION.username, fullname: acc.fullname,
+    salt: acc.salt, check: acc.check, data: acc.data, created: acc.created
+  })], {type: 'application/json'});
+}
+function downloadBlob(blob, name){
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+async function exportData(){ downloadBlob(await makePkgBlob(), backupFileName()); R(); }
+async function shareBackup(){
+  const blob = await makePkgBlob();
+  const file = new File([blob], backupFileName(), {type: 'application/json'});
+  if (navigator.canShare && navigator.canShare({files: [file]})) {
+    try { await navigator.share({files: [file], title: 'Backup ថ្នាក់រៀន'}); } catch (e) {}
+  } else { downloadBlob(blob, backupFileName()); }
+  R();
+}
+function importFile(file){
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = () => {
+    let p;
+    try { p = JSON.parse(r.result); } catch (e) { return alert('ឯកសារមិនត្រឹមត្រូវ'); }
+    if (!p || p.app !== 'school-offline') return alert('ឯកសារមិនមែនជា Backup');
+    const u = String(p.username).toLowerCase();
+    accounts[u] = {fullname: p.fullname, salt: p.salt, check: p.check, data: p.data, created: p.created || Date.now(), backupAt: Date.now()};
+    saveAccounts();
+    showLogin(`បាននាំចូលគណនី ${u} ជោគជ័យ`);
+  };
+  r.readAsText(file);
+}
+
+R();
+</script>
+</body></html>
