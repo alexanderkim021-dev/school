@@ -217,7 +217,7 @@ td input.t{width:120px;text-align:start}
 <script>
 let newWorker = null;
 if ('serviceWorker' in navigator) {
-  const SW_VERSION = 'v20.0';
+  const SW_VERSION = 'v21.0';
   const swCode = `
     const C = 'school-offline-' + '${SW_VERSION}';
     self.addEventListener('install', e => {
@@ -633,49 +633,6 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// ឡូហ្គោក្រសួងអប់រំ យុវជន និងកីឡា ផ្លូវការ (SVG Vector ត្រូវតាមគំរូដើម ១០០%)
-const MOEYS_OFFICIAL_LOGO = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
-  <defs>
-    <radialGradient id="skyGrad" cx="50%" cy="54%" r="48%">
-      <stop offset="0%" stop-color="#00b4d8"/>
-      <stop offset="100%" stop-color="#0077b6"/>
-    </radialGradient>
-  </defs>
-  <!-- ផ្ទៃក្រោយមេឃពណ៌ខៀវស្រាល -->
-  <path d="M 250 85 C 330 85 410 160 395 320 C 350 390 280 415 250 415 C 220 415 150 390 105 320 C 90 160 170 85 250 85 Z" fill="url(#skyGrad)"/>
-  <!-- កាំរស្មីពន្លឺព្រះអាទិត្យពណ៌ក្រហម និងលឿង -->
-  <g stroke="#facc15" stroke-width="8" stroke-linecap="round">
-    <line x1="250" y1="330" x2="135" y2="150"/>
-    <line x1="250" y1="330" x2="175" y2="120"/>
-    <line x1="250" y1="330" x2="215" y2="105"/>
-    <line x1="250" y1="330" x2="250" y2="95"/>
-    <line x1="250" y1="330" x2="285" y2="105"/>
-    <line x1="250" y1="330" x2="325" y2="120"/>
-    <line x1="250" y1="330" x2="365" y2="150"/>
-  </g>
-  <!-- កម្រងកួរស្រូវមាសអមសងខាង -->
-  <path d="M 125 330 C 95 240 145 150 250 90 C 355 150 405 240 375 330 C 355 390 295 425 250 425 C 205 425 145 390 125 330 Z" fill="none" stroke="#ef4444" stroke-width="26" stroke-linejoin="round"/>
-  <path d="M 125 330 C 95 240 145 150 250 90 C 355 150 405 240 375 330 C 355 390 295 425 250 425 C 205 425 145 390 125 330 Z" fill="none" stroke="#fde047" stroke-width="16" stroke-linejoin="round"/>
-  <!-- ដងគប់ និងកង់រង្វង់មូល -->
-  <g fill="#fde047" stroke="#ef4444" stroke-width="5">
-    <!-- កង់មូលចក្រ -->
-    <circle cx="250" cy="335" r="42"/>
-    <circle cx="250" cy="335" r="22" fill="#ffffff"/>
-    <circle cx="250" cy="335" r="9" fill="#ef4444"/>
-    <!-- ជើងទម្រគប់ -->
-    <path d="M 220 380 L 280 380 L 260 415 L 240 415 Z" fill="#fde047"/>
-    <!-- ដងគប់ -->
-    <rect x="238" y="145" width="24" height="130" rx="5"/>
-    <path d="M 225 145 L 275 145 L 268 115 L 232 115 Z"/>
-    <!-- អណ្តាតភ្លើងគប់ -->
-    <path d="M 250 25 C 275 55 285 75 270 95 C 255 85 242 88 235 95 C 225 75 235 55 250 25 Z" fill="#ef4444" stroke="#facc15" stroke-width="4"/>
-    <path d="M 250 40 C 262 60 268 70 258 80 C 250 74 244 76 240 80 C 235 68 242 55 250 40 Z" fill="#fde047"/>
-  </g>
-  <!-- បូរខៀវទ្រខាងក្រោម -->
-  <path d="M 100 400 C 180 435 320 435 400 400 C 385 450 300 475 250 475 C 200 475 115 450 100 400 Z" fill="#0077b6" stroke="#ef4444" stroke-width="6"/>
-  <text x="250" y="445" font-family="'Khmer OS Moul', serif" font-size="16" fill="#ffffff" font-weight="bold" text-anchor="middle">ក្រសួងអប់រំ យុវជន និងកីឡា</text>
-</svg>`);
-
 const P = {
 login(){
   return `<div class="auth"><div class="card">
@@ -714,8 +671,8 @@ home(){
   const yearList = Object.keys(allYearsData);
   const touchCls = getTheme().touch || 'touch-3d';
 
-  // ឡូហ្គោក្រសួងអប់រំ
-  const moeysLogoImg = S.info.moeysLogo || MOEYS_OFFICIAL_LOGO;
+  // ហៅរូបភាពដែលបាន Upload លើ GitHub ផ្ទាល់
+  const moeysLogoImg = S.info.moeysLogo || encodeURI('logoក្រសួងអប់តំ.png');
 
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
@@ -743,7 +700,7 @@ home(){
   <!-- បន្ទះ Highlight ជ្រុងខាងឆ្វេងលើ (ទម្រង់ស្តង់ដារទូទាំងប្រទេស) -->
   <div class="moeys-header">
     <div class="moeys-brand">
-      <img class="moeys-logo" src="${moeysLogoImg}" alt="MoEYS" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោក្រសួង">
+      <img class="moeys-logo" src="${moeysLogoImg}" alt="MoEYS" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
       <div class="moeys-text">
         <span class="t1">ព្រះរាជាណាចក្រកម្ពុជា</span>
         <span class="t2">ក្រសួងអប់រំ យុវជន និងកីឡា</span>
@@ -846,7 +803,7 @@ official(){
           <th>គោត្តនាម-នាម</th>
           <th style="width:45px">ភេទ</th>
           <th style="width:130px">ថ្ងៃខែឆ្នាំកំណើត</th>
-          <th style="width:75px">ពិន្ទុសរុប</th>
+          <th style="width:75px">ពិនទុសរុប</th>
           <th style="width:75px">មធ្យមភាគ</th>
           <th style="width:55px">ចំ.ថ្នាក់</th>
           <th style="width:65px">លទ្ធផល</th>
