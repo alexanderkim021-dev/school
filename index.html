@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-title" content="ថ្នាក់រៀន">
 <link rel="apple-touch-icon" href="IMG_2013.png">
 <link rel="icon" href="IMG_2013.png">
-<title>កម្មវិធីគ្រប់គ្រងទិន្នន័យថ្នាក់រៀន</title>
+<title>កម្មវិធីគ្រប់គ្រងទិន្នន័យថ្នាក់រៀន - GEIP 2027</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&family=Moul&display=swap');
 
@@ -23,9 +23,9 @@
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.7 var(--app-font);padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);overflow-x:hidden}
-main{max-width:960px;margin:0 auto;padding:16px 14px 60px;will-change:transform, opacity}
+main{max-width:1050px;margin:0 auto;padding:16px 14px 60px;will-change:transform, opacity}
 
-/* Animation ប្តូរផ្ទាំងរលូន ១០០% */
+/* Animation ប្តូរផ្ទាំង */
 .anim-fade { animation: appFade var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
 .anim-slide { animation: appSlide var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
 .anim-scale { animation: appScale var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
@@ -103,11 +103,15 @@ h1, h2, h3, .muol-title {
 .year-bar{display:inline-flex;align-items:center;gap:8px;background:#f8fafc;border:1px solid var(--bd);padding:6px 14px;border-radius:999px;margin-bottom:12px}
 .year-bar select{min-height:34px;padding:4px 10px;font-weight:600;color:var(--ac);border-radius:8px;border:1px solid var(--bd)}
 
-.level-tabs-wrap{background:#e2e8f0;padding:4px;border-radius:999px;display:flex;gap:4px;margin:8px auto 16px;max-width:420px}
-.ltab{flex:1;border:0;background:transparent;padding:8px 12px;border-radius:999px;font:inherit;font-size:14px;font-weight:600;color:var(--mu);cursor:pointer;transition:all 0.2s cubic-bezier(0.16, 1, 0.3, 1)}
+.level-tabs-wrap{background:#e2e8f0;padding:4px;border-radius:999px;display:flex;gap:4px;margin:8px auto 12px;max-width:440px}
+.ltab{flex:1;border:0;background:transparent;padding:8px 10px;border-radius:999px;font:inherit;font-size:13.5px;font-weight:600;color:var(--mu);cursor:pointer;transition:all 0.2s cubic-bezier(0.16, 1, 0.3, 1)}
 .ltab.active{background:#fff;color:var(--ac);box-shadow:0 3px 8px rgba(0,0,0,0.12);font-weight:bold}
 
-.hg{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:14px;position:relative}
+.stream-tabs-wrap{background:#e0f2fe;padding:4px;border-radius:999px;display:inline-flex;gap:4px;margin:0 auto 14px;}
+.stab{border:0;background:transparent;padding:6px 16px;border-radius:999px;font:inherit;font-size:13px;font-weight:600;color:#0369a1;cursor:pointer}
+.stab.active{background:#0284c7;color:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.15)}
+
+.hg{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:14px;position:relative}
 .pb{
   border:0;
   border-radius:var(--btn-radius);
@@ -127,13 +131,13 @@ h1, h2, h3, .muol-title {
   transition:transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
 }
 
-/* Touch Feedback Working 100% ទាំងលើ Mouse និង Touch */
+/* Touch Feedback */
 .touch-3d:active { transform: translateY(4px) !important; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; }
 .touch-scale:active { transform: scale(0.92) !important; box-shadow: 0 3px 8px rgba(0,0,0,0.2) !important; }
 .touch-glow:active { transform: scale(0.97) !important; box-shadow: 0 0 20px var(--ac) !important; filter: brightness(1.2) !important; }
 .pb.touch-dragging{opacity:0.4;transform:scale(0.96)}
 
-.bl{background:var(--ac)}.gd{background:var(--gd)}.bk{background:var(--bk)}.rd{background:var(--rd)}.gr{background:var(--ok)}.pu{background:#8b5cf6}.tl{background:#0d9488}.in{background:#0284c7}
+.bl{background:var(--ac)}.gd{background:var(--gd)}.bk{background:var(--bk)}.rd{background:var(--rd)}.gr{background:var(--ok)}.pu{background:#8b5cf6}.tl{background:#0d9488}.in{background:#0284c7}.ro{background:#e11d48}
 .wide{display:block;width:100%;margin:10px 0}
 
 .card{background:var(--cd);border:1px solid var(--bd);border-radius:var(--card-radius);padding:16px;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,0.02)}
@@ -149,13 +153,13 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .bt.r{background:var(--rd)}
 .x{background:none;border:0;color:var(--bad);cursor:pointer;font:inherit;font-weight:600}
 
-.w{overflow:auto;max-height:72vh;border:1px solid var(--bd);border-radius:12px;-webkit-overflow-scrolling:touch}
+.w{overflow:auto;max-height:74vh;border:1px solid var(--bd);border-radius:12px;-webkit-overflow-scrolling:touch}
 table{border-collapse:separate;border-spacing:0;font-size:13px;width:100%}
 th,td{padding:8px 8px;border-bottom:1px solid var(--bd);border-inline-end:1px solid var(--bd);white-space:nowrap;text-align:center;background:var(--cd)}
 th{background:var(--hd);position:sticky;top:0;z-index:2;font-weight:600;color:#334155}
 .sn{position:sticky;left:0;z-index:3;text-align:start;min-width:130px;background:#fff}
 th.sn{z-index:4;background:var(--hd)}
-td input{width:54px;padding:4px;min-height:32px;text-align:center;border-radius:6px}
+td input{width:56px;padding:4px;min-height:32px;text-align:center;border-radius:6px}
 td input.t{width:120px;text-align:start}
 
 .lg{border:2px dashed var(--bd);border-radius:50%;margin:0 auto 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;color:var(--mu);cursor:pointer;line-height:1.3;background:#f8fafc}
@@ -181,7 +185,7 @@ td input.t{width:120px;text-align:start}
 
 @media print{
   body{background:#fff;padding:0}
-  .top,.sv,button,.bt,.level-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header{display:none !important}
+  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header{display:none !important}
   main{max-width:100%;padding:0}
   .card{box-shadow:none;border:none;padding:0}
   .w{max-height:none;border:none;overflow:visible}
@@ -217,7 +221,7 @@ td input.t{width:120px;text-align:start}
 <script>
 let newWorker = null;
 if ('serviceWorker' in navigator) {
-  const SW_VERSION = 'v21.0';
+  const SW_VERSION = 'v23.0';
   const swCode = `
     const C = 'school-offline-' + '${SW_VERSION}';
     self.addEventListener('install', e => {
@@ -297,13 +301,16 @@ function smartKhmerDate(val){
   return s;
 }
 
+// ១. មុខវិជ្ជាបឋមសិក្សា (GEIP 2027)
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
   {n:'សិក្សាសង្គម', s:[['ចំណេះដឹង',5],['អនុវត្ត',5]]},
+  {n:'វិទ្យាសាស្ត្រ', s:[['ទ្រឹស្តី',5],['ពិសោធ',5]]},
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
+// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (១០ មុខវិជ្ជា - មេគុណ ១៦)
 const SUBJ_SECONDARY = [
   {n:'អក្សរសាស្ត្រខ្មែរ', s:[['ខ្មែរ', 100]]},
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
@@ -313,13 +320,47 @@ const SUBJ_SECONDARY = [
   {n:'ផែនដីវិទ្យា', s:[['ផែនដី', 50]]},
   {n:'ប្រវត្តិវិទ្យា', s:[['ប្រវត្តិ', 50]]},
   {n:'ភូមិវិទ្យា', s:[['ភូមិ', 50]]},
-  {n:'សីលធម៌', s:[['សីលធម៌', 50]]},
+  {n:'សីលធម៌-ពលរដ្ឋ', s:[['ពលរដ្ឋ', 50]]},
   {n:'ភាសាបរទេស', s:[['ភាសា', 50]]}
 ];
 
-function getCols(lvl){
-  const subjs = (lvl === 'secondary' || lvl === 'high') ? SUBJ_SECONDARY : SUBJ_PRIMARY;
-  return subjs.flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
+// ៣. មុខវិជ្ជាវិទ្យាល័យ - ថ្នាក់វិទ្យាសាស្ត្រពិត (Science Stream - តួចែក ១៣)
+const SUBJ_HIGH_SCIENCE = [
+  {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
+  {n:'រូបវិទ្យា', s:[['រូប', 75]]},
+  {n:'គីមីវិទ្យា', s:[['គីមី', 75]]},
+  {n:'ជីវវិទ្យា', s:[['ជីវ', 75]]},
+  {n:'អក្សរសាស្ត្រខ្មែរ', s:[['ខ្មែរ', 75]]},
+  {n:'ភាសាបរទេស', s:[['ភាសា', 50]]},
+  {n:'ប្រវត្តិវិទ្យា', s:[['ប្រវត្តិ', 50]]},
+  {n:'ភូមិវិទ្យា', s:[['ភូមិ', 50]]},
+  {n:'សីលធម៌-ពលរដ្ឋ', s:[['ពលរដ្ឋ', 50]]},
+  {n:'ផែនដីវិទ្យា', s:[['ផែនដី', 50]]},
+  {n:'អប់រំកាយ', s:[['កីឡា', 25]]}
+];
+
+// ៤. មុខវិជ្ជាវិទ្យាល័យ - ថ្នាក់វិទ្យាសាស្ត្រសង្គម (Social Science Stream - តួចែក ១២.៥)
+const SUBJ_HIGH_SOCIAL = [
+  {n:'អក្សរសាស្ត្រខ្មែរ', s:[['ខ្មែរ', 100]]},
+  {n:'ប្រវត្តិវិទ្យា', s:[['ប្រវត្តិ', 75]]},
+  {n:'ភូមិវិទ្យា', s:[['ភូមិ', 75]]},
+  {n:'សីលធម៌-ពលរដ្ឋ', s:[['ពលរដ្ឋ', 75]]},
+  {n:'គណិតវិទ្យា', s:[['គណិត', 75]]},
+  {n:'ភាសាបរទេស', s:[['ភាសា', 50]]},
+  {n:'ផែនដីវិទ្យា', s:[['ផែនដី', 50]]},
+  {n:'វិទ្យាសាស្ត្រអនុវត្ត', s:[['វិទ្យា', 50]]},
+  {n:'គេហវិទ្យា/សេដ្ឋកិច្ច', s:[['សេដ្ឋកិច្ច', 50]]},
+  {n:'អប់រំកាយ', s:[['កីឡា', 25]]}
+];
+
+function getCols(lvl, stream){
+  if (lvl === 'high') {
+    return (stream === 'social' ? SUBJ_HIGH_SOCIAL : SUBJ_HIGH_SCIENCE).flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
+  }
+  if (lvl === 'secondary') {
+    return SUBJ_SECONDARY.flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
+  }
+  return SUBJ_PRIMARY.flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
 }
 
 const sum = a => a.reduce((x,y) => x + (+y || 0), 0);
@@ -327,9 +368,9 @@ const USER_RE = /^[a-z0-9_.-]{3,30}$/;
 
 const ACCKEY = 'sms_accounts_v7';
 const THEME_KEY = 'sms_theme_settings_v4';
-const ORDER_KEY = 'sms_btn_order_v5';
+const ORDER_KEY = 'sms_btn_order_v6';
 
-const DEFAULT_BTNS = ['info','stu','sc','official','sem0','sem1','ab','honor','cert','idcard','bk','theme','clean'];
+const DEFAULT_BTNS = ['info','stu','sc','official','sem0','sem1','annual','ab','honor','cert','idcard','bk','theme','clean'];
 
 function getBtnOrder(){
   try {
@@ -421,16 +462,19 @@ async function unlock(u, pw){
 
 let SESSION = null;
 let currentYear = '២០២៥ - ២០២៦';
-let currentLevel = 'secondary';
+let currentLevel = 'high';
 let allYearsData = {};
 
 function emptyLevelData(lbl, yr){
-  const isSec = lbl === 'អនុវិទ្យាល័យ' || lbl === 'វិទ្យាល័យ';
-  const defaultDiv = isSec ? 16 : 7;
+  let defDiv = 10;
+  let defCls = 'ថ្នាក់ទី ៦';
+  if (lbl === 'អនុវិទ្យាល័យ') { defDiv = 16; defCls = '៨A'; }
+  if (lbl === 'វិទ្យាល័យ') { defDiv = 13; defCls = '១១A'; }
   return {
-    v: 9, n: 1,
-    info: {province:'', school:'', teacher:'', cls: isSec ? '៨A' : 'ថ្នាក់ទី ៦', year: yr || currentYear, div: defaultDiv, logo: null, moeysLogo: null},
-    st: [], sc: {}, ab: {}, rm: {}
+    v: 10, n: 1,
+    info: {province:'', school:'', teacher:'', cls: defCls, year: yr || currentYear, div: defDiv, stream:'science', logo: null, moeysLogo: null},
+    st: [], sc: {}, ab: {}, rm: {},
+    semExams: {0:{}, 1:{}}
   };
 }
 
@@ -442,6 +486,7 @@ function normalizeLevel(d, lbl, yr){
     ...e, ...d,
     info: {...e.info, ...(d.info || {})},
     st, sc: d.sc || {}, ab: d.ab || {}, rm: d.rm || {},
+    semExams: d.semExams || {0:{}, 1:{}},
     n: Math.max(d.n || 1, ...st.map(s => (+s.id || 0) + 1), 1)
   };
 }
@@ -580,10 +625,12 @@ async function doCreate(){
   resetIdle();
 }
 
+// ---------- Calculations GEIP 2027 ----------
 const tot = (id, m) => sum(((getS().sc[m] || {})[id]) || []);
 const av = (id, m) => {
   const t = tot(id, m);
-  return t ? t / (getS().info.div || (currentLevel==='secondary'?16:10)) : 0;
+  const div = getS().info.div || (currentLevel==='high'?(getS().info.stream==='social'?12.5:13):16);
+  return t ? t / div : 0;
 };
 
 function getGradeLetter(a, t){
@@ -600,8 +647,38 @@ function getPassStatus(a, t){
   return a >= 25 ? 'ជាប់' : 'ធ្លាក់';
 }
 
-const semMonths = () => sem ? [6,7,8,9,10,11] : [0,1,2,3,4,5];
-const semAv = id => { const v = semMonths().filter(m => tot(id,m) > 0).map(m => av(id,m)); return v.length ? sum(v)/v.length : 0; };
+const semMonths = sIdx => sIdx ? [6,7,8,9,10,11] : [0,1,2,3,4,5];
+
+const semMonthlyAv = (id, sIdx) => {
+  const ms = semMonths(sIdx).filter(m => tot(id, m) > 0);
+  if (!ms.length) return 0;
+  return sum(ms.map(m => av(id, m))) / ms.length;
+};
+
+const semFinalAv = (id, sIdx) => {
+  const mAv = semMonthlyAv(id, sIdx);
+  const exam = (getS().semExams[sIdx] || {})[id];
+  if (exam !== undefined && exam !== null && exam !== '') {
+    return (mAv + (+exam || 0)) / 2;
+  }
+  return mAv;
+};
+
+const annualAv = id => {
+  const s1 = semFinalAv(id, 0);
+  const s2 = semFinalAv(id, 1);
+  if (s1 > 0 && s2 > 0) return (s1 + s2 * 2) / 3;
+  if (s2 > 0) return s2;
+  return s1;
+};
+
+function getAnnualDecision(a){
+  if (a <= 0) return '-';
+  if (a >= 25) return 'ឡើងថ្នាក់';
+  if (a >= 22) return 'ប្រឡងសង';
+  return 'ត្រួតថ្នាក់';
+}
+
 const rank = (f, id) => 1 + getS().st.filter(s => f(s.id) > f(id)).length;
 
 const moSel = () => `<select onchange="mo=+this.value;R()">${MO.map((m,i) => `<option value="${i}" ${i===mo?'selected':''}>ខែ${m}</option>`).join('')}</select>`;
@@ -611,6 +688,13 @@ const go = p => { pg = p; R(); scrollTo(0,0); };
 function switchLevel(lvl){
   if (currentLevel === lvl) return;
   currentLevel = lvl;
+  R();
+}
+
+function switchStream(st){
+  getS().info.stream = st;
+  getS().info.div = (st === 'social') ? 12.5 : 13;
+  save();
   R();
 }
 
@@ -671,7 +755,6 @@ home(){
   const yearList = Object.keys(allYearsData);
   const touchCls = getTheme().touch || 'touch-3d';
 
-  // ហៅរូបភាពដែលបាន Upload លើ GitHub ផ្ទាល់
   const moeysLogoImg = S.info.moeysLogo || encodeURI('logoក្រសួងអប់តំ.png');
 
   const btnDefs = {
@@ -681,6 +764,7 @@ home(){
     official: {cls:'in', txt:'🖨️ បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ', act:"go('official')"},
     sem0: {cls:'gd', txt:'🥇 សរុបពិន្ទុឆមាសទី ១', act:"sem=0;go('sem')"},
     sem1: {cls:'gd', txt:'🥈 សរុបពិន្ទុឆមាសទី ២', act:"sem=1;go('sem')"},
+    annual: {cls:'ro', txt:'🏆 សរុបលទ្ធផលប្រចាំឆ្នាំ (GEIP)', act:"go('annual')"},
     ab: {cls:'bk', txt:'📅 តារាងអវត្តមាន', act:"go('ab')"},
     honor: {cls:'pu', txt:'🏅 តារាងកិត្តិយស', act:"go('honor')"},
     cert: {cls:'tl', txt:'📜 បណ្ណសរសើរស្វ័យប្រវត្តិ', act:"go('cert')"},
@@ -697,7 +781,7 @@ home(){
   }).join('');
 
   return `<div class="home">
-  <!-- បន្ទះ Highlight ជ្រុងខាងឆ្វេងលើ (ទម្រង់ស្តង់ដារទូទាំងប្រទេស) -->
+  <!-- បន្ទះ Highlight ជ្រុងខាងឆ្វេងលើ -->
   <div class="moeys-header">
     <div class="moeys-brand">
       <img class="moeys-logo" src="${moeysLogoImg}" alt="MoEYS" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
@@ -728,6 +812,13 @@ home(){
     <button class="ltab ${currentLevel==='secondary'?'active':''}" onclick="switchLevel('secondary')">អនុវិទ្យាល័យ</button>
     <button class="ltab ${currentLevel==='high'?'active':''}" onclick="switchLevel('high')">វិទ្យាល័យ</button>
   </div>
+
+  ${currentLevel === 'high' ? `
+    <div class="stream-tabs-wrap">
+      <button class="stab ${(i.stream || 'science')==='science'?'active':''}" onclick="switchStream('science')">🔬 ថ្នាក់វិទ្យាសាស្ត្រពិត</button>
+      <button class="stab ${i.stream==='social'?'active':''}" onclick="switchStream('social')">📚 ថ្នាក់វិទ្យាសាស្ត្រសង្គម</button>
+    </div>
+  ` : ''}
 
   <div class="mu small" style="margin-bottom:10px">💡 អ្នកអាចចុចអូស (Drag & Drop) ប៊ូតុងដើម្បីរៀបចំទីតាំងតាមចិត្តបាន</div>
   <div class="hg" id="btnGrid">${btnsHtml}</div></div>`;
@@ -803,7 +894,7 @@ official(){
           <th>គោត្តនាម-នាម</th>
           <th style="width:45px">ភេទ</th>
           <th style="width:130px">ថ្ងៃខែឆ្នាំកំណើត</th>
-          <th style="width:75px">ពិនទុសរុប</th>
+          <th style="width:75px">ពិន្ទុសរុប</th>
           <th style="width:75px">មធ្យមភាគ</th>
           <th style="width:55px">ចំ.ថ្នាក់</th>
           <th style="width:65px">លទ្ធផល</th>
@@ -854,7 +945,7 @@ info(){
   <div class="f">${logo(88)}<button class="bt g" onclick="delete getS().info.logo;save();R()">លុបរូបសាលា</button></div>
   <div class="f">${k('មន្ទីរអប់រំ រាជធានី-ខេត្ត','province')}${k('ឈ្មោះសាលារៀន','school')}${k('គ្រូបន្ទុកថ្នាក់','teacher')}</div>
   <div class="f">${k('ថ្នាក់/កម្រិត','cls')}${k('តួចែកមធ្យមភាគ (ពិន្ទុសរុប ÷ តួនេះ)','div',true)}</div>
-  <p class="mu">ឆ្នាំសិក្សាបច្ចុប្បន្ន៖ <b>${E(currentYear)}</b> (អនុវិទ្យាល័យពិន្ទុសរុប ÷ ${S.info.div} = មធ្យមភាគ)។</p></div>`;
+  <p class="mu">ឆ្នាំសិក្សាបច្ចុប្បន្ន៖ <b>${E(currentYear)}</b> (តួចែកមធ្យមភាគបច្ចុប្បន្ន = <b>${S.info.div}</b>)។</p></div>`;
 },
 
 stu(){
@@ -939,7 +1030,7 @@ stu(){
 
 sc(){
   const S = getS();
-  const cols = getCols(currentLevel);
+  const cols = getCols(currentLevel, S.info.stream);
   const rows = S.st.map((s,k) => {
     const a = (S.sc[mo] || {})[s.id] || [];
     return `<tr>
@@ -956,7 +1047,10 @@ sc(){
   }).join('');
 
   return head('តារាងពិន្ទុប្រចាំខែ') + `<div class="card">
-  <div class="f">${moSel()}<button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងពិន្ទុ</button></div>
+  <div class="f">
+    ${moSel()}
+    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងពិន្ទុ</button>
+  </div>
   <div class="w"><table>
   <thead>
     <tr>
@@ -979,17 +1073,155 @@ sc(){
 
 sem(){
   const S = getS();
-  const ms = semMonths();
+  const ms = semMonths(sem);
   const rows = S.st.map((s,k) => {
-    const a = semAv(s.id), has = ms.some(m => tot(s.id,m) > 0);
-    return `<tr><td>${k+1}</td><td class="sn"><b>${E(s.name)}</b></td><td>${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
-    ${ms.map(m => `<td>${tot(s.id,m) > 0 ? av(s.id,m).toFixed(2) : '-'}</td>`).join('')}
-    <td><b>${a.toFixed(2)}</b></td><td>${rank(semAv, s.id)}</td><td class="${has && a < 25 ? 'bad' : ''}">${getPassStatus(a, has ? 1 : 0)}</td></tr>`;
+    const mAv = semMonthlyAv(s.id, sem);
+    const examVal = (S.semExams[sem] || {})[s.id] ?? '';
+    const fAv = semFinalAv(s.id, sem);
+    return `<tr>
+      <td>${k+1}</td>
+      <td class="sn"><b>${E(s.name)}</b></td>
+      <td>${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
+      ${ms.map(m => `<td>${tot(s.id,m) > 0 ? av(s.id,m).toFixed(2) : '-'}</td>`).join('')}
+      <td><b>${mAv > 0 ? mAv.toFixed(2) : '-'}</b></td>
+      <td style="background:#fef3c7"><input type="number" step="0.25" placeholder="ពិន្ទុប្រឡង" value="${examVal}" onchange="setSemExam(${sem}, ${s.id}, this.value)" style="width:75px"></td>
+      <td style="background:#ecfdf5;font-weight:bold;color:#047857">${fAv > 0 ? fAv.toFixed(2) : '-'}</td>
+      <td>${rank(id => semFinalAv(id, sem), s.id)}</td>
+      <td class="${fAv > 0 && fAv < 25 ? 'bad' : ''}">${getPassStatus(fAv, fAv > 0 ? 1 : 0)}</td>
+    </tr>`;
   }).join('');
-  return head('សរុបពិន្ទុឆមាសទី ' + (sem+1)) + `<div class="card"><div class="f"><select onchange="sem=+this.value;R()"><option value="0" ${sem?'':'selected'}>ឆមាសទី ១</option><option value="1" ${sem?'selected':''}>ឆមាសទី ២</option></select><button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងឆមាស</button></div>
+
+  return head('សរុបពិន្ទុឆមាសទី ' + (sem+1)) + `<div class="card">
+  <div class="f">
+    <select onchange="sem=+this.value;R()">
+      <option value="0" ${sem===0?'selected':''}>ឆមាសទី ១</option>
+      <option value="1" ${sem===1?'selected':''}>ឆមាសទី ២</option>
+    </select>
+    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងឆមាស</button>
+  </div>
+  <small class="mu" style="display:block;margin-bottom:10px">💡 លោកគ្រូអាចបញ្ចូល <b>«ពិន្ទុប្រឡងឆមាស»</b> ក្នុងប្រអប់ពណ៌លឿង ប្រព័ន្ធនឹងគណនាមធ្យមភាគឆមាសរួម [(មធ្យមខែ + ប្រឡង)/2] ដោយស្វ័យប្រវត្តិតាមស្តង់ដារជាតិ។</small>
   <div class="w"><table>
-  <thead><tr><th>ល.រ</th><th class="sn">ឈ្មោះ</th><th>ភេទ</th>${ms.map(m => `<th>ខែ${MO[m]}</th>`).join('')}<th>មធ្យមឆមាស</th><th>ចំណាត់ថ្នាក់</th><th>លទ្ធផល</th></tr></thead>
-  <tbody>${rows || '<tr><td colspan="12" class="em">មិនមានសិស្ស</td></tr>'}</tbody></table></div></div>`;
+  <thead>
+    <tr>
+      <th>ល.រ</th>
+      <th class="sn">ឈ្មោះ</th>
+      <th>ភេទ</th>
+      ${ms.map(m => `<th>ខែ${MO[m]}</th>`).join('')}
+      <th>មធ្យមខែ</th>
+      <th style="background:#fef3c7">ប្រឡងឆមាស</th>
+      <th style="background:#d1fae5">មធ្យមឆមាសរួម</th>
+      <th>ចំណាត់ថ្នាក់</th>
+      <th>លទ្ធផល</th>
+    </tr>
+  </thead>
+  <tbody>${rows || '<tr><td colspan="14" class="em">មិនមានសិស្ស</td></tr>'}</tbody>
+  </table></div></div>`;
+},
+
+annual(){
+  const S = getS();
+  const i = S.info;
+  const list = S.st.map(s => {
+    const s1 = semFinalAv(s.id, 0);
+    const s2 = semFinalAv(s.id, 1);
+    const ann = annualAv(s.id);
+    return {
+      ...s,
+      s1, s2, ann,
+      grade: getGradeLetter(ann, ann > 0 ? 1 : 0),
+      dec: getAnnualDecision(ann)
+    };
+  }).sort((a,b) => b.ann - a.ann);
+
+  list.forEach((s, idx) => { s.rank = s.ann > 0 ? (idx + 1) : '-'; });
+
+  const total = list.length;
+  const female = list.filter(s => s.sex === 'ស').length;
+  const passCount = list.filter(s => s.dec === 'ឡើងថ្នាក់').length;
+  const retestCount = list.filter(s => s.dec === 'ប្រឡងសង').length;
+  const failCount = list.filter(s => s.dec === 'ត្រួតថ្នាក់').length;
+
+  const rows = list.map((s, idx) => `
+    <tr>
+      <td>${idx + 1}</td>
+      <td style="text-align:start;padding-left:10px"><b>${E(s.name)}</b></td>
+      <td>${s.sex === 'ស' ? 'ស' : 'ប'}</td>
+      <td>${E(s.dob || '-')}</td>
+      <td>${s.s1 > 0 ? s.s1.toFixed(2) : '-'}</td>
+      <td>${s.s2 > 0 ? s.s2.toFixed(2) : '-'}</td>
+      <td style="background:#ecfdf5;font-weight:bold;color:#047857;font-size:14px">${s.ann > 0 ? s.ann.toFixed(2) : '-'}</td>
+      <td><b>${s.rank}</b></td>
+      <td><b>${s.grade}</b></td>
+      <td style="font-weight:bold;color:${s.dec==='ឡើងថ្នាក់'?'#16a34a':(s.dec==='ប្រឡងសង'?'#d97706':'#dc2626')}">${s.dec}</td>
+    </tr>
+  `).join('');
+
+  return head('សរុបលទ្ធផលប្រចាំឆ្នាំ (GEIP)') + `<div class="card">
+  <div class="f">
+    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងលទ្ធផលប្រចាំឆ្នាំ (A4)</button>
+  </div>
+
+  <div class="official-sheet print-page">
+    <div class="official-header">
+      <div class="side-box">
+        <div>${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+        <div style="font-weight:bold">${E(i.school || 'សាលារៀន')}</div>
+      </div>
+      <div class="center-box">
+        <div class="muol-title" style="font-size:16px">ព្រះរាជាណាចក្រកម្ពុជា</div>
+        <div class="muol-title" style="font-size:14px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+        <div style="font-size:12px;letter-spacing:4px">~~~~~~~~~</div>
+      </div>
+    </div>
+
+    <div class="official-title">
+      <h2 class="muol-title">តារាងបូកសរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ</h2>
+      <div style="font-weight:bold;font-size:15px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div class="mu small">រូបមន្តគណនាមធ្យមភាគប្រចាំឆ្នាំ GEIP៖ (ឆមាសទី ១ + ឆមាសទី ២ × ២) ÷ ៣</div>
+    </div>
+
+    <table class="official-table">
+      <thead>
+        <tr>
+          <th style="width:40px">ល.រ</th>
+          <th>គោត្តនាម-នាម</th>
+          <th style="width:45px">ភេទ</th>
+          <th style="width:130px">ថ្ងៃខែឆ្នាំកំណើត</th>
+          <th style="width:75px">មធ្យម ឆ.១</th>
+          <th style="width:75px">មធ្យម ឆ.២</th>
+          <th style="width:85px;background:#d1fae5">មធ្យមប្រចាំឆ្នាំ</th>
+          <th style="width:55px">ចំណាត់ថ្នាក់</th>
+          <th style="width:55px">និទ្ទេស</th>
+          <th style="width:85px">សេចក្តីសម្រេច</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows || '<tr><td colspan="10" style="padding:20px;color:#888">មិនទាន់មានទិន្នន័យសិស្ស</td></tr>'}
+      </tbody>
+    </table>
+
+    <div class="official-stats">
+      <div style="font-weight:bold">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${total} នាក់ (ស្រី ${female} នាក់)</div>
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap">
+        <div>- សិស្សឡើងថ្នាក់៖ <b>${passCount}</b> នាក់ (${total ? ((passCount/total)*100).toFixed(2) : 0}%)</div>
+        <div>- សិស្សប្រឡងសង៖ <b>${retestCount}</b> នាក់ (${total ? ((retestCount/total)*100).toFixed(2) : 0}%)</div>
+        <div>- សិស្សត្រួតថ្នាក់៖ <b>${failCount}</b> នាក់ (${total ? ((failCount/total)*100).toFixed(2) : 0}%)</div>
+      </div>
+    </div>
+
+    <div class="official-footer">
+      <div style="text-align:center;width:200px">
+        <div>បានឃើញ និងឯកភាព</div>
+        <div style="font-weight:bold;margin-top:4px">នាយកសាលា</div>
+      </div>
+      <div style="text-align:center;width:240px">
+        <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
+        <div style="font-weight:bold;margin-top:4px">គ្រូបន្ទុកថ្នាក់</div>
+        <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
+      </div>
+    </div>
+  </div>
+  </div>`;
 },
 
 ab(){
@@ -1297,7 +1529,7 @@ function pick(cb){
   f.click();
 }
 
-function setInfo(key, v, num){ getS().info[key] = num ? (+v > 0 ? +v : 16) : v; save(); }
+function setInfo(key, v, num){ getS().info[key] = num ? (+v > 0 ? +v : 13) : v; save(); }
 
 function setDobDirect(id, val){
   const s = getS().st.find(x => x.id === id);
@@ -1326,7 +1558,7 @@ function setSex(id, v){
 }
 
 function setSc(id, i, el){
-  const cols = getCols(currentLevel);
+  const cols = getCols(currentLevel, getS().info.stream);
   const m = cols[i].m;
   const v = el.value === '' ? null : Math.max(0, Math.min(m, +el.value));
   el.value = v === null ? '' : v;
@@ -1335,6 +1567,15 @@ function setSc(id, i, el){
   a[i] = v;
   save(); upd();
 }
+
+function setSemExam(sIdx, id, v){
+  if (!getS().semExams) getS().semExams = {0:{}, 1:{}};
+  if (!getS().semExams[sIdx]) getS().semExams[sIdx] = {};
+  getS().semExams[sIdx][id] = v === '' ? null : (+v || 0);
+  save();
+  R();
+}
+
 function setRm(id, v){ (getS().rm[mo] = getS().rm[mo] || {})[id] = v; save(); }
 function setAb(id, k, v){
   const o = (getS().ab[mo] = getS().ab[mo] || {});
@@ -1374,6 +1615,7 @@ function del(id){
   getS().st = getS().st.filter(s => s.id !== id);
   save(); R();
 }
+
 function reset(){
   const levelNames = { primary: 'បឋមសិក្សា', secondary: 'អនុវិទ្យាល័យ', high: 'វិទ្យាល័យ' };
   if (!confirm(`លុបទិន្នន័យកម្រិត ${levelNames[currentLevel]} នៃឆ្នាំសិក្សា ${currentYear} ទាំងអស់?`)) return;
@@ -1391,7 +1633,7 @@ async function makePkgBlob(){
   await saveChain;
   const acc = accounts[SESSION.username];
   return new Blob([JSON.stringify({
-    app: 'school-offline', version: 9,
+    app: 'school-offline', version: 10,
     username: SESSION.username, fullname: acc.fullname,
     salt: acc.salt, check: acc.check, data: acc.data, created: acc.created
   })], {type: 'application/json'});
