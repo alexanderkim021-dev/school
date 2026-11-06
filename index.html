@@ -221,7 +221,7 @@ td input.t{width:120px;text-align:start}
 <script>
 let newWorker = null;
 if ('serviceWorker' in navigator) {
-  const SW_VERSION = 'v23.0';
+  const SW_VERSION = 'v24.0';
   const swCode = `
     const C = 'school-offline-' + '${SW_VERSION}';
     self.addEventListener('install', e => {
@@ -324,7 +324,7 @@ const SUBJ_SECONDARY = [
   {n:'ភាសាបរទេស', s:[['ភាសា', 50]]}
 ];
 
-// ៣. មុខវិជ្ជាវិទ្យាល័យ - ថ្នាក់វិទ្យាសាស្ត្រពិត (Science Stream - តួចែក ១៣)
+// ៣. មុខវិជ្ជាវិទ្យាល័យ - ថ្នាក់វិទ្យាសាស្ត្រពិត (Science Stream - តួចែក ១៣)[cite: 14]
 const SUBJ_HIGH_SCIENCE = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
   {n:'រូបវិទ្យា', s:[['រូប', 75]]},
@@ -339,7 +339,7 @@ const SUBJ_HIGH_SCIENCE = [
   {n:'អប់រំកាយ', s:[['កីឡា', 25]]}
 ];
 
-// ៤. មុខវិជ្ជាវិទ្យាល័យ - ថ្នាក់វិទ្យាសាស្ត្រសង្គម (Social Science Stream - តួចែក ១២.៥)
+// ៤. មុខវិជ្ជាវិទ្យាល័យ - ថ្នាក់វិទ្យាសាស្ត្រសង្គម (Social Science Stream - តួចែក ១២.៥)[cite: 14]
 const SUBJ_HIGH_SOCIAL = [
   {n:'អក្សរសាស្ត្រខ្មែរ', s:[['ខ្មែរ', 100]]},
   {n:'ប្រវត្តិវិទ្យា', s:[['ប្រវត្តិ', 75]]},
@@ -1099,7 +1099,7 @@ sem(){
     </select>
     <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងឆមាស</button>
   </div>
-  <small class="mu" style="display:block;margin-bottom:10px">💡 លោកគ្រូអាចបញ្ចូល <b>«ពិន្ទុប្រឡងឆមាស»</b> ក្នុងប្រអប់ពណ៌លឿង ប្រព័ន្ធនឹងគណនាមធ្យមភាគឆមាសរួម [(មធ្យមខែ + ប្រឡង)/2] ដោយស្វ័យប្រវត្តិតាមស្តង់ដារជាតិ។</small>
+  <small class="mu" style="display:block;margin-bottom:10px">💡 លោកគ្រូអាចបញ្ចូល <b>«ពិន្ទុប្រឡងឆមាស»</b> ក្នុងប្រអប់ពណ៌លឿង ប្រព័ន្ធនឹងគណនាមធ្យមភាគឆមាសរួម [(មធ្យមខែ + ប្រឡង)/2] ដោយស្វ័យប្រវត្តិតាមស្តង់ដារជាតិ[cite: 14]។</small>
   <div class="w"><table>
   <thead>
     <tr>
@@ -1177,7 +1177,7 @@ annual(){
     <div class="official-title">
       <h2 class="muol-title">តារាងបូកសរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ</h2>
       <div style="font-weight:bold;font-size:15px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
-      <div class="mu small">រូបមន្តគណនាមធ្យមភាគប្រចាំឆ្នាំ GEIP៖ (ឆមាសទី ១ + ឆមាសទី ២ × ២) ÷ ៣</div>
+      <div class="mu small">រូបមន្តគណនាមធ្យមភាគប្រចាំឆ្នាំ GEIP៖ (ឆមាសទី ១ + ឆមាសទី ២ × ២) ÷ ៣[cite: 14]</div>
     </div>
 
     <table class="official-table">
