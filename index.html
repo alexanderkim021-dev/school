@@ -217,7 +217,7 @@ td input.t{width:120px;text-align:start}
 <script>
 let newWorker = null;
 if ('serviceWorker' in navigator) {
-  const SW_VERSION = 'v19.0';
+  const SW_VERSION = 'v20.0';
   const swCode = `
     const C = 'school-offline-' + '${SW_VERSION}';
     self.addEventListener('install', e => {
@@ -267,7 +267,6 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 const MO = ['តុលា','វិច្ឆិកា','ធ្នូ','មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា'];
 
-// Function វៃឆ្លាតបម្លែងលេខថ្ងៃខែឆ្នាំ ទៅជាអក្សរខ្មែរផ្លូវការ
 const KH_NUMS = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
 const toKhNum = n => String(n).split('').map(d => KH_NUMS[d] || d).join('');
 const KH_MONTHS = ['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
@@ -298,7 +297,6 @@ function smartKhmerDate(val){
   return s;
 }
 
-// មុខវិជ្ជាបឋមសិក្សា
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
@@ -306,7 +304,6 @@ const SUBJ_PRIMARY = [
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
-// មុខវិជ្ជាទាំង ១០ របស់អនុវិទ្យាល័យ (មេគុណ ១៦)
 const SUBJ_SECONDARY = [
   {n:'អក្សរសាស្ត្រខ្មែរ', s:[['ខ្មែរ', 100]]},
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
@@ -372,7 +369,6 @@ function saveTheme(th){
 
 applyTheme(getTheme());
 
-// ---------- Crypto API ----------
 const enc = new TextEncoder(), dec = new TextDecoder();
 function b64(buf){
   const b = new Uint8Array(buf); let s = '';
@@ -397,7 +393,6 @@ async function open(key, box){
   return dec.decode(pt);
 }
 
-// ---------- Accounts ----------
 function readAccounts(){
   const raw = localStorage.getItem(ACCKEY);
   if (!raw) return {};
@@ -424,7 +419,6 @@ async function unlock(u, pw){
   return key;
 }
 
-// ---------- Multi-Year & 3-Level Data Store ----------
 let SESSION = null;
 let currentYear = '២០២៥ - ២០២៦';
 let currentLevel = 'secondary';
@@ -586,7 +580,6 @@ async function doCreate(){
   resetIdle();
 }
 
-// ---------- Calculations ----------
 const tot = (id, m) => sum(((getS().sc[m] || {})[id]) || []);
 const av = (id, m) => {
   const t = tot(id, m);
@@ -640,49 +633,49 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// Logo ក្រសួងអប់រំ យុវជន និងកីឡា (SVG Vector Data URI ច្បាស់ ១០០% និងស្រាលបំផុត)
-const MOEYS_SVG = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+// ឡូហ្គោក្រសួងអប់រំ យុវជន និងកីឡា ផ្លូវការ (SVG Vector ត្រូវតាមគំរូដើម ១០០%)
+const MOEYS_OFFICIAL_LOGO = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500">
   <defs>
-    <radialGradient id="sunburst" cx="50%" cy="58%" r="50%">
-      <stop offset="0%" stop-color="#38bdf8"/>
-      <stop offset="100%" stop-color="#0284c7"/>
+    <radialGradient id="skyGrad" cx="50%" cy="54%" r="48%">
+      <stop offset="0%" stop-color="#00b4d8"/>
+      <stop offset="100%" stop-color="#0077b6"/>
     </radialGradient>
   </defs>
-  <circle cx="150" cy="150" r="142" fill="#ffffff" stroke="#e11d48" stroke-width="6"/>
-  <!-- កាំរស្មីផ្ទៃក្រោយ -->
-  <circle cx="150" cy="150" r="105" fill="url(#sunburst)"/>
-  <!-- កាំរស្មីមាស -->
-  <g stroke="#facc15" stroke-width="4" stroke-linecap="round">
-    <line x1="150" y1="150" x2="80" y2="75"/>
-    <line x1="150" y1="150" x2="110" y2="60"/>
-    <line x1="150" y1="150" x2="150" y2="52"/>
-    <line x1="150" y1="150" x2="190" y2="60"/>
-    <line x1="150" y1="150" x2="220" y2="75"/>
-    <line x1="150" y1="150" x2="235" y2="105"/>
-    <line x1="150" y1="150" x2="65" y2="105"/>
+  <!-- ផ្ទៃក្រោយមេឃពណ៌ខៀវស្រាល -->
+  <path d="M 250 85 C 330 85 410 160 395 320 C 350 390 280 415 250 415 C 220 415 150 390 105 320 C 90 160 170 85 250 85 Z" fill="url(#skyGrad)"/>
+  <!-- កាំរស្មីពន្លឺព្រះអាទិត្យពណ៌ក្រហម និងលឿង -->
+  <g stroke="#facc15" stroke-width="8" stroke-linecap="round">
+    <line x1="250" y1="330" x2="135" y2="150"/>
+    <line x1="250" y1="330" x2="175" y2="120"/>
+    <line x1="250" y1="330" x2="215" y2="105"/>
+    <line x1="250" y1="330" x2="250" y2="95"/>
+    <line x1="250" y1="330" x2="285" y2="105"/>
+    <line x1="250" y1="330" x2="325" y2="120"/>
+    <line x1="250" y1="330" x2="365" y2="150"/>
   </g>
-  <!-- កម្រងកួរស្រូវមាស -->
-  <path d="M 60 170 C 50 100 90 60 150 45 C 210 60 250 100 240 170 C 235 220 190 250 150 255 C 110 250 65 220 60 170 Z" fill="none" stroke="#dc2626" stroke-width="14" stroke-linejoin="round"/>
-  <path d="M 60 170 C 50 100 90 60 150 45 C 210 60 250 100 240 170 C 235 220 190 250 150 255 C 110 250 65 220 60 170 Z" fill="none" stroke="#facc15" stroke-width="8" stroke-linejoin="round"/>
-  <!-- ដងគប់ និងកង់ប្រវត្តិសាស្ត្រ -->
-  <g fill="#facc15" stroke="#dc2626" stroke-width="3">
-    <!-- កង់រង្វង់មូល -->
-    <circle cx="150" cy="175" r="26"/>
-    <circle cx="150" cy="175" r="14" fill="#ffffff"/>
-    <circle cx="150" cy="175" r="5" fill="#dc2626"/>
+  <!-- កម្រងកួរស្រូវមាសអមសងខាង -->
+  <path d="M 125 330 C 95 240 145 150 250 90 C 355 150 405 240 375 330 C 355 390 295 425 250 425 C 205 425 145 390 125 330 Z" fill="none" stroke="#ef4444" stroke-width="26" stroke-linejoin="round"/>
+  <path d="M 125 330 C 95 240 145 150 250 90 C 355 150 405 240 375 330 C 355 390 295 425 250 425 C 205 425 145 390 125 330 Z" fill="none" stroke="#fde047" stroke-width="16" stroke-linejoin="round"/>
+  <!-- ដងគប់ និងកង់រង្វង់មូល -->
+  <g fill="#fde047" stroke="#ef4444" stroke-width="5">
+    <!-- កង់មូលចក្រ -->
+    <circle cx="250" cy="335" r="42"/>
+    <circle cx="250" cy="335" r="22" fill="#ffffff"/>
+    <circle cx="250" cy="335" r="9" fill="#ef4444"/>
+    <!-- ជើងទម្រគប់ -->
+    <path d="M 220 380 L 280 380 L 260 415 L 240 415 Z" fill="#fde047"/>
     <!-- ដងគប់ -->
-    <rect x="143" y="80" width="14" height="70" rx="3"/>
-    <path d="M 135 80 L 165 80 L 160 62 L 140 62 Z"/>
-    <!-- អណ្ដាតភ្លើងគប់ -->
-    <path d="M 150 22 C 165 40 170 52 160 62 C 150 56 142 58 138 62 C 132 50 140 38 150 22 Z" fill="#ef4444" stroke="#facc15" stroke-width="2"/>
-    <path d="M 150 30 C 158 42 160 50 154 56 C 148 52 144 54 142 56 C 138 48 144 40 150 30 Z" fill="#facc15"/>
+    <rect x="238" y="145" width="24" height="130" rx="5"/>
+    <path d="M 225 145 L 275 145 L 268 115 L 232 115 Z"/>
+    <!-- អណ្តាតភ្លើងគប់ -->
+    <path d="M 250 25 C 275 55 285 75 270 95 C 255 85 242 88 235 95 C 225 75 235 55 250 25 Z" fill="#ef4444" stroke="#facc15" stroke-width="4"/>
+    <path d="M 250 40 C 262 60 268 70 258 80 C 250 74 244 76 240 80 C 235 68 242 55 250 40 Z" fill="#fde047"/>
   </g>
-  <!-- បូខាងក្រោម -->
-  <path d="M 70 240 Q 150 268 230 240 Q 215 272 150 274 Q 85 272 70 240 Z" fill="#0284c7" stroke="#dc2626" stroke-width="3"/>
-  <text x="150" y="260" font-family="'Khmer OS Moul', serif" font-size="11" fill="#ffffff" font-weight="bold" text-anchor="middle">ក្រសួងអប់រំ យុវជន និងកីឡា</text>
+  <!-- បូរខៀវទ្រខាងក្រោម -->
+  <path d="M 100 400 C 180 435 320 435 400 400 C 385 450 300 475 250 475 C 200 475 115 450 100 400 Z" fill="#0077b6" stroke="#ef4444" stroke-width="6"/>
+  <text x="250" y="445" font-family="'Khmer OS Moul', serif" font-size="16" fill="#ffffff" font-weight="bold" text-anchor="middle">ក្រសួងអប់រំ យុវជន និងកីឡា</text>
 </svg>`);
 
-// ---------- Views ----------
 const P = {
 login(){
   return `<div class="auth"><div class="card">
@@ -721,10 +714,9 @@ home(){
   const yearList = Object.keys(allYearsData);
   const touchCls = getTheme().touch || 'touch-3d';
 
-  // ឡូហ្គោក្រសួងអប់រំលំនាំដើម
-  const moeysLogoImg = S.info.moeysLogo || MOEYS_SVG;
+  // ឡូហ្គោក្រសួងអប់រំ
+  const moeysLogoImg = S.info.moeysLogo || MOEYS_OFFICIAL_LOGO;
 
-  // ប៊ូតុងទាំងអស់មាន Icon ស្អាត និងពេញលេញ
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
     stu: {cls:'bl', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
@@ -1292,13 +1284,12 @@ function initDragAndDrop(){
   }
 }
 
-// Render ប្រព័ន្ធយ៉ាង Smooth ដោយ Reset Animation Trigger ត្រឹមត្រូវ
 function R(){
   const app = $('#app');
   const th = getTheme();
   
   app.classList.remove('anim-fade', 'anim-slide', 'anim-scale', 'anim-none');
-  void app.offsetWidth; // Force Reflow ឱ្យ Animation ចាប់ផ្តើមភ្លាមៗ
+  void app.offsetWidth;
   app.classList.add('anim-' + (th.anim || 'fade'));
 
   if (pg === 'login' || pg === 'create') { app.innerHTML = P[pg](); return; }
