@@ -18,22 +18,22 @@
   --card-radius: 18px;
   --app-font: 'Leelawadee UI', 'Kantumruy Pro', 'Khmer UI', system-ui, sans-serif;
   --title-font: 'Khmer OS Muol Light', 'Khmer OS Muol', 'Moul', serif;
-  --anim-speed: 0.22s;
+  --anim-speed: 0.24s;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.7 var(--app-font);padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);overflow-x:hidden}
 main{max-width:960px;margin:0 auto;padding:16px 14px 60px;will-change:transform, opacity}
 
-/* Smooth Transitions */
-.anim-fade{animation:fadeIn var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards}
-.anim-slide{animation:slideInRight var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards}
-.anim-scale{animation:scaleUp var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards}
-.anim-none{animation:none}
+/* Animation ប្តូរផ្ទាំងរលូន ១០០% */
+.anim-fade { animation: appFade var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
+.anim-slide { animation: appSlide var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
+.anim-scale { animation: appScale var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
+.anim-none { animation: none !important; }
 
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes slideInRight{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:translateX(0)}}
-@keyframes scaleUp{from{opacity:0;transform:scale(0.96)}to{opacity:1;transform:scale(1)}}
+@keyframes appFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes appSlide { from { opacity: 0; transform: translateX(35px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes appScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
 /* Update Alert Bar */
 .update-banner{
@@ -46,6 +46,49 @@ main{max-width:960px;margin:0 auto;padding:16px 14px 60px;will-change:transform,
 .update-banner.show{transform:translateX(-50%) translateY(0)}
 .btn-upd{background:var(--ac);color:#fff;border:0;padding:5px 14px;border-radius:999px;font:inherit;font-size:12.5px;cursor:pointer;font-weight:bold}
 
+/* របារ Highlight ឡូហ្គោក្រសួងនៅជ្រុងខាងឆ្វេងលើ */
+.moeys-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--bd);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+.moeys-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.moeys-logo {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: #fff;
+  border: 1px solid var(--bd);
+  padding: 2px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+.moeys-logo:active { transform: scale(0.95); }
+.moeys-text {
+  line-height: 1.35;
+}
+.moeys-text .t1 {
+  font-family: var(--title-font);
+  font-size: 13.5px;
+  color: #1e3a8a;
+  display: block;
+}
+.moeys-text .t2 {
+  font-size: 12px;
+  color: var(--mu);
+  font-weight: 600;
+}
+
 h1, h2, h3, .muol-title {
   font-family: var(--title-font) !important;
   font-weight: normal;
@@ -53,7 +96,7 @@ h1, h2, h3, .muol-title {
 .top{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .top h1{flex:1;margin:0;font-size:18px;color:var(--ac);text-align:center}
 
-.home{background:var(--cd);border:1px solid var(--bd);border-radius:var(--card-radius);padding:24px 18px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.03)}
+.home{background:var(--cd);border:1px solid var(--bd);border-radius:var(--card-radius);padding:20px 18px 24px;text-align:center;box-shadow:0 4px 20px rgba(0,0,0,0.03)}
 .home h1{margin:10px 0 4px;font-size:22px;line-height:1.6;color:var(--ac)}
 .home p{margin:2px 0 14px;color:var(--mu);font-size:14px}
 
@@ -81,13 +124,13 @@ h1, h2, h3, .muol-title {
   -webkit-user-select:none;
   touch-action:manipulation;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22), 0 2px 4px rgba(0, 0, 0, 0.15);
-  transition:transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+  transition:transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
 }
 
-/* Touch Feedback Working 100% */
-.touch-3d:active{cursor:grabbing;transform:translateY(4px) !important;box-shadow:0 2px 4px rgba(0, 0, 0, 0.2) !important}
-.touch-scale:active{cursor:grabbing;transform:scale(0.94) !important;box-shadow:0 3px 8px rgba(0,0,0,0.2) !important}
-.touch-glow:active{cursor:grabbing;transform:scale(0.97) !important;box-shadow:0 0 18px var(--ac) !important;filter:brightness(1.15)}
+/* Touch Feedback Working 100% ទាំងលើ Mouse និង Touch */
+.touch-3d:active { transform: translateY(4px) !important; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; }
+.touch-scale:active { transform: scale(0.92) !important; box-shadow: 0 3px 8px rgba(0,0,0,0.2) !important; }
+.touch-glow:active { transform: scale(0.97) !important; box-shadow: 0 0 20px var(--ac) !important; filter: brightness(1.2) !important; }
 .pb.touch-dragging{opacity:0.4;transform:scale(0.96)}
 
 .bl{background:var(--ac)}.gd{background:var(--gd)}.bk{background:var(--bk)}.rd{background:var(--rd)}.gr{background:var(--ok)}.pu{background:#8b5cf6}.tl{background:#0d9488}.in{background:#0284c7}
@@ -138,7 +181,7 @@ td input.t{width:120px;text-align:start}
 
 @media print{
   body{background:#fff;padding:0}
-  .top,.sv,button,.bt,.level-tabs-wrap,.mu,.year-bar,.update-banner{display:none !important}
+  .top,.sv,button,.bt,.level-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header{display:none !important}
   main{max-width:100%;padding:0}
   .card{box-shadow:none;border:none;padding:0}
   .w{max-height:none;border:none;overflow:visible}
@@ -174,7 +217,7 @@ td input.t{width:120px;text-align:start}
 <script>
 let newWorker = null;
 if ('serviceWorker' in navigator) {
-  const SW_VERSION = 'v15.0';
+  const SW_VERSION = 'v19.0';
   const swCode = `
     const C = 'school-offline-' + '${SW_VERSION}';
     self.addEventListener('install', e => {
@@ -232,10 +275,8 @@ const KH_MONTHS = ['មករា','កុម្ភៈ','មីនា','មេស
 function smartKhmerDate(val){
   if (!val) return '';
   const s = String(val).trim();
-  // បើមានពាក្យខ្មែរស្រាប់ មិនបាច់កែទេ
   if (KH_MONTHS.some(m => s.includes(m))) return s;
 
-  // ស្វែងរកលេខតាមទម្រង់ 06022015 ឬ 06/02/2015 ឬ 06-02-2015
   let d, m, y;
   const cleaned = s.replace(/[^0-9]/g, '');
   if (cleaned.length === 8) {
@@ -254,7 +295,7 @@ function smartKhmerDate(val){
     const dd = String(d).padStart(2, '0');
     return `${toKhNum(dd)} ${KH_MONTHS[m - 1]} ${toKhNum(y)}`;
   }
-  return s; // បើវាយមិនត្រូវទម្រង់ រក្សាទុកពាក្យដែលគាត់វាយ
+  return s;
 }
 
 // មុខវិជ្ជាបឋមសិក្សា
@@ -288,7 +329,7 @@ const sum = a => a.reduce((x,y) => x + (+y || 0), 0);
 const USER_RE = /^[a-z0-9_.-]{3,30}$/;
 
 const ACCKEY = 'sms_accounts_v7';
-const THEME_KEY = 'sms_theme_settings_v3';
+const THEME_KEY = 'sms_theme_settings_v4';
 const ORDER_KEY = 'sms_btn_order_v5';
 
 const DEFAULT_BTNS = ['info','stu','sc','official','sem0','sem1','ab','honor','cert','idcard','bk','theme','clean'];
@@ -393,8 +434,8 @@ function emptyLevelData(lbl, yr){
   const isSec = lbl === 'អនុវិទ្យាល័យ' || lbl === 'វិទ្យាល័យ';
   const defaultDiv = isSec ? 16 : 7;
   return {
-    v: 8, n: 1,
-    info: {province:'ខេត្តកោះកុង', school:'អនុវិទ្យាល័យ ព្រែកខ្សាច់', teacher:'សាន បញ្ញា', cls: isSec ? '៨A' : 'ថ្នាក់ទី ៦', year: yr || currentYear, div: defaultDiv, logo: null},
+    v: 9, n: 1,
+    info: {province:'', school:'', teacher:'', cls: isSec ? '៨A' : 'ថ្នាក់ទី ៦', year: yr || currentYear, div: defaultDiv, logo: null, moeysLogo: null},
     st: [], sc: {}, ab: {}, rm: {}
   };
 }
@@ -571,7 +612,7 @@ const semAv = id => { const v = semMonths().filter(m => tot(id,m) > 0).map(m => 
 const rank = (f, id) => 1 + getS().st.filter(s => f(s.id) > f(id)).length;
 
 const moSel = () => `<select onchange="mo=+this.value;R()">${MO.map((m,i) => `<option value="${i}" ${i===mo?'selected':''}>ខែ${m}</option>`).join('')}</select>`;
-const head = t => `<div class="top"><button class="bt g" onclick="go('home')">ទំព័រដើម</button><h1>${t}</h1><button class="bt g" style="color:var(--bad)" onclick="logout()">ចាកចេញ</button></div>`;
+const head = t => `<div class="top"><button class="bt g" onclick="go('home')">🏠 ទំព័រដើម</button><h1>${t}</h1><button class="bt g" style="color:var(--bad)" onclick="logout()">🚪 ចាកចេញ</button></div>`;
 const go = p => { pg = p; R(); scrollTo(0,0); };
 
 function switchLevel(lvl){
@@ -599,6 +640,48 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
+// Logo ក្រសួងអប់រំ យុវជន និងកីឡា (SVG Vector Data URI ច្បាស់ ១០០% និងស្រាលបំផុត)
+const MOEYS_SVG = 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <defs>
+    <radialGradient id="sunburst" cx="50%" cy="58%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </radialGradient>
+  </defs>
+  <circle cx="150" cy="150" r="142" fill="#ffffff" stroke="#e11d48" stroke-width="6"/>
+  <!-- កាំរស្មីផ្ទៃក្រោយ -->
+  <circle cx="150" cy="150" r="105" fill="url(#sunburst)"/>
+  <!-- កាំរស្មីមាស -->
+  <g stroke="#facc15" stroke-width="4" stroke-linecap="round">
+    <line x1="150" y1="150" x2="80" y2="75"/>
+    <line x1="150" y1="150" x2="110" y2="60"/>
+    <line x1="150" y1="150" x2="150" y2="52"/>
+    <line x1="150" y1="150" x2="190" y2="60"/>
+    <line x1="150" y1="150" x2="220" y2="75"/>
+    <line x1="150" y1="150" x2="235" y2="105"/>
+    <line x1="150" y1="150" x2="65" y2="105"/>
+  </g>
+  <!-- កម្រងកួរស្រូវមាស -->
+  <path d="M 60 170 C 50 100 90 60 150 45 C 210 60 250 100 240 170 C 235 220 190 250 150 255 C 110 250 65 220 60 170 Z" fill="none" stroke="#dc2626" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M 60 170 C 50 100 90 60 150 45 C 210 60 250 100 240 170 C 235 220 190 250 150 255 C 110 250 65 220 60 170 Z" fill="none" stroke="#facc15" stroke-width="8" stroke-linejoin="round"/>
+  <!-- ដងគប់ និងកង់ប្រវត្តិសាស្ត្រ -->
+  <g fill="#facc15" stroke="#dc2626" stroke-width="3">
+    <!-- កង់រង្វង់មូល -->
+    <circle cx="150" cy="175" r="26"/>
+    <circle cx="150" cy="175" r="14" fill="#ffffff"/>
+    <circle cx="150" cy="175" r="5" fill="#dc2626"/>
+    <!-- ដងគប់ -->
+    <rect x="143" y="80" width="14" height="70" rx="3"/>
+    <path d="M 135 80 L 165 80 L 160 62 L 140 62 Z"/>
+    <!-- អណ្ដាតភ្លើងគប់ -->
+    <path d="M 150 22 C 165 40 170 52 160 62 C 150 56 142 58 138 62 C 132 50 140 38 150 22 Z" fill="#ef4444" stroke="#facc15" stroke-width="2"/>
+    <path d="M 150 30 C 158 42 160 50 154 56 C 148 52 144 54 142 56 C 138 48 144 40 150 30 Z" fill="#facc15"/>
+  </g>
+  <!-- បូខាងក្រោម -->
+  <path d="M 70 240 Q 150 268 230 240 Q 215 272 150 274 Q 85 272 70 240 Z" fill="#0284c7" stroke="#dc2626" stroke-width="3"/>
+  <text x="150" y="260" font-family="'Khmer OS Moul', serif" font-size="11" fill="#ffffff" font-weight="bold" text-anchor="middle">ក្រសួងអប់រំ យុវជន និងកីឡា</text>
+</svg>`);
+
 // ---------- Views ----------
 const P = {
 login(){
@@ -609,7 +692,7 @@ login(){
   <datalist id="ul">${Object.keys(accounts).map(n => `<option value="${E(n)}">`).join('')}</datalist>
   <label>ពាក្យសម្ងាត់<input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></label>
   <button class="pb bl wide ${getTheme().touch}" onclick="doLogin()">ចូលប្រព័ន្ធ</button>
-  <div class="f"><button class="bt g" onclick="showCreate()">បង្កើតគណនីថ្មី</button><button class="bt g" onclick="$('#fimp').click()">នាំចូល Backup</button></div>
+  <div class="f"><button class="bt g" onclick="showCreate()">បង្កើតគណនីថ្មី</button><button class="bt g" onclick="$('#fimp').click()">📥 នាំចូល Backup</button></div>
   </div></div>`;
 },
 
@@ -638,20 +721,24 @@ home(){
   const yearList = Object.keys(allYearsData);
   const touchCls = getTheme().touch || 'touch-3d';
 
+  // ឡូហ្គោក្រសួងអប់រំលំនាំដើម
+  const moeysLogoImg = S.info.moeysLogo || MOEYS_SVG;
+
+  // ប៊ូតុងទាំងអស់មាន Icon ស្អាត និងពេញលេញ
   const btnDefs = {
-    info: {cls:'bl', txt:'ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
-    stu: {cls:'bl', txt:`ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
-    sc: {cls:'gd', txt:'តារាងពិន្ទុប្រចាំខែ', act:"go('sc')"},
+    info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
+    stu: {cls:'bl', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
+    sc: {cls:'gd', txt:'📊 តារាងពិន្ទុប្រចាំខែ', act:"go('sc')"},
     official: {cls:'in', txt:'🖨️ បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ', act:"go('official')"},
-    sem0: {cls:'gd', txt:'សរុបពិន្ទុឆមាសទី ១', act:"sem=0;go('sem')"},
-    sem1: {cls:'gd', txt:'សរុបពិន្ទុឆមាសទី ២', act:"sem=1;go('sem')"},
-    ab: {cls:'bk', txt:'តារាងអវត្តមាន', act:"go('ab')"},
+    sem0: {cls:'gd', txt:'🥇 សរុបពិន្ទុឆមាសទី ១', act:"sem=0;go('sem')"},
+    sem1: {cls:'gd', txt:'🥈 សរុបពិន្ទុឆមាសទី ២', act:"sem=1;go('sem')"},
+    ab: {cls:'bk', txt:'📅 តារាងអវត្តមាន', act:"go('ab')"},
     honor: {cls:'pu', txt:'🏅 តារាងកិត្តិយស', act:"go('honor')"},
     cert: {cls:'tl', txt:'📜 បណ្ណសរសើរស្វ័យប្រវត្តិ', act:"go('cert')"},
     idcard: {cls:'bl', txt:'🪪 កាតសម្គាល់ខ្លួនសិស្ស', act:"go('idcard')"},
-    bk: {cls:'gr', txt:'Backup / Restore', act:"go('bk')"},
+    bk: {cls:'gr', txt:'💾 Backup / Restore', act:"go('bk')"},
     theme: {cls:'bl', style:'background:#6366f1', txt:'🎨 កំណត់ស្ទីល និងពណ៌', act:"go('theme')"},
-    clean: {cls:'rd', txt:`សម្អាតទិន្នន័យ (${levelNames[currentLevel]})`, act:"reset()"}
+    clean: {cls:'rd', txt:`🧹 សម្អាតទិន្នន័យ (${levelNames[currentLevel]})`, act:"reset()"}
   };
 
   const btnsHtml = order.map(k => {
@@ -661,9 +748,23 @@ home(){
   }).join('');
 
   return `<div class="home">
+  <!-- បន្ទះ Highlight ជ្រុងខាងឆ្វេងលើ (ទម្រង់ស្តង់ដារទូទាំងប្រទេស) -->
+  <div class="moeys-header">
+    <div class="moeys-brand">
+      <img class="moeys-logo" src="${moeysLogoImg}" alt="MoEYS" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោក្រសួង">
+      <div class="moeys-text">
+        <span class="t1">ព្រះរាជាណាចក្រកម្ពុជា</span>
+        <span class="t2">ក្រសួងអប់រំ យុវជន និងកីឡា</span>
+      </div>
+    </div>
+    <div>
+      <button class="bt g" style="padding:4px 12px;min-height:30px;font-size:12px;color:var(--bad)" onclick="logout()">🚪 ចាកចេញ</button>
+    </div>
+  </div>
+
   ${logo(88)}
   <h1>កម្មវិធីគ្រប់គ្រងទិន្នន័យថ្នាក់រៀន</h1>
-  <p>${E(SESSION.fullname)} · ${E(i.school || 'សាលារៀន')} · ${E(i.cls || levelNames[currentLevel])}</p>
+  <p>${E(SESSION.fullname || 'គ្រូបន្ទុកថ្នាក់')} · ${E(i.school || 'សាលារៀន')} · ${E(i.cls || levelNames[currentLevel])}</p>
 
   <div class="year-bar">
     <span>📅 ឆ្នាំសិក្សា៖</span>
@@ -731,8 +832,8 @@ official(){
   <div class="official-sheet print-page">
     <div class="official-header">
       <div class="side-box">
-        <div>មន្ទីរអប់រំ យុវជន និងកីឡា ${E(i.province || 'ខេត្តកោះកុង')}</div>
-        <div style="font-weight:bold">${E(i.school || 'អនុវិទ្យាល័យ ព្រែកខ្សាច់')}</div>
+        <div>${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+        <div style="font-weight:bold">${E(i.school || 'សាលារៀន')}</div>
       </div>
       <div class="center-box">
         <div class="muol-title" style="font-size:16px">ព្រះរាជាណាចក្រកម្ពុជា</div>
@@ -743,7 +844,7 @@ official(){
 
     <div class="official-title">
       <h2 class="muol-title">ចំណាត់ថ្នាក់សិស្សប្រចាំ ខែ${MO[mo]}</h2>
-      <div style="font-weight:bold;font-size:15px">ថ្នាក់ទី ${E(i.cls || '៨A')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-weight:bold;font-size:15px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
     </div>
 
     <table class="official-table">
@@ -789,7 +890,7 @@ official(){
       <div style="text-align:center;width:240px">
         <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
         <div style="font-weight:bold;margin-top:4px">គ្រូបន្ទុកថ្នាក់</div>
-        <div style="margin-top:55px;font-weight:bold">${E(i.teacher || 'សាន បញ្ញា')}</div>
+        <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
     </div>
   </div>
@@ -802,12 +903,11 @@ info(){
   const k = (l, key, num) => `<label class="mu">${l}<input type="${num?'number':'text'}" ${num?'inputmode="decimal"':'lang="km" inputmode="text"'} value="${E(i[key] ?? '')}" onchange="setInfo('${key}', this.value, ${!!num})"></label>`;
   return head('ព័ត៌មានសាលា និងគ្រូ') + `<div class="card">
   <div class="f">${logo(88)}<button class="bt g" onclick="delete getS().info.logo;save();R()">លុបរូបសាលា</button></div>
-  <div class="f">${k('មន្ទីរអប់រំខេត្ត','province')}${k('ឈ្មោះសាលា','school')}${k('គ្រូបន្ទុកថ្នាក់','teacher')}</div>
+  <div class="f">${k('មន្ទីរអប់រំ រាជធានី-ខេត្ត','province')}${k('ឈ្មោះសាលារៀន','school')}${k('គ្រូបន្ទុកថ្នាក់','teacher')}</div>
   <div class="f">${k('ថ្នាក់/កម្រិត','cls')}${k('តួចែកមធ្យមភាគ (ពិន្ទុសរុប ÷ តួនេះ)','div',true)}</div>
   <p class="mu">ឆ្នាំសិក្សាបច្ចុប្បន្ន៖ <b>${E(currentYear)}</b> (អនុវិទ្យាល័យពិន្ទុសរុប ÷ ${S.info.div} = មធ្យមភាគ)។</p></div>`;
 },
 
-// ប្រវត្តិរូបសិស្ស៖ វាយតែលេខចេញជាអក្សរខ្មែរភ្លាមៗ + ឪពុក ម្តាយ ទូរស័ព្ទ អាសយដ្ឋាន
 stu(){
   const S = getS();
   const total = S.st.length;
@@ -846,7 +946,7 @@ stu(){
     <input id="nmo" lang="km" placeholder="ឈ្មោះម្តាយ">
     <input id="nphn" type="tel" placeholder="លេខទូរស័ព្ទ">
     <input id="naddr" lang="km" placeholder="អាសយដ្ឋាន (ភូមិ/ឃុំ)">
-    <button class="bt" onclick="addS()">បន្ថែមសិស្ស</button>
+    <button class="bt" onclick="addS()">➕ បន្ថែមសិស្ស</button>
   </div>
   <small class="mu">💡 ត្រង់ថ្ងៃខែឆ្នាំកំណើត គ្រាន់តែវាយលេខជាប់គ្នាដូចជា <b>06022015</b> ឬ <b>06/02/2015</b> វានឹងចេញជា <b>០៦ កុម្ភៈ ២០១៥</b> ភ្លាមៗ។</small>
   </div>
@@ -1106,10 +1206,10 @@ bk(){
   <h2>ការពារទិន្នន័យ (គ្រប់ឆ្នាំ និងគ្រប់កម្រិតទាំងអស់)</h2>
   <p class="mu">ទិន្នន័យរួមមានទាំង បឋមសិក្សា, អនុវិទ្យាល័យ និងវិទ្យាល័យ នៃគ្រប់ឆ្នាំសិក្សាទាំងអស់។</p>
   <div class="f">
-    <button class="bt" style="background:var(--ok)" onclick="shareBackup()">ចែករំលែក / ផ្ញើទៅ Telegram</button>
-    <button class="bt g" onclick="exportData()">Backup (ទាញយកជា JSON)</button>
+    <button class="bt" style="background:var(--ok)" onclick="shareBackup()">📤 ចែករំលែក / ផ្ញើទៅ Telegram</button>
+    <button class="bt g" onclick="exportData()">💾 Backup (ទាញយកជា JSON)</button>
   </div>
-  <div class="f"><button class="bt g" onclick="$('#fimp').click()">Restore (នាំចូលពី JSON)</button></div>
+  <div class="f"><button class="bt g" onclick="$('#fimp').click()">📥 Restore (នាំចូលពី JSON)</button></div>
   </div>`;
 }
 };
@@ -1192,10 +1292,14 @@ function initDragAndDrop(){
   }
 }
 
+// Render ប្រព័ន្ធយ៉ាង Smooth ដោយ Reset Animation Trigger ត្រឹមត្រូវ
 function R(){
   const app = $('#app');
   const th = getTheme();
-  app.className = 'anim-' + (th.anim || 'fade');
+  
+  app.classList.remove('anim-fade', 'anim-slide', 'anim-scale', 'anim-none');
+  void app.offsetWidth; // Force Reflow ឱ្យ Animation ចាប់ផ្តើមភ្លាមៗ
+  app.classList.add('anim-' + (th.anim || 'fade'));
 
   if (pg === 'login' || pg === 'create') { app.innerHTML = P[pg](); return; }
   if (!SESSION || !allYearsData) { pg = 'login'; app.innerHTML = P.login(); return; }
@@ -1247,7 +1351,6 @@ function pick(cb){
 
 function setInfo(key, v, num){ getS().info[key] = num ? (+v > 0 ? +v : 16) : v; save(); }
 
-// Function បម្លែងថ្ងៃខែឆ្នាំកំណើតដោយស្វ័យប្រវត្តិលើតារាង
 function setDobDirect(id, val){
   const s = getS().st.find(x => x.id === id);
   if(s){
@@ -1257,7 +1360,6 @@ function setDobDirect(id, val){
   }
 }
 
-// Function កែប្រែព័ត៌មានសិស្សទូទៅ (ឈ្មោះ, ឪពុក, ម្តាយ, ទូរស័ព្ទ, អាសយដ្ឋាន)
 function setStuProp(id, prop, val){
   const s = getS().st.find(x => x.id === id);
   if(s){
@@ -1295,7 +1397,6 @@ function setAb(id, k, v){
   if (el) el.textContent = (+a[0] || 0) + (+a[1] || 0);
 }
 
-// Function បន្ថែមសិស្ស (បញ្ចូលឈ្មោះ ភេទ ថ្ងៃខែ ឪពុក ម្តាយ ទូរស័ព្ទ អាសយដ្ឋាន)
 function addS(){
   const n = $('#nn').value.trim();
   const rawDob = $('#ndob').value.trim();
@@ -1342,7 +1443,7 @@ async function makePkgBlob(){
   await saveChain;
   const acc = accounts[SESSION.username];
   return new Blob([JSON.stringify({
-    app: 'school-offline', version: 8,
+    app: 'school-offline', version: 9,
     username: SESSION.username, fullname: acc.fullname,
     salt: acc.salt, check: acc.check, data: acc.data, created: acc.created
   })], {type: 'application/json'});
