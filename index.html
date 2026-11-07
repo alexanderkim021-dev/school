@@ -8,9 +8,6 @@
 <link rel="icon" href="IMG_2013.png">
 <title>ប្រព័ន្ធគ្រប់គ្រងពិន្ទុ និងទិន្នន័យថ្នាក់រៀន (Cloud Sync)</title>
 
-<!-- បណ្ណាល័យបង្កើត PDF ស្ដង់ដារអន្តរជាតិ ដោះស្រាយបញ្ហាព្រីនលើ iPhone PWA -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&family=Moul&display=swap');
 
@@ -26,8 +23,8 @@
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--tx);font:14px/1.6 var(--app-font);padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);overflow-x:hidden}
-main{max-width:1180px;margin:0 auto;padding:16px 12px 60px;will-change:transform, opacity}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.7 var(--app-font);padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);overflow-x:hidden}
+main{max-width:1100px;margin:0 auto;padding:16px 14px 60px;will-change:transform, opacity}
 
 .anim-fade { animation: appFade var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
 .anim-slide { animation: appSlide var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
@@ -117,28 +114,15 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .bt.r{background:var(--rd)}
 .x{background:none;border:0;color:var(--bad);cursor:pointer;font:inherit;font-weight:600}
 
-.w{overflow:auto;max-height:76vh;border:1px solid var(--bd);border-radius:12px;-webkit-overflow-scrolling:touch}
-table{border-collapse:separate;border-spacing:0;font-size:12px;width:100%}
-th,td{padding:6px 4px;border-bottom:1px solid var(--bd);border-inline-end:1px solid var(--bd);white-space:nowrap;text-align:center;background:var(--cd)}
+/* តារាងលើអេក្រង់ UI */
+.w{overflow:auto;max-height:74vh;border:1px solid var(--bd);border-radius:12px;-webkit-overflow-scrolling:touch}
+table{border-collapse:separate;border-spacing:0;font-size:13px;width:100%}
+th,td{padding:8px 8px;border-bottom:1px solid var(--bd);border-inline-end:1px solid var(--bd);white-space:nowrap;text-align:center;background:var(--cd)}
 th{background:var(--hd);position:sticky;top:0;z-index:2;font-weight:600;color:#334155}
 .sn{position:sticky;left:0;z-index:3;text-align:start;min-width:130px;background:#fff}
 th.sn{z-index:4;background:var(--hd)}
-td input{width:42px;padding:3px;min-height:28px;text-align:center;border-radius:6px;font-size:12px}
+td input{width:56px;padding:4px;min-height:32px;text-align:center;border-radius:6px}
 td input.t{width:120px;text-align:start}
-
-/* បង្វិលក្បាលតារាងឈរ ៩០ ដឺក្រេ ដូចក្រដាសគំរូ */
-.th-vertical {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  white-space: nowrap;
-  padding: 8px 3px !important;
-  font-size: 11.5px;
-  height: 110px;
-  line-height: 1.1;
-  min-width: 28px;
-  max-width: 32px;
-}
-.th-max { font-size: 11px; color: var(--mu); font-weight: bold; padding: 4px 2px !important; background: #f8fafc; }
 
 .lg{border:2px dashed var(--bd);border-radius:50%;margin:0 auto 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;color:var(--mu);cursor:pointer;line-height:1.3;background:#f8fafc}
 .lg img{width:100%;height:100%;object-fit:contain}
@@ -164,35 +148,72 @@ td input.t{width:120px;text-align:start}
 .cp-box{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .cp-box input[type="color"]{min-height:40px;width:54px;padding:2px;cursor:pointer;border-radius:8px}
 
-/* កំណត់ស្តង់ដារបោះពុម្ព A4 បណ្តោយ (Landscape) ដូចក្រដាសគំរូ */
+/* ទម្រង់បោះពុម្ពផ្លូវការ (Official Standard Sheets) */
+.official-sheet{background:#fff;padding:20px;color:#000;font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif}
+.official-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px;line-height:1.4}
+.official-header .center-box{text-align:center;padding-top:0}
+.official-header .side-box{text-align:center;padding-top:14px} /* ទាបជាងព្រះរាជាណាចក្របន្តិច */
+.official-print-logo{width:46px;height:46px;object-fit:contain;margin:0 auto 4px;display:block}
+.official-title{text-align:center;margin:15px 0 10px}
+.official-title h2{font-size:19px;margin:2px 0;color:#000}
+.official-table{border:1px solid #444;width:100%;border-collapse:collapse}
+.official-table th, .official-table td{border:1px solid #444;padding:6px 6px;text-align:center;font-size:13px}
+.official-table th{background:#f1f5f9;font-weight:bold}
+.official-footer{margin-top:15px;display:flex;justify-content:space-between;font-size:13px;line-height:1.6}
+.official-stats{font-size:13px;line-height:1.8;margin-top:10px}
+
+/* ទម្រង់បោះពុម្ពតារាងប្រឡងឆមាស (A4 Landscape) */
+.exam-print-container {
+  display: none;
+  background: #fff;
+  padding: 8px;
+  color: #000;
+  font-family: 'Leelawadee UI', 'Kantumruy Pro', sans-serif;
+}
+.exam-paper-table {
+  border: 1px solid #000;
+  width: 100%;
+  border-collapse: collapse;
+}
+.exam-paper-table th, .exam-paper-table td {
+  border: 1px solid #000;
+  padding: 4px 2px;
+  text-align: center;
+  font-size: 11px;
+}
+.exam-paper-table th { background: #f8fafc; font-weight: bold; }
+.th-rot {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+  padding: 8px 1px !important;
+  font-size: 11px;
+  height: 105px;
+  line-height: 1.1;
+  min-width: 25px;
+  max-width: 28px;
+}
+.th-rot-sub {
+  font-size: 10px;
+  color: #333;
+  font-weight: bold;
+  padding: 3px 1px !important;
+  background: #f1f5f9;
+}
+
 @media print{
-  @page { size: A4 landscape; margin: 6mm; }
+  @page { margin: 6mm; }
   body{background:#fff;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f{display:none !important}
+  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui{display:none !important}
   main{max-width:100%;padding:0}
   .card{box-shadow:none;border:none;padding:0}
   .w{max-height:none;border:none;overflow:visible}
-  table{font-size:10px !important}
-  th,td{border-color:#333 !important;color:#000 !important;padding:4px 2px !important}
-  td input{border:none;background:transparent;font-weight:bold;padding:0;width:auto}
-  .th-vertical{font-size:10px !important;height:90px !important;min-width:24px !important}
+  .exam-print-container { display: block !important; }
   .print-page{page-break-after:always}
 }
 .cert-box{border:8px double #d97706;padding:30px;border-radius:12px;background:#fff;text-align:center;margin-bottom:20px}
 .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
 .id-card{border:2px solid var(--bd);border-radius:14px;padding:14px;text-align:center;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
-
-.official-sheet{background:#fff;padding:15px;color:#000;font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif}
-.official-header{display:flex;justify-content:space-between;margin-bottom:10px;line-height:1.4}
-.official-header .center-box{text-align:center}
-.official-header .side-box{text-align:start}
-.official-title{text-align:center;margin:10px 0 8px}
-.official-title h2{font-size:17px;margin:2px 0;color:#000}
-.official-table{border:1px solid #333;width:100%;border-collapse:collapse}
-.official-table th, .official-table td{border:1px solid #333;padding:4px 3px;text-align:center;font-size:11px}
-.official-table th{background:#f1f5f9;font-weight:bold}
-.official-footer{margin-top:12px;display:flex;justify-content:space-between;font-size:12px;line-height:1.5}
-.official-stats{font-size:12px;line-height:1.6;margin-top:8px}
 </style></head><body>
 
 <div id="updBanner" class="update-banner">
@@ -205,7 +226,6 @@ td input.t{width:120px;text-align:start}
 <input type="file" id="fimp" accept=".json,application/json" style="display:none" onchange="importFile(this.files[0]);this.value=''">
 
 <script>
-// Supabase Configuration
 const SUPABASE_URL = 'https://sobhopuuvwctrdhlgttw.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvYmhvcHV1dndjdHJkaGxndHR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwMDU2ODMsImV4cCI6MjEwOTU4MTY4M30.mKQx4lLq-AufDQiLYocmMVnnwVFGfI_-xklNoGkW_wA';
 
@@ -240,7 +260,6 @@ async function sbPushUser(record){
   } catch (e) { return false; }
 }
 
-// Service Worker Registration for PWA Auto-Update
 let newWorker = null;
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').then(reg => {
@@ -305,6 +324,7 @@ function smartKhmerDate(val){
   return s;
 }
 
+// ១. មុខវិជ្ជាបឋមសិក្សា
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
@@ -313,7 +333,7 @@ const SUBJ_PRIMARY = [
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
-// មុខវិជ្ជាអនុវិទ្យាល័យទាំង ២០ ជួរឈរ ត្រូវតាមក្រដាសគំរូសាលាជាក់ស្តែង
+// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)
 const SUBJ_SECONDARY = [
   {n:'សរសេរតាមអាន', s:[['សរសេរ', 40]]},
   {n:'តែងសេចក្តី', s:[['តែង', 60]]},
@@ -337,6 +357,7 @@ const SUBJ_SECONDARY = [
   {n:'ភាសាបរទេស', s:[['បរទេស', 50]]}
 ];
 
+// ៣. មុខវិជ្ជាវិទ្យាល័យ (វិទ្យាសាស្ត្រពិត និងសង្គម)
 const SUBJ_HIGH_SCIENCE = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
   {n:'រូបវិទ្យា', s:[['រូប', 75]]},
@@ -378,7 +399,7 @@ function getDiv(lvl, stream){
   const S = getS();
   if (S && S.info && +S.info.div > 0) return +S.info.div;
   if (lvl === 'high') return stream === 'social' ? 12.5 : 13;
-  if (lvl === 'secondary') return 17; // តួចែកស្តង់ដារ ១៧ តាមសាលាជាក់ស្តែង
+  if (lvl === 'secondary') return 17;
   return 8.5;
 }
 
@@ -394,6 +415,7 @@ const USER_RE = /^[a-z0-9_.-]{3,30}$/;
 const ACCKEY = 'sms_accounts_v7';
 const THEME_KEY = 'sms_theme_settings_v4';
 const ORDER_KEY = 'sms_btn_order_v6';
+const LAST_YEAR_KEY = 'sms_last_selected_year_v1';
 
 const DEFAULT_BTNS = ['info','stu','sc','examScore','official','sem0','sem1','annual','ab','honor','cert','idcard','bk','theme','clean'];
 
@@ -503,7 +525,7 @@ async function unlock(u, pw){
 }
 
 let SESSION = null;
-let currentYear = '២០២៥ - ២០២៦';
+let currentYear = localStorage.getItem(LAST_YEAR_KEY) || '២០២៥ - ២០២៦';
 let currentLevel = 'secondary';
 let allYearsData = {};
 
@@ -513,7 +535,7 @@ function emptyLevelData(lbl, yr){
   if (lbl === 'អនុវិទ្យាល័យ') { defDiv = 17; defCls = '៨A'; }
   if (lbl === 'វិទ្យាល័យ') { defDiv = 13; defCls = '១១A'; }
   return {
-    v: 16, n: 1,
+    v: 25, n: 1,
     info: {province:'', school:'', teacher:'', cls: defCls, year: yr || currentYear, div: defDiv, stream:'science', logo: null, moeysLogo: null},
     st: [], sc: {}, ab: {}, rm: {},
     semExamScores: {0:{}, 1:{}}
@@ -595,7 +617,7 @@ function save(){
       setStatus('បានរក្សាទុក (Local) ✓');
 
       sbPushUser({
-        username: u, fullname: accounts[u].fullname, salt: accounts[u].salt, check: accounts[u].check, data: accounts[u].data, updated_at: new Date().toISOString()
+        username: u, fullname: accounts[u].fullname, salt: b64(salt), check: chk, data: accounts[u].data, updated_at: new Date().toISOString()
       }).then(ok => {
         if (ok) setStatus('ពពក (Cloud Sync) ជោគជ័យ ☁️✓');
       }).catch(()=>{});
@@ -618,7 +640,14 @@ async function openSession(u, key){
     return;
   }
   allYearsData = normalizeAllYears(parsed);
-  currentYear = Object.keys(allYearsData)[0] || '២០២៥ - ២០២៦';
+  
+  const savedLastYear = localStorage.getItem(LAST_YEAR_KEY);
+  if (savedLastYear && allYearsData[savedLastYear]) {
+    currentYear = savedLastYear;
+  } else {
+    currentYear = Object.keys(allYearsData)[Object.keys(allYearsData).length - 1] || '២០២៥ - ២០២៦';
+  }
+
   SESSION = {username: u, key, fullname: acc.fullname};
   pg = 'home';
   R();
@@ -690,6 +719,7 @@ async function doCreate(){
   SESSION = {username: u, key, fullname: name};
   allYearsData = normalizeAllYears(null);
   currentYear = '២០២៥ - ២០២៦';
+  localStorage.setItem(LAST_YEAR_KEY, currentYear);
   save();
   pg = 'home';
   R();
@@ -794,6 +824,7 @@ function switchYear(yr){
   if (currentYear === yr) return;
   save();
   currentYear = yr;
+  localStorage.setItem(LAST_YEAR_KEY, yr);
   R();
 }
 
@@ -809,51 +840,38 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print និងទាញយកជា PDF ស្តង់ដារ A4 បណ្តោយ (Landscape)
-async function exportStandardA4(elementId, reportName, isLandscape = true) {
-  const element = document.getElementById(elementId);
-  if (!element) {
-    window.print();
-    return;
+// មុខងារ Print ដោយផ្ទាល់តាមទំហំក្រដាសជាក់លាក់
+function triggerExamPrint() {
+  let styleSheet = document.getElementById('dynamicPrintStyle');
+  if (!styleSheet) {
+    styleSheet = document.createElement('style');
+    styleSheet.id = 'dynamicPrintStyle';
+    document.head.appendChild(styleSheet);
   }
+  styleSheet.innerHTML = '@media print { @page { size: A4 landscape !important; margin: 6mm !important; } }';
+  window.print();
+}
 
-  const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
-
-  if (isStandalone && typeof html2pdf !== 'undefined') {
-    setStatus('កំពុងរៀបចំឯកសារ PDF A4...');
-    const opt = {
-      margin: [6, 6, 6, 6],
-      filename: `${reportName || 'តារាងពិន្ទុ'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait' }
-    };
-    try {
-      const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
-      const file = new File([pdfBlob], opt.filename, { type: 'application/pdf' });
-
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({
-          files: [file],
-          title: reportName,
-          text: 'តារាងពិន្ទុ និងទិន្នន័យផ្លូវការ (A4)'
-        });
-        setStatus('បានចែករំលែក PDF ជោគជ័យ ✓');
-      } else {
-        const downloadUrl = URL.createObjectURL(pdfBlob);
-        const a = document.createElement('a');
-        a.href = downloadUrl;
-        a.download = opt.filename;
-        a.click();
-        URL.revokeObjectURL(downloadUrl);
-        setStatus('បានទាញយក PDF ជោគជ័យ ✓');
-      }
-    } catch (e) {
-      window.print();
-    }
-  } else {
-    window.print();
+function triggerOfficialPrint() {
+  let styleSheet = document.getElementById('dynamicPrintStyle');
+  if (!styleSheet) {
+    styleSheet = document.createElement('style');
+    styleSheet.id = 'dynamicPrintStyle';
+    document.head.appendChild(styleSheet);
   }
+  styleSheet.innerHTML = '@media print { @page { size: A4 portrait !important; margin: 8mm !important; } }';
+  window.print();
+}
+
+function triggerAnnualPrint() {
+  let styleSheet = document.getElementById('dynamicPrintStyle');
+  if (!styleSheet) {
+    styleSheet = document.createElement('style');
+    styleSheet.id = 'dynamicPrintStyle';
+    document.head.appendChild(styleSheet);
+  }
+  styleSheet.innerHTML = '@media print { @page { size: A4 landscape !important; margin: 6mm !important; } }';
+  window.print();
 }
 
 const P = {
@@ -983,9 +1001,9 @@ sc(){
   const rows = S.st.map((s,k) => {
     const a = (S.sc[mo] || {})[s.id] || [];
     return `<tr>
-      <td style="width:38px">${k+1}</td>
+      <td style="width:45px">${k+1}</td>
       <td class="sn" style="min-width:130px"><b>${E(s.name)}</b></td>
-      <td style="width:40px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
+      <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
       ${cols.map((c,i) => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[i] ?? ''}" onchange="setSc(${s.id},${i},this)"></td>`).join('')}
       <td id="t${s.id}" style="font-weight:bold"></td>
       <td id="a${s.id}" style="font-weight:bold;color:var(--ac)"></td>
@@ -998,23 +1016,20 @@ sc(){
   return head('តារាងពិន្ទុប្រចាំខែ') + `<div class="card">
   <div class="f">
     ${moSel()}
-    <button class="bt" onclick="exportStandardA4('monthlyScorePrintArea', 'តារាងពិន្ទុប្រចាំខែ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
   <div class="w" id="monthlyScorePrintArea"><table>
   <thead>
     <tr>
-      <th rowspan="2" style="width:38px">ល.រ</th>
-      <th rowspan="2" class="sn" style="min-width:130px">គោត្តនាម និងនាម</th>
-      <th rowspan="2" style="width:40px">ភេទ</th>
-      ${cols.map(c => `<th class="th-vertical">${c.sn || c.n}</th>`).join('')}
-      <th rowspan="2" class="th-vertical" style="background:#f1f5f9;color:var(--tx)">ពិន្ទុសរុប</th>
-      <th rowspan="2" class="th-vertical" style="background:#fef3c7;color:#b45309">មធ្យមភាគ</th>
-      <th rowspan="2" class="th-vertical">ចំណាត់ថ្នាក់</th>
-      <th rowspan="2" class="th-vertical">និទ្ទេស</th>
-      <th rowspan="2" style="width:110px">ចំណាំ</th>
-    </tr>
-    <tr>
-      ${cols.map(c => `<th class="th-max">${c.m}</th>`).join('')}
+      <th style="width:45px">ល.រ</th>
+      <th class="sn" style="min-width:130px">គោត្តនាម និងនាម</th>
+      <th style="width:45px">ភេទ</th>
+      ${cols.map(c => `<th>${c.sn || c.n}<br><small class="mu">(${c.m})</small></th>`).join('')}
+      <th style="width:65px">សរុប</th>
+      <th style="width:65px">មធ្យម</th>
+      <th style="width:55px">ចំណាត់ថ្នាក់</th>
+      <th style="width:55px">និទ្ទេស</th>
+      <th style="width:120px">ចំណាំ</th>
     </tr>
   </thead>
   <tbody>
@@ -1026,14 +1041,13 @@ sc(){
 official(){
   const S = getS();
   const i = S.info;
-  const cols = getCols(currentLevel, S.info.stream);
+  const printLogo = S.info.moeysLogo || encodeURI('logoក្រសួងអប់រំ.png');
   
   const list = S.st.map(s => {
     const t = tot(s.id, mo);
     const a = av(s.id, mo);
     return {
       ...s,
-      scores: (S.sc[mo] || {})[s.id] || [],
       tot: t,
       av: a,
       grade: getGradeLetter(a, t),
@@ -1046,52 +1060,83 @@ official(){
   const totalStudents = list.length;
   const femaleStudents = list.filter(s => s.sex === 'ស').length;
 
+  const countGrade = g => list.filter(s => s.grade === g).length;
+  const countGradeF = g => list.filter(s => s.grade === g && s.sex === 'ស').length;
+  const pct = cnt => totalStudents ? ((cnt / totalStudents) * 100).toFixed(2) : '0';
+
   const rows = list.map((s, idx) => `
     <tr>
       <td>${idx + 1}</td>
-      <td style="text-align:start;padding-left:6px"><b>${E(s.name)}</b></td>
+      <td style="text-align:start;padding-left:10px"><b>${E(s.name)}</b></td>
       <td>${s.sex === 'ស' ? 'ស' : 'ប'}</td>
-      ${cols.map((c, colIdx) => `<td>${s.scores[colIdx] ?? '-'}</td>`).join('')}
-      <td style="font-weight:bold">${s.tot ? s.tot.toFixed(0) : '-'}</td>
-      <td style="font-weight:bold;background:#fef3c7">${s.av ? s.av.toFixed(2) : '-'}</td>
-      <td style="font-weight:bold">${s.rank}</td>
-      <td style="font-weight:bold">${s.grade}</td>
+      <td>${E(s.dob || '-')}</td>
+      <td>${s.tot ? s.tot.toFixed(0) : '-'}</td>
+      <td><b>${s.av ? s.av.toFixed(2) : '-'}</b></td>
+      <td>${s.rank}</td>
+      <td>${s.status}</td>
+      <td><b>${s.grade}</b></td>
     </tr>
   `).join('');
 
-  return head('បោះពុម្ពតារាងស្រង់ពិន្ទុប្រចាំខែ (A4)') + `<div class="card">
+  return head('បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ') + `<div class="card">
   <div class="f">
     ${moSel()}
-    <button class="bt" onclick="exportStandardA4('officialSheetArea', 'តារាងស្រង់ពិន្ទុប្រចាំខែ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+    <button class="bt" onclick="triggerOfficialPrint()">🖨️ បោះពុម្ពតារាងផ្លូវការ (A4)</button>
   </div>
 
   <div class="official-sheet print-page" id="officialSheetArea">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-      <div style="font-size:12px;font-weight:bold">តារាងស្រង់ពិន្ទុសិស្សប្រចាំខែ${MO[mo]}</div>
-      <div style="font-size:13px;font-weight:bold">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
-      <div style="font-size:12px">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
+    <div class="official-header">
+      <div class="side-box">
+        <img class="official-print-logo" src="${printLogo}" alt="MoEYS">
+        <div style="font-size:12.5px">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+        <div style="font-weight:bold;font-size:13.5px">${E(i.school || 'សាលារៀន')}</div>
+      </div>
+      <div class="center-box">
+        <div class="muol-title" style="font-size:16px">ព្រះរាជាណាចក្រកម្ពុជា</div>
+        <div class="muol-title" style="font-size:14px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+        <div style="font-size:12px;letter-spacing:4px">~~~~~~~~~</div>
+      </div>
+    </div>
+
+    <div class="official-title">
+      <h2 class="muol-title">ចំណាត់ថ្នាក់សិស្សប្រចាំ ខែ${MO[mo]}</h2>
+      <div style="font-weight:bold;font-size:15px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
     </div>
 
     <table class="official-table">
       <thead>
         <tr>
-          <th rowspan="2" style="width:34px">ល.រ</th>
-          <th rowspan="2" style="min-width:130px">គោត្តនាម-នាម</th>
-          <th rowspan="2" style="width:36px">ភេទ</th>
-          ${cols.map(c => `<th class="th-vertical">${c.sn || c.n}</th>`).join('')}
-          <th rowspan="2" class="th-vertical" style="background:#f1f5f9">ពិន្ទុសរុប</th>
-          <th rowspan="2" class="th-vertical" style="background:#fef3c7">មធ្យមភាគ</th>
-          <th rowspan="2" class="th-vertical">ចំណាត់ថ្នាក់</th>
-          <th rowspan="2" class="th-vertical">និទ្ទេស</th>
-        </tr>
-        <tr>
-          ${cols.map(c => `<th class="th-max">${c.m}</th>`).join('')}
+          <th style="width:40px">ល.រ</th>
+          <th>គោត្តនាម-នាម</th>
+          <th style="width:45px">ភេទ</th>
+          <th style="width:130px">ថ្ងៃខែឆ្នាំកំណើត</th>
+          <th style="width:75px">ពិន្ទុសរុប</th>
+          <th style="width:75px">មធ្យមភាគ</th>
+          <th style="width:55px">ចំ.ថ្នាក់</th>
+          <th style="width:65px">លទ្ធផល</th>
+          <th style="width:55px">និទ្ទេស</th>
         </tr>
       </thead>
       <tbody>
-        ${rows || '<tr><td colspan="35" style="padding:20px;color:#888">មិនទាន់មានទិន្នន័យសិស្ស</td></tr>'}
+        ${rows || '<tr><td colspan="9" style="padding:20px;color:#888">មិនទាន់មានទិន្នន័យសិស្ស</td></tr>'}
       </tbody>
     </table>
+
+    <div class="official-stats">
+      <div style="font-weight:bold">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap">
+        <div>
+          <div>- សិស្សនិទ្ទេស A សរុប៖ ${countGrade('A')} នាក់ ស្រី ${countGradeF('A')} នាក់ ស្មើនឹង ${pct(countGrade('A'))}%</div>
+          <div>- សិស្សនិទ្ទេស B សរុប៖ ${countGrade('B')} នាក់ ស្រី ${countGradeF('B')} នាក់ ស្មើនឹង ${pct(countGrade('B'))}%</div>
+          <div>- សិស្សនិទ្ទេស C សរុប៖ ${countGrade('C')} នាក់ ស្រី ${countGradeF('C')} នាក់ ស្មើនឹង ${pct(countGrade('C'))}%</div>
+        </div>
+        <div>
+          <div>- សិស្សនិទ្ទេស D សរុប៖ ${countGrade('D')} នាក់ ស្រី ${countGradeF('D')} នាក់ ស្មើនឹង ${pct(countGrade('D'))}%</div>
+          <div>- សិស្សនិទ្ទេស E សរុប៖ ${countGrade('E')} នាក់ ស្រី ${countGradeF('E')} នាក់ ស្មើនឹង ${pct(countGrade('E'))}%</div>
+          <div>- សិស្សនិទ្ទេស F សរុប៖ ${countGrade('F')} នាក់ ស្រី ${countGradeF('F')} នាក់ ស្មើនឹង ${pct(countGrade('F'))}%</div>
+        </div>
+      </div>
+    </div>
 
     <div class="official-footer">
       <div style="text-align:center;width:200px">
@@ -1101,7 +1146,7 @@ official(){
       <div style="text-align:center;width:240px">
         <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
         <div style="font-weight:bold;margin-top:4px">គ្រូបន្ទុកថ្នាក់</div>
-        <div style="margin-top:45px;font-weight:bold">${E(i.teacher || '')}</div>
+        <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
     </div>
   </div>
@@ -1110,18 +1155,40 @@ official(){
 
 examScore(){
   const S = getS();
+  const i = S.info;
   const cols = getCols(currentLevel, S.info.stream);
-  const rows = S.st.map((s,k) => {
+  const printLogo = S.info.moeysLogo || encodeURI('logoក្រសួងអប់រំ.png');
+  
+  // ១. បង្ហាញលើអេក្រង់ UI ធម្មតា
+  const rowsUI = S.st.map((s,k) => {
     const a = (S.semExamScores[examSem] || {})[s.id] || [];
     const t = totSemExam(s.id, examSem);
     const avVal = avSemExam(s.id, examSem);
     return `<tr>
-      <td style="width:38px">${k+1}</td>
+      <td style="width:45px">${k+1}</td>
       <td class="sn" style="min-width:130px"><b>${E(s.name)}</b></td>
-      <td style="width:40px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
-      ${cols.map((c,i) => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[i] ?? ''}" onchange="setExamSc(${s.id},${i},this)"></td>`).join('')}
+      <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
+      ${cols.map((c,idx) => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[idx] ?? ''}" onchange="setExamSc(${s.id},${idx},this)"></td>`).join('')}
       <td id="ext${s.id}" style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td id="exa${s.id}" style="background:#fef3c7;font-weight:bold;color:#b45309">${avVal ? avVal.toFixed(2) : '-'}</td>
+    </tr>`;
+  }).join('');
+
+  // ២. បង្ហាញទម្រង់សម្រាប់បោះពុម្ព
+  const totalStudents = S.st.length;
+  const femaleStudents = S.st.filter(s => s.sex === 'ស').length;
+
+  const rowsPrint = S.st.map((s,k) => {
+    const a = (S.semExamScores[examSem] || {})[s.id] || [];
+    const t = totSemExam(s.id, examSem);
+    const avVal = avSemExam(s.id, examSem);
+    return `<tr>
+      <td>${k+1}</td>
+      <td style="text-align:start;padding-left:6px;font-weight:bold">${E(s.name)}</td>
+      <td>${s.sex==='ស'?'ស':'ប'}</td>
+      ${cols.map((c,idx) => `<td>${a[idx] ?? '-'}</td>`).join('')}
+      <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
+      <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
     </tr>`;
   }).join('');
 
@@ -1131,26 +1198,80 @@ examScore(){
       <option value="0" ${examSem===0?'selected':''}>📝 ប្រឡងឆមាសទី ១</option>
       <option value="1" ${examSem===1?'selected':''}>📝 ប្រឡងឆមាសទី ២</option>
     </select>
-    <button class="bt" onclick="exportStandardA4('examScorePrintArea', 'តារាងប្រឡងឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+    <button class="bt" onclick="triggerExamPrint()">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
-  <div class="w" id="examScorePrintArea"><table>
+
+  <!-- UI បញ្ចូលពិន្ទុធម្មតាលើអេក្រង់ (Screen UI) -->
+  <div class="w screen-ui"><table>
   <thead>
     <tr>
-      <th rowspan="2" style="width:38px">ល.រ</th>
-      <th rowspan="2" class="sn" style="min-width:130px">គោត្តនាម និងនាម</th>
-      <th rowspan="2" style="width:40px">ភេទ</th>
-      ${cols.map(c => `<th class="th-vertical">${c.sn || c.n}</th>`).join('')}
-      <th rowspan="2" class="th-vertical" style="background:#f1f5f9">សរុបប្រឡង</th>
-      <th rowspan="2" class="th-vertical" style="background:#fef3c7">មធ្យមប្រឡង</th>
-    </tr>
-    <tr>
-      ${cols.map(c => `<th class="th-max">${c.m}</th>`).join('')}
+      <th style="width:45px">ល.រ</th>
+      <th class="sn" style="min-width:130px">គោត្តនាម និងនាម</th>
+      <th style="width:45px">ភេទ</th>
+      ${cols.map(c => `<th>${c.sn || c.n}<br><small class="mu">(${c.m})</small></th>`).join('')}
+      <th style="width:75px">សរុបប្រឡង</th>
+      <th style="width:85px;background:#fef3c7">មធ្យមប្រឡង</th>
     </tr>
   </thead>
   <tbody>
-    ${rows || '<tr><td colspan="35" class="em">មិនទាន់មានសិស្ស</td></tr>'}
+    ${rowsUI || '<tr><td colspan="35" class="em">មិនទាន់មានសិស្ស</td></tr>'}
   </tbody>
-  </table></div></div>`;
+  </table></div>
+
+  <!-- ទម្រង់បោះពុម្ពផ្លូវការ A4 Landscape ត្រឡប់ក្បាលតារាងឡើងលើ -->
+  <div id="examPrintSheetArea" class="exam-print-container print-page">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div style="text-align:center;padding-top:10px">
+        <img class="official-print-logo" src="${printLogo}" alt="MoEYS" style="width:42px;height:42px">
+        <div style="font-size:11.5px">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+        <div style="font-weight:bold;font-size:12.5px">${E(i.school || 'សាលារៀន')}</div>
+      </div>
+      <div style="text-align:center;line-height:1.4">
+        <div class="muol-title" style="font-size:14px">ព្រះរាជាណាចក្រកម្ពុជា</div>
+        <div class="muol-title" style="font-size:12px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+        <div style="font-size:10px;letter-spacing:3px">~~~~~~~~~</div>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0 8px">
+      <div style="font-size:12.5px;font-weight:bold">តារាងស្រង់ពិន្ទុប្រឡងឆមាសទី ${examSem + 1}</div>
+      <div style="font-size:12.5px;font-weight:bold">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-size:11.5px">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
+    </div>
+
+    <table class="exam-paper-table">
+      <thead>
+        <tr>
+          <th rowspan="2" style="width:34px">ល.រ</th>
+          <th rowspan="2" style="min-width:130px">គោត្តនាម និងនាម</th>
+          <th rowspan="2" style="width:36px">ភេទ</th>
+          ${cols.map(c => `<th class="th-rot">${c.sn || c.n}</th>`).join('')}
+          <th rowspan="2" class="th-rot" style="background:#f1f5f9">សរុបប្រឡង</th>
+          <th rowspan="2" class="th-rot" style="background:#fef3c7">មធ្យមប្រឡង</th>
+        </tr>
+        <tr>
+          ${cols.map(c => `<th class="th-rot-sub">${c.m}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+        ${rowsPrint || '<tr><td colspan="35" style="padding:15px;color:#888">មិនទាន់មានសិស្ស</td></tr>'}
+      </tbody>
+    </table>
+
+    <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
+      <div style="text-align:center;width:180px">
+        <div>បានឃើញ និងឯកភាព</div>
+        <div style="font-weight:bold;margin-top:2px">នាយកសាលា</div>
+      </div>
+      <div style="text-align:center;width:220px">
+        <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
+        <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
+        <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
+      </div>
+    </div>
+  </div>
+
+  </div>`;
 },
 
 info(){
@@ -1271,7 +1392,7 @@ sem(){
       <option value="0" ${sem===0?'selected':''}>ឆមាសទី ១</option>
       <option value="1" ${sem===1?'selected':''}>ឆមាសទី ២</option>
     </select>
-    <button class="bt" onclick="exportStandardA4('semScorePrintArea', 'សរុបពិន្ទុឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
   <div class="w" id="semScorePrintArea"><table>
   <thead>
@@ -1294,6 +1415,8 @@ sem(){
 annual(){
   const S = getS();
   const i = S.info;
+  const printLogo = S.info.moeysLogo || encodeURI('logoក្រសួងអប់រំ.png');
+  
   const list = S.st.map(s => {
     const s1 = semFinalAv(s.id, 0);
     const s2 = semFinalAv(s.id, 1);
@@ -1330,13 +1453,26 @@ annual(){
 
   return head('សរុបលទ្ធផលប្រចាំឆ្នាំ') + `<div class="card">
   <div class="f">
-    <button class="bt" onclick="exportStandardA4('annualPrintArea', 'សរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+    <button class="bt" onclick="triggerAnnualPrint()">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
 
   <div class="official-sheet print-page" id="annualPrintArea">
+    <div class="official-header">
+      <div class="side-box">
+        <img class="official-print-logo" src="${printLogo}" alt="MoEYS">
+        <div style="font-size:12.5px">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+        <div style="font-weight:bold;font-size:13.5px">${E(i.school || 'សាលារៀន')}</div>
+      </div>
+      <div class="center-box">
+        <div class="muol-title" style="font-size:16px">ព្រះរាជាណាចក្រកម្ពុជា</div>
+        <div class="muol-title" style="font-size:14px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+        <div style="font-size:12px;letter-spacing:4px">~~~~~~~~~</div>
+      </div>
+    </div>
+
     <div class="official-title">
       <h2 class="muol-title">តារាងបូកសរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ</h2>
-      <div style="font-weight:bold;font-size:14px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-weight:bold;font-size:15px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
     </div>
 
     <table class="official-table">
@@ -1345,7 +1481,7 @@ annual(){
           <th style="width:40px">ល.រ</th>
           <th>គោត្តនាម-នាម</th>
           <th style="width:45px">ភេទ</th>
-          <th style="width:120px">ថ្ងៃខែឆ្នាំកំណើត</th>
+          <th style="width:130px">ថ្ងៃខែឆ្នាំកំណើត</th>
           <th style="width:75px">មធ្យម ឆ.១</th>
           <th style="width:75px">មធ្យម ឆ.២</th>
           <th style="width:85px;background:#d1fae5">មធ្យមប្រចាំឆ្នាំ</th>
@@ -1362,8 +1498,158 @@ annual(){
     <div class="official-stats">
       <div style="font-weight:bold">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${total} នាក់ (ស្រី ${female} នាក់) | ឡើងថ្នាក់៖ ${passCount} នាក់ | ប្រឡងសង៖ ${retestCount} នាក់ | ត្រួតថ្នាក់៖ ${failCount} នាក់</div>
     </div>
+
+    <div class="official-footer">
+      <div style="text-align:center;width:200px">
+        <div>បានឃើញ និងឯកភាព</div>
+        <div style="font-weight:bold;margin-top:4px">នាយកសាលា</div>
+      </div>
+      <div style="text-align:center;width:240px">
+        <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
+        <div style="font-weight:bold;margin-top:4px">គ្រូបន្ទុកថ្នាក់</div>
+        <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
+      </div>
+    </div>
   </div>
   </div>`;
+},
+
+info(){
+  const S = getS();
+  const i = S.info;
+  const k = (l, key, num) => `<label class="mu">${l}<input type="${num?'number':'text'}" ${num?'inputmode="decimal"':'lang="km" inputmode="text"'} value="${E(i[key] ?? '')}" onchange="setInfo('${key}', this.value, ${!!num})"></label>`;
+  return head('ព័ត៌មានសាលា និងគ្រូ') + `<div class="card">
+  <div class="f">${logo(88)}<button class="bt g" onclick="delete getS().info.logo;save();R()">លុបរូបសាលា</button></div>
+  <div class="f">${k('មន្ទីរអប់រំ រាជធានី-ខេត្ត','province')}${k('ឈ្មោះសាលារៀន','school')}${k('គ្រូបន្ទុកថ្នាក់','teacher')}</div>
+  <div class="f">${k('ថ្នាក់/កម្រិត','cls')}${k('តួចែកមធ្យមភាគ (ពិន្ទុសរុប ÷ តួនេះ)','div',true)}</div>
+  <p class="mu">ឆ្នាំសិក្សាបច្ចុប្បន្ន៖ <b>${E(currentYear)}</b> (តួចែកមធ្យមភាគបច្ចុប្បន្ន = <b>${S.info.div}</b>)។</p></div>`;
+},
+
+stu(){
+  const S = getS();
+  const total = S.st.length;
+  const female = S.st.filter(s => s.sex === 'ស').length;
+  const male = total - female;
+
+  const rows = S.st.map((s,i) => `
+    <tr>
+      <td style="width:45px">${i+1}</td>
+      <td style="width:50px">${photo(s)}</td>
+      <td class="sn"><input type="text" class="t" value="${E(s.name)}" onchange="setStuProp(${s.id}, 'name', this.value)" style="width:130px;font-weight:600"></td>
+      <td style="width:75px">
+        <select onchange="setSex(${s.id}, this.value)" style="min-height:32px;padding:2px 6px">
+          <option value="ស" ${s.sex==='ស'?'selected':''}>ស្រី</option>
+          <option value="ប" ${s.sex==='ប'?'selected':''}>ប្រុស</option>
+        </select>
+      </td>
+      <td>
+        <input type="text" placeholder="វាយ 06022015 ឬ 06/02/2015" value="${E(s.dob || '')}" onblur="setDobDirect(${s.id}, this.value)" style="width:145px;text-align:start">
+      </td>
+      <td><input type="text" placeholder="ឈ្មោះឪពុក" value="${E(s.fa || '')}" onchange="setStuProp(${s.id}, 'fa', this.value)" style="width:110px;text-align:start"></td>
+      <td><input type="text" placeholder="ឈ្មោះម្តាយ" value="${E(s.mo || '')}" onchange="setStuProp(${s.id}, 'mo', this.value)" style="width:110px;text-align:start"></td>
+      <td><input type="text" placeholder="លេខទូរស័ព្ទ" value="${E(s.phn || '')}" onchange="setStuProp(${s.id}, 'phn', this.value)" style="width:105px;text-align:start"></td>
+      <td><input type="text" placeholder="អាសយដ្ឋានបច្ចុប្បន្ន" value="${E(s.addr || '')}" onchange="setStuProp(${s.id}, 'addr', this.value)" style="width:150px;text-align:start"></td>
+      <td style="width:50px"><button class="x" onclick="del(${s.id})">លុប</button></td>
+    </tr>
+  `).join('');
+
+  return head('ប្រវត្តិរូបសិស្ស') + `<div class="card">
+  <h2>បញ្ចូលសិស្សថ្មី</h2>
+  <div class="f">
+    <input id="nn" lang="km" inputmode="text" placeholder="ឈ្មោះសិស្ស">
+    <select id="ns" style="max-width:90px"><option value="ស">ស្រី</option><option value="ប">ប្រុស</option></select>
+    <input id="ndob" placeholder="ថ្ងៃខែឆ្នាំកំណើត (ឧ. 06022015)">
+    <input id="nfa" lang="km" placeholder="ឈ្មោះឪពុក">
+    <input id="nmo" lang="km" placeholder="ឈ្មោះម្តាយ">
+    <input id="nphn" type="tel" placeholder="លេខទូរស័ព្ទ">
+    <input id="naddr" lang="km" placeholder="អាសយដ្ឋាន (ភូមិ/ឃុំ)">
+    <button class="bt" onclick="addS()">➕ បន្ថែមសិស្ស</button>
+  </div>
+  <small class="mu">💡 ត្រង់ថ្ងៃខែឆ្នាំកំណើត គ្រាន់តែវាយលេខជាប់គ្នាដូចជា <b>06022015</b> ឬ <b>06/02/2015</b> វានឹងចេញជា <b>០៦ កុម្ភៈ ២០១៥</b> ភ្លាមៗ។</small>
+  </div>
+
+  <div class="card">
+    <div style="display:flex;justify-content:space-around;background:#f1f5f9;border:1px solid var(--bd);padding:10px 14px;border-radius:12px;margin-bottom:12px;font-weight:600;font-size:14px">
+      <div>👥 សិស្សសរុប៖ <span style="color:var(--ac)">${total} នាក់</span></div>
+      <div>👧 ស្រី៖ <span style="color:var(--bad)">${female} នាក់</span></div>
+      <div>👦 ប្រុស៖ <span style="color:var(--tx)">${male} នាក់</span></div>
+    </div>
+
+    <div class="w"><table>
+      <thead>
+        <tr>
+          <th style="width:45px">ល.រ</th>
+          <th style="width:50px">រូប</th>
+          <th class="sn">គោត្តនាម-នាម</th>
+          <th style="width:75px">ភេទ</th>
+          <th style="width:150px">ថ្ងៃខែឆ្នាំកំណើត</th>
+          <th>ឈ្មោះឪពុក</th>
+          <th>ឈ្មោះម្តាយ</th>
+          <th>លេខទូរស័ព្ទ</th>
+          <th>អាសយដ្ឋាន</th>
+          <th style="width:50px"></th>
+        </tr>
+      </thead>
+      <tbody>
+        ${rows || '<tr><td colspan="10" class="em">មិនទាន់មានសិស្សក្នុងឆ្នាំសិក្សា ' + currentYear + '</td></tr>'}
+      </tbody>
+    </table></div>
+  </div>`;
+},
+
+sem(){
+  const S = getS();
+  const ms = semMonths(sem);
+  
+  const list = S.st.map(s => {
+    const mAv = semMonthlyAv(s.id, sem);
+    const examAv = avSemExam(s.id, sem);
+    const fAv = semFinalAv(s.id, sem);
+    const pass = getPassStatus(fAv, fAv > 0 ? 1 : 0);
+    const grade = getGradeLetter(fAv, fAv > 0 ? 1 : 0);
+    return { ...s, mAv, examAv, fAv, pass, grade };
+  }).sort((a,b) => b.fAv - a.fAv);
+
+  list.forEach((s, idx) => { s.rank = s.fAv > 0 ? (idx + 1) : '-'; });
+
+  const rows = list.map((s,k) => `
+    <tr>
+      <td>${k+1}</td>
+      <td class="sn" style="text-align:start;padding-left:8px"><b>${E(s.name)}</b></td>
+      <td>${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
+      ${ms.map(m => `<td>${tot(s.id,m) > 0 ? av(s.id,m).toFixed(2) : '-'}</td>`).join('')}
+      <td><b>${s.mAv > 0 ? s.mAv.toFixed(2) : '-'}</b></td>
+      <td style="background:#fef3c7;font-weight:bold;color:#b45309">${s.examAv > 0 ? s.examAv.toFixed(2) : '-'}</td>
+      <td style="background:#ecfdf5;font-weight:bold;color:#047857">${s.fAv > 0 ? s.fAv.toFixed(2) : '-'}</td>
+      <td><b>${s.rank}</b></td>
+      <td class="${s.fAv > 0 && s.pass === 'ធ្លាក់' ? 'bad' : ''}">${s.pass}</td>
+    </tr>
+  `).join('');
+
+  return head('សរុបពិន្ទុឆមាសទី ' + (sem+1)) + `<div class="card">
+  <div class="f">
+    <select onchange="sem=+this.value;R()">
+      <option value="0" ${sem===0?'selected':''}>ឆមាសទី ១</option>
+      <option value="1" ${sem===1?'selected':''}>ឆមាសទី ២</option>
+    </select>
+    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+  </div>
+  <div class="w" id="semScorePrintArea"><table>
+  <thead>
+    <tr>
+      <th>ល.រ</th>
+      <th class="sn">ឈ្មោះ</th>
+      <th>ភេទ</th>
+      ${ms.map(m => `<th>ខែ${MO[m]}</th>`).join('')}
+      <th>មធ្យមខែ</th>
+      <th style="background:#fef3c7">ប្រឡងឆមាស (Auto)</th>
+      <th style="background:#d1fae5">មធ្យមឆមាសរួម</th>
+      <th>ចំណាត់ថ្នាក់</th>
+      <th>លទ្ធផល</th>
+    </tr>
+  </thead>
+  <tbody>${rows || '<tr><td colspan="14" class="em">មិនមានសិស្ស</td></tr>'}</tbody>
+  </table></div></div>`;
 },
 
 ab(){
@@ -1375,7 +1661,7 @@ ab(){
     <td><input type="number" inputmode="numeric" min="0" value="${a[1] || ''}" onchange="setAb(${s.id},1,this.value)"></td>
     <td id="b${s.id}">${(+a[0] || 0) + (+a[1] || 0)}</td></tr>`;
   }).join('');
-  return head('តារាងអវត្តមាន') + `<div class="card"><div class="f">${moSel()}<button class="bt" onclick="exportStandardA4('abPrintArea', 'តារាងអវត្តមាន', false)">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
+  return head('តារាងអវត្តមាន') + `<div class="card"><div class="f">${moSel()}<button class="bt" onclick="window.print()">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
   <div class="w" id="abPrintArea"><table>
   <thead><tr><th>ល.រ</th><th class="sn">ឈ្មោះ</th><th>មានច្បាប់</th><th>គ្មានច្បាប់</th><th>សរុប</th></tr></thead>
   <tbody>${rows || '<tr><td colspan="5" class="em">មិនមានសិស្ស</td></tr>'}</tbody></table></div></div>`;
@@ -1401,7 +1687,7 @@ honor(){
   `).join('');
 
   return head('តារាងកិត្តិយស (Top 5)') + `<div class="card">
-  <div class="f">${moSel()}<button class="bt" onclick="exportStandardA4('honorPrintArea', 'តារាងកិត្តិយស', false)">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
+  <div class="f">${moSel()}<button class="bt" onclick="window.print()">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
   <div class="w" id="honorPrintArea"><table>
   <thead><tr><th>ចំណាត់ថ្នាក់</th><th>រូបថត</th><th class="sn">គោត្តនាម និងនាម</th><th>ភេទ</th><th>ពិន្ទុសរុប</th><th>មធ្យមភាគ</th><th>និទ្ទេស</th></tr></thead>
   <tbody>${rows || '<tr><td colspan="7" class="em">មិនទាន់មានទិន្នន័យពិន្ទុខែនេះ</td></tr>'}</tbody>
@@ -1432,7 +1718,7 @@ cert(){
   `).join('');
 
   return head('បណ្ណសរសើរស្វ័យប្រវត្តិ') + `<div class="card">
-  <div class="f">${moSel()}<button class="bt" onclick="exportStandardA4('certPrintArea', 'បណ្ណសរសើរ', false)">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
+  <div class="f">${moSel()}<button class="bt" onclick="window.print()">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
   <div id="certPrintArea">${certsHtml || '<div class="em">មិនទាន់មានសិស្សមានពិន្ទុសម្រាប់ទទួលបណ្ណសរសើរទេ</div>'}</div>
   </div>`;
 },
@@ -1453,7 +1739,7 @@ idcard(){
   `).join('');
 
   return head('កាតសម្គាល់ខ្លួនសិស្ស') + `<div class="card">
-  <div class="f"><button class="bt" onclick="exportStandardA4('idCardPrintArea', 'កាតសម្គាល់ខ្លួនសិស្ស', false)">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
+  <div class="f"><button class="bt" onclick="window.print()">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
   <div class="card-grid" id="idCardPrintArea">${cardsHtml || '<div class="em">មិនទាន់មានសិស្សក្នុងកម្រិតនេះ</div>'}</div>
   </div>`;
 },
@@ -1771,7 +2057,7 @@ async function makePkgBlob(){
   save(); await saveChain;
   const acc = accounts[SESSION.username];
   return new Blob([JSON.stringify({
-    app: 'school-offline', version: 16,
+    app: 'school-offline', version: 25,
     username: SESSION.username, fullname: acc.fullname,
     salt: acc.salt, check: acc.check, data: acc.data, created: acc.created
   })], {type: 'application/json'});
