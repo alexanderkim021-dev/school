@@ -4,8 +4,8 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="ថ្នាក់រៀន">
-<link rel="apple-touch-icon" href="IMG_2013.png">
-<link rel="icon" href="IMG_2013.png">
+<link rel="apple-touch-icon" href="moeys-logo.png">
+<link rel="icon" href="moeys-logo.png">
 <title>ប្រព័ន្ធគ្រប់គ្រងពិន្ទុ និងទិន្នន័យថ្នាក់រៀន (Cloud Sync)</title>
 
 <style>
@@ -152,7 +152,7 @@ td input.t{width:120px;text-align:start}
 .official-sheet{background:#fff;padding:20px;color:#000;font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif}
 .official-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px;line-height:1.4}
 .official-header .center-box{text-align:center;padding-top:0}
-.official-header .side-box{text-align:center;padding-top:14px} /* ទាបជាងព្រះរាជាណាចក្របន្តិច */
+.official-header .side-box{text-align:center;padding-top:14px}
 .official-print-logo{width:46px;height:46px;object-fit:contain;margin:0 auto 4px;display:block}
 .official-title{text-align:center;margin:15px 0 10px}
 .official-title h2{font-size:19px;margin:2px 0;color:#000}
@@ -203,13 +203,18 @@ td input.t{width:120px;text-align:start}
 
 @media print{
   @page { margin: 6mm; }
-  body{background:#fff;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  body{background:#fff;padding:0}
   .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui{display:none !important}
-  main{max-width:100%;padding:0}
-  .card{box-shadow:none;border:none;padding:0}
-  .w{max-height:none;border:none;overflow:visible}
+  main{max-width:100% !important;padding:0 !important;margin:0 !important}
+  .card{box-shadow:none !important;border:none !important;padding:0 !important;margin:0 !important}
+  .w{max-height:none !important;border:none !important;overflow:visible !important}
   .exam-print-container { display: block !important; }
   .print-page{page-break-after:always}
+  .official-print-logo { display: block !important; -webkit-print-color-adjust: exact; }
 }
 .cert-box{border:8px double #d97706;padding:30px;border-radius:12px;background:#fff;text-align:center;margin-bottom:20px}
 .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
@@ -228,6 +233,9 @@ td input.t{width:120px;text-align:start}
 <script>
 const SUPABASE_URL = 'https://sobhopuuvwctrdhlgttw.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvYmhvcHV1dndjdHJkaGxndHR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwMDU2ODMsImV4cCI6MjEwOTU4MTY4M30.mKQx4lLq-AufDQiLYocmMVnnwVFGfI_-xklNoGkW_wA';
+
+// ឈ្មោះឯកសារ Logo លំនាំដើមជាអក្សរឡាតាំង
+const DEFAULT_MOEYS_LOGO = 'moeys-logo.png';
 
 async function sbFetch(path, opts = {}){
   const headers = {
@@ -293,7 +301,6 @@ const E = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&','<':'<','>':'>'
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 const MO = ['តុលា','វិច្ឆិកា','ធ្នូ','មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា'];
-
 const KH_NUMS = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
 const toKhNum = n => String(n).split('').map(d => KH_NUMS[d] || d).join('');
 const KH_MONTHS = ['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
@@ -332,7 +339,6 @@ const SUBJ_PRIMARY = [
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
-// មុខវិជ្ជាអនុវិទ្យាល័យទាំង ២០ ជួរឈរ
 const SUBJ_SECONDARY = [
   {n:'សរសេរតាមអាន', s:[['សរសេរ', 40]]},
   {n:'តែងសេចក្តី', s:[['តែង', 60]]},
@@ -384,12 +390,8 @@ const SUBJ_HIGH_SOCIAL = [
 ];
 
 function getCols(lvl, stream){
-  if (lvl === 'high') {
-    return (stream === 'social' ? SUBJ_HIGH_SOCIAL : SUBJ_HIGH_SCIENCE).flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
-  }
-  if (lvl === 'secondary') {
-    return SUBJ_SECONDARY.flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
-  }
+  if (lvl === 'high') return (stream === 'social' ? SUBJ_HIGH_SOCIAL : SUBJ_HIGH_SCIENCE).flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
+  if (lvl === 'secondary') return SUBJ_SECONDARY.flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
   return SUBJ_PRIMARY.flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
 }
 
@@ -403,8 +405,7 @@ function getDiv(lvl, stream){
 
 function getMaxAv(lvl, stream){
   const cols = getCols(lvl, stream);
-  const maxTotal = sum(cols.map(c => c.m));
-  return maxTotal / getDiv(lvl, stream);
+  return sum(cols.map(c => c.m)) / getDiv(lvl, stream);
 }
 
 const sum = a => a.reduce((x,y) => x + (+y || 0), 0);
@@ -427,8 +428,7 @@ function getBtnOrder(){
 const defaultTheme = {
   ac: '#2563eb', gd: '#d97706', ok: '#16a34a', bk: '#334155', rd: '#dc2626', bg: '#f4f6fa',
   radius: '999px', font: "'Leelawadee UI', 'Kantumruy Pro', 'Khmer UI', sans-serif",
-  anim: 'fade',
-  touch: 'touch-3d'
+  anim: 'fade', touch: 'touch-3d'
 };
 
 function getTheme(){
@@ -452,7 +452,6 @@ function saveTheme(th){
   localStorage.setItem(THEME_KEY, JSON.stringify(th));
   applyTheme(th);
 }
-
 applyTheme(getTheme());
 
 const enc = new TextEncoder(), dec = new TextDecoder();
@@ -493,11 +492,7 @@ async function createAccount(u, pw, fullname){
   const chk = await seal(key, 'ok');
   accounts[u] = {fullname, salt: b64(salt), check: chk, data: null, created: Date.now(), backupAt: 0};
   saveAccounts();
-
-  sbPushUser({
-    username: u, fullname: fullname, salt: b64(salt), check: chk, data: null, updated_at: new Date().toISOString()
-  }).catch(()=>{});
-
+  sbPushUser({ username: u, fullname: fullname, salt: b64(salt), check: chk, data: null, updated_at: new Date().toISOString() }).catch(()=>{});
   return key;
 }
 
@@ -507,9 +502,7 @@ async function unlock(u, pw){
     setStatus('កំពុងពិនិត្យលើ Cloud...');
     const remote = await sbPullUser(u);
     if (remote) {
-      accounts[u] = {
-        fullname: remote.fullname, salt: remote.salt, check: remote.check, data: remote.data, created: Date.now(), backupAt: Date.now()
-      };
+      accounts[u] = { fullname: remote.fullname, salt: remote.salt, check: remote.check, data: remote.data, created: Date.now(), backupAt: Date.now() };
       saveAccounts();
       acc = accounts[u];
     }
@@ -577,17 +570,13 @@ function normalizeAllYears(raw){
     const o = {}; o[defYr] = normalizeYearPackage(raw, defYr); return o;
   }
   const res = {};
-  for (let y in raw) {
-    res[y] = normalizeYearPackage(raw[y], y);
-  }
+  for (let y in raw) res[y] = normalizeYearPackage(raw[y], y);
   if (!Object.keys(res).length) res[defYr] = normalizeYearPackage(null, defYr);
   return res;
 }
 
 function getS(){
-  if (!allYearsData[currentYear]) {
-    allYearsData[currentYear] = normalizeYearPackage(null, currentYear);
-  }
+  if (!allYearsData[currentYear]) allYearsData[currentYear] = normalizeYearPackage(null, currentYear);
   return allYearsData[currentYear][currentLevel];
 }
 
@@ -615,7 +604,7 @@ function save(){
       setStatus('បានរក្សាទុក (Local) ✓');
 
       sbPushUser({
-        username: u, fullname: accounts[u].fullname, salt: b64(salt), check: chk, data: accounts[u].data, updated_at: new Date().toISOString()
+        username: u, fullname: accounts[u].fullname, salt: accounts[u].salt, check: accounts[u].check, data: accounts[u].data, updated_at: new Date().toISOString()
       }).then(ok => {
         if (ok) setStatus('ពពក (Cloud Sync) ជោគជ័យ ☁️✓');
       }).catch(()=>{});
@@ -640,11 +629,8 @@ async function openSession(u, key){
   allYearsData = normalizeAllYears(parsed);
   
   const savedLastYear = localStorage.getItem(LAST_YEAR_KEY);
-  if (savedLastYear && allYearsData[savedLastYear]) {
-    currentYear = savedLastYear;
-  } else {
-    currentYear = Object.keys(allYearsData)[Object.keys(allYearsData).length - 1] || '២០២៥ - ២០២៦';
-  }
+  if (savedLastYear && allYearsData[savedLastYear]) currentYear = savedLastYear;
+  else currentYear = Object.keys(allYearsData)[Object.keys(allYearsData).length - 1] || '២០២៥ - ២០២៦';
 
   SESSION = {username: u, key, fullname: acc.fullname};
   pg = 'home';
@@ -766,7 +752,6 @@ function getPassStatus(a, t){
 }
 
 const semMonths = sIdx => sIdx ? [6,7,8,9,10,11] : [0,1,2,3,4,5];
-
 const semMonthlyAv = (id, sIdx) => {
   const ms = semMonths(sIdx).filter(m => tot(id, m) > 0);
   if (!ms.length) return 0;
@@ -798,7 +783,6 @@ function getAnnualDecision(a){
 }
 
 const rank = (f, id) => 1 + getS().st.filter(s => f(s.id) > f(id)).length;
-
 const moSel = () => `<select onchange="mo=+this.value;R()">${MO.map((m,i) => `<option value="${i}" ${i===mo?'selected':''}>ខែ${m}</option>`).join('')}</select>`;
 const head = t => `<div class="top"><button class="bt g" onclick="go('home')">🏠 ទំព័រដើម</button><h1>${t}</h1><button class="bt g" style="color:var(--bad)" onclick="logout()">🚪 ចាកចេញ</button></div>`;
 const go = p => { pg = p; R(); scrollTo(0,0); };
@@ -838,7 +822,6 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print ដោយផ្ទាល់តាមទំហំក្រដាសជាក់លាក់
 function triggerExamPrint() {
   let styleSheet = document.getElementById('dynamicPrintStyle');
   if (!styleSheet) {
@@ -847,7 +830,7 @@ function triggerExamPrint() {
     document.head.appendChild(styleSheet);
   }
   styleSheet.innerHTML = '@media print { @page { size: A4 landscape !important; margin: 6mm !important; } }';
-  window.print();
+  setTimeout(() => window.print(), 100);
 }
 
 function triggerOfficialPrint() {
@@ -858,7 +841,7 @@ function triggerOfficialPrint() {
     document.head.appendChild(styleSheet);
   }
   styleSheet.innerHTML = '@media print { @page { size: A4 portrait !important; margin: 8mm !important; } }';
-  window.print();
+  setTimeout(() => window.print(), 100);
 }
 
 function triggerAnnualPrint() {
@@ -869,7 +852,7 @@ function triggerAnnualPrint() {
     document.head.appendChild(styleSheet);
   }
   styleSheet.innerHTML = '@media print { @page { size: A4 landscape !important; margin: 6mm !important; } }';
-  window.print();
+  setTimeout(() => window.print(), 100);
 }
 
 const P = {
@@ -924,7 +907,7 @@ home(){
   const order = getBtnOrder();
   const yearList = Object.keys(allYearsData);
   const touchCls = getTheme().touch || 'touch-3d';
-  const moeysLogoImg = S.info.moeysLogo || encodeURI('logoក្រសួងអប់រំ.png');
+  const moeysLogoImg = S.info.moeysLogo || DEFAULT_MOEYS_LOGO;
 
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
@@ -1014,7 +997,7 @@ sc(){
   return head('តារាងពិន្ទុប្រចាំខែ') + `<div class="card">
   <div class="f">
     ${moSel()}
-    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+    <button class="bt" onclick="triggerExamPrint()">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
   <div class="w" id="monthlyScorePrintArea"><table>
   <thead>
@@ -1039,7 +1022,7 @@ sc(){
 official(){
   const S = getS();
   const i = S.info;
-  const printLogo = S.info.moeysLogo || encodeURI('logoក្រសួងអប់រំ.png');
+  const printLogo = S.info.moeysLogo || DEFAULT_MOEYS_LOGO;
   
   const list = S.st.map(s => {
     const t = tot(s.id, mo);
@@ -1155,9 +1138,8 @@ examScore(){
   const S = getS();
   const i = S.info;
   const cols = getCols(currentLevel, S.info.stream);
-  const printLogo = S.info.moeysLogo || encodeURI('logoក្រសួងអប់រំ.png');
+  const printLogo = S.info.moeysLogo || DEFAULT_MOEYS_LOGO;
   
-  // ១. បង្ហាញលើអេក្រង់ UI ធម្មតា
   const rowsUI = S.st.map((s,k) => {
     const a = (S.semExamScores[examSem] || {})[s.id] || [];
     const t = totSemExam(s.id, examSem);
@@ -1172,7 +1154,6 @@ examScore(){
     </tr>`;
   }).join('');
 
-  // ២. បង្ហាញទម្រង់សម្រាប់បោះពុម្ព
   const totalStudents = S.st.length;
   const femaleStudents = S.st.filter(s => s.sex === 'ស').length;
 
@@ -1199,7 +1180,6 @@ examScore(){
     <button class="bt" onclick="triggerExamPrint()">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
 
-  <!-- UI បញ្ចូលពិន្ទុធម្មតាលើអេក្រង់ (Screen UI) -->
   <div class="w screen-ui"><table>
   <thead>
     <tr>
@@ -1216,7 +1196,6 @@ examScore(){
   </tbody>
   </table></div>
 
-  <!-- ទម្រង់បោះពុម្ពផ្លូវការ A4 Landscape ត្រឡប់ក្បាលតារាងឡើងលើ -->
   <div id="examPrintSheetArea" class="exam-print-container print-page">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
       <div style="text-align:center;padding-top:10px">
@@ -1268,14 +1247,13 @@ examScore(){
       </div>
     </div>
   </div>
-
   </div>`;
 },
 
 annual(){
   const S = getS();
   const i = S.info;
-  const printLogo = S.info.moeysLogo || encodeURI('logoក្រសួងអប់រំ.png');
+  const printLogo = S.info.moeysLogo || DEFAULT_MOEYS_LOGO;
   
   const list = S.st.map(s => {
     const s1 = semFinalAv(s.id, 0);
@@ -1317,7 +1295,6 @@ annual(){
   </div>
 
   <div class="official-sheet print-page" id="annualPrintArea">
-    <!-- ក្បាលលិខិតជាតិផ្លូវការស្តង់ដារ ដូចផ្ទាំងចំណាត់ថ្នាក់ប្រចាំខែដែរ -->
     <div class="official-header">
       <div class="side-box">
         <img class="official-print-logo" src="${printLogo}" alt="MoEYS">
@@ -1493,7 +1470,7 @@ sem(){
       <option value="0" ${sem===0?'selected':''}>ឆមាសទី ១</option>
       <option value="1" ${sem===1?'selected':''}>ឆមាសទី ២</option>
     </select>
-    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+    <button class="bt" onclick="triggerExamPrint()">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
   <div class="w" id="semScorePrintArea"><table>
   <thead>
@@ -1522,7 +1499,7 @@ ab(){
     <td><input type="number" inputmode="numeric" min="0" value="${a[1] || ''}" onchange="setAb(${s.id},1,this.value)"></td>
     <td id="b${s.id}">${(+a[0] || 0) + (+a[1] || 0)}</td></tr>`;
   }).join('');
-  return head('តារាងអវត្តមាន') + `<div class="card"><div class="f">${moSel()}<button class="bt" onclick="window.print()">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
+  return head('តារាងអវត្តមាន') + `<div class="card"><div class="f">${moSel()}<button class="bt" onclick="triggerOfficialPrint()">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
   <div class="w" id="abPrintArea"><table>
   <thead><tr><th>ល.រ</th><th class="sn">ឈ្មោះ</th><th>មានច្បាប់</th><th>គ្មានច្បាប់</th><th>សរុប</th></tr></thead>
   <tbody>${rows || '<tr><td colspan="5" class="em">មិនមានសិស្ស</td></tr>'}</tbody></table></div></div>`;
@@ -1548,7 +1525,7 @@ honor(){
   `).join('');
 
   return head('តារាងកិត្តិយស (Top 5)') + `<div class="card">
-  <div class="f">${moSel()}<button class="bt" onclick="window.print()">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
+  <div class="f">${moSel()}<button class="bt" onclick="triggerOfficialPrint()">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
   <div class="w" id="honorPrintArea"><table>
   <thead><tr><th>ចំណាត់ថ្នាក់</th><th>រូបថត</th><th class="sn">គោត្តនាម និងនាម</th><th>ភេទ</th><th>ពិន្ទុសរុប</th><th>មធ្យមភាគ</th><th>និទ្ទេស</th></tr></thead>
   <tbody>${rows || '<tr><td colspan="7" class="em">មិនទាន់មានទិន្នន័យពិន្ទុខែនេះ</td></tr>'}</tbody>
@@ -1579,7 +1556,7 @@ cert(){
   `).join('');
 
   return head('បណ្ណសរសើរស្វ័យប្រវត្តិ') + `<div class="card">
-  <div class="f">${moSel()}<button class="bt" onclick="window.print()">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
+  <div class="f">${moSel()}<button class="bt" onclick="triggerOfficialPrint()">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
   <div id="certPrintArea">${certsHtml || '<div class="em">មិនទាន់មានសិស្សមានពិន្ទុសម្រាប់ទទួលបណ្ណសរសើរទេ</div>'}</div>
   </div>`;
 },
@@ -1600,7 +1577,7 @@ idcard(){
   `).join('');
 
   return head('កាតសម្គាល់ខ្លួនសិស្ស') + `<div class="card">
-  <div class="f"><button class="bt" onclick="window.print()">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
+  <div class="f"><button class="bt" onclick="triggerOfficialPrint()">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
   <div class="card-grid" id="idCardPrintArea">${cardsHtml || '<div class="em">មិនទាន់មានសិស្សក្នុងកម្រិតនេះ</div>'}</div>
   </div>`;
 },
@@ -1749,11 +1726,8 @@ function initDragAndDrop(){
   function handlePlacement(targetBtn, clientX){
     const rect = targetBtn.getBoundingClientRect();
     const mid = rect.left + rect.width / 2;
-    if (clientX < mid) {
-      grid.insertBefore(dragged, targetBtn);
-    } else {
-      grid.insertBefore(dragged, targetBtn.nextSibling);
-    }
+    if (clientX < mid) grid.insertBefore(dragged, targetBtn);
+    else grid.insertBefore(dragged, targetBtn.nextSibling);
   }
 
   function saveNewOrder(){
@@ -1803,13 +1777,14 @@ function pick(cb){
     r.onload = () => {
       const im = new Image();
       im.onload = () => {
-        const k = Math.min(1, 160 / Math.max(im.width, im.height));
+        const k = Math.min(1, 240 / Math.max(im.width, im.height));
         const c = document.createElement('canvas');
         c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
         const x = c.getContext('2d');
-        x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+        x.fillStyle = 'rgba(255,255,255,0)';
+        x.clearRect(0, 0, c.width, c.height);
         x.drawImage(im, 0, 0, c.width, c.height);
-        cb(c.toDataURL('image/jpeg', .75));
+        cb(c.toDataURL('image/png', 0.9));
       };
       im.src = r.result;
     };
