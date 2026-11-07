@@ -7,6 +7,10 @@
 <link rel="apple-touch-icon" href="IMG_2013.png">
 <link rel="icon" href="IMG_2013.png">
 <title>ប្រព័ន្ធគ្រប់គ្រងពិន្ទុ និងទិន្នន័យថ្នាក់រៀន (Cloud Sync)</title>
+
+<!-- បណ្ណាល័យបង្កើត PDF ស្ដង់ដារអន្តរជាតិ ដោះស្រាយបញ្ហាព្រីនលើ iPhone PWA -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&family=Moul&display=swap');
 
@@ -32,7 +36,7 @@ main{max-width:1050px;margin:0 auto;padding:16px 14px 60px;will-change:transform
 
 @keyframes appFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes appSlide { from { opacity: 0; transform: translateX(35px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes appScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+@keyframes appScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(0.95); } }
 
 .update-banner{
   position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-100px);
@@ -71,25 +75,11 @@ main{max-width:1050px;margin:0 auto;padding:16px 14px 60px;will-change:transform
   transition: transform 0.15s ease;
 }
 .moeys-logo:active { transform: scale(0.95); }
-.moeys-text {
-  line-height: 1.35;
-}
-.moeys-text .t1 {
-  font-family: var(--title-font);
-  font-size: 13.5px;
-  color: #1e3a8a;
-  display: block;
-}
-.moeys-text .t2 {
-  font-size: 12px;
-  color: var(--mu);
-  font-weight: 600;
-}
+.moeys-text { line-height: 1.35; }
+.moeys-text .t1 { font-family: var(--title-font); font-size: 13.5px; color: #1e3a8a; display: block; }
+.moeys-text .t2 { font-size: 12px; color: var(--mu); font-weight: 600; }
 
-h1, h2, h3, .muol-title {
-  font-family: var(--title-font) !important;
-  font-weight: normal;
-}
+h1, h2, h3, .muol-title { font-family: var(--title-font) !important; font-weight: normal; }
 .top{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
 .top h1{flex:1;margin:0;font-size:18px;color:var(--ac);text-align:center}
 
@@ -258,6 +248,7 @@ async function sbPushUser(record){
   }
 }
 
+// Service Worker Registration for PWA Auto-Update
 let newWorker = null;
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./sw.js').then(reg => {
@@ -832,53 +823,51 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print ស្តង់ដារថ្មី សម្រាប់ដោះស្រាយបញ្ហាគាំងលើ iPhone PWA (Add to Home Screen)
-function smartPrint(contentId, title, isLandscape) {
-  const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
-  const targetEl = contentId ? document.getElementById(contentId) : document.querySelector('main');
-  
-  if (!targetEl) {
+// មុខងារ Print និងទាញយកជា PDF ស្តង់ដារ (ដោះស្រាយបញ្ហាគាំងលើ iPhone PWA Standalone)
+async function exportStandardA4(elementId, reportName, isLandscape = false) {
+  const element = document.getElementById(elementId);
+  if (!element) {
     window.print();
     return;
   }
 
-  if (isStandalone) {
-    const pw = window.open('', '_blank');
-    if (!pw) {
+  const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+
+  // ប្រសិនបើដំណើរការលើ Home Screen (PWA) ឱ្យបង្កើត PDF ស្វ័យប្រវត្តិតាម html2pdf
+  if (isStandalone && typeof html2pdf !== 'undefined') {
+    setStatus('កំពុងរៀបចំឯកសារ PDF A4...');
+    const opt = {
+      margin: 8,
+      filename: `${reportName || 'តារាងសាលា'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait' }
+    };
+    try {
+      const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
+      const file = new File([pdfBlob], opt.filename, { type: 'application/pdf' });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({
+          files: [file],
+          title: reportName,
+          text: 'តារាងពិន្ទុ និងទិន្នន័យផ្លូវការ (A4)'
+        });
+        setStatus('បានចែករំលែក PDF ជោគជ័យ ✓');
+      } else {
+        const downloadUrl = URL.createObjectURL(pdfBlob);
+        const a = document.createElement('a');
+        a.href = downloadUrl;
+        a.download = opt.filename;
+        a.click();
+        URL.revokeObjectURL(downloadUrl);
+        setStatus('បានទាញយក PDF ជោគជ័យ ✓');
+      }
+    } catch (e) {
       window.print();
-      return;
     }
-    const styles = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]')).map(s => s.outerHTML).join('\n');
-    pw.document.write(`
-      <!DOCTYPE html>
-      <html lang="km">
-      <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>${title || 'បោះពុម្ព'}</title>
-        ${styles}
-        <style>
-          @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: 8mm; }
-          body { background: #fff !important; padding: 0 !important; color: #000 !important; }
-          .top, .sv, button, .bt, .level-tabs-wrap, .stream-tabs-wrap, .mu, .year-bar, .update-banner, .moeys-header, .f { display: none !important; }
-          .card { box-shadow: none !important; border: none !important; padding: 0 !important; }
-          .w { max-height: none !important; border: none !important; overflow: visible !important; }
-        </style>
-      </head>
-      <body>
-        <div class="print-page">${targetEl.innerHTML}</div>
-        <script>
-          window.onload = function() {
-            setTimeout(function() {
-              window.print();
-            }, 300);
-          };
-        <\/script>
-      </body>
-      </html>
-    `);
-    pw.document.close();
   } else {
+    // លើ Safari Browser ធម្មតា ឬកុំព្យូទ័រ
     window.print();
   }
 }
@@ -936,7 +925,7 @@ home(){
   const yearList = Object.keys(allYearsData);
   const touchCls = getTheme().touch || 'touch-3d';
 
-  const moeysLogoImg = S.info.moeysLogo || encodeURI('logoក្រសួងអប់តំ.png');
+  const moeysLogoImg = S.info.moeysLogo || encodeURI('logoក្រសួងអប់រំ.png');
 
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
@@ -1022,16 +1011,16 @@ examScore(){
     </tr>`;
   }).join('');
 
-  return head('តារាងប្រឡងឆមាស') + `<div class="card" id="examScorePrintArea">
+  return head('តារាងប្រឡងឆមាស') + `<div class="card">
   <div class="f">
     <select onchange="examSem=+this.value;R()">
       <option value="0" ${examSem===0?'selected':''}>📝 ប្រឡងឆមាសទី ១</option>
       <option value="1" ${examSem===1?'selected':''}>📝 ប្រឡងឆមាសទី ២</option>
     </select>
-    <button class="bt" onclick="smartPrint('examScorePrintArea', 'តារាងពិន្ទុប្រឡងឆមាស', true)">🖨️ បោះពុម្ពតារាងពិន្ទុប្រឡង</button>
+    <button class="bt" onclick="exportStandardA4('examScorePrintArea', 'តារាងប្រឡងឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4)</button>
   </div>
   <small class="mu" style="display:block;margin-bottom:10px">💡 លោកគ្រូ-អ្នកគ្រូ គ្រាន់តែបញ្ចូលពិន្ទុតាមមុខវិជ្ជានីមួយៗដែលសិស្សប្រឡងបាន នោះប្រព័ន្ធនឹងគណនាមធ្យមភាគប្រឡងឆមាស រួចបញ្ជូនទៅផ្ទាំង <b>«សរុបពិន្ទុឆមាស»</b> ដោយស្វ័យប្រវត្តិ (Auto) ១០០%!</small>
-  <div class="w"><table>
+  <div class="w" id="examScorePrintArea"><table>
   <thead>
     <tr>
       <th style="width:45px">ល.រ</th>
@@ -1090,7 +1079,7 @@ official(){
   return head('បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ') + `<div class="card">
   <div class="f">
     ${moSel()}
-    <button class="bt" onclick="smartPrint('officialSheetArea', 'ចំណាត់ថ្នាក់សិស្សប្រចាំខែ', false)">🖨️ បោះពុម្ពតារាងផ្លូវការ (A4)</button>
+    <button class="bt" onclick="exportStandardA4('officialSheetArea', 'ចំណាត់ថ្នាក់សិស្សប្រចាំខែ', false)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4)</button>
   </div>
 
   <div class="official-sheet print-page" id="officialSheetArea">
@@ -1270,12 +1259,12 @@ sc(){
     </tr>`;
   }).join('');
 
-  return head('តារាងពិន្ទុប្រចាំខែ') + `<div class="card" id="monthlyScorePrintArea">
+  return head('តារាងពិន្ទុប្រចាំខែ') + `<div class="card">
   <div class="f">
     ${moSel()}
-    <button class="bt" onclick="smartPrint('monthlyScorePrintArea', 'តារាងពិន្ទុប្រចាំខែ', true)">🖨️ បោះពុម្ពតារាងពិន្ទុ</button>
+    <button class="bt" onclick="exportStandardA4('monthlyScorePrintArea', 'តារាងពិន្ទុប្រចាំខែ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4)</button>
   </div>
-  <div class="w"><table>
+  <div class="w" id="monthlyScorePrintArea"><table>
   <thead>
     <tr>
       <th style="width:45px">ល.រ</th>
@@ -1324,16 +1313,16 @@ sem(){
     </tr>
   `).join('');
 
-  return head('សរុបពិន្ទុឆមាសទី ' + (sem+1)) + `<div class="card" id="semScorePrintArea">
+  return head('សរុបពិន្ទុឆមាសទី ' + (sem+1)) + `<div class="card">
   <div class="f">
     <select onchange="sem=+this.value;R()">
       <option value="0" ${sem===0?'selected':''}>ឆមាសទី ១</option>
       <option value="1" ${sem===1?'selected':''}>ឆមាសទី ២</option>
     </select>
-    <button class="bt" onclick="smartPrint('semScorePrintArea', 'សរុបពិន្ទុឆមាស', true)">🖨️ បោះពុម្ពតារាងឆមាស (A4 Landscape)</button>
+    <button class="bt" onclick="exportStandardA4('semScorePrintArea', 'សរុបពិន្ទុឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
   <small class="mu" style="display:block;margin-bottom:10px">💡 លោកគ្រូ-អ្នកគ្រូ ប្រឡោះពណ៌លឿង <b>«ប្រឡងឆមាស»</b> ត្រូវបានទាញចូលដោយស្វ័យប្រវត្តិ (Auto-fill) ពីផ្ទាំង <b>«តារាងប្រឡងឆមាស»</b> ដោយមិនបាច់បំពេញដោយដៃឡើយ!</small>
-  <div class="w"><table>
+  <div class="w" id="semScorePrintArea"><table>
   <thead>
     <tr>
       <th>ល.រ</th>
@@ -1390,7 +1379,7 @@ annual(){
 
   return head('សរុបលទ្ធផលប្រចាំឆ្នាំ') + `<div class="card">
   <div class="f">
-    <button class="bt" onclick="smartPrint('annualPrintArea', 'សរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ', true)">🖨️ បោះពុម្ពតារាងលទ្ធផលប្រចាំឆ្នាំ (A4 Landscape)</button>
+    <button class="bt" onclick="exportStandardA4('annualPrintArea', 'សរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
 
   <div class="official-sheet print-page" id="annualPrintArea">
@@ -1465,8 +1454,8 @@ ab(){
     <td><input type="number" inputmode="numeric" min="0" value="${a[1] || ''}" onchange="setAb(${s.id},1,this.value)"></td>
     <td id="b${s.id}">${(+a[0] || 0) + (+a[1] || 0)}</td></tr>`;
   }).join('');
-  return head('តារាងអវត្តមាន') + `<div class="card" id="abPrintArea"><div class="f">${moSel()}<button class="bt" onclick="smartPrint('abPrintArea', 'តារាងអវត្តមាន', false)">🖨️ បោះពុម្ពតារាងអវត្តមាន</button></div>
-  <div class="w"><table>
+  return head('តារាងអវត្តមាន') + `<div class="card"><div class="f">${moSel()}<button class="bt" onclick="exportStandardA4('abPrintArea', 'តារាងអវត្តមាន', false)">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
+  <div class="w" id="abPrintArea"><table>
   <thead><tr><th>ល.រ</th><th class="sn">ឈ្មោះ</th><th>មានច្បាប់</th><th>គ្មានច្បាប់</th><th>សរុប</th></tr></thead>
   <tbody>${rows || '<tr><td colspan="5" class="em">មិនមានសិស្ស</td></tr>'}</tbody></table></div></div>`;
 },
@@ -1490,9 +1479,9 @@ honor(){
     </tr>
   `).join('');
 
-  return head('តារាងកិត្តិយស (Top 5)') + `<div class="card" id="honorPrintArea">
-  <div class="f">${moSel()}<button class="bt" onclick="smartPrint('honorPrintArea', 'តារាងកិត្តិយស', false)">🖨️ បោះពុម្ពតារាងកិត្តិយស</button></div>
-  <div class="w"><table>
+  return head('តារាងកិត្តិយស (Top 5)') + `<div class="card">
+  <div class="f">${moSel()}<button class="bt" onclick="exportStandardA4('honorPrintArea', 'តារាងកិត្តិយស', false)">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
+  <div class="w" id="honorPrintArea"><table>
   <thead><tr><th>ចំណាត់ថ្នាក់</th><th>រូបថត</th><th class="sn">គោត្តនាម និងនាម</th><th>ភេទ</th><th>ពិន្ទុសរុប</th><th>មធ្យមភាគ</th><th>និទ្ទេស</th></tr></thead>
   <tbody>${rows || '<tr><td colspan="7" class="em">មិនទាន់មានទិន្នន័យពិន្ទុខែនេះ</td></tr>'}</tbody>
   </table></div></div>`;
@@ -1522,7 +1511,7 @@ cert(){
   `).join('');
 
   return head('បណ្ណសរសើរស្វ័យប្រវត្តិ') + `<div class="card">
-  <div class="f">${moSel()}<button class="bt" onclick="smartPrint('certPrintArea', 'បណ្ណសរសើរស្វ័យប្រវត្តិ', false)">🖨️ បោះពុម្ពបណ្ណសរសើរទាំងអស់</button></div>
+  <div class="f">${moSel()}<button class="bt" onclick="exportStandardA4('certPrintArea', 'បណ្ណសរសើរ', false)">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
   <div id="certPrintArea">${certsHtml || '<div class="em">មិនទាន់មានសិស្សមានពិន្ទុសម្រាប់ទទួលបណ្ណសរសើរទេ</div>'}</div>
   </div>`;
 },
@@ -1543,7 +1532,7 @@ idcard(){
   `).join('');
 
   return head('កាតសម្គាល់ខ្លួនសិស្ស') + `<div class="card">
-  <div class="f"><button class="bt" onclick="smartPrint('idCardPrintArea', 'កាតសម្គាល់ខ្លួនសិស្ស', false)">🖨️ បោះពុម្ពកាតសិស្សទាំងអស់</button></div>
+  <div class="f"><button class="bt" onclick="exportStandardA4('idCardPrintArea', 'កាតសម្គាល់ខ្លួនសិស្ស', false)">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
   <div class="card-grid" id="idCardPrintArea">${cardsHtml || '<div class="em">មិនទាន់មានសិស្សក្នុងកម្រិតនេះ</div>'}</div>
   </div>`;
 },
