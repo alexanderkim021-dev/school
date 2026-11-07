@@ -8,9 +8,6 @@
 <link rel="icon" href="IMG_2013.png">
 <title>ប្រព័ន្ធគ្រប់គ្រងពិន្ទុ និងទិន្នន័យថ្នាក់រៀន (Cloud Sync)</title>
 
-<!-- បណ្ណាល័យបង្កើត PDF ស្ដង់ដារសម្រាប់ iPhone PWA -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&family=Moul&display=swap');
 
@@ -117,7 +114,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .bt.r{background:var(--rd)}
 .x{background:none;border:0;color:var(--bad);cursor:pointer;font:inherit;font-weight:600}
 
-/* តារាងលើអេក្រង់ UI ធម្មតា */
+/* តារាងលើអេក្រង់ UI */
 .w{overflow:auto;max-height:74vh;border:1px solid var(--bd);border-radius:12px;-webkit-overflow-scrolling:touch}
 table{border-collapse:separate;border-spacing:0;font-size:13px;width:100%}
 th,td{padding:8px 8px;border-bottom:1px solid var(--bd);border-inline-end:1px solid var(--bd);white-space:nowrap;text-align:center;background:var(--cd)}
@@ -151,21 +148,19 @@ td input.t{width:120px;text-align:start}
 .cp-box{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .cp-box input[type="color"]{min-height:40px;width:54px;padding:2px;cursor:pointer;border-radius:8px}
 
-/* ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាលផ្លូវការ */
-.official-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;line-height:1.4}
+/* ទម្រង់បោះពុម្ពផ្លូវការ (Official Standard Sheets) */
+.official-sheet{background:#fff;padding:20px;color:#000;font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif}
+.official-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:15px;line-height:1.4}
 .official-header .center-box{text-align:center;padding-top:0}
-.official-header .side-box{text-align:center;padding-top:14px} /* ទាបជាងបារមីព្រះរាជាណាចក្របន្តិច */
+.official-header .side-box{text-align:center;padding-top:14px} /* ទាបជាងព្រះរាជាណាចក្របន្តិច */
 .official-print-logo{width:46px;height:46px;object-fit:contain;margin:0 auto 4px;display:block}
-
-/* ទម្រង់បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ (A4 Portrait) */
-.official-sheet{background:#fff;padding:16px;color:#000;font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif}
-.official-title{text-align:center;margin:12px 0 10px}
-.official-title h2{font-size:18px;margin:2px 0;color:#000}
+.official-title{text-align:center;margin:15px 0 10px}
+.official-title h2{font-size:19px;margin:2px 0;color:#000}
 .official-table{border:1px solid #444;width:100%;border-collapse:collapse}
-.official-table th, .official-table td{border:1px solid #444;padding:5px 4px;text-align:center;font-size:12px}
+.official-table th, .official-table td{border:1px solid #444;padding:6px 6px;text-align:center;font-size:13px}
 .official-table th{background:#f1f5f9;font-weight:bold}
-.official-footer{margin-top:14px;display:flex;justify-content:space-between;font-size:12.5px;line-height:1.5}
-.official-stats{font-size:12.5px;line-height:1.7;margin-top:8px}
+.official-footer{margin-top:15px;display:flex;justify-content:space-between;font-size:13px;line-height:1.6}
+.official-stats{font-size:13px;line-height:1.8;margin-top:10px}
 
 /* ទម្រង់បោះពុម្ពតារាងប្រឡងឆមាស (A4 Landscape) */
 .exam-print-container {
@@ -298,6 +293,7 @@ const E = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&','<':'<','>':'>'
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 const MO = ['តុលា','វិច្ឆិកា','ធ្នូ','មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា'];
+
 const KH_NUMS = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
 const toKhNum = n => String(n).split('').map(d => KH_NUMS[d] || d).join('');
 const KH_MONTHS = ['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
@@ -328,14 +324,6 @@ function smartKhmerDate(val){
   return s;
 }
 
-// Logo ក្រសួងអប់រំ fallback
-const DEFAULT_MOEYS_LOGO = 'https://alexanderkim021-dev.github.io/school/logo%E1%9E%80%E1%9F%83%E1%9E%9F%E1%9E% his%E1%9E%84%E1%9E%A2%E1%9E%94%E1%9F%8B%E1%9E%9a%E1%9F%86.png';
-function getLogoSrc(){
-  const S = getS();
-  return (S && S.info && S.info.moeysLogo) ? S.info.moeysLogo : encodeURI('logoក្រសួងអប់រំ.png');
-}
-
-// ១. មុខវិជ្ជាបឋមសិក្សា
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
@@ -344,7 +332,7 @@ const SUBJ_PRIMARY = [
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
-// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)
+// មុខវិជ្ជាអនុវិទ្យាល័យទាំង ២០ ជួរឈរ
 const SUBJ_SECONDARY = [
   {n:'សរសេរតាមអាន', s:[['សរសេរ', 40]]},
   {n:'តែងសេចក្តី', s:[['តែង', 60]]},
@@ -368,7 +356,6 @@ const SUBJ_SECONDARY = [
   {n:'ភាសាបរទេស', s:[['បរទេស', 50]]}
 ];
 
-// ៣. មុខវិជ្ជាវិទ្យាល័យ (វិទ្យាសាស្ត្រពិត និងសង្គម)
 const SUBJ_HIGH_SCIENCE = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
   {n:'រូបវិទ្យា', s:[['រូប', 75]]},
@@ -546,7 +533,7 @@ function emptyLevelData(lbl, yr){
   if (lbl === 'អនុវិទ្យាល័យ') { defDiv = 17; defCls = '៨A'; }
   if (lbl === 'វិទ្យាល័យ') { defDiv = 13; defCls = '១១A'; }
   return {
-    v: 26, n: 1,
+    v: 24, n: 1,
     info: {province:'', school:'', teacher:'', cls: defCls, year: yr || currentYear, div: defDiv, stream:'science', logo: null, moeysLogo: null},
     st: [], sc: {}, ab: {}, rm: {},
     semExamScores: {0:{}, 1:{}}
@@ -628,7 +615,7 @@ function save(){
       setStatus('បានរក្សាទុក (Local) ✓');
 
       sbPushUser({
-        username: u, fullname: accounts[u].fullname, salt: accounts[u].salt, check: accounts[u].check, data: accounts[u].data, updated_at: new Date().toISOString()
+        username: u, fullname: accounts[u].fullname, salt: b64(salt), check: chk, data: accounts[u].data, updated_at: new Date().toISOString()
       }).then(ok => {
         if (ok) setStatus('ពពក (Cloud Sync) ជោគជ័យ ☁️✓');
       }).catch(()=>{});
@@ -851,74 +838,38 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print និងទាញយកជា PDF (ដំណើរការលើកុំព្យូទ័រ និង iPhone PWA ១០០%)
-async function executeStandardPrint(elementId, reportName, isLandscape = false) {
-  const element = document.getElementById(elementId);
-  if (!element) { window.print(); return; }
-
-  const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
-
-  // បើនៅលើ iPhone PWA Standalone ឱ្យទាញយក PDF ស្វ័យប្រវត្តិតាម html2pdf មិនឱ្យគាំង
-  if (isStandalone && typeof html2pdf !== 'undefined') {
-    setStatus('កំពុងបង្កើត PDF A4...');
-    const prevDisplay = element.style.display;
-    element.style.display = 'block';
-
-    const opt = {
-      margin: isLandscape ? [6, 6, 6, 6] : 8,
-      filename: `${reportName || 'តារាងសាលា'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait' }
-    };
-    try {
-      const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
-      element.style.display = prevDisplay;
-      const file = new File([pdfBlob], opt.filename, { type: 'application/pdf' });
-
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: reportName, text: 'តារាងពិន្ទុផ្លូវការ (A4)' });
-        setStatus('បានចែករំលែក PDF ជោគជ័យ ✓');
-      } else {
-        const downloadUrl = URL.createObjectURL(pdfBlob);
-        const a = document.createElement('a');
-        a.href = downloadUrl; a.download = opt.filename; a.click();
-        URL.revokeObjectURL(downloadUrl);
-        setStatus('បានទាញយក PDF ជោគជ័យ ✓');
-      }
-    } catch (e) {
-      element.style.display = prevDisplay;
-      window.print();
-    }
-  } else {
-    // លើ Computer Browser
-    let styleSheet = document.getElementById('dynamicPrintStyle');
-    if (!styleSheet) {
-      styleSheet = document.createElement('style');
-      styleSheet.id = 'dynamicPrintStyle';
-      document.head.appendChild(styleSheet);
-    }
-    styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'} !important; margin: 6mm !important; } }`;
-    window.print();
+// មុខងារ Print ដោយផ្ទាល់តាមទំហំក្រដាសជាក់លាក់
+function triggerExamPrint() {
+  let styleSheet = document.getElementById('dynamicPrintStyle');
+  if (!styleSheet) {
+    styleSheet = document.createElement('style');
+    styleSheet.id = 'dynamicPrintStyle';
+    document.head.appendChild(styleSheet);
   }
+  styleSheet.innerHTML = '@media print { @page { size: A4 landscape !important; margin: 6mm !important; } }';
+  window.print();
 }
 
-// មុខងារបង្កើត Header ផ្លូវការស្តង់ដារដ្ឋបាល
-function renderOfficialHeaderHTML(i, logoSrc){
-  return `
-    <div class="official-header">
-      <div class="side-box">
-        <img class="official-print-logo" src="${logoSrc}" onerror="this.src='${DEFAULT_MOEYS_LOGO}'" alt="MoEYS">
-        <div style="font-size:12.5px">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
-        <div style="font-weight:bold;font-size:13.5px">${E(i.school || 'សាលារៀន')}</div>
-      </div>
-      <div class="center-box">
-        <div class="muol-title" style="font-size:16px">ព្រះរាជាណាចក្រកម្ពុជា</div>
-        <div class="muol-title" style="font-size:14px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-        <div style="font-size:12px;letter-spacing:4px">~~~~~~~~~</div>
-      </div>
-    </div>
-  `;
+function triggerOfficialPrint() {
+  let styleSheet = document.getElementById('dynamicPrintStyle');
+  if (!styleSheet) {
+    styleSheet = document.createElement('style');
+    styleSheet.id = 'dynamicPrintStyle';
+    document.head.appendChild(styleSheet);
+  }
+  styleSheet.innerHTML = '@media print { @page { size: A4 portrait !important; margin: 8mm !important; } }';
+  window.print();
+}
+
+function triggerAnnualPrint() {
+  let styleSheet = document.getElementById('dynamicPrintStyle');
+  if (!styleSheet) {
+    styleSheet = document.createElement('style');
+    styleSheet.id = 'dynamicPrintStyle';
+    document.head.appendChild(styleSheet);
+  }
+  styleSheet.innerHTML = '@media print { @page { size: A4 landscape !important; margin: 6mm !important; } }';
+  window.print();
 }
 
 const P = {
@@ -973,7 +924,7 @@ home(){
   const order = getBtnOrder();
   const yearList = Object.keys(allYearsData);
   const touchCls = getTheme().touch || 'touch-3d';
-  const logoSrc = getLogoSrc();
+  const moeysLogoImg = S.info.moeysLogo || encodeURI('logoក្រសួងអប់រំ.png');
 
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
@@ -1002,7 +953,7 @@ home(){
   return `<div class="home">
   <div class="moeys-header">
     <div class="moeys-brand">
-      <img class="moeys-logo" src="${logoSrc}" onerror="this.src='${DEFAULT_MOEYS_LOGO}'" alt="MoEYS" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
+      <img class="moeys-logo" src="${moeysLogoImg}" alt="MoEYS" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
       <div class="moeys-text">
         <span class="t1">ព្រះរាជាណាចក្រកម្ពុជា</span>
         <span class="t2">ក្រសួងអប់រំ យុវជន និងកីឡា</span>
@@ -1088,7 +1039,7 @@ sc(){
 official(){
   const S = getS();
   const i = S.info;
-  const logoSrc = getLogoSrc();
+  const printLogo = S.info.moeysLogo || encodeURI('logoក្រសួងអប់រំ.png');
   
   const list = S.st.map(s => {
     const t = tot(s.id, mo);
@@ -1128,11 +1079,22 @@ official(){
   return head('បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ') + `<div class="card">
   <div class="f">
     ${moSel()}
-    <button class="bt" onclick="executeStandardPrint('officialSheetArea', 'ចំណាត់ថ្នាក់សិស្សប្រចាំខែ', false)">🖨️ បោះពុម្ពតារាងផ្លូវការ (A4)</button>
+    <button class="bt" onclick="triggerOfficialPrint()">🖨️ បោះពុម្ពតារាងផ្លូវការ (A4)</button>
   </div>
 
   <div class="official-sheet print-page" id="officialSheetArea">
-    ${renderOfficialHeaderHTML(i, logoSrc)}
+    <div class="official-header">
+      <div class="side-box">
+        <img class="official-print-logo" src="${printLogo}" alt="MoEYS">
+        <div style="font-size:12.5px">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+        <div style="font-weight:bold;font-size:13.5px">${E(i.school || 'សាលារៀន')}</div>
+      </div>
+      <div class="center-box">
+        <div class="muol-title" style="font-size:16px">ព្រះរាជាណាចក្រកម្ពុជា</div>
+        <div class="muol-title" style="font-size:14px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+        <div style="font-size:12px;letter-spacing:4px">~~~~~~~~~</div>
+      </div>
+    </div>
 
     <div class="official-title">
       <h2 class="muol-title">ចំណាត់ថ្នាក់សិស្សប្រចាំ ខែ${MO[mo]}</h2>
@@ -1193,7 +1155,7 @@ examScore(){
   const S = getS();
   const i = S.info;
   const cols = getCols(currentLevel, S.info.stream);
-  const logoSrc = getLogoSrc();
+  const printLogo = S.info.moeysLogo || encodeURI('logoក្រសួងអប់រំ.png');
   
   // ១. បង្ហាញលើអេក្រង់ UI ធម្មតា
   const rowsUI = S.st.map((s,k) => {
@@ -1234,7 +1196,7 @@ examScore(){
       <option value="0" ${examSem===0?'selected':''}>📝 ប្រឡងឆមាសទី ១</option>
       <option value="1" ${examSem===1?'selected':''}>📝 ប្រឡងឆមាសទី ២</option>
     </select>
-    <button class="bt" onclick="executeStandardPrint('examPrintSheetArea', 'តារាងប្រឡងឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+    <button class="bt" onclick="triggerExamPrint()">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
 
   <!-- UI បញ្ចូលពិន្ទុធម្មតាលើអេក្រង់ (Screen UI) -->
@@ -1256,7 +1218,18 @@ examScore(){
 
   <!-- ទម្រង់បោះពុម្ពផ្លូវការ A4 Landscape ត្រឡប់ក្បាលតារាងឡើងលើ -->
   <div id="examPrintSheetArea" class="exam-print-container print-page">
-    ${renderOfficialHeaderHTML(i, logoSrc)}
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">
+      <div style="text-align:center;padding-top:10px">
+        <img class="official-print-logo" src="${printLogo}" alt="MoEYS" style="width:42px;height:42px">
+        <div style="font-size:11.5px">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+        <div style="font-weight:bold;font-size:12.5px">${E(i.school || 'សាលារៀន')}</div>
+      </div>
+      <div style="text-align:center;line-height:1.4">
+        <div class="muol-title" style="font-size:14px">ព្រះរាជាណាចក្រកម្ពុជា</div>
+        <div class="muol-title" style="font-size:12px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+        <div style="font-size:10px;letter-spacing:3px">~~~~~~~~~</div>
+      </div>
+    </div>
 
     <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0 8px">
       <div style="font-size:12.5px;font-weight:bold">តារាងស្រង់ពិន្ទុប្រឡងឆមាសទី ${examSem + 1}</div>
@@ -1302,7 +1275,7 @@ examScore(){
 annual(){
   const S = getS();
   const i = S.info;
-  const logoSrc = getLogoSrc();
+  const printLogo = S.info.moeysLogo || encodeURI('logoក្រសួងអប់រំ.png');
   
   const list = S.st.map(s => {
     const s1 = semFinalAv(s.id, 0);
@@ -1340,11 +1313,23 @@ annual(){
 
   return head('សរុបលទ្ធផលប្រចាំឆ្នាំ') + `<div class="card">
   <div class="f">
-    <button class="bt" onclick="executeStandardPrint('annualPrintArea', 'សរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+    <button class="bt" onclick="triggerAnnualPrint()">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
 
   <div class="official-sheet print-page" id="annualPrintArea">
-    ${renderOfficialHeaderHTML(i, logoSrc)}
+    <!-- ក្បាលលិខិតជាតិផ្លូវការស្តង់ដារ ដូចផ្ទាំងចំណាត់ថ្នាក់ប្រចាំខែដែរ -->
+    <div class="official-header">
+      <div class="side-box">
+        <img class="official-print-logo" src="${printLogo}" alt="MoEYS">
+        <div style="font-size:12.5px">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+        <div style="font-weight:bold;font-size:13.5px">${E(i.school || 'សាលារៀន')}</div>
+      </div>
+      <div class="center-box">
+        <div class="muol-title" style="font-size:16px">ព្រះរាជាណាចក្រកម្ពុជា</div>
+        <div class="muol-title" style="font-size:14px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+        <div style="font-size:12px;letter-spacing:4px">~~~~~~~~~</div>
+      </div>
+    </div>
 
     <div class="official-title">
       <h2 class="muol-title">តារាងបូកសរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ</h2>
@@ -1933,7 +1918,7 @@ async function makePkgBlob(){
   save(); await saveChain;
   const acc = accounts[SESSION.username];
   return new Blob([JSON.stringify({
-    app: 'school-offline', version: 26,
+    app: 'school-offline', version: 24,
     username: SESSION.username, fullname: acc.fullname,
     salt: acc.salt, check: acc.check, data: acc.data, created: acc.created
   })], {type: 'application/json'});
