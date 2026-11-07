@@ -183,9 +183,9 @@ td input.t{width:120px;text-align:start}
 .cp-box input[type="color"]{min-height:40px;width:54px;padding:2px;cursor:pointer;border-radius:8px}
 
 @media print{
-  @page { size: A4 landscape; margin: 8mm; }
-  body{background:#fff;padding:0}
-  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header{display:none !important}
+  @page { size: A4 portrait; margin: 8mm; }
+  body{background:#fff;padding:0;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f{display:none !important}
   main{max-width:100%;padding:0}
   .card{box-shadow:none;border:none;padding:0}
   .w{max-height:none;border:none;overflow:visible}
@@ -480,7 +480,6 @@ async function createAccount(u, pw, fullname){
   accounts[u] = {fullname, salt: b64(salt), check: chk, data: null, created: Date.now(), backupAt: 0};
   saveAccounts();
 
-  // Cloud Sync: push account to Supabase
   sbPushUser({
     username: u,
     fullname: fullname,
@@ -496,7 +495,6 @@ async function createAccount(u, pw, fullname){
 async function unlock(u, pw){
   let acc = accounts[u];
   if (!acc) {
-    // Cloud Sync: search Supabase if not found locally
     setStatus('កំពុងពិនិត្យលើ Cloud...');
     const remote = await sbPullUser(u);
     if (remote) {
@@ -612,7 +610,6 @@ function save(){
       saveAccounts();
       setStatus('បានរក្សាទុក (Local) ✓');
 
-      // Cloud Sync: push data to Supabase in background
       sbPushUser({
         username: u,
         fullname: accounts[u].fullname,
@@ -648,7 +645,6 @@ async function openSession(u, key){
   R();
   resetIdle();
 
-  // Background check for newer cloud version
   sbPullUser(u).then(async remote => {
     if (remote && remote.data && remote.data !== acc.data) {
       try {
@@ -836,6 +832,57 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
+// មុខងារ Print ស្តង់ដារថ្មី សម្រាប់ដោះស្រាយបញ្ហាគាំងលើ iPhone PWA (Add to Home Screen)
+function smartPrint(contentId, title, isLandscape) {
+  const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+  const targetEl = contentId ? document.getElementById(contentId) : document.querySelector('main');
+  
+  if (!targetEl) {
+    window.print();
+    return;
+  }
+
+  if (isStandalone) {
+    const pw = window.open('', '_blank');
+    if (!pw) {
+      window.print();
+      return;
+    }
+    const styles = Array.from(document.querySelectorAll('style, link[rel="stylesheet"]')).map(s => s.outerHTML).join('\n');
+    pw.document.write(`
+      <!DOCTYPE html>
+      <html lang="km">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>${title || 'បោះពុម្ព'}</title>
+        ${styles}
+        <style>
+          @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: 8mm; }
+          body { background: #fff !important; padding: 0 !important; color: #000 !important; }
+          .top, .sv, button, .bt, .level-tabs-wrap, .stream-tabs-wrap, .mu, .year-bar, .update-banner, .moeys-header, .f { display: none !important; }
+          .card { box-shadow: none !important; border: none !important; padding: 0 !important; }
+          .w { max-height: none !important; border: none !important; overflow: visible !important; }
+        </style>
+      </head>
+      <body>
+        <div class="print-page">${targetEl.innerHTML}</div>
+        <script>
+          window.onload = function() {
+            setTimeout(function() {
+              window.print();
+            }, 300);
+          };
+        <\/script>
+      </body>
+      </html>
+    `);
+    pw.document.close();
+  } else {
+    window.print();
+  }
+}
+
 const P = {
 login(){
   return `<div class="auth"><div class="card">
@@ -975,13 +1022,13 @@ examScore(){
     </tr>`;
   }).join('');
 
-  return head('តារាងប្រឡងឆមាស') + `<div class="card">
+  return head('តារាងប្រឡងឆមាស') + `<div class="card" id="examScorePrintArea">
   <div class="f">
     <select onchange="examSem=+this.value;R()">
       <option value="0" ${examSem===0?'selected':''}>📝 ប្រឡងឆមាសទី ១</option>
       <option value="1" ${examSem===1?'selected':''}>📝 ប្រឡងឆមាសទី ២</option>
     </select>
-    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងពិន្ទុប្រឡង</button>
+    <button class="bt" onclick="smartPrint('examScorePrintArea', 'តារាងពិន្ទុប្រឡងឆមាស', true)">🖨️ បោះពុម្ពតារាងពិន្ទុប្រឡង</button>
   </div>
   <small class="mu" style="display:block;margin-bottom:10px">💡 លោកគ្រូ-អ្នកគ្រូ គ្រាន់តែបញ្ចូលពិន្ទុតាមមុខវិជ្ជានីមួយៗដែលសិស្សប្រឡងបាន នោះប្រព័ន្ធនឹងគណនាមធ្យមភាគប្រឡងឆមាស រួចបញ្ជូនទៅផ្ទាំង <b>«សរុបពិន្ទុឆមាស»</b> ដោយស្វ័យប្រវត្តិ (Auto) ១០០%!</small>
   <div class="w"><table>
@@ -1043,10 +1090,10 @@ official(){
   return head('បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ') + `<div class="card">
   <div class="f">
     ${moSel()}
-    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងផ្លូវការ (A4)</button>
+    <button class="bt" onclick="smartPrint('officialSheetArea', 'ចំណាត់ថ្នាក់សិស្សប្រចាំខែ', false)">🖨️ បោះពុម្ពតារាងផ្លូវការ (A4)</button>
   </div>
 
-  <div class="official-sheet print-page">
+  <div class="official-sheet print-page" id="officialSheetArea">
     <div class="official-header">
       <div class="side-box">
         <div>${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
@@ -1223,10 +1270,10 @@ sc(){
     </tr>`;
   }).join('');
 
-  return head('តារាងពិន្ទុប្រចាំខែ') + `<div class="card">
+  return head('តារាងពិន្ទុប្រចាំខែ') + `<div class="card" id="monthlyScorePrintArea">
   <div class="f">
     ${moSel()}
-    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងពិន្ទុ</button>
+    <button class="bt" onclick="smartPrint('monthlyScorePrintArea', 'តារាងពិន្ទុប្រចាំខែ', true)">🖨️ បោះពុម្ពតារាងពិន្ទុ</button>
   </div>
   <div class="w"><table>
   <thead>
@@ -1277,13 +1324,13 @@ sem(){
     </tr>
   `).join('');
 
-  return head('សរុបពិន្ទុឆមាសទី ' + (sem+1)) + `<div class="card">
+  return head('សរុបពិន្ទុឆមាសទី ' + (sem+1)) + `<div class="card" id="semScorePrintArea">
   <div class="f">
     <select onchange="sem=+this.value;R()">
       <option value="0" ${sem===0?'selected':''}>ឆមាសទី ១</option>
       <option value="1" ${sem===1?'selected':''}>ឆមាសទី ២</option>
     </select>
-    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងឆមាស (A4 Landscape)</button>
+    <button class="bt" onclick="smartPrint('semScorePrintArea', 'សរុបពិន្ទុឆមាស', true)">🖨️ បោះពុម្ពតារាងឆមាស (A4 Landscape)</button>
   </div>
   <small class="mu" style="display:block;margin-bottom:10px">💡 លោកគ្រូ-អ្នកគ្រូ ប្រឡោះពណ៌លឿង <b>«ប្រឡងឆមាស»</b> ត្រូវបានទាញចូលដោយស្វ័យប្រវត្តិ (Auto-fill) ពីផ្ទាំង <b>«តារាងប្រឡងឆមាស»</b> ដោយមិនបាច់បំពេញដោយដៃឡើយ!</small>
   <div class="w"><table>
@@ -1343,10 +1390,10 @@ annual(){
 
   return head('សរុបលទ្ធផលប្រចាំឆ្នាំ') + `<div class="card">
   <div class="f">
-    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងលទ្ធផលប្រចាំឆ្នាំ (A4 Landscape)</button>
+    <button class="bt" onclick="smartPrint('annualPrintArea', 'សរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ', true)">🖨️ បោះពុម្ពតារាងលទ្ធផលប្រចាំឆ្នាំ (A4 Landscape)</button>
   </div>
 
-  <div class="official-sheet print-page">
+  <div class="official-sheet print-page" id="annualPrintArea">
     <div class="official-header">
       <div class="side-box">
         <div>${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
@@ -1418,7 +1465,7 @@ ab(){
     <td><input type="number" inputmode="numeric" min="0" value="${a[1] || ''}" onchange="setAb(${s.id},1,this.value)"></td>
     <td id="b${s.id}">${(+a[0] || 0) + (+a[1] || 0)}</td></tr>`;
   }).join('');
-  return head('តារាងអវត្តមាន') + `<div class="card"><div class="f">${moSel()}<button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងអវត្តមាន</button></div>
+  return head('តារាងអវត្តមាន') + `<div class="card" id="abPrintArea"><div class="f">${moSel()}<button class="bt" onclick="smartPrint('abPrintArea', 'តារាងអវត្តមាន', false)">🖨️ បោះពុម្ពតារាងអវត្តមាន</button></div>
   <div class="w"><table>
   <thead><tr><th>ល.រ</th><th class="sn">ឈ្មោះ</th><th>មានច្បាប់</th><th>គ្មានច្បាប់</th><th>សរុប</th></tr></thead>
   <tbody>${rows || '<tr><td colspan="5" class="em">មិនមានសិស្ស</td></tr>'}</tbody></table></div></div>`;
@@ -1443,8 +1490,8 @@ honor(){
     </tr>
   `).join('');
 
-  return head('តារាងកិត្តិយស (Top 5)') + `<div class="card">
-  <div class="f">${moSel()}<button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងកិត្តិយស</button></div>
+  return head('តារាងកិត្តិយស (Top 5)') + `<div class="card" id="honorPrintArea">
+  <div class="f">${moSel()}<button class="bt" onclick="smartPrint('honorPrintArea', 'តារាងកិត្តិយស', false)">🖨️ បោះពុម្ពតារាងកិត្តិយស</button></div>
   <div class="w"><table>
   <thead><tr><th>ចំណាត់ថ្នាក់</th><th>រូបថត</th><th class="sn">គោត្តនាម និងនាម</th><th>ភេទ</th><th>ពិន្ទុសរុប</th><th>មធ្យមភាគ</th><th>និទ្ទេស</th></tr></thead>
   <tbody>${rows || '<tr><td colspan="7" class="em">មិនទាន់មានទិន្នន័យពិន្ទុខែនេះ</td></tr>'}</tbody>
@@ -1475,8 +1522,8 @@ cert(){
   `).join('');
 
   return head('បណ្ណសរសើរស្វ័យប្រវត្តិ') + `<div class="card">
-  <div class="f">${moSel()}<button class="bt" onclick="window.print()">🖨️ បោះពុម្ពបណ្ណសរសើរទាំងអស់</button></div>
-  <div>${certsHtml || '<div class="em">មិនទាន់មានសិស្សមានពិន្ទុសម្រាប់ទទួលបណ្ណសរសើរទេ</div>'}</div>
+  <div class="f">${moSel()}<button class="bt" onclick="smartPrint('certPrintArea', 'បណ្ណសរសើរស្វ័យប្រវត្តិ', false)">🖨️ បោះពុម្ពបណ្ណសរសើរទាំងអស់</button></div>
+  <div id="certPrintArea">${certsHtml || '<div class="em">មិនទាន់មានសិស្សមានពិន្ទុសម្រាប់ទទួលបណ្ណសរសើរទេ</div>'}</div>
   </div>`;
 },
 
@@ -1496,8 +1543,8 @@ idcard(){
   `).join('');
 
   return head('កាតសម្គាល់ខ្លួនសិស្ស') + `<div class="card">
-  <div class="f"><button class="bt" onclick="window.print()">🖨️ បោះពុម្ពកាតសិស្សទាំងអស់</button></div>
-  <div class="card-grid">${cardsHtml || '<div class="em">មិនទាន់មានសិស្សក្នុងកម្រិតនេះ</div>'}</div>
+  <div class="f"><button class="bt" onclick="smartPrint('idCardPrintArea', 'កាតសម្គាល់ខ្លួនសិស្ស', false)">🖨️ បោះពុម្ពកាតសិស្សទាំងអស់</button></div>
+  <div class="card-grid" id="idCardPrintArea">${cardsHtml || '<div class="em">មិនទាន់មានសិស្សក្នុងកម្រិតនេះ</div>'}</div>
   </div>`;
 },
 
