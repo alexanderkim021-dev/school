@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-title" content="ថ្នាក់រៀន">
 <link rel="apple-touch-icon" href="IMG_2013.png">
 <link rel="icon" href="IMG_2013.png">
-<title>កម្មវិធីគ្រប់គ្រងទិន្នន័យថ្នាក់រៀន - GEIP 2027</title>
+<title>ប្រព័ន្ធគ្រប់គ្រងពិន្ទុ និងទិន្នន័យថ្នាក់រៀន (Cloud Sync)</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700&family=Moul&display=swap');
 
@@ -25,7 +25,6 @@ html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.7 var(--app-font);padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px);overflow-x:hidden}
 main{max-width:1050px;margin:0 auto;padding:16px 14px 60px;will-change:transform, opacity}
 
-/* Animation ប្តូរផ្ទាំង */
 .anim-fade { animation: appFade var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
 .anim-slide { animation: appSlide var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
 .anim-scale { animation: appScale var(--anim-speed) cubic-bezier(0.16, 1, 0.3, 1) forwards !important; }
@@ -35,7 +34,6 @@ main{max-width:1050px;margin:0 auto;padding:16px 14px 60px;will-change:transform
 @keyframes appSlide { from { opacity: 0; transform: translateX(35px); } to { opacity: 1; transform: translateX(0); } }
 @keyframes appScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
-/* Update Alert Bar */
 .update-banner{
   position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-100px);
   background:#0f172a;color:#fff;padding:10px 18px;border-radius:999px;
@@ -46,7 +44,6 @@ main{max-width:1050px;margin:0 auto;padding:16px 14px 60px;will-change:transform
 .update-banner.show{transform:translateX(-50%) translateY(0)}
 .btn-upd{background:var(--ac);color:#fff;border:0;padding:5px 14px;border-radius:999px;font:inherit;font-size:12.5px;cursor:pointer;font-weight:bold}
 
-/* របារ Highlight ឡូហ្គោក្រសួងនៅជ្រុងខាងឆ្វេងលើ */
 .moeys-header {
   display: flex;
   align-items: center;
@@ -131,7 +128,6 @@ h1, h2, h3, .muol-title {
   transition:transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
 }
 
-/* Touch Feedback */
 .touch-3d:active { transform: translateY(4px) !important; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; }
 .touch-scale:active { transform: scale(0.92) !important; box-shadow: 0 3px 8px rgba(0,0,0,0.2) !important; }
 .touch-glow:active { transform: scale(0.97) !important; box-shadow: 0 0 20px var(--ac) !important; filter: brightness(1.2) !important; }
@@ -172,6 +168,9 @@ td input.t{width:120px;text-align:start}
 .auth label{display:block;margin-bottom:12px;font-weight:600;font-size:13px;color:var(--mu)}
 .auth input{display:block;width:100%;margin-top:4px}
 .auth h2{text-align:center;color:var(--ac);font-size:22px;margin:0 0 16px}
+.pw-wrap{position:relative;display:flex;align-items:center}
+.pw-wrap input{padding-right:42px}
+.pw-toggle{position:absolute;right:8px;background:none;border:none;cursor:pointer;font-size:16px;color:var(--mu);min-height:36px;min-width:36px}
 .msg{font-weight:600;min-height:1.4em;margin-bottom:10px;color:var(--bad);text-align:center;font-size:14px}
 .msg.ok{color:var(--ok)}
 .small{font-size:13px}
@@ -184,6 +183,7 @@ td input.t{width:120px;text-align:start}
 .cp-box input[type="color"]{min-height:40px;width:54px;padding:2px;cursor:pointer;border-radius:8px}
 
 @media print{
+  @page { size: A4 landscape; margin: 8mm; }
   body{background:#fff;padding:0}
   .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header{display:none !important}
   main{max-width:100%;padding:0}
@@ -219,27 +219,48 @@ td input.t{width:120px;text-align:start}
 <input type="file" id="fimp" accept=".json,application/json" style="display:none" onchange="importFile(this.files[0]);this.value=''">
 
 <script>
+// Supabase Configuration
+const SUPABASE_URL = 'https://sobhopuuvwctrdhlgttw.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvYmhvcHV1dndjdHJkaGxndHR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwMDU2ODMsImV4cCI6MjEwOTU4MTY4M30.mKQx4lLq-AufDQiLYocmMVnnwVFGfI_-xklNoGkW_wA';
+
+async function sbFetch(path, opts = {}){
+  const headers = {
+    'apikey': SUPABASE_ANON,
+    'Authorization': 'Bearer ' + SUPABASE_ANON,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation',
+    ...(opts.headers || {})
+  };
+  return fetch(SUPABASE_URL + '/rest/v1' + path, { ...opts, headers });
+}
+
+async function sbPullUser(u){
+  try {
+    const res = await sbFetch(`/users?username=eq.${encodeURIComponent(u)}&select=*`);
+    if (!res.ok) return null;
+    const list = await res.json();
+    return list && list.length ? list[0] : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+async function sbPushUser(record){
+  try {
+    const res = await sbFetch('/users', {
+      method: 'POST',
+      headers: { 'Prefer': 'resolution=merge-duplicates' },
+      body: JSON.stringify(record)
+    });
+    return res.ok;
+  } catch (e) {
+    return false;
+  }
+}
+
 let newWorker = null;
 if ('serviceWorker' in navigator) {
-  const SW_VERSION = 'v24.0';
-  const swCode = `
-    const C = 'school-offline-' + '${SW_VERSION}';
-    self.addEventListener('install', e => {
-      e.waitUntil(caches.open(C).then(c => c.addAll([location.href])));
-    });
-    self.addEventListener('activate', e => {
-      e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k => k !== C).map(k => caches.delete(k)))));
-      self.clients.claim();
-    });
-    self.addEventListener('fetch', e => {
-      e.respondWith(caches.match(e.request).then(res => res || fetch(e.request).catch(() => caches.match(location.href))));
-    });
-    self.addEventListener('message', e => {
-      if (e.data === 'skipWaiting') self.skipWaiting();
-    });
-  `;
-  const blob = new Blob([swCode], {type: 'application/javascript'});
-  navigator.serviceWorker.register(URL.createObjectURL(blob)).then(reg => {
+  navigator.serviceWorker.register('./sw.js').then(reg => {
     reg.addEventListener('updatefound', () => {
       newWorker = reg.installing;
       newWorker.addEventListener('statechange', () => {
@@ -301,7 +322,6 @@ function smartKhmerDate(val){
   return s;
 }
 
-// ១. មុខវិជ្ជាបឋមសិក្សា (GEIP 2027)
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
@@ -310,7 +330,6 @@ const SUBJ_PRIMARY = [
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
-// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (១០ មុខវិជ្ជា - មេគុណ ១៦)
 const SUBJ_SECONDARY = [
   {n:'អក្សរសាស្ត្រខ្មែរ', s:[['ខ្មែរ', 100]]},
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
@@ -324,7 +343,6 @@ const SUBJ_SECONDARY = [
   {n:'ភាសាបរទេស', s:[['ភាសា', 50]]}
 ];
 
-// ៣. មុខវិជ្ជាវិទ្យាល័យ - ថ្នាក់វិទ្យាសាស្ត្រពិត (Science Stream - តួចែក ១៣)[cite: 14]
 const SUBJ_HIGH_SCIENCE = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
   {n:'រូបវិទ្យា', s:[['រូប', 75]]},
@@ -339,7 +357,6 @@ const SUBJ_HIGH_SCIENCE = [
   {n:'អប់រំកាយ', s:[['កីឡា', 25]]}
 ];
 
-// ៤. មុខវិជ្ជាវិទ្យាល័យ - ថ្នាក់វិទ្យាសាស្ត្រសង្គម (Social Science Stream - តួចែក ១២.៥)[cite: 14]
 const SUBJ_HIGH_SOCIAL = [
   {n:'អក្សរសាស្ត្រខ្មែរ', s:[['ខ្មែរ', 100]]},
   {n:'ប្រវត្តិវិទ្យា', s:[['ប្រវត្តិ', 75]]},
@@ -363,6 +380,20 @@ function getCols(lvl, stream){
   return SUBJ_PRIMARY.flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
 }
 
+function getDiv(lvl, stream){
+  const S = getS();
+  if (S && S.info && +S.info.div > 0) return +S.info.div;
+  if (lvl === 'high') return stream === 'social' ? 12.5 : 13;
+  if (lvl === 'secondary') return 16;
+  return 8.5;
+}
+
+function getMaxAv(lvl, stream){
+  const cols = getCols(lvl, stream);
+  const maxTotal = sum(cols.map(c => c.m));
+  return maxTotal / getDiv(lvl, stream);
+}
+
 const sum = a => a.reduce((x,y) => x + (+y || 0), 0);
 const USER_RE = /^[a-z0-9_.-]{3,30}$/;
 
@@ -370,7 +401,7 @@ const ACCKEY = 'sms_accounts_v7';
 const THEME_KEY = 'sms_theme_settings_v4';
 const ORDER_KEY = 'sms_btn_order_v6';
 
-const DEFAULT_BTNS = ['info','stu','sc','official','sem0','sem1','annual','ab','honor','cert','idcard','bk','theme','clean'];
+const DEFAULT_BTNS = ['info','stu','sc','examScore','official','sem0','sem1','annual','ab','honor','cert','idcard','bk','theme','clean'];
 
 function getBtnOrder(){
   try {
@@ -445,13 +476,42 @@ function saveAccounts(){ localStorage.setItem(ACCKEY, JSON.stringify(accounts));
 async function createAccount(u, pw, fullname){
   const salt = crypto.getRandomValues(new Uint8Array(16));
   const key = await deriveKey(pw, salt);
-  accounts[u] = {fullname, salt: b64(salt), check: await seal(key, 'ok'), data: null, created: Date.now(), backupAt: 0};
+  const chk = await seal(key, 'ok');
+  accounts[u] = {fullname, salt: b64(salt), check: chk, data: null, created: Date.now(), backupAt: 0};
   saveAccounts();
+
+  // Cloud Sync: push account to Supabase
+  sbPushUser({
+    username: u,
+    fullname: fullname,
+    salt: b64(salt),
+    check: chk,
+    data: null,
+    updated_at: new Date().toISOString()
+  }).catch(()=>{});
+
   return key;
 }
 
 async function unlock(u, pw){
-  const acc = accounts[u];
+  let acc = accounts[u];
+  if (!acc) {
+    // Cloud Sync: search Supabase if not found locally
+    setStatus('កំពុងពិនិត្យលើ Cloud...');
+    const remote = await sbPullUser(u);
+    if (remote) {
+      accounts[u] = {
+        fullname: remote.fullname,
+        salt: remote.salt,
+        check: remote.check,
+        data: remote.data,
+        created: Date.now(),
+        backupAt: Date.now()
+      };
+      saveAccounts();
+      acc = accounts[u];
+    }
+  }
   if (!acc) throw new Error('no-account');
   const key = await deriveKey(pw, unb64(acc.salt));
   let ok = false;
@@ -466,15 +526,15 @@ let currentLevel = 'high';
 let allYearsData = {};
 
 function emptyLevelData(lbl, yr){
-  let defDiv = 10;
+  let defDiv = 8.5;
   let defCls = 'ថ្នាក់ទី ៦';
   if (lbl === 'អនុវិទ្យាល័យ') { defDiv = 16; defCls = '៨A'; }
   if (lbl === 'វិទ្យាល័យ') { defDiv = 13; defCls = '១១A'; }
   return {
-    v: 10, n: 1,
+    v: 15, n: 1,
     info: {province:'', school:'', teacher:'', cls: defCls, year: yr || currentYear, div: defDiv, stream:'science', logo: null, moeysLogo: null},
     st: [], sc: {}, ab: {}, rm: {},
-    semExams: {0:{}, 1:{}}
+    semExamScores: {0:{}, 1:{}}
   };
 }
 
@@ -486,7 +546,7 @@ function normalizeLevel(d, lbl, yr){
     ...e, ...d,
     info: {...e.info, ...(d.info || {})},
     st, sc: d.sc || {}, ab: d.ab || {}, rm: d.rm || {},
-    semExams: d.semExams || {0:{}, 1:{}},
+    semExamScores: d.semExamScores || {0:{}, 1:{}},
     n: Math.max(d.n || 1, ...st.map(s => (+s.id || 0) + 1), 1)
   };
 }
@@ -532,7 +592,8 @@ function getS(){
 let saveChain = Promise.resolve();
 let pg = Object.keys(accounts).length ? 'login' : 'create';
 let mo = 7;
-let sem = 1;
+let sem = 0;
+let examSem = 0;
 let idleT = null;
 
 function setStatus(text, err){
@@ -546,9 +607,22 @@ function save(){
   setStatus('កំពុងរក្សាទុក...');
   saveChain = saveChain.then(async () => {
     try {
-      accounts[u].data = await seal(key, snapshot);
+      const sealedData = await seal(key, snapshot);
+      accounts[u].data = JSON.stringify(sealedData);
       saveAccounts();
-      setStatus('បានរក្សាទុក ✓');
+      setStatus('បានរក្សាទុក (Local) ✓');
+
+      // Cloud Sync: push data to Supabase in background
+      sbPushUser({
+        username: u,
+        fullname: accounts[u].fullname,
+        salt: accounts[u].salt,
+        check: accounts[u].check,
+        data: accounts[u].data,
+        updated_at: new Date().toISOString()
+      }).then(ok => {
+        if (ok) setStatus('ពពក (Cloud Sync) ជោគជ័យ ☁️✓');
+      }).catch(()=>{});
     } catch (e) {
       setStatus('រក្សាទុកមិនបាន: ' + e.message, true);
     }
@@ -558,14 +632,36 @@ function save(){
 async function openSession(u, key){
   const acc = accounts[u];
   let parsed = null;
-  try { parsed = acc.data ? JSON.parse(await open(key, acc.data)) : null; }
-  catch (e) { alert('មិនអាចបើកទិន្នន័យបាន'); return; }
+  try {
+    if (acc.data) {
+      const dataBox = typeof acc.data === 'string' ? JSON.parse(acc.data) : acc.data;
+      parsed = JSON.parse(await open(key, dataBox));
+    }
+  } catch (e) {
+    alert('មិនអាចបើកទិន្នន័យបាន');
+    return;
+  }
   allYearsData = normalizeAllYears(parsed);
   currentYear = Object.keys(allYearsData)[0] || '២០២៥ - ២០២៦';
   SESSION = {username: u, key, fullname: acc.fullname};
   pg = 'home';
   R();
   resetIdle();
+
+  // Background check for newer cloud version
+  sbPullUser(u).then(async remote => {
+    if (remote && remote.data && remote.data !== acc.data) {
+      try {
+        const remoteBox = typeof remote.data === 'string' ? JSON.parse(remote.data) : remote.data;
+        const remoteParsed = JSON.parse(await open(key, remoteBox));
+        allYearsData = normalizeAllYears(remoteParsed);
+        accounts[u].data = remote.data;
+        saveAccounts();
+        R();
+        setStatus('ទាញយកទិន្នន័យថ្មីពី Cloud ជោគជ័យ ☁️✓');
+      } catch (err){}
+    }
+  }).catch(()=>{});
 }
 
 async function logout(){
@@ -594,7 +690,7 @@ async function doLogin(){
   const u = ($('#lu').value || '').trim().toLowerCase();
   const p = $('#lp').value;
   if (!u || !p) return amsg('សូមបញ្ចូលឈ្មោះគណនី និងពាក្យសម្ងាត់', true);
-  amsg('កំពុងផ្ទៀងផ្ទាត់...', false);
+  amsg('កំពុងផ្ទៀងផ្ទាត់ (Cloud/Local)...', false);
   try {
     const key = await unlock(u, p);
     await openSession(u, key);
@@ -625,26 +721,45 @@ async function doCreate(){
   resetIdle();
 }
 
-// ---------- Calculations GEIP 2027 ----------
+function togglePw(id, btn){
+  const input = $('#' + id);
+  if (!input) return;
+  const isPw = input.type === 'password';
+  input.type = isPw ? 'text' : 'password';
+  btn.textContent = isPw ? '🙈' : '👁️';
+}
+
 const tot = (id, m) => sum(((getS().sc[m] || {})[id]) || []);
 const av = (id, m) => {
   const t = tot(id, m);
-  const div = getS().info.div || (currentLevel==='high'?(getS().info.stream==='social'?12.5:13):16);
+  const div = getDiv(currentLevel, getS().info.stream);
+  return t ? t / div : 0;
+};
+
+const totSemExam = (id, sIdx) => sum(((getS().semExamScores[sIdx] || {})[id]) || []);
+const avSemExam = (id, sIdx) => {
+  const t = totSemExam(id, sIdx);
+  const div = getDiv(currentLevel, getS().info.stream);
   return t ? t / div : 0;
 };
 
 function getGradeLetter(a, t){
-  if (!t) return '-';
-  if (a >= 45) return 'A';
-  if (a >= 40) return 'B';
-  if (a >= 35) return 'C';
-  if (a >= 30) return 'D';
-  if (a >= 25) return 'E';
+  if (!t || a <= 0) return '-';
+  const max = getMaxAv(currentLevel, getS().info.stream);
+  const pct = (a / max) * 100;
+  if (pct >= 90) return 'A';
+  if (pct >= 80) return 'B';
+  if (pct >= 70) return 'C';
+  if (pct >= 60) return 'D';
+  if (pct >= 50) return 'E';
   return 'F';
 }
+
 function getPassStatus(a, t){
-  if (!t) return 'គ្មាន';
-  return a >= 25 ? 'ជាប់' : 'ធ្លាក់';
+  if (!t || a <= 0) return 'គ្មាន';
+  const max = getMaxAv(currentLevel, getS().info.stream);
+  const pct = (a / max) * 100;
+  return pct >= 50 ? 'ជាប់' : 'ធ្លាក់';
 }
 
 const semMonths = sIdx => sIdx ? [6,7,8,9,10,11] : [0,1,2,3,4,5];
@@ -657,9 +772,9 @@ const semMonthlyAv = (id, sIdx) => {
 
 const semFinalAv = (id, sIdx) => {
   const mAv = semMonthlyAv(id, sIdx);
-  const exam = (getS().semExams[sIdx] || {})[id];
-  if (exam !== undefined && exam !== null && exam !== '') {
-    return (mAv + (+exam || 0)) / 2;
+  const examAv = avSemExam(id, sIdx);
+  if (examAv > 0) {
+    return (mAv + examAv) / 2;
   }
   return mAv;
 };
@@ -674,8 +789,10 @@ const annualAv = id => {
 
 function getAnnualDecision(a){
   if (a <= 0) return '-';
-  if (a >= 25) return 'ឡើងថ្នាក់';
-  if (a >= 22) return 'ប្រឡងសង';
+  const max = getMaxAv(currentLevel, getS().info.stream);
+  const pct = (a / max) * 100;
+  if (pct >= 50) return 'ឡើងថ្នាក់';
+  if (pct >= 45) return 'ប្រឡងសង';
   return 'ត្រួតថ្នាក់';
 }
 
@@ -688,6 +805,8 @@ const go = p => { pg = p; R(); scrollTo(0,0); };
 function switchLevel(lvl){
   if (currentLevel === lvl) return;
   currentLevel = lvl;
+  getS().info.div = getDiv(currentLevel, getS().info.stream);
+  save();
   R();
 }
 
@@ -724,8 +843,13 @@ login(){
   <div id="amsg" class="msg"></div>
   <label>ឈ្មោះគណនី<input id="lu" autocomplete="username" autocapitalize="off" list="ul"></label>
   <datalist id="ul">${Object.keys(accounts).map(n => `<option value="${E(n)}">`).join('')}</datalist>
-  <label>ពាក្យសម្ងាត់<input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()"></label>
-  <button class="pb bl wide ${getTheme().touch}" onclick="doLogin()">ចូលប្រព័ន្ធ</button>
+  <label>ពាក្យសម្ងាត់
+    <div class="pw-wrap">
+      <input id="lp" type="password" autocomplete="current-password" onkeydown="if(event.key==='Enter')doLogin()">
+      <button type="button" class="pw-toggle" onclick="togglePw('lp', this)">👁️</button>
+    </div>
+  </label>
+  <button class="pb bl wide ${getTheme().touch}" onclick="doLogin()">ចូលប្រព័ន្ធ (Sync Cloud ☁️)</button>
   <div class="f"><button class="bt g" onclick="showCreate()">បង្កើតគណនីថ្មី</button><button class="bt g" onclick="$('#fimp').click()">📥 នាំចូល Backup</button></div>
   </div></div>`;
 },
@@ -737,9 +861,19 @@ create(){
   <div id="amsg" class="msg"></div>
   <label>ឈ្មោះគ្រូ<input id="cn" lang="km" inputmode="text" autocomplete="name"></label>
   <label>ឈ្មោះគណនី<input id="cu" autocomplete="off" autocapitalize="off"></label>
-  <label>ពាក្យសម្ងាត់ (យ៉ាងតិច ៦ តួ)<input id="cp" type="password"></label>
-  <label>បញ្ជាក់ពាក្យសម្ងាត់<input id="cp2" type="password"></label>
-  <button class="pb gr wide ${getTheme().touch}" onclick="doCreate()">បង្កើត</button>
+  <label>ពាក្យសម្ងាត់ (យ៉ាងតិច ៦ តួ)
+    <div class="pw-wrap">
+      <input id="cp" type="password">
+      <button type="button" class="pw-toggle" onclick="togglePw('cp', this)">👁️</button>
+    </div>
+  </label>
+  <label>បញ្ជាក់ពាក្យសម្ងាត់
+    <div class="pw-wrap">
+      <input id="cp2" type="password" onkeydown="if(event.key==='Enter')doCreate()">
+      <button type="button" class="pw-toggle" onclick="togglePw('cp2', this)">👁️</button>
+    </div>
+  </label>
+  <button class="pb gr wide ${getTheme().touch}" onclick="doCreate()">បង្កើត (រក្សាទុកលើ Cloud ☁️)</button>
   <div class="f" style="margin-top:10px">
     ${first ? '' : '<button class="bt g" onclick="showLogin()">ត្រឡប់</button>'}
     <button class="bt g" style="flex:1" onclick="$('#fimp').click()">📥 នាំចូល Backup ចាស់</button>
@@ -761,10 +895,11 @@ home(){
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
     stu: {cls:'bl', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
     sc: {cls:'gd', txt:'📊 តារាងពិន្ទុប្រចាំខែ', act:"go('sc')"},
+    examScore: {cls:'tl', txt:'📝 តារាងប្រឡងឆមាស', act:"go('examScore')"},
     official: {cls:'in', txt:'🖨️ បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ', act:"go('official')"},
-    sem0: {cls:'gd', txt:'🥇 សរុបពិន្ទុឆមាសទី ១', act:"sem=0;go('sem')"},
-    sem1: {cls:'gd', txt:'🥈 សរុបពិន្ទុឆមាសទី ២', act:"sem=1;go('sem')"},
-    annual: {cls:'ro', txt:'🏆 សរុបលទ្ធផលប្រចាំឆ្នាំ (GEIP)', act:"go('annual')"},
+    sem0: {cls:'gd', txt:'🥇 សរុបពិន្ទុឆមាសទី ១ (Auto)', act:"sem=0;go('sem')"},
+    sem1: {cls:'gd', txt:'🥈 សរុបពិន្ទុឆមាសទី ២ (Auto)', act:"sem=1;go('sem')"},
+    annual: {cls:'ro', txt:'🏆 សរុបលទ្ធផលប្រចាំឆ្នាំ', act:"go('annual')"},
     ab: {cls:'bk', txt:'📅 តារាងអវត្តមាន', act:"go('ab')"},
     honor: {cls:'pu', txt:'🏅 តារាងកិត្តិយស', act:"go('honor')"},
     cert: {cls:'tl', txt:'📜 បណ្ណសរសើរស្វ័យប្រវត្តិ', act:"go('cert')"},
@@ -781,7 +916,6 @@ home(){
   }).join('');
 
   return `<div class="home">
-  <!-- បន្ទះ Highlight ជ្រុងខាងឆ្វេងលើ -->
   <div class="moeys-header">
     <div class="moeys-brand">
       <img class="moeys-logo" src="${moeysLogoImg}" alt="MoEYS" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
@@ -796,7 +930,7 @@ home(){
   </div>
 
   ${logo(88)}
-  <h1>កម្មវិធីគ្រប់គ្រងទិន្នន័យថ្នាក់រៀន</h1>
+  <h1>ប្រព័ន្ធគ្រប់គ្រងទិន្នន័យថ្នាក់រៀន</h1>
   <p>${E(SESSION.fullname || 'គ្រូបន្ទុកថ្នាក់')} · ${E(i.school || 'សាលារៀន')} · ${E(i.cls || levelNames[currentLevel])}</p>
 
   <div class="year-bar">
@@ -822,6 +956,49 @@ home(){
 
   <div class="mu small" style="margin-bottom:10px">💡 អ្នកអាចចុចអូស (Drag & Drop) ប៊ូតុងដើម្បីរៀបចំទីតាំងតាមចិត្តបាន</div>
   <div class="hg" id="btnGrid">${btnsHtml}</div></div>`;
+},
+
+examScore(){
+  const S = getS();
+  const cols = getCols(currentLevel, S.info.stream);
+  const rows = S.st.map((s,k) => {
+    const a = (S.semExamScores[examSem] || {})[s.id] || [];
+    const t = totSemExam(s.id, examSem);
+    const avVal = avSemExam(s.id, examSem);
+    return `<tr>
+      <td style="width:45px">${k+1}</td>
+      <td class="sn" style="min-width:130px"><b>${E(s.name)}</b></td>
+      <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
+      ${cols.map((c,i) => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[i] ?? ''}" onchange="setExamSc(${s.id},${i},this)"></td>`).join('')}
+      <td id="ext${s.id}" style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
+      <td id="exa${s.id}" style="background:#fef3c7;font-weight:bold;color:#b45309">${avVal ? avVal.toFixed(2) : '-'}</td>
+    </tr>`;
+  }).join('');
+
+  return head('តារាងប្រឡងឆមាស') + `<div class="card">
+  <div class="f">
+    <select onchange="examSem=+this.value;R()">
+      <option value="0" ${examSem===0?'selected':''}>📝 ប្រឡងឆមាសទី ១</option>
+      <option value="1" ${examSem===1?'selected':''}>📝 ប្រឡងឆមាសទី ២</option>
+    </select>
+    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងពិន្ទុប្រឡង</button>
+  </div>
+  <small class="mu" style="display:block;margin-bottom:10px">💡 លោកគ្រូ-អ្នកគ្រូ គ្រាន់តែបញ្ចូលពិន្ទុតាមមុខវិជ្ជានីមួយៗដែលសិស្សប្រឡងបាន នោះប្រព័ន្ធនឹងគណនាមធ្យមភាគប្រឡងឆមាស រួចបញ្ជូនទៅផ្ទាំង <b>«សរុបពិន្ទុឆមាស»</b> ដោយស្វ័យប្រវត្តិ (Auto) ១០០%!</small>
+  <div class="w"><table>
+  <thead>
+    <tr>
+      <th style="width:45px">ល.រ</th>
+      <th class="sn" style="min-width:130px">គោត្តនាម និងនាម</th>
+      <th style="width:45px">ភេទ</th>
+      ${cols.map(c => `<th>${c.sn || c.n}<br><small class="mu">(${c.m})</small></th>`).join('')}
+      <th style="width:75px">សរុបប្រឡង</th>
+      <th style="width:85px;background:#fef3c7">មធ្យមប្រឡង</th>
+    </tr>
+  </thead>
+  <tbody>
+    ${rows || '<tr><td colspan="30" class="em">មិនទាន់មានសិស្ស</td></tr>'}
+  </tbody>
+  </table></div></div>`;
 },
 
 official(){
@@ -1074,22 +1251,31 @@ sc(){
 sem(){
   const S = getS();
   const ms = semMonths(sem);
-  const rows = S.st.map((s,k) => {
+  
+  const list = S.st.map(s => {
     const mAv = semMonthlyAv(s.id, sem);
-    const examVal = (S.semExams[sem] || {})[s.id] ?? '';
+    const examAv = avSemExam(s.id, sem);
     const fAv = semFinalAv(s.id, sem);
-    return `<tr>
+    const pass = getPassStatus(fAv, fAv > 0 ? 1 : 0);
+    const grade = getGradeLetter(fAv, fAv > 0 ? 1 : 0);
+    return { ...s, mAv, examAv, fAv, pass, grade };
+  }).sort((a,b) => b.fAv - a.fAv);
+
+  list.forEach((s, idx) => { s.rank = s.fAv > 0 ? (idx + 1) : '-'; });
+
+  const rows = list.map((s,k) => `
+    <tr id="sem-row-${s.id}">
       <td>${k+1}</td>
-      <td class="sn"><b>${E(s.name)}</b></td>
+      <td class="sn" style="text-align:start;padding-left:8px"><b>${E(s.name)}</b></td>
       <td>${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
       ${ms.map(m => `<td>${tot(s.id,m) > 0 ? av(s.id,m).toFixed(2) : '-'}</td>`).join('')}
-      <td><b>${mAv > 0 ? mAv.toFixed(2) : '-'}</b></td>
-      <td style="background:#fef3c7"><input type="number" step="0.25" placeholder="ពិន្ទុប្រឡង" value="${examVal}" onchange="setSemExam(${sem}, ${s.id}, this.value)" style="width:75px"></td>
-      <td style="background:#ecfdf5;font-weight:bold;color:#047857">${fAv > 0 ? fAv.toFixed(2) : '-'}</td>
-      <td>${rank(id => semFinalAv(id, sem), s.id)}</td>
-      <td class="${fAv > 0 && fAv < 25 ? 'bad' : ''}">${getPassStatus(fAv, fAv > 0 ? 1 : 0)}</td>
-    </tr>`;
-  }).join('');
+      <td><b>${s.mAv > 0 ? s.mAv.toFixed(2) : '-'}</b></td>
+      <td style="background:#fef3c7;font-weight:bold;color:#b45309">${s.examAv > 0 ? s.examAv.toFixed(2) : '-'}</td>
+      <td style="background:#ecfdf5;font-weight:bold;color:#047857">${s.fAv > 0 ? s.fAv.toFixed(2) : '-'}</td>
+      <td><b>${s.rank}</b></td>
+      <td class="${s.fAv > 0 && s.pass === 'ធ្លាក់' ? 'bad' : ''}">${s.pass}</td>
+    </tr>
+  `).join('');
 
   return head('សរុបពិន្ទុឆមាសទី ' + (sem+1)) + `<div class="card">
   <div class="f">
@@ -1097,9 +1283,9 @@ sem(){
       <option value="0" ${sem===0?'selected':''}>ឆមាសទី ១</option>
       <option value="1" ${sem===1?'selected':''}>ឆមាសទី ២</option>
     </select>
-    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងឆមាស</button>
+    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងឆមាស (A4 Landscape)</button>
   </div>
-  <small class="mu" style="display:block;margin-bottom:10px">💡 លោកគ្រូអាចបញ្ចូល <b>«ពិន្ទុប្រឡងឆមាស»</b> ក្នុងប្រអប់ពណ៌លឿង ប្រព័ន្ធនឹងគណនាមធ្យមភាគឆមាសរួម [(មធ្យមខែ + ប្រឡង)/2] ដោយស្វ័យប្រវត្តិតាមស្តង់ដារជាតិ[cite: 14]។</small>
+  <small class="mu" style="display:block;margin-bottom:10px">💡 លោកគ្រូ-អ្នកគ្រូ ប្រឡោះពណ៌លឿង <b>«ប្រឡងឆមាស»</b> ត្រូវបានទាញចូលដោយស្វ័យប្រវត្តិ (Auto-fill) ពីផ្ទាំង <b>«តារាងប្រឡងឆមាស»</b> ដោយមិនបាច់បំពេញដោយដៃឡើយ!</small>
   <div class="w"><table>
   <thead>
     <tr>
@@ -1108,7 +1294,7 @@ sem(){
       <th>ភេទ</th>
       ${ms.map(m => `<th>ខែ${MO[m]}</th>`).join('')}
       <th>មធ្យមខែ</th>
-      <th style="background:#fef3c7">ប្រឡងឆមាស</th>
+      <th style="background:#fef3c7">ប្រឡងឆមាស (Auto)</th>
       <th style="background:#d1fae5">មធ្យមឆមាសរួម</th>
       <th>ចំណាត់ថ្នាក់</th>
       <th>លទ្ធផល</th>
@@ -1126,8 +1312,7 @@ annual(){
     const s2 = semFinalAv(s.id, 1);
     const ann = annualAv(s.id);
     return {
-      ...s,
-      s1, s2, ann,
+      ...s, s1, s2, ann,
       grade: getGradeLetter(ann, ann > 0 ? 1 : 0),
       dec: getAnnualDecision(ann)
     };
@@ -1156,9 +1341,9 @@ annual(){
     </tr>
   `).join('');
 
-  return head('សរុបលទ្ធផលប្រចាំឆ្នាំ (GEIP)') + `<div class="card">
+  return head('សរុបលទ្ធផលប្រចាំឆ្នាំ') + `<div class="card">
   <div class="f">
-    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងលទ្ធផលប្រចាំឆ្នាំ (A4)</button>
+    <button class="bt" onclick="window.print()">🖨️ បោះពុម្ពតារាងលទ្ធផលប្រចាំឆ្នាំ (A4 Landscape)</button>
   </div>
 
   <div class="official-sheet print-page">
@@ -1177,7 +1362,7 @@ annual(){
     <div class="official-title">
       <h2 class="muol-title">តារាងបូកសរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ</h2>
       <div style="font-weight:bold;font-size:15px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
-      <div class="mu small">រូបមន្តគណនាមធ្យមភាគប្រចាំឆ្នាំ GEIP៖ (ឆមាសទី ១ + ឆមាសទី ២ × ២) ÷ ៣[cite: 14]</div>
+      <div class="small mu">រូបមន្តគណនាមធ្យមភាគប្រចាំឆ្នាំ៖ (ឆមាសទី ១ + ឆមាសទី ២ × ២) ÷ ៣</div>
     </div>
 
     <table class="official-table">
@@ -1496,7 +1681,7 @@ function upd(){
     set('t', t.toFixed(0));
     set('a', a.toFixed(2));
     set('r', rank(i => tot(i, mo), s.id));
-    set('s', r, t && a < 25 ? 'bad' : '');
+    set('s', r, t && getPassStatus(a, 1) === 'ធ្លាក់' ? 'bad' : '');
   });
 }
 
@@ -1529,32 +1714,24 @@ function pick(cb){
   f.click();
 }
 
-function setInfo(key, v, num){ getS().info[key] = num ? (+v > 0 ? +v : 13) : v; save(); }
+function setInfo(key, v, num){
+  getS().info[key] = num ? (+v > 0 ? +v : getDiv(currentLevel, getS().info.stream)) : v;
+  save();
+}
 
 function setDobDirect(id, val){
   const s = getS().st.find(x => x.id === id);
-  if(s){
-    s.dob = smartKhmerDate(val);
-    save();
-    R();
-  }
+  if(s){ s.dob = smartKhmerDate(val); save(); }
 }
 
 function setStuProp(id, prop, val){
   const s = getS().st.find(x => x.id === id);
-  if(s){
-    s[prop] = val.trim();
-    save();
-  }
+  if(s){ s[prop] = val.trim(); save(); }
 }
 
 function setSex(id, v){
   const s = getS().st.find(x => x.id === id);
-  if(s){
-    s.sex = v;
-    save();
-    R();
-  }
+  if(s){ s.sex = v; save(); }
 }
 
 function setSc(id, i, el){
@@ -1568,12 +1745,23 @@ function setSc(id, i, el){
   save(); upd();
 }
 
-function setSemExam(sIdx, id, v){
-  if (!getS().semExams) getS().semExams = {0:{}, 1:{}};
-  if (!getS().semExams[sIdx]) getS().semExams[sIdx] = {};
-  getS().semExams[sIdx][id] = v === '' ? null : (+v || 0);
+function setExamSc(id, i, el){
+  const cols = getCols(currentLevel, getS().info.stream);
+  const m = cols[i].m;
+  const v = el.value === '' ? null : Math.max(0, Math.min(m, +el.value));
+  el.value = v === null ? '' : v;
+  if (!getS().semExamScores) getS().semExamScores = {0:{}, 1:{}};
+  const o = (getS().semExamScores[examSem] = getS().semExamScores[examSem] || {});
+  const a = (o[id] = o[id] || cols.map(() => null));
+  a[i] = v;
   save();
-  R();
+
+  const t = totSemExam(id, examSem);
+  const avVal = avSemExam(id, examSem);
+  const tEl = $('#ext' + id);
+  const aEl = $('#exa' + id);
+  if (tEl) tEl.textContent = t ? t.toFixed(0) : '-';
+  if (aEl) aEl.textContent = avVal ? avVal.toFixed(2) : '-';
 }
 
 function setRm(id, v){ (getS().rm[mo] = getS().rm[mo] || {})[id] = v; save(); }
@@ -1598,14 +1786,8 @@ function addS(){
   const dobText = smartKhmerDate(rawDob);
 
   getS().st.push({
-    id: getS().n++,
-    name: n,
-    sex: $('#ns').value,
-    dob: dobText,
-    fa: fa,
-    mo: mo,
-    phn: phn,
-    addr: addr
+    id: getS().n++, name: n, sex: $('#ns').value,
+    dob: dobText, fa, mo, phn, addr
   });
   save(); R();
 }
@@ -1629,11 +1811,10 @@ function backupFileName(){
   return `backup-គ្រប់គ្រងសាលា-${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}.json`;
 }
 async function makePkgBlob(){
-  save();
-  await saveChain;
+  save(); await saveChain;
   const acc = accounts[SESSION.username];
   return new Blob([JSON.stringify({
-    app: 'school-offline', version: 10,
+    app: 'school-offline', version: 15,
     username: SESSION.username, fullname: acc.fullname,
     salt: acc.salt, check: acc.check, data: acc.data, created: acc.created
   })], {type: 'application/json'});
@@ -1654,14 +1835,20 @@ async function shareBackup(){
   } else { downloadBlob(blob, backupFileName()); }
   R();
 }
+
 function importFile(file){
   if (!file) return;
   const r = new FileReader();
   r.onload = () => {
     let p;
-    try { p = JSON.parse(r.result); } catch (e) { return alert('ឯកសារមិនត្រឹមត្រូវ'); }
-    if (!p || p.app !== 'school-offline') return alert('ឯកសារមិនមែនជា Backup');
+    try { p = JSON.parse(r.result); } catch (e) { return alert('ឯកសារខូច ឬមិនត្រឹមត្រូវជា JSON ឡើយ'); }
+    if (!p || p.app !== 'school-offline' || !p.username || !p.salt || !p.check) {
+      return alert('ឯកសារនេះមិនមែនជា Backup របស់ប្រព័ន្ធគ្រប់គ្រងសាលាឡើយ!');
+    }
     const u = String(p.username).toLowerCase();
+    if (accounts[u] && !confirm(`គណនី "${u}" មានរួចហើយនៅក្នុងប្រព័ន្ធ។ តើអ្នកពិតជាចង់ជំនួសទិន្នន័យចាស់ដោយ Backup នេះមែនទេ?`)) {
+      return;
+    }
     accounts[u] = {fullname: p.fullname, salt: p.salt, check: p.check, data: p.data, created: p.created || Date.now(), backupAt: Date.now()};
     saveAccounts();
     showLogin(`បាននាំចូលគណនី ${u} ជោគជ័យ`);
