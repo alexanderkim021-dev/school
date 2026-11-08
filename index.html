@@ -188,17 +188,21 @@ td input.t{width:120px;text-align:start}
 }
 .exam-paper-table th { background: #f8fafc; font-weight: bold; }
 
-/* បង្វិលក្បាលតារាងត្រឹមត្រូវ មិនឱ្យផ្កាប់អក្សរចុះក្រោម */
+/* បង្វិលក្បាលតារាងអានពីក្រោមឡើងលើត្រឹមត្រូវ មិនឱ្យផ្កាប់ក្បាល */
 .th-rot {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
   white-space: nowrap;
-  padding: 8px 1px !important;
-  font-size: 11px;
   height: 105px;
-  line-height: 1.1;
   min-width: 25px;
   max-width: 28px;
+  vertical-align: bottom;
+  padding: 0 !important;
+}
+.th-rot-txt {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  display: inline-block;
+  padding: 6px 2px;
+  font-size: 11px;
 }
 .th-rot-sub {
   font-size: 10px;
@@ -240,8 +244,8 @@ td input.t{width:120px;text-align:start}
 const SUPABASE_URL = 'https://sobhopuuvwctrdhlgttw.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvYmhvcHV1dndjdHJkaGxndHR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwMDU2ODMsImV4cCI6MjEwOTU4MTY4M30.mKQx4lLq-AufDQiLYocmMVnnwVFGfI_-xklNoGkW_wA';
 
-// ឈ្មោះឯកសារ Logo ពិតប្រាកដនៅលើ GitHub Repository
-const DEFAULT_MOEYS_LOGO = 'logo%E1%9E%80%E1%9F%83%E1%9E%9F%E1%9E%BD%E1%9E%84%E1%9E%A2%E1%9E%94%E1%9F%8B%E1%9E%9a%E1%9F%86.png';
+// URL Logo ក្រសួងអប់រំ Encode ស្ដង់ដារ
+const DEFAULT_MOEYS_LOGO = encodeURI('logoក្រសួងអប់រំ.png');
 
 function getLogoSrc(){
   const S = getS();
@@ -541,7 +545,7 @@ function emptyLevelData(lbl, yr){
   if (lbl === 'អនុវិទ្យាល័យ') { defDiv = 17; defCls = '៨A'; }
   if (lbl === 'វិទ្យាល័យ') { defDiv = 13; defCls = '១១A'; }
   return {
-    v: 28, n: 1,
+    v: 30, n: 1,
     info: {province:'', school:'', teacher:'', cls: defCls, year: yr || currentYear, div: defDiv, stream:'science', logo: null, moeysLogo: null},
     st: [], sc: {}, ab: {}, rm: {},
     semExamScores: {0:{}, 1:{}}
@@ -596,8 +600,7 @@ function getS(){
 }
 
 let saveChain = Promise.resolve();
-// បើកចូល App ដំបូងត្រូវចេញផ្ទាំង Login ជាចម្បងជានិច្ច
-let pg = 'login';
+let pg = 'login'; // ទំព័រដើមជា Login ជាចម្បងជានិច្ច
 let mo = 7;
 let sem = 0;
 let examSem = 0;
@@ -608,7 +611,7 @@ function setStatus(text, err){
   if (el) { el.textContent = text; el.classList.toggle('err', !!err); }
 }
 
-// កែសម្រួលការរក្សាទុក Cloud ឱ្យត្រឹមត្រូវ (ដោះស្រាយ salt / chk is not defined)
+// ជួសជុលបញ្ហា Cloud Sync (ដោះស្រាយ salt is not defined ដោយផ្ទាល់)
 function save(){
   if (!SESSION || !allYearsData) return;
   const key = SESSION.key, u = SESSION.username, snapshot = JSON.stringify(allYearsData);
@@ -895,12 +898,12 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   }
 }
 
-// មុខងារបង្កើត Header ផ្លូវការស្តង់ដារដ្ឋបាល
+// មុខងារបង្កើត Header ផ្លូវការស្តង់ដារដ្ឋបាល (គ្មាន alt="MoEYS" ជាន់លើរូបទៀតឡើយ)
 function renderOfficialHeaderHTML(i, logoSrc){
   return `
     <div class="official-header">
       <div class="side-box">
-        <img class="official-print-logo" src="${logoSrc}" alt="MoEYS">
+        <img class="official-print-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='logo%E1%9E%80%E1%9F%83%E1%9E%9F%E1%9E%BD%E1%9E%84%E1%9E%A2%E1%9E%94%E1%9F%8B%E1%9E%9a%E1%9F%86.png';">
         <div style="font-size:12.5px">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
         <div style="font-weight:bold;font-size:13.5px">${E(i.school || 'សាលារៀន')}</div>
       </div>
@@ -993,7 +996,7 @@ home(){
   return `<div class="home">
   <div class="moeys-header">
     <div class="moeys-brand">
-      <img class="moeys-logo" src="${logoSrc}" alt="MoEYS" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
+      <img class="moeys-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='logo%E1%9E%80%E1%9F%83%E1%9E%9F%E1%9E%BD%E1%9E%84%E1%9E%A2%E1%9E%94%E1%9F%8B%E1%9E%9a%E1%9F%86.png';" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
       <div class="moeys-text">
         <span class="t1">ព្រះរាជាណាចក្រកម្ពុជា</span>
         <span class="t2">ក្រសួងអប់រំ យុវជន និងកីឡា</span>
@@ -1261,9 +1264,9 @@ examScore(){
           <th rowspan="2" style="width:34px">ល.រ</th>
           <th rowspan="2" style="min-width:130px">គោត្តនាម និងនាម</th>
           <th rowspan="2" style="width:36px">ភេទ</th>
-          ${cols.map(c => `<th class="th-rot">${c.sn || c.n}</th>`).join('')}
-          <th rowspan="2" class="th-rot" style="background:#f1f5f9">សរុបប្រឡង</th>
-          <th rowspan="2" class="th-rot" style="background:#fef3c7">មធ្យមប្រឡង</th>
+          ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${c.sn || c.n}</span></th>`).join('')}
+          <th rowspan="2" class="th-rot" style="background:#f1f5f9"><span class="th-rot-txt">សរុបប្រឡង</span></th>
+          <th rowspan="2" class="th-rot" style="background:#fef3c7"><span class="th-rot-txt">មធ្យមប្រឡង</span></th>
         </tr>
         <tr>
           ${cols.map(c => `<th class="th-rot-sub">${c.m}</th>`).join('')}
@@ -1922,7 +1925,7 @@ async function makePkgBlob(){
   save(); await saveChain;
   const acc = accounts[SESSION.username];
   return new Blob([JSON.stringify({
-    app: 'school-offline', version: 28,
+    app: 'school-offline', version: 30,
     username: SESSION.username, fullname: acc.fullname,
     salt: acc.salt, check: acc.check, data: acc.data, created: acc.created
   })], {type: 'application/json'});
