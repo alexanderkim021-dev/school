@@ -4,8 +4,10 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="ថ្នាក់រៀន">
-<link rel="apple-touch-icon" href="logo%E1%9E%80%E1%9F%83%E1%9E%9F%E1%9E%BD%E1%9E%84%E1%9E%A2%E1%9E%94%E1%9F%8B%E1%9E%9a%E1%9F%86.png">
-<link rel="icon" href="logo%E1%9E%80%E1%9F%83%E1%9E%9F%E1%9E%BD%E1%9E%84%E1%9E%A2%E1%9E%94%E1%9F%8B%E1%9E%9a%E1%9F%86.png">
+<!-- ១. Icon App តំណាងកម្មវិធីលើអេក្រង់ទូរស័ព្ទ និងកុំព្យូទ័រ (រូបរមូរសំបុត្រ IMG_2013.png) -->
+<link rel="apple-touch-icon" href="IMG_2013.png">
+<link rel="icon" type="image/png" href="IMG_2013.png">
+<link rel="manifest" href="manifest.json">
 <title>ប្រព័ន្ធគ្រប់គ្រងពិន្ទុ និងទិន្នន័យថ្នាក់រៀន (Cloud Sync)</title>
 
 <!-- បណ្ណាល័យបង្កើត PDF ស្ដង់ដារសម្រាប់ iPhone PWA -->
@@ -57,17 +59,20 @@ main{max-width:1100px;margin:0 auto;padding:16px 14px 60px;will-change:transform
   margin-bottom: 16px;
   text-align: left;
 }
-.moeys-brand { display: flex; align-items: center; gap: 12px; }
+/* កែសម្រួល៖ រំកិល Logo និងអក្សរឱ្យកៀកគ្នាល្អ */
+.moeys-brand { display: flex; align-items: center; gap: 10px; }
+
+/* កែសម្រួល៖ ពង្រីក Logo ជ្រុងឆ្វេងលើទំព័រ Home ឱ្យធំសមសួន (72px) */
 .moeys-logo {
-  width: 54px; height: 54px; border-radius: 50%; object-fit: contain;
+  width: 72px; height: 72px; border-radius: 50%; object-fit: contain;
   background: #fff; border: 1px solid var(--bd); padding: 2px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08); cursor: pointer;
   transition: transform 0.15s ease;
 }
 .moeys-logo:active { transform: scale(0.95); }
 .moeys-text { line-height: 1.35; }
-.moeys-text .t1 { font-family: var(--title-font); font-size: 13.5px; color: #1e3a8a; display: block; }
-.moeys-text .t2 { font-size: 12px; color: var(--mu); font-weight: 600; }
+.moeys-text .t1 { font-family: var(--title-font); font-size: 14px; color: #1e3a8a; display: block; }
+.moeys-text .t2 { font-size: 12.5px; color: var(--mu); font-weight: 600; }
 
 h1, h2, h3, .muol-title { font-family: var(--title-font) !important; font-weight: normal; }
 .top{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap}
@@ -154,8 +159,10 @@ td input.t{width:120px;text-align:start}
 /* ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល */
 .official-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;line-height:1.4}
 .official-header .center-box{text-align:center;padding-top:0}
-.official-header .side-box{text-align:center;padding-top:14px}
-.official-print-logo{width:48px;height:48px;object-fit:contain;margin:0 auto 4px;display:block}
+.official-header .side-box{text-align:center;padding-top:2px}
+
+/* កែសម្រួល៖ ពង្រីក Logo បោះពុម្ពឱ្យធំ (82px) និងរំកិលចុះក្រោមឱ្យកៀកអក្សរខាងក្រោម (margin: 0 auto 1px) */
+.official-print-logo{width:82px;height:82px;object-fit:contain;margin:0 auto 1px;display:block}
 
 /* ទម្រង់បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ (A4 Portrait) */
 .official-sheet{background:#fff;padding:18px;color:#000;font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif}
@@ -244,8 +251,8 @@ td input.t{width:120px;text-align:start}
 const SUPABASE_URL = 'https://sobhopuuvwctrdhlgttw.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvYmhvcHV1dndjdHJkaGxndHR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwMDU2ODMsImV4cCI6MjEwOTU4MTY4M30.mKQx4lLq-AufDQiLYocmMVnnwVFGfI_-xklNoGkW_wA';
 
-// URL Logo ក្រសួងអប់រំ Encode ស្ដង់ដារ
-const DEFAULT_MOEYS_LOGO = encodeURI('logoក្រសួងអប់រំ.png');
+// ២. ឈ្មោះ File Logo ក្រសួងអប់រំ ពេញលេញ និងត្រឹមត្រូវ ១០០% លើ GitHub និង Desktop
+const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';
 
 function getLogoSrc(){
   const S = getS();
@@ -611,7 +618,7 @@ function setStatus(text, err){
   if (el) { el.textContent = text; el.classList.toggle('err', !!err); }
 }
 
-// ជួសជុលបញ្ហា Cloud Sync (ដោះស្រាយ salt is not defined ដោយផ្ទាល់)
+// ៣. ជួសជុលបញ្ហា Cloud Sync (ដោះស្រាយ salt is not defined ដោយផ្ទាល់)
 function save(){
   if (!SESSION || !allYearsData) return;
   const key = SESSION.key, u = SESSION.username, snapshot = JSON.stringify(allYearsData);
@@ -898,12 +905,12 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   }
 }
 
-// មុខងារបង្កើត Header ផ្លូវការស្តង់ដារដ្ឋបាល (គ្មាន alt="MoEYS" ជាន់លើរូបទៀតឡើយ)
+// មុខងារបង្កើត Header ផ្លូវការស្តង់ដារដ្ឋបាល
 function renderOfficialHeaderHTML(i, logoSrc){
   return `
     <div class="official-header">
       <div class="side-box">
-        <img class="official-print-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='logo%E1%9E%80%E1%9F%83%E1%9E%9F%E1%9E%BD%E1%9E%84%E1%9E%A2%E1%9E%94%E1%9F%8B%E1%9E%9a%E1%9F%86.png';">
+        <img class="official-print-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
         <div style="font-size:12.5px">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
         <div style="font-weight:bold;font-size:13.5px">${E(i.school || 'សាលារៀន')}</div>
       </div>
@@ -996,7 +1003,7 @@ home(){
   return `<div class="home">
   <div class="moeys-header">
     <div class="moeys-brand">
-      <img class="moeys-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='logo%E1%9E%80%E1%9F%83%E1%9E%9F%E1%9E%BD%E1%9E%84%E1%9E%A2%E1%9E%94%E1%9F%8B%E1%9E%9a%E1%9F%86.png';" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
+      <img class="moeys-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
       <div class="moeys-text">
         <span class="t1">ព្រះរាជាណាចក្រកម្ពុជា</span>
         <span class="t2">ក្រសួងអប់រំ យុវជន និងកីឡា</span>
