@@ -348,7 +348,7 @@ function smartKhmerDate(val){
   return s;
 }
 
-// ១. មុខវិជ្ជាបឋមសិក្សា[cite: 8]
+// ១. មុខវិជ្ជាបឋមសិក្សា
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
@@ -357,7 +357,7 @@ const SUBJ_PRIMARY = [
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
-// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)[cite: 8]
+// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)
 const SUBJ_SECONDARY = [
   {n:'សរសេរតាមអាន', s:[['សរសេរ', 40]]},
   {n:'តែងសេចក្តី', s:[['តែង', 60]]},
@@ -381,7 +381,7 @@ const SUBJ_SECONDARY = [
   {n:'ភាសាបរទេស', s:[['បរទេស', 50]]}
 ];
 
-// ៣. មុខវិជ្ជាវិទ្យាល័យ (វិទ្យាសាស្ត្រពិត និងសង្គម)[cite: 8]
+// ៣. មុខវិជ្ជាវិទ្យាល័យ
 const SUBJ_HIGH_SCIENCE = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
   {n:'រូបវិទ្យា', s:[['រូប', 75]]},
@@ -791,7 +791,7 @@ const avSemExam = (id, sIdx) => {
   return t ? t / div : 0;
 };
 
-// កែសម្រួលក្បួនគណនានិទ្ទេសតាមកម្រិតពិន្ទុពេញជាក់ស្តែង (បឋម=១០, អនុ/វិទ្យាល័យ=៥០)[cite: 9]
+// កែសម្រួលក្បួនគណនានិទ្ទេសតាមកម្រិតពិន្ទុពេញជាក់ស្តែង (បឋម=១០, អនុ/វិទ្យាល័យ=៥០)
 function getGradeLetter(a, t){
   if (!t || a <= 0) return '-';
   const max = getMaxAv(currentLevel);
@@ -918,6 +918,49 @@ function jumpNext(pfx, r, c, maxR, maxC){
     const el = document.getElementById(`${pfx}_${tr}_${tc}`);
     if (el) { el.focus(); el.select(); }
   }
+}
+
+// មុខងារ Paste ទិន្នន័យពី Excel / Sheets ចូលតារាងស្វ័យប្រវត្តិ
+function handleExcelPaste(e, startR, startC, pfx){
+  const clip = (e.clipboardData || window.clipboardData).getData('text');
+  if (!clip || !clip.includes('\t') && !clip.includes('\n')) return; // បើមិនមែនជាទិន្នន័យតារាង ឱ្យដំណើរការធម្មតា
+  e.preventDefault();
+  
+  const S = getS();
+  const cols = getCols(currentLevel, S.info.stream);
+  const rows = clip.trim().split(/\r\n|\n|\r/).map(row => row.split('\t'));
+
+  rows.forEach((rowVals, rIdx) => {
+    const targetR = startR + rIdx;
+    if (targetR >= S.st.length) return;
+    const sId = S.st[targetR].id;
+
+    rowVals.forEach((valStr, cIdx) => {
+      const targetC = startC + cIdx;
+      if (targetC >= cols.length) return;
+      const m = cols[targetC].m;
+      const cleanVal = valStr.trim();
+      const numVal = cleanVal === '' ? null : Math.max(0, Math.min(m, +cleanVal || 0));
+
+      const inputEl = document.getElementById(`${pfx}_${targetR}_${targetC}`);
+      if (inputEl) inputEl.value = numVal === null ? '' : numVal;
+
+      if (pfx === 'sc') {
+        const o = (getS().sc[mo] = getS().sc[mo] || {});
+        const a = (o[sId] = o[sId] || cols.map(() => null));
+        a[targetC] = numVal;
+      } else if (pfx === 'ex') {
+        if (!getS().semExamScores) getS().semExamScores = {0:{}, 1:{}};
+        const o = (getS().semExamScores[examSem] = getS().semExamScores[examSem] || {});
+        const a = (o[sId] = o[sId] || cols.map(() => null));
+        a[targetC] = numVal;
+      }
+    });
+  });
+
+  save();
+  if (pfx === 'sc') upd();
+  else if (pfx === 'ex') R();
 }
 
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
@@ -1118,7 +1161,7 @@ sc(){
       <td style="width:45px">${k+1}</td>
       <td class="sn" style="min-width:130px"><b>${E(s.name)}</b></td>
       <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
-      ${cols.map((c,i) => `<td><input id="sc_${k}_${i}" type="text" inputmode="decimal" enterkeyhint="next" value="${a[i] ?? ''}" onkeydown="handleKeyNav(event, ${k}, ${i}, ${totalRows}, ${totalCols}, 'sc')" onchange="setSc(${s.id},${i},this);jumpNext('sc', ${k}, ${i}, ${totalRows}, ${totalCols})"></td>`).join('')}
+      ${cols.map((c,i) => `<td><input id="sc_${k}_${i}" type="text" inputmode="decimal" enterkeyhint="next" value="${a[i] ?? ''}" onpaste="handleExcelPaste(event, ${k}, ${i}, 'sc')" onkeydown="handleKeyNav(event, ${k}, ${i}, ${totalRows}, ${totalCols}, 'sc')" onchange="setSc(${s.id},${i},this);jumpNext('sc', ${k}, ${i}, ${totalRows}, ${totalCols})"></td>`).join('')}
       <td id="t${s.id}" style="font-weight:bold"></td>
       <td id="a${s.id}" style="font-weight:bold;color:var(--ac)"></td>
       <td id="r${s.id}" style="font-weight:bold"></td>
@@ -1275,7 +1318,7 @@ examScore(){
       <td style="width:45px">${k+1}</td>
       <td class="sn" style="min-width:130px"><b>${E(s.name)}</b></td>
       <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
-      ${cols.map((c,idx) => `<td><input id="ex_${k}_${idx}" type="text" inputmode="decimal" enterkeyhint="next" value="${a[idx] ?? ''}" onkeydown="handleKeyNav(event, ${k}, ${idx}, ${totalRows}, ${totalCols}, 'ex')" onchange="setExamSc(${s.id},${idx},this);jumpNext('ex', ${k}, ${idx}, ${totalRows}, ${totalCols})"></td>`).join('')}
+      ${cols.map((c,idx) => `<td><input id="ex_${k}_${idx}" type="text" inputmode="decimal" enterkeyhint="next" value="${a[idx] ?? ''}" onpaste="handleExcelPaste(event, ${k}, ${idx}, 'ex')" onkeydown="handleKeyNav(event, ${k}, ${idx}, ${totalRows}, ${totalCols}, 'ex')" onchange="setExamSc(${s.id},${idx},this);jumpNext('ex', ${k}, ${idx}, ${totalRows}, ${totalCols})"></td>`).join('')}
       <td id="ext${s.id}" style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td id="exa${s.id}" style="background:#fef3c7;font-weight:bold;color:#b45309">${avVal ? avVal.toFixed(2) : '-'}</td>
       <td id="exr${s.id}" style="font-weight:bold">${rk}</td>
@@ -1669,7 +1712,7 @@ cert(){
       <p style="font-size:16px;line-height:2">ថ្នាក់ទី <b>${E(S.info.cls || '')}</b> ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${E(currentYear)}</b>។</p>
       <div style="display:flex;justify-content:space-between;margin-top:40px;padding:0 50px">
         <div>បានឃើញ និងឯកភាព<br><b>នាយកសាលា</b></div>
-        <div>ថ្ងៃទី.....ខែ.....ឆ្នាំ២០២...<br><b>គ្រូបន្ទកថ្នាក់</b><br><br><br>${E(S.info.teacher || '')}</div>
+        <div>ថ្ងៃទី.....ខែ.....ឆ្នាំ២០២...<br><b>គ្រូបន្ទុកថ្នាក់</b><br><br><br>${E(S.info.teacher || '')}</div>
       </div>
     </div>
   `).join('');
