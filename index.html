@@ -214,117 +214,180 @@ td input.t{width:120px;text-align:start}
   background: #f1f5f9;
 }
 
-/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការស្តង់ដារជាតិ */
+/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការស្តង់ដាររដ្ឋបាលជាតិ (ត្រូវតាមគំរូពិត ១០០%) */
 .cert-page-a4 {
   width: 100%;
   max-width: 285mm;
-  min-height: 195mm;
+  min-height: 198mm;
   margin: 0 auto 24px;
   background-color: #fff;
-  background-position: center;
+  background-position: center center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  padding: 16mm 20mm;
+  padding: 18mm 25mm 15mm;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   box-sizing: border-box;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 .cert-page-a4.default-border {
-  border: 6px double #b45309;
+  border: 8px double #b45309;
   outline: 2px solid #d97706;
-  outline-offset: -12px;
+  outline-offset: -14px;
 }
-.cert-header {
+
+/* ១. ក្បាលលិខិតបណ្ណសរសើរផ្លូវការ (ឆ្វេង៖ សាលា, កណ្តាលលើ៖ Logo ក្រសួង, ស្តាំ៖ ជាតិ សាសនា ព្រះមហាក្សត្រ) */
+.cert-gov-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
+  position: relative;
+  min-height: 85px;
 }
-.cert-header .logo-box {
-  width: 72px;
-  height: 72px;
+.cert-gov-left {
+  text-align: center;
+  width: 250px;
+  line-height: 1.45;
+  font-size: 13.5px;
+  color: #0f172a;
+}
+.cert-gov-left .inst-title {
+  font-family: var(--title-font);
+  font-size: 13.5px;
+  color: #1e3a8a;
+  display: block;
+  margin-bottom: 2px;
+}
+.cert-gov-center-logo {
+  position: absolute;
+  left: 50%;
+  top: -8px;
+  transform: translateX(-50%);
+  width: 76px;
+  height: 76px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.cert-header .logo-box img {
+.cert-gov-center-logo img {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
-.cert-header .nat-title {
+.cert-gov-right {
   text-align: center;
-  flex: 1;
+  width: 260px;
   line-height: 1.4;
 }
-.cert-header .nat-title .p1 { font-family: var(--title-font); font-size: 18px; color: #b45309; margin: 0; }
-.cert-header .nat-title .p2 { font-family: var(--title-font); font-size: 14px; color: #1e3a8a; margin: 2px 0 0; }
-.cert-header .nat-title .wave { letter-spacing: 5px; font-size: 12px; color: #b45309; }
-
-.cert-middle-wrap {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin: 6px 0;
-}
-.cert-main-text {
-  flex: 1;
-  text-align: center;
-  line-height: 1.85;
-  font-size: 14.5px;
-  color: #1e293b;
-}
-.cert-big-title {
+.cert-gov-right .p1 {
   font-family: var(--title-font);
-  font-size: 27px;
-  color: #dc2626;
-  margin: 4px 0 6px;
-  letter-spacing: 2px;
-}
-.cert-student-name {
-  font-family: var(--title-font);
-  font-size: 21px;
+  font-size: 15px;
   color: #1e3a8a;
-  margin: 4px 0;
+  margin: 0;
 }
-.cert-photo-4x6 {
-  width: 38mm;
-  height: 58mm;
-  min-width: 38mm;
-  min-height: 58mm;
-  border: 1.5px dashed #b45309;
-  border-radius: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.cert-gov-right .p2 {
+  font-family: var(--title-font);
+  font-size: 13px;
+  color: #1e3a8a;
+  margin: 2px 0 0;
+}
+.cert-gov-right .wave {
+  letter-spacing: 5px;
+  font-size: 12px;
+  color: #d97706;
+}
+
+/* ២. តួសេចក្តីបណ្ណសរសើរ (ចំកណ្តាលស្មើដៃជើង) */
+.cert-body-wrap {
   text-align: center;
-  font-size: 11px;
-  color: #94a3b8;
-  background: #f8fafc;
-  overflow: hidden;
+  margin: 4px 0 10px;
+  line-height: 2.1;
+  font-size: 15px;
+  color: #1e293b;
+  width: 100%;
 }
-.cert-photo-4x6 img {
+.cert-h1-title {
+  font-family: var(--title-font);
+  font-size: 32px;
+  color: #dc2626;
+  margin: 0 0 6px;
+  letter-spacing: 2px;
+  text-shadow: 0 1px 2px rgba(220,38,38,0.15);
+}
+.cert-giver-title {
+  font-family: var(--title-font);
+  font-size: 16px;
+  color: #1e3a8a;
+  margin: 0 0 4px;
+}
+.cert-praise-intro {
+  font-size: 15.5px;
+  color: #334155;
+  margin-bottom: 2px;
+}
+.cert-student-highlight {
+  font-family: var(--title-font);
+  font-size: 23px;
+  color: #0f172a;
+  display: inline-block;
+  padding: 0 8px;
+}
+.cert-reason-text {
+  font-size: 15px;
+  margin-top: 2px;
+}
+.cert-bless-text {
+  font-size: 13.5px;
+  color: #475569;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* រូបថតសិស្សខ្នាតតូចកណ្តាលក្រោម (បើមានរូបថត) */
+.cert-photo-mini {
+  width: 28mm;
+  height: 36mm;
+  margin: 6px auto;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+.cert-photo-mini img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-.cert-footer-sign {
+
+/* ៣. ហត្ថលេខា និងកាលបរិច្ឆេទ (ឆ្វេង៖ នាយកសាលា, ស្តាំ៖ គ្រូបន្ទុកថ្នាក់) */
+.cert-sign-wrap {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  font-size: 13px;
+  font-size: 13.5px;
   line-height: 1.5;
+  padding: 0 20px;
+}
+.cert-sign-box {
+  width: 250px;
+  text-align: center;
+}
+.cert-sign-box .role-title {
+  font-family: var(--title-font);
+  font-size: 13px;
+  color: #0f172a;
   margin-top: 4px;
 }
-.cert-footer-sign .sign-col {
-  width: 220px;
-  text-align: center;
+.cert-sign-box .teacher-name {
+  margin-top: 50px;
+  font-weight: bold;
+  font-size: 14.5px;
 }
 
 /* Modal បណ្ណាល័យស៊ុមក្បាច់ */
@@ -379,7 +442,7 @@ td input.t{width:120px;text-align:start}
     min-height: 209mm !important;
     box-shadow: none !important;
     margin: 0 !important;
-    padding: 16mm 20mm !important;
+    padding: 16mm 22mm 14mm !important;
     page-break-after: always;
     page-break-inside: avoid;
   }
@@ -539,7 +602,7 @@ function smartKhmerDate(val){
   return s;
 }
 
-// ១. មុខវិជ្ជាបឋមសិក្សា[cite: 12]
+// ១. មុខវិជ្ជាបឋមសិក្សា[span_18](start_span)[span_18](end_span)
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
@@ -548,7 +611,7 @@ const SUBJ_PRIMARY = [
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
-// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)[cite: 12]
+// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)[span_19](start_span)[span_19](end_span)
 const SUBJ_SECONDARY = [
   {n:'សរសេរតាមអាន', s:[['សរសេរ', 40]]},
   {n:'តែងសេចក្តី', s:[['តែង', 60]]},
@@ -572,7 +635,7 @@ const SUBJ_SECONDARY = [
   {n:'ភាសាបរទេស', s:[['បរទេស', 50]]}
 ];
 
-// ៣. មុខវិជ្ជាវិទ្យាល័យ[cite: 12]
+// ៣. មុខវិជ្ជាវិទ្យាល័យ[span_20](start_span)[span_20](end_span)
 const SUBJ_HIGH_SCIENCE = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
   {n:'រូបវិទ្យា', s:[['រូប', 75]]},
@@ -1220,6 +1283,59 @@ function renderOfficialHeaderHTML(i, logoSrc){
   `;
 }
 
+// មុខងារបង្កើតក្បាលតារាង ២ ជាន់ (Group Header) សម្រាប់បឋមសិក្សា និងធម្មតាសម្រាប់កម្រិតផ្សេងទៀត
+function renderScoreTableHeadHTML(type){
+  const lvl = currentLevel;
+  const cols = getCols(lvl, getS().info.stream);
+
+  if (lvl === 'primary') {
+    return `
+      <thead>
+        <tr>
+          <th rowspan="2" style="width:45px">ល.រ</th>
+          <th rowspan="2" class="sn" style="min-width:130px">គោត្តនាម និងនាម</th>
+          <th rowspan="2" style="width:45px">ភេទ</th>
+          ${SUBJ_PRIMARY.map(sub => `<th colspan="${sub.s.length}" style="background:#e2e8f0;font-weight:bold">${sub.n}</th>`).join('')}
+          <th rowspan="2" style="width:75px">${type==='exam'?'សរុបប្រឡង':'សរុប'}</th>
+          <th rowspan="2" style="width:85px;background:#fef3c7">${type==='exam'?'មធ្យមប្រឡង':'មធ្យម'}</th>
+          ${type==='exam' ? `
+            <th rowspan="2" style="width:65px">ចំ.ថ្នាក់</th>
+            <th rowspan="2" style="width:60px">និទ្ទេស</th>
+          ` : `
+            <th rowspan="2" style="width:55px">ចំណាត់ថ្នាក់</th>
+            <th rowspan="2" style="width:55px">និទ្ទេស</th>
+            <th rowspan="2" style="width:120px">ចំណាំ</th>
+          `}
+        </tr>
+        <tr>
+          ${cols.map(c => `<th>${c.n}<br><small class="mu">(${c.m})</small></th>`).join('')}
+        </tr>
+      </thead>
+    `;
+  } else {
+    return `
+      <thead>
+        <tr>
+          <th style="width:45px">ល.រ</th>
+          <th class="sn" style="min-width:130px">គោត្តនាម និងនាម</th>
+          <th style="width:45px">ភេទ</th>
+          ${cols.map(c => `<th>${c.sn || c.n}<br><small class="mu">(${c.m})</small></th>`).join('')}
+          <th style="width:75px">${type==='exam'?'សរុបប្រឡង':'សរុប'}</th>
+          <th style="width:85px;background:#fef3c7">${type==='exam'?'មធ្យមប្រឡង':'មធ្យម'}</th>
+          ${type==='exam' ? `
+            <th style="width:65px">ចំ.ថ្នាក់</th>
+            <th style="width:60px">និទ្ទេស</th>
+          ` : `
+            <th style="width:55px">ចំណាត់ថ្នាក់</th>
+            <th style="width:55px">និទ្ទេស</th>
+            <th style="width:120px">ចំណាំ</th>
+          `}
+        </tr>
+      </thead>
+    `;
+  }
+}
+
 // មុខងារ Upload ស៊ុមក្បាច់ថ្មីដោយដៃផ្ទាល់
 function uploadCustomBorder(file){
   if (!file) return;
@@ -1406,19 +1522,7 @@ sc(){
     <button class="bt" onclick="executeStandardPrint('monthlyScorePrintArea', 'តារាងពិន្ទុប្រចាំខែ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
   <div class="w" id="monthlyScorePrintArea"><table>
-  <thead>
-    <tr>
-      <th style="width:45px">ល.រ</th>
-      <th class="sn" style="min-width:130px">គោត្តនាម និងនាម</th>
-      <th style="width:45px">ភេទ</th>
-      ${cols.map(c => `<th>${currentLevel === 'primary' ? (c.sn + '<br>' + c.n) : (c.sn || c.n)}<br><small class="mu">(${c.m})</small></th>`).join('')}
-      <th style="width:65px">សរុប</th>
-      <th style="width:65px">មធ្យម</th>
-      <th style="width:55px">ចំណាត់ថ្នាក់</th>
-      <th style="width:55px">និទ្ទេស</th>
-      <th style="width:120px">ចំណាំ</th>
-    </tr>
-  </thead>
+  ${renderScoreTableHeadHTML('monthly')}
   <tbody>
     ${rows || '<tr><td colspan="35" class="em">មិនទាន់មានសិស្ស</td></tr>'}
   </tbody>
@@ -1570,7 +1674,7 @@ examScore(){
       <td>${k+1}</td>
       <td style="text-align:start;padding-left:6px;font-weight:bold">${E(s.name)}</td>
       <td>${s.sex==='ស'?'ស':'ប'}</td>
-      ${cols.map((c,idx) => `<td>${a[idx] ?? '-'}</td>`).join('')}
+      ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
       <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
       <td style="font-weight:bold">${rk}</td>
@@ -1589,18 +1693,7 @@ examScore(){
 
   <!-- UI បញ្ចូលពិន្ទុធម្មតាលើអេក្រង់ (Screen UI) -->
   <div class="w screen-ui"><table>
-  <thead>
-    <tr>
-      <th style="width:45px">ល.រ</th>
-      <th class="sn" style="min-width:130px">គោត្តនាម និងនាម</th>
-      <th style="width:45px">ភេទ</th>
-      ${cols.map(c => `<th>${currentLevel === 'primary' ? (c.sn + '<br>' + c.n) : (c.sn || c.n)}<br><small class="mu">(${c.m})</small></th>`).join('')}
-      <th style="width:75px">សរុបប្រឡង</th>
-      <th style="width:85px;background:#fef3c7">មធ្យមប្រឡង</th>
-      <th style="width:65px">ចំ.ថ្នាក់</th>
-      <th style="width:60px">និទ្ទេស</th>
-    </tr>
-  </thead>
+  ${renderScoreTableHeadHTML('exam')}
   <tbody>
     ${rowsUI || '<tr><td colspan="35" class="em">មិនទាន់មានសិស្ស</td></tr>'}
   </tbody>
@@ -1945,50 +2038,67 @@ cert(){
 
   const certsHtml = list.map((s, idx) => `
     <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
-      <div class="cert-header">
-        <div class="logo-box">
+      
+      <!-- ១. ក្បាលលិខិតជាតិ (ឆ្វេង៖ សាលា, កណ្តាលលើ៖ Logo ក្រសួង, ស្តាំ៖ ពាក្យស្លោកជាតិ) -->
+      <div class="cert-gov-header">
+        <div class="cert-gov-left">
+          <span class="inst-title">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</span>
+          <div style="font-weight:bold;font-size:14.5px;color:#0f172a">${E(i.school || 'សាលាបឋមសិក្សា....................')}</div>
+        </div>
+
+        <div class="cert-gov-center-logo">
           <img src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
         </div>
-        <div class="nat-title">
+
+        <div class="cert-gov-right">
           <div class="p1">ព្រះរាជាណាចក្រកម្ពុជា</div>
           <div class="p2">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-          <div class="wave">~~~~~~~~~</div>
-        </div>
-        <div class="logo-box">
-          ${i.logo ? `<img src="${i.logo}">` : `<img src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">`}
+          <div class="wave">-0, -</div>
         </div>
       </div>
 
-      <div class="cert-middle-wrap">
-        <div class="cert-main-text">
-          <div class="cert-big-title">បណ្ណសរសើរ</div>
-          <div>គណៈគ្រប់គ្រងសាលា និងលោកគ្រូ-អ្នកគ្រូ <b>${E(i.school || 'សាលារៀន')}</b> សូមកោតសរសើរដល់៖</div>
-          <div class="cert-student-name">សិស្សឈ្មោះ៖ ${E(s.name)} (ភេទ ${s.sex==='ស'?'ស្រី':'ប្រុស'})</div>
-          <div>ថ្ងៃខែឆ្នាំកំណើត៖ <b>${E(s.dob || '-')}</b> | ថ្នាក់ទី៖ <b>${E(i.cls || '-')}</b></div>
-          <div style="margin-top:6px">
-            ដែលបានខិតខំប្រឹងប្រែងរៀនសូត្រទទួលបាន <b>ចំណាត់ថ្នាក់លេខ ${toKhNum(idx + 1)}</b>
-            មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b>
+      <!-- ២. តួសេចក្តីបណ្ណសរសើរ (ចំកណ្តាលស្មើដៃជើងតាមទម្រង់រដ្ឋបាលពិត) -->
+      <div class="cert-body-wrap">
+        <div class="cert-h1-title">ប័ណ្ណសរសើរ</div>
+        <div class="cert-giver-title">គណៈគ្រប់គ្រង ${E(i.school || 'សាលារៀន')}</div>
+        <div class="cert-praise-intro">សូមកោតសរសើរចំពោះ</div>
+
+        <div style="margin: 8px 0 4px">
+          សិស្សឈ្មោះ៖ <span class="cert-student-highlight">${E(s.name)}</span>
+          ភេទ <b style="font-size:16px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</b>
+          រៀននៅថ្នាក់ទី <b style="font-size:16px">${E(i.cls || '...')}</b>
+        </div>
+
+        <div class="cert-reason-text">
+          ដែលបានខិតខំប្រឹងប្រែងរៀនសូត្រ ទទួលបាន <b>ចំណាត់ថ្នាក់លេខ ${toKhNum(idx + 1)}</b>
+          ${s.av > 0 ? `(មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b>)` : ''}
+          ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b> ។
+        </div>
+
+        <div class="cert-bless-text">
+          សូមជូនពរឱ្យទទួលបាននូវពុទ្ធពរទាំងបួនប្រការគឺ អាយុ វណ្ណៈ សុខៈ ពលៈ ជានិច្ចនិរន្តរ៍។
+        </div>
+
+        ${s.ph ? `
+          <div class="cert-photo-mini">
+            <img src="${s.ph}">
           </div>
-          <div>ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b>។</div>
-          <div style="font-size:12.5px;color:var(--mu);margin-top:4px">សូមជូនពរឱ្យបន្តរក្សា និងពង្រឹងការសិក្សាឱ្យកាន់តែពូកែជោគជ័យទៅមុខទៀត!</div>
-        </div>
-
-        <div class="cert-photo-4x6">
-          ${s.ph ? `<img src="${s.ph}">` : '<span>រូបថត<br>៤ x ៦</span>'}
-        </div>
+        ` : ''}
       </div>
 
-      <div class="cert-footer-sign">
-        <div class="sign-col">
+      <!-- ៣. កាលបរិច្ឆេទ និងហត្ថលេខា (ឆ្វេង៖ នាយកសាលា, ស្តាំ៖ គ្រូបន្ទុកថ្នាក់) -->
+      <div class="cert-sign-wrap">
+        <div class="cert-sign-box">
           <div>បានឃើញ និងឯកភាព</div>
-          <div style="font-weight:bold;margin-top:3px">នាយកសាលា</div>
+          <div class="role-title">នាយកសាលា</div>
         </div>
-        <div class="sign-col">
-          <div>ថ្ងៃទី........ខែ...........ឆ្នាំ២០២...</div>
-          <div style="font-weight:bold;margin-top:3px">គ្រូបន្ទុកថ្នាក់</div>
-          <div style="margin-top:48px;font-weight:bold">${E(i.teacher || '')}</div>
+        <div class="cert-sign-box">
+          <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
+          <div class="role-title">គ្រូបន្ទុកថ្នាក់</div>
+          <div class="teacher-name">${E(i.teacher || '')}</div>
         </div>
       </div>
+
     </div>
   `).join('');
 
