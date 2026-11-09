@@ -381,7 +381,7 @@ const SUBJ_SECONDARY = [
   {n:'ភាសាបរទេស', s:[['បរទេស', 50]]}
 ];
 
-// ៣. មុខវិជ្ជាវិទ្យាល័យ[cite: 8]
+// ៣. មុខវិជ្ជាវិទ្យាល័យ (វិទ្យាសាស្ត្រពិត និងសង្គម)[cite: 8]
 const SUBJ_HIGH_SCIENCE = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
   {n:'រូបវិទ្យា', s:[['រូប', 75]]},
@@ -910,6 +910,16 @@ function handleKeyNav(e, r, c, maxR, maxC, pfx){
   if (nextInput) { nextInput.focus(); nextInput.select(); }
 }
 
+// មុខងាររំកិលទៅប្រអប់បន្ទាប់ស្វ័យប្រវត្តិពេលវាយចប់ ឬចុច Next លើទូរស័ព្ទ
+function jumpNext(pfx, r, c, maxR, maxC){
+  let tr = r, tc = c + 1;
+  if (tc >= maxC) { tc = 0; tr++; }
+  if (tr < maxR) {
+    const el = document.getElementById(`${pfx}_${tr}_${tc}`);
+    if (el) { el.focus(); el.select(); }
+  }
+}
+
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
@@ -1108,7 +1118,7 @@ sc(){
       <td style="width:45px">${k+1}</td>
       <td class="sn" style="min-width:130px"><b>${E(s.name)}</b></td>
       <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
-      ${cols.map((c,i) => `<td><input id="sc_${k}_${i}" type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[i] ?? ''}" onkeydown="handleKeyNav(event, ${k}, ${i}, ${totalRows}, ${totalCols}, 'sc')" onchange="setSc(${s.id},${i},this)"></td>`).join('')}
+      ${cols.map((c,i) => `<td><input id="sc_${k}_${i}" type="text" inputmode="decimal" enterkeyhint="next" value="${a[i] ?? ''}" onkeydown="handleKeyNav(event, ${k}, ${i}, ${totalRows}, ${totalCols}, 'sc')" onchange="setSc(${s.id},${i},this);jumpNext('sc', ${k}, ${i}, ${totalRows}, ${totalCols})"></td>`).join('')}
       <td id="t${s.id}" style="font-weight:bold"></td>
       <td id="a${s.id}" style="font-weight:bold;color:var(--ac)"></td>
       <td id="r${s.id}" style="font-weight:bold"></td>
@@ -1254,7 +1264,7 @@ examScore(){
   const totalRows = S.st.length;
   const totalCols = cols.length;
 
-  // ១. បង្ហាញលើអេក្រង់ UI ធម្មតា (បន្ថែម ចំណាត់ថ្នាក់ និង និទ្ទេស)
+  // ១. បង្ហាញលើអេក្រង់ UI ធម្មតា
   const rowsUI = S.st.map((s,k) => {
     const a = (S.semExamScores[examSem] || {})[s.id] || [];
     const t = totSemExam(s.id, examSem);
@@ -1265,7 +1275,7 @@ examScore(){
       <td style="width:45px">${k+1}</td>
       <td class="sn" style="min-width:130px"><b>${E(s.name)}</b></td>
       <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
-      ${cols.map((c,idx) => `<td><input id="ex_${k}_${idx}" type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[idx] ?? ''}" onkeydown="handleKeyNav(event, ${k}, ${idx}, ${totalRows}, ${totalCols}, 'ex')" onchange="setExamSc(${s.id},${idx},this)"></td>`).join('')}
+      ${cols.map((c,idx) => `<td><input id="ex_${k}_${idx}" type="text" inputmode="decimal" enterkeyhint="next" value="${a[idx] ?? ''}" onkeydown="handleKeyNav(event, ${k}, ${idx}, ${totalRows}, ${totalCols}, 'ex')" onchange="setExamSc(${s.id},${idx},this);jumpNext('ex', ${k}, ${idx}, ${totalRows}, ${totalCols})"></td>`).join('')}
       <td id="ext${s.id}" style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td id="exa${s.id}" style="background:#fef3c7;font-weight:bold;color:#b45309">${avVal ? avVal.toFixed(2) : '-'}</td>
       <td id="exr${s.id}" style="font-weight:bold">${rk}</td>
@@ -1659,7 +1669,7 @@ cert(){
       <p style="font-size:16px;line-height:2">ថ្នាក់ទី <b>${E(S.info.cls || '')}</b> ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${E(currentYear)}</b>។</p>
       <div style="display:flex;justify-content:space-between;margin-top:40px;padding:0 50px">
         <div>បានឃើញ និងឯកភាព<br><b>នាយកសាលា</b></div>
-        <div>ថ្ងៃទី.....ខែ.....ឆ្នាំ២០២...<br><b>គ្រូបន្ទុកថ្នាក់</b><br><br><br>${E(S.info.teacher || '')}</div>
+        <div>ថ្ងៃទី.....ខែ.....ឆ្នាំ២០២...<br><b>គ្រូបន្ទកថ្នាក់</b><br><br><br>${E(S.info.teacher || '')}</div>
       </div>
     </div>
   `).join('');
