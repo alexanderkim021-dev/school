@@ -190,7 +190,7 @@ td input.t{width:120px;text-align:start}
 }
 .exam-paper-table th { background: #f8fafc; font-weight: bold; }
 
-/* បង្វិលក្បាលតារាងអានពីក្រោមឡើងលើត្រឹមត្រូវ មិនឱ្យផ្កាប់ក្បាល */
+/* បង្វិលក្បាលតារាងអានពីក្រោមឡើងលើត្រឹមត្រូវ */
 .th-rot {
   white-space: nowrap;
   height: 105px;
@@ -214,19 +214,19 @@ td input.t{width:120px;text-align:start}
   background: #f1f5f9;
 }
 
-/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការស្តង់ដាររដ្ឋបាលជាតិ (ត្រូវតាមគំរូរូប ៦ និង ៧ ១០០%) */
+/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការស្តង់ដាររដ្ឋបាលជាតិ (ត្រូវតាមគំរូរូប ៦ និង ៧) */
 .cert-page-a4 {
   width: 297mm;
-  height: 210mm;
+  height: 209mm;
   max-width: 297mm;
-  min-height: 210mm;
+  min-height: 209mm;
   margin: 0 auto 24px;
   background-color: #fff;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
   /* គម្លាតគែមខាងក្នុងធានាថាអក្សរមិនជាន់ក្បាច់ស៊ុមខាងលើ និងសងខាង */
-  padding: 24mm 32mm 18mm 32mm;
+  padding: 26mm 32mm 18mm 32mm;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   box-sizing: border-box;
   position: relative;
@@ -247,7 +247,7 @@ td input.t{width:120px;text-align:start}
   align-items: flex-start;
   width: 100%;
   position: relative;
-  min-height: 85px;
+  min-height: 90px;
   padding-top: 4px;
 }
 .cert-gov-left {
@@ -267,10 +267,10 @@ td input.t{width:120px;text-align:start}
 .cert-gov-center-logo {
   position: absolute;
   left: 50%;
-  top: -12px;
+  top: -14px;
   transform: translateX(-50%);
-  width: 90px;
-  height: 90px;
+  width: 85px;
+  height: 85px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -427,12 +427,12 @@ td input.t{width:120px;text-align:start}
   .exam-print-container { display: block !important; }
   .cert-page-a4 {
     width: 297mm !important;
-    height: 210mm !important;
+    height: 209mm !important;
     max-width: 297mm !important;
-    min-height: 210mm !important;
+    min-height: 209mm !important;
     box-shadow: none !important;
     margin: 0 !important;
-    padding: 24mm 32mm 18mm 32mm !important;
+    padding: 26mm 32mm 18mm 32mm !important;
     page-break-after: always;
     page-break-inside: avoid;
     box-sizing: border-box !important;
@@ -1208,16 +1208,54 @@ function handleExcelPaste(e, startR, startC, pfx){
   else if (pfx === 'ex') R();
 }
 
-// មុខងារ Print ដោយផ្ទាល់ (ធានាថាខ្នាត A4 Landscape ពេញលេញ ១០០% លើគ្រប់ Browser និងទូរស័ព្ទ)
+// មុខងារ Print ដោយផ្ទាល់ (គាំទ្រទាំង Browser កុំព្យូទ័រ និងទូរស័ព្ទ iPhone/Android PWA)
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
-  let styleSheet = document.getElementById('dynamicPrintStyle');
-  if (!styleSheet) {
-    styleSheet = document.createElement('style');
-    styleSheet.id = 'dynamicPrintStyle';
-    document.head.appendChild(styleSheet);
+  const element = document.getElementById(elementId);
+  if (!element) { window.print(); return; }
+
+  const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
+
+  if (isStandalone && typeof html2pdf !== 'undefined') {
+    setStatus('កំពុងបង្កើត PDF A4...');
+    const prevDisplay = element.style.display;
+    element.style.display = 'block';
+
+    const opt = {
+      margin: 0,
+      filename: `${reportName || 'តារាងសាលា'}.pdf`,
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2, useCORS: true },
+      jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait' }
+    };
+    try {
+      const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
+      element.style.display = prevDisplay;
+      const file = new File([pdfBlob], opt.filename, { type: 'application/pdf' });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: reportName, text: 'តារាងពិន្ទុផ្លូវការ (A4)' });
+        setStatus('បានចែករំលែក PDF ជោគជ័យ ✓');
+      } else {
+        const downloadUrl = URL.createObjectURL(pdfBlob);
+        const a = document.createElement('a');
+        a.href = downloadUrl; a.download = opt.filename; a.click();
+        URL.revokeObjectURL(downloadUrl);
+        setStatus('បានទាញយក PDF ជោគជ័យ ✓');
+      }
+    } catch (e) {
+      element.style.display = prevDisplay;
+      window.print();
+    }
+  } else {
+    let styleSheet = document.getElementById('dynamicPrintStyle');
+    if (!styleSheet) {
+      styleSheet = document.createElement('style');
+      styleSheet.id = 'dynamicPrintStyle';
+      document.head.appendChild(styleSheet);
+    }
+    styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'} !important; margin: 0 !important; } }`;
+    setTimeout(() => window.print(), 100);
   }
-  styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'} !important; margin: 0 !important; } }`;
-  setTimeout(() => window.print(), 80);
 }
 
 function renderOfficialHeaderHTML(i, logoSrc){
