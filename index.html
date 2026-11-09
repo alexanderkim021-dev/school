@@ -214,21 +214,177 @@ td input.t{width:120px;text-align:start}
   background: #f1f5f9;
 }
 
+/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការស្តង់ដារជាតិ */
+.cert-page-a4 {
+  width: 100%;
+  max-width: 285mm;
+  min-height: 195mm;
+  margin: 0 auto 24px;
+  background-color: #fff;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  padding: 16mm 20mm;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 6px;
+}
+.cert-page-a4.default-border {
+  border: 6px double #b45309;
+  outline: 2px solid #d97706;
+  outline-offset: -12px;
+}
+.cert-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+}
+.cert-header .logo-box {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.cert-header .logo-box img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+.cert-header .nat-title {
+  text-align: center;
+  flex: 1;
+  line-height: 1.4;
+}
+.cert-header .nat-title .p1 { font-family: var(--title-font); font-size: 18px; color: #b45309; margin: 0; }
+.cert-header .nat-title .p2 { font-family: var(--title-font); font-size: 14px; color: #1e3a8a; margin: 2px 0 0; }
+.cert-header .nat-title .wave { letter-spacing: 5px; font-size: 12px; color: #b45309; }
+
+.cert-middle-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin: 6px 0;
+}
+.cert-main-text {
+  flex: 1;
+  text-align: center;
+  line-height: 1.85;
+  font-size: 14.5px;
+  color: #1e293b;
+}
+.cert-big-title {
+  font-family: var(--title-font);
+  font-size: 27px;
+  color: #dc2626;
+  margin: 4px 0 6px;
+  letter-spacing: 2px;
+}
+.cert-student-name {
+  font-family: var(--title-font);
+  font-size: 21px;
+  color: #1e3a8a;
+  margin: 4px 0;
+}
+.cert-photo-4x6 {
+  width: 38mm;
+  height: 58mm;
+  min-width: 38mm;
+  min-height: 58mm;
+  border: 1.5px dashed #b45309;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 11px;
+  color: #94a3b8;
+  background: #f8fafc;
+  overflow: hidden;
+}
+.cert-photo-4x6 img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.cert-footer-sign {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+.cert-footer-sign .sign-col {
+  width: 220px;
+  text-align: center;
+}
+
+/* Modal បណ្ណាល័យស៊ុមក្បាច់ */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.65);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; backdrop-filter: blur(3px);
+}
+.modal-box {
+  background: #fff; border-radius: 18px; padding: 20px;
+  width: 90%; max-width: 680px; max-height: 85vh;
+  overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.border-grid-thumb {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px; margin: 14px 0;
+}
+.border-thumb-item {
+  border: 2px solid var(--bd); border-radius: 10px; padding: 4px;
+  cursor: pointer; transition: 0.15s; background: #f8fafc; text-align: center;
+  position: relative;
+}
+.border-thumb-item:hover, .border-thumb-item.active {
+  border-color: var(--ac); box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+.border-thumb-item img {
+  width: 100%; height: 85px; object-fit: contain; border-radius: 6px; background: #fff;
+}
+.border-thumb-item .thumb-del {
+  position: absolute; top: -6px; right: -6px; background: var(--rd);
+  color: #fff; border: 0; border-radius: 50%; width: 22px; height: 22px;
+  font-size: 12px; font-weight: bold; cursor: pointer; line-height: 22px; padding: 0;
+}
+
 @media print{
-  @page { margin: 6mm; }
+  @page { size: A4 landscape !important; margin: 0 !important; }
   *, *::before, *::after {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
   body{background:#fff;padding:0}
-  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui{display:none !important}
+  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay{display:none !important}
   main{max-width:100% !important;padding:0 !important;margin:0 !important}
   .card{box-shadow:none !important;border:none !important;padding:0 !important;margin:0 !important}
   .w{max-height:none !important;border:none !important;overflow:visible !important}
   .exam-print-container { display: block !important; }
+  .cert-page-a4 {
+    width: 297mm !important;
+    height: 209mm !important;
+    max-width: 297mm !important;
+    min-height: 209mm !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 16mm 20mm !important;
+    page-break-after: always;
+    page-break-inside: avoid;
+  }
   .print-page{page-break-after:always}
 }
-.cert-box{border:8px double #d97706;padding:30px;border-radius:12px;background:#fff;text-align:center;margin-bottom:20px}
 .card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
 .id-card{border:2px solid var(--bd);border-radius:14px;padding:14px;text-align:center;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
 </style></head><body>
@@ -241,18 +397,40 @@ td input.t{width:120px;text-align:start}
 <main id="app"></main>
 <div id="sv" class="sv"></div>
 <input type="file" id="fimp" accept=".json,application/json" style="display:none" onchange="importFile(this.files[0]);this.value=''">
+<input type="file" id="fBorderUpload" accept="image/png,image/jpeg,image/webp" style="display:none" onchange="uploadCustomBorder(this.files[0]);this.value=''">
 
 <script>
 const SUPABASE_URL = 'https://sobhopuuvwctrdhlgttw.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvYmhvcHV1dndjdHJkaGxndHR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwMDU2ODMsImV4cCI6MjEwOTU4MTY4M30.mKQx4lLq-AufDQiLYocmMVnnwVFGfI_-xklNoGkW_wA';
 
 const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';
+const BORDER_LIB_KEY = 'sms_cert_borders_v1';
+const SELECTED_BORDER_KEY = 'sms_selected_border_v1';
 
 function getLogoSrc(){
   const S = getS();
   if (S && S.info && S.info.moeysLogo) return S.info.moeysLogo;
   return DEFAULT_MOEYS_LOGO;
 }
+
+// មុខងារគ្រប់គ្រងឃ្លាំងស៊ុមក្បាច់បណ្ណសរសើរ
+function getBorderLibrary(){
+  try {
+    const raw = localStorage.getItem(BORDER_LIB_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch(e){ return []; }
+}
+function saveBorderLibrary(lib){
+  localStorage.setItem(BORDER_LIB_KEY, JSON.stringify(lib));
+}
+function getSelectedBorder(){
+  return localStorage.getItem(SELECTED_BORDER_KEY) || '';
+}
+function setSelectedBorder(url){
+  localStorage.setItem(SELECTED_BORDER_KEY, url);
+}
+
+let showBorderModal = false;
 
 async function sbFetch(path, opts = {}){
   const headers = {
@@ -348,7 +526,7 @@ function smartKhmerDate(val){
   return s;
 }
 
-// ១. មុខវិជ្ជាបឋមសិក្សា
+// ១. មុខវិជ្ជាបឋមសិក្សា[cite: 5]
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
@@ -357,7 +535,7 @@ const SUBJ_PRIMARY = [
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
-// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)
+// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)[cite: 5]
 const SUBJ_SECONDARY = [
   {n:'សរសេរតាមអាន', s:[['សរសេរ', 40]]},
   {n:'តែងសេចក្តី', s:[['តែង', 60]]},
@@ -381,7 +559,7 @@ const SUBJ_SECONDARY = [
   {n:'ភាសាបរទេស', s:[['បរទេស', 50]]}
 ];
 
-// ៣. មុខវិជ្ជាវិទ្យាល័យ
+// ៣. មុខវិជ្ជាវិទ្យាល័យ[cite: 5]
 const SUBJ_HIGH_SCIENCE = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
   {n:'រូបវិទ្យា', s:[['រូប', 75]]},
@@ -637,6 +815,7 @@ let pg = 'login';
 let mo = 7;
 let sem = 0;
 let examSem = 0;
+let certLimit = 5; // ជម្រើសចំនួនសិស្សទទួលបណ្ណ (Default Top 5)
 let idleT = null;
 
 function setStatus(text, err){
@@ -791,7 +970,6 @@ const avSemExam = (id, sIdx) => {
   return t ? t / div : 0;
 };
 
-// កែសម្រួលក្បួនគណនានិទ្ទេសតាមកម្រិតពិន្ទុពេញជាក់ស្តែង (បឋម=១០, អនុ/វិទ្យាល័យ=៥០)
 function getGradeLetter(a, t){
   if (!t || a <= 0) return '-';
   const max = getMaxAv(currentLevel);
@@ -923,7 +1101,7 @@ function jumpNext(pfx, r, c, maxR, maxC){
 // មុខងារ Paste ទិន្នន័យពី Excel / Sheets ចូលតារាងស្វ័យប្រវត្តិ
 function handleExcelPaste(e, startR, startC, pfx){
   const clip = (e.clipboardData || window.clipboardData).getData('text');
-  if (!clip || !clip.includes('\t') && !clip.includes('\n')) return; // បើមិនមែនជាទិន្នន័យតារាង ឱ្យដំណើរការធម្មតា
+  if (!clip || !clip.includes('\t') && !clip.includes('\n')) return;
   e.preventDefault();
   
   const S = getS();
@@ -975,7 +1153,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
     element.style.display = 'block';
 
     const opt = {
-      margin: isLandscape ? [6, 6, 6, 6] : 8,
+      margin: isLandscape ? [0, 0, 0, 0] : 8,
       filename: `${reportName || 'តារាងសាលា'}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { scale: 2, useCORS: true },
@@ -1007,7 +1185,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       styleSheet.id = 'dynamicPrintStyle';
       document.head.appendChild(styleSheet);
     }
-    styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'} !important; margin: 6mm !important; } }`;
+    styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'} !important; margin: 0mm !important; } }`;
     setTimeout(() => window.print(), 100);
   }
 }
@@ -1027,6 +1205,45 @@ function renderOfficialHeaderHTML(i, logoSrc){
       </div>
     </div>
   `;
+}
+
+// មុខងារ Upload ស៊ុមក្បាច់ថ្មី
+function uploadCustomBorder(file){
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = () => {
+    const im = new Image();
+    im.onload = () => {
+      const c = document.createElement('canvas');
+      const maxW = 1920;
+      const scale = Math.min(1, maxW / im.width);
+      c.width = Math.round(im.width * scale);
+      c.height = Math.round(im.height * scale);
+      const ctx = c.getContext('2d');
+      ctx.drawImage(im, 0, 0, c.width, c.height);
+      const dataUrl = c.toDataURL('image/png', 0.92);
+      
+      const lib = getBorderLibrary();
+      lib.push({ id: Date.now(), name: file.name.replace(/\.[^/.]+$/, ''), url: dataUrl });
+      saveBorderLibrary(lib);
+      setSelectedBorder(dataUrl);
+      R();
+      setStatus('បានបន្ថែមស៊ុមក្បាច់ថ្មី ✓');
+    };
+    im.src = r.result;
+  };
+  r.readAsDataURL(file);
+}
+
+function deleteBorder(id, e){
+  if (e) e.stopPropagation();
+  if (!confirm('លុបស៊ុមក្បាច់នេះចេញពីឃ្លាំង?')) return;
+  let lib = getBorderLibrary();
+  const target = lib.find(b => b.id === id);
+  lib = lib.filter(b => b.id !== id);
+  saveBorderLibrary(lib);
+  if (target && getSelectedBorder() === target.url) setSelectedBorder('');
+  R();
 }
 
 const P = {
@@ -1696,31 +1913,117 @@ honor(){
 
 cert(){
   const S = getS();
-  const list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
+  const i = S.info;
+  const logoSrc = getLogoSrc();
+  const selectedBorder = getSelectedBorder();
+  const borderLib = getBorderLibrary();
+
+  let list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
     .filter(s => s.tot > 0)
-    .sort((a,b) => b.av - a.av)
-    .slice(0, 5);
+    .sort((a,b) => b.av - a.av);
+
+  if (certLimit === 3) list = list.slice(0, 3);
+  else if (certLimit === 5) list = list.slice(0, 5);
+  else if (certLimit === 10) list = list.slice(0, 10);
+  else if (certLimit === 'A') list = list.filter(s => getGradeLetter(s.av, s.tot) === 'A');
 
   const certsHtml = list.map((s, idx) => `
-    <div class="cert-box print-page">
-      <h2 style="font-size:24px;color:#d97706;margin:0 0 10px">ព្រះរាជាណាចក្រកម្ពុជា</h2>
-      <h3 style="font-size:18px;margin:0 0 20px">ជាតិ សាសនា ព្រះមហាក្សត្រ</h3>
-      <h1 style="font-size:28px;color:var(--ac);margin:15px 0">បណ្ណសរសើរ</h1>
-      <p style="font-size:16px;line-height:2">គណៈគ្រប់គ្រងសាលា <b>${E(S.info.school || '...............')}</b> សូមកោតសរសើរដល់៖</p>
-      <h2 style="font-size:26px;color:#0f172a;margin:10px 0">សិស្សឈ្មោះ៖ ${E(s.name)} (ភេទ ${s.sex==='ស'?'ស្រី':'ប្រុស'})</h2>
-      <p style="font-size:16px;line-height:2">ដែលបានខិតខំប្រឹងប្រែងសិក្សាទទួលបាន <b>ចំណាត់ថ្នាក់លេខ ${idx+1}</b> មធ្យមភាគ <b>${s.av.toFixed(2)}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b></p>
-      <p style="font-size:16px;line-height:2">ថ្នាក់ទី <b>${E(S.info.cls || '')}</b> ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${E(currentYear)}</b>។</p>
-      <div style="display:flex;justify-content:space-between;margin-top:40px;padding:0 50px">
-        <div>បានឃើញ និងឯកភាព<br><b>នាយកសាលា</b></div>
-        <div>ថ្ងៃទី.....ខែ.....ឆ្នាំ២០២...<br><b>គ្រូបន្ទុកថ្នាក់</b><br><br><br>${E(S.info.teacher || '')}</div>
+    <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${selectedBorder}');` : ''}">
+      <div class="cert-header">
+        <div class="logo-box">
+          <img src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+        </div>
+        <div class="nat-title">
+          <div class="p1">ព្រះរាជាណាចក្រកម្ពុជា</div>
+          <div class="p2">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+          <div class="wave">~~~~~~~~~</div>
+        </div>
+        <div class="logo-box">
+          ${i.logo ? `<img src="${i.logo}">` : `<img src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">`}
+        </div>
+      </div>
+
+      <div class="cert-middle-wrap">
+        <div class="cert-main-text">
+          <div class="cert-big-title">បណ្ណសរសើរ</div>
+          <div>គណៈគ្រប់គ្រងសាលា និងលោកគ្រូ-អ្នកគ្រូ <b>${E(i.school || 'សាលារៀន')}</b> សូមកោតសរសើរដល់៖</div>
+          <div class="cert-student-name">សិស្សឈ្មោះ៖ ${E(s.name)} (ភេទ ${s.sex==='ស'?'ស្រី':'ប្រុស'})</div>
+          <div>ថ្ងៃខែឆ្នាំកំណើត៖ <b>${E(s.dob || '-')}</b> | ថ្នាក់ទី៖ <b>${E(i.cls || '-')}</b></div>
+          <div style="margin-top:6px">
+            ដែលបានខិតខំប្រឹងប្រែងរៀនសូត្រទទួលបាន <b>ចំណាត់ថ្នាក់លេខ ${toKhNum(idx + 1)}</b>
+            មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b>
+          </div>
+          <div>ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b>។</div>
+          <div style="font-size:12.5px;color:var(--mu);margin-top:4px">សូមជូនពរឱ្យបន្តរក្សា និងពង្រឹងការសិក្សាឱ្យកាន់តែពូកែជោគជ័យទៅមុខទៀត!</div>
+        </div>
+
+        <div class="cert-photo-4x6">
+          ${s.ph ? `<img src="${s.ph}">` : '<span>រូបថត<br>៤ x ៦</span>'}
+        </div>
+      </div>
+
+      <div class="cert-footer-sign">
+        <div class="sign-col">
+          <div>បានឃើញ និងឯកភាព</div>
+          <div style="font-weight:bold;margin-top:3px">នាយកសាលា</div>
+        </div>
+        <div class="sign-col">
+          <div>ថ្ងៃទី........ខែ...........ឆ្នាំ២០២...</div>
+          <div style="font-weight:bold;margin-top:3px">គ្រូបន្ទុកថ្នាក់</div>
+          <div style="margin-top:48px;font-weight:bold">${E(i.teacher || '')}</div>
+        </div>
       </div>
     </div>
   `).join('');
 
-  return head('បណ្ណសរសើរស្វ័យប្រវត្តិ') + `<div class="card">
-  <div class="f">${moSel()}<button class="bt" onclick="executeStandardPrint('certPrintArea', 'បណ្ណសរសើរ', false)">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
+  return head('បណ្ណសរសើរស្វ័យប្រវត្តិ (A4 Landscape)') + `<div class="card">
+  <div class="f">
+    ${moSel()}
+    <select onchange="certLimit=isNaN(+this.value)?this.value:+this.value;R()">
+      <option value="3" ${certLimit===3?'selected':''}>🎖️ សិស្សពូកែ Top 3</option>
+      <option value="5" ${certLimit===5?'selected':''}>🎖️ សិស្សពូកែ Top 5</option>
+      <option value="10" ${certLimit===10?'selected':''}>🎖️ សិស្សពូកែ Top 10</option>
+      <option value="A" ${certLimit==='A'?'selected':''}>🌟 សិស្សនិទ្ទេស A ទាំងអស់</option>
+      <option value="all" ${certLimit==='all'?'selected':''}>👥 សិស្សទាំងអស់ដែលមានពិន្ទុ</option>
+    </select>
+    <button class="bt g" onclick="showBorderModal=true;R()">📂 រើសស៊ុមក្បាច់</button>
+    <button class="bt" onclick="executeStandardPrint('certPrintArea', 'បណ្ណសរសើរស្វ័យប្រវត្តិ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+  </div>
+
   <div id="certPrintArea">${certsHtml || '<div class="em">មិនទាន់មានសិស្សមានពិន្ទុសម្រាប់ទទួលបណ្ណសរសើរទេ</div>'}</div>
-  </div>`;
+  </div>
+
+  ${showBorderModal ? `
+    <div class="modal-overlay" onclick="showBorderModal=false;R()">
+      <div class="modal-box" onclick="event.stopPropagation()">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <h2 style="margin:0;font-size:17px;color:var(--ac)">📂 ឃ្លាំងស៊ុមក្បាច់បណ្ណសរសើរ (A4 Landscape)</h2>
+          <button class="bt g" style="padding:4px 10px;min-height:30px" onclick="showBorderModal=false;R()">✕</button>
+        </div>
+        <p class="mu small">លោកគ្រូអាចជ្រើសរើសស៊ុមដែលមានស្រាប់ ឬចុច Upload ស៊ុមក្បាច់ថ្មី (PNG/JPG) ដែលបាន Download ពីក្រៅមកប្រើបានភ្លាមៗ។</p>
+
+        <div class="border-grid-thumb">
+          <div class="border-thumb-item ${!selectedBorder ? 'active' : ''}" onclick="setSelectedBorder('');showBorderModal=false;R()">
+            <div style="height:85px;display:flex;align-items:center;justify-content:center;background:#fff;border:3px double #b45309;border-radius:6px;font-size:12px;font-weight:bold;color:#b45309">ស៊ុមមាសស្តង់ដារ</div>
+            <div style="font-size:11.5px;margin-top:4px;font-weight:600">ស៊ុមបុរាណដើម</div>
+          </div>
+          ${borderLib.map(b => `
+            <div class="border-thumb-item ${selectedBorder===b.url ? 'active' : ''}" onclick="setSelectedBorder('${b.url}');showBorderModal=false;R()">
+              <button class="thumb-del" onclick="deleteBorder(${b.id}, event)" title="លុបស៊ុម">✕</button>
+              <img src="${b.url}">
+              <div style="font-size:11px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${E(b.name || 'ស៊ុមក្បាច់')}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="f" style="margin-top:16px">
+          <button class="bt" style="background:var(--ok)" onclick="$('#fBorderUpload').click()">➕ Upload បន្ថែមស៊ុមថ្មី (PNG/JPG)</button>
+          <button class="bt g" onclick="setSelectedBorder('');showBorderModal=false;R()">ប្រើស៊ុមដើមឡើងវិញ</button>
+        </div>
+      </div>
+    </div>
+  ` : ''}
+  `;
 },
 
 idcard(){
