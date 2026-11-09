@@ -214,32 +214,33 @@ td input.t{width:120px;text-align:start}
   background: #f1f5f9;
 }
 
-/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការស្តង់ដាររដ្ឋបាលជាតិ (ត្រូវតាមគំរូពិត ១០០%) */
+/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការស្តង់ដាររដ្ឋបាលជាតិ (ត្រូវតាមគំរូរូប ៦ និង ៧ ១០០%) */
 .cert-page-a4 {
-  width: 100%;
-  max-width: 285mm;
-  min-height: 198mm;
+  width: 297mm;
+  height: 210mm;
+  max-width: 297mm;
+  min-height: 210mm;
   margin: 0 auto 24px;
   background-color: #fff;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  padding: 18mm 25mm 15mm;
+  /* គម្លាតគែមខាងក្នុងធានាថាអក្សរមិនជាន់ក្បាច់ស៊ុមខាងលើ និងសងខាង */
+  padding: 24mm 32mm 18mm 32mm;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   box-sizing: border-box;
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-radius: 4px;
 }
 .cert-page-a4.default-border {
-  border: 8px double #b45309;
+  border: 10px double #b45309;
   outline: 2px solid #d97706;
-  outline-offset: -14px;
+  outline-offset: -16px;
 }
 
-/* ១. ក្បាលលិខិតបណ្ណសរសើរផ្លូវការ (ឆ្វេង៖ សាលា, កណ្តាលលើ៖ Logo ក្រសួង, ស្តាំ៖ ជាតិ សាសនា ព្រះមហាក្សត្រ) */
+/* ១. ក្បាលលិខិតបណ្ណសរសើរផ្លូវការ (ឆ្វេង៖ សាលា, កណ្តាលលើ៖ Logo ក្រសួងធំ, ស្តាំ៖ ជាតិ សាសនា ព្រះមហាក្សត្រ) */
 .cert-gov-header {
   display: flex;
   justify-content: space-between;
@@ -247,12 +248,13 @@ td input.t{width:120px;text-align:start}
   width: 100%;
   position: relative;
   min-height: 85px;
+  padding-top: 4px;
 }
 .cert-gov-left {
   text-align: center;
-  width: 250px;
-  line-height: 1.45;
-  font-size: 13.5px;
+  width: 260px;
+  line-height: 1.5;
+  font-size: 14px;
   color: #0f172a;
 }
 .cert-gov-left .inst-title {
@@ -260,29 +262,28 @@ td input.t{width:120px;text-align:start}
   font-size: 13.5px;
   color: #1e3a8a;
   display: block;
-  margin-bottom: 2px;
+  margin-bottom: 3px;
 }
 .cert-gov-center-logo {
   position: absolute;
   left: 50%;
-  top: -8px;
+  top: -12px;
   transform: translateX(-50%);
-  width: 76px;
-  height: 76px;
+  width: 90px;
+  height: 90px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 .cert-gov-center-logo img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
 .cert-gov-right {
   text-align: center;
-  width: 260px;
-  line-height: 1.4;
+  width: 270px;
+  line-height: 1.45;
 }
 .cert-gov-right .p1 {
   font-family: var(--title-font);
@@ -292,85 +293,68 @@ td input.t{width:120px;text-align:start}
 }
 .cert-gov-right .p2 {
   font-family: var(--title-font);
-  font-size: 13px;
+  font-size: 13.5px;
   color: #1e3a8a;
   margin: 2px 0 0;
 }
 .cert-gov-right .wave {
-  letter-spacing: 5px;
+  letter-spacing: 4px;
   font-size: 12px;
-  color: #d97706;
+  color: #334155;
+  margin-top: 2px;
 }
 
-/* ២. តួសេចក្តីបណ្ណសរសើរ (ចំកណ្តាលស្មើដៃជើង) */
+/* ២. តួសេចក្តីបណ្ណសរសើរ (ចំកណ្តាលស្មើដៃជើងតាមទម្រង់រដ្ឋបាលពិត) */
 .cert-body-wrap {
   text-align: center;
-  margin: 4px 0 10px;
-  line-height: 2.1;
-  font-size: 15px;
+  margin: 2px 0 8px;
+  line-height: 2.15;
+  font-size: 15.5px;
   color: #1e293b;
   width: 100%;
 }
 .cert-h1-title {
   font-family: var(--title-font);
-  font-size: 32px;
+  font-size: 33px;
   color: #dc2626;
-  margin: 0 0 6px;
+  margin: 0 0 4px;
   letter-spacing: 2px;
-  text-shadow: 0 1px 2px rgba(220,38,38,0.15);
 }
 .cert-giver-title {
   font-family: var(--title-font);
-  font-size: 16px;
+  font-size: 16.5px;
   color: #1e3a8a;
   margin: 0 0 4px;
 }
 .cert-praise-intro {
   font-size: 15.5px;
   color: #334155;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 .cert-student-highlight {
   font-family: var(--title-font);
-  font-size: 23px;
+  font-size: 22px;
   color: #0f172a;
   display: inline-block;
-  padding: 0 8px;
+  padding: 0 6px;
 }
 .cert-reason-text {
-  font-size: 15px;
+  font-size: 15.5px;
   margin-top: 2px;
 }
 .cert-bless-text {
-  font-size: 13.5px;
+  font-size: 14px;
   color: #475569;
-  font-style: italic;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
-/* រូបថតសិស្សខ្នាតតូចកណ្តាលក្រោម (បើមានរូបថត) */
-.cert-photo-mini {
-  width: 28mm;
-  height: 36mm;
-  margin: 6px auto;
-  border: 1px solid #cbd5e1;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-}
-.cert-photo-mini img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* ៣. ហត្ថលេខា និងកាលបរិច្ឆេទ (ឆ្វេង៖ នាយកសាលា, ស្តាំ៖ គ្រូបន្ទុកថ្នាក់) */
+/* ៣. កាលបរិច្ឆេទ និងហត្ថលេខា (ឆ្វេង៖ នាយកសាលា, ស្តាំ៖ គ្រូបន្ទុកថ្នាក់) */
 .cert-sign-wrap {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   width: 100%;
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.5;
   padding: 0 20px;
 }
@@ -380,14 +364,14 @@ td input.t{width:120px;text-align:start}
 }
 .cert-sign-box .role-title {
   font-family: var(--title-font);
-  font-size: 13px;
+  font-size: 13.5px;
   color: #0f172a;
   margin-top: 4px;
 }
 .cert-sign-box .teacher-name {
-  margin-top: 50px;
+  margin-top: 48px;
   font-weight: bold;
-  font-size: 14.5px;
+  font-size: 15px;
 }
 
 /* Modal បណ្ណាល័យស៊ុមក្បាច់ */
@@ -429,7 +413,13 @@ td input.t{width:120px;text-align:start}
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  body{background:#fff;padding:0}
+  html, body {
+    width: 297mm !important;
+    height: 210mm !important;
+    background: #fff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
   .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay{display:none !important}
   main{max-width:100% !important;padding:0 !important;margin:0 !important}
   .card{box-shadow:none !important;border:none !important;padding:0 !important;margin:0 !important}
@@ -437,14 +427,15 @@ td input.t{width:120px;text-align:start}
   .exam-print-container { display: block !important; }
   .cert-page-a4 {
     width: 297mm !important;
-    height: 209mm !important;
+    height: 210mm !important;
     max-width: 297mm !important;
-    min-height: 209mm !important;
+    min-height: 210mm !important;
     box-shadow: none !important;
     margin: 0 !important;
-    padding: 16mm 22mm 14mm !important;
+    padding: 24mm 32mm 18mm 32mm !important;
     page-break-after: always;
     page-break-inside: avoid;
+    box-sizing: border-box !important;
   }
   .print-page{page-break-after:always}
 }
@@ -602,7 +593,7 @@ function smartKhmerDate(val){
   return s;
 }
 
-// ១. មុខវិជ្ជាបឋមសិក្សា[span_18](start_span)[span_18](end_span)
+// ១. មុខវិជ្ជាបឋមសិក្សា
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
@@ -611,7 +602,7 @@ const SUBJ_PRIMARY = [
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
-// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)[span_19](start_span)[span_19](end_span)
+// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)
 const SUBJ_SECONDARY = [
   {n:'សរសេរតាមអាន', s:[['សរសេរ', 40]]},
   {n:'តែងសេចក្តី', s:[['តែង', 60]]},
@@ -635,7 +626,7 @@ const SUBJ_SECONDARY = [
   {n:'ភាសាបរទេស', s:[['បរទេស', 50]]}
 ];
 
-// ៣. មុខវិជ្ជាវិទ្យាល័យ[span_20](start_span)[span_20](end_span)
+// ៣. មុខវិជ្ជាវិទ្យាល័យ
 const SUBJ_HIGH_SCIENCE = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
   {n:'រូបវិទ្យា', s:[['រូប', 75]]},
@@ -1217,53 +1208,16 @@ function handleExcelPaste(e, startR, startC, pfx){
   else if (pfx === 'ex') R();
 }
 
+// មុខងារ Print ដោយផ្ទាល់ (ធានាថាខ្នាត A4 Landscape ពេញលេញ ១០០% លើគ្រប់ Browser និងទូរស័ព្ទ)
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
-  const element = document.getElementById(elementId);
-  if (!element) { window.print(); return; }
-
-  const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
-
-  if (isStandalone && typeof html2pdf !== 'undefined') {
-    setStatus('កំពុងបង្កើត PDF A4...');
-    const prevDisplay = element.style.display;
-    element.style.display = 'block';
-
-    const opt = {
-      margin: isLandscape ? [0, 0, 0, 0] : 8,
-      filename: `${reportName || 'តារាងសាលា'}.pdf`,
-      image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait' }
-    };
-    try {
-      const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
-      element.style.display = prevDisplay;
-      const file = new File([pdfBlob], opt.filename, { type: 'application/pdf' });
-
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: reportName, text: 'តារាងពិន្ទុផ្លូវការ (A4)' });
-        setStatus('បានចែករំលែក PDF ជោគជ័យ ✓');
-      } else {
-        const downloadUrl = URL.createObjectURL(pdfBlob);
-        const a = document.createElement('a');
-        a.href = downloadUrl; a.download = opt.filename; a.click();
-        URL.revokeObjectURL(downloadUrl);
-        setStatus('បានទាញយក PDF ជោគជ័យ ✓');
-      }
-    } catch (e) {
-      element.style.display = prevDisplay;
-      window.print();
-    }
-  } else {
-    let styleSheet = document.getElementById('dynamicPrintStyle');
-    if (!styleSheet) {
-      styleSheet = document.createElement('style');
-      styleSheet.id = 'dynamicPrintStyle';
-      document.head.appendChild(styleSheet);
-    }
-    styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'} !important; margin: 0mm !important; } }`;
-    setTimeout(() => window.print(), 100);
+  let styleSheet = document.getElementById('dynamicPrintStyle');
+  if (!styleSheet) {
+    styleSheet = document.createElement('style');
+    styleSheet.id = 'dynamicPrintStyle';
+    document.head.appendChild(styleSheet);
   }
+  styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'} !important; margin: 0 !important; } }`;
+  setTimeout(() => window.print(), 80);
 }
 
 function renderOfficialHeaderHTML(i, logoSrc){
@@ -1344,10 +1298,10 @@ function uploadCustomBorder(file){
     const im = new Image();
     im.onload = () => {
       const c = document.createElement('canvas');
-      const maxW = 1920;
-      const scale = Math.min(1, maxW / im.width);
-      c.width = Math.round(im.width * scale);
-      c.height = Math.round(im.height * scale);
+      const maxW = 2480;
+      const maxH = 1754;
+      c.width = maxW;
+      c.height = maxH;
       const ctx = c.getContext('2d');
       ctx.drawImage(im, 0, 0, c.width, c.height);
       const dataUrl = c.toDataURL('image/png', 0.92);
@@ -2039,10 +1993,10 @@ cert(){
   const certsHtml = list.map((s, idx) => `
     <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
       
-      <!-- ១. ក្បាលលិខិតជាតិ (ឆ្វេង៖ សាលា, កណ្តាលលើ៖ Logo ក្រសួង, ស្តាំ៖ ពាក្យស្លោកជាតិ) -->
+      <!-- ១. ក្បាលលិខិតជាតិ (ឆ្វេង៖ សាលា, កណ្តាលលើ៖ Logo ក្រសួងធំ, ស្តាំ៖ ពាក្យស្លោកជាតិ) -->
       <div class="cert-gov-header">
         <div class="cert-gov-left">
-          <span class="inst-title">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</span>
+          <span class="inst-title">${E(i.province ? ('ការិយាល័យអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</span>
           <div style="font-weight:bold;font-size:14.5px;color:#0f172a">${E(i.school || 'សាលាបឋមសិក្សា....................')}</div>
         </div>
 
@@ -2057,13 +2011,13 @@ cert(){
         </div>
       </div>
 
-      <!-- ២. តួសេចក្តីបណ្ណសរសើរ (ចំកណ្តាលស្មើដៃជើងតាមទម្រង់រដ្ឋបាលពិត) -->
+      <!-- ២. តួសេចក្តីបណ្ណសរសើរ (ចំកណ្តាលស្មើដៃជើងតាមទម្រង់រដ្ឋបាលពិត ដូចរូបភាព ៦ និង ៧) -->
       <div class="cert-body-wrap">
         <div class="cert-h1-title">ប័ណ្ណសរសើរ</div>
         <div class="cert-giver-title">គណៈគ្រប់គ្រង ${E(i.school || 'សាលារៀន')}</div>
         <div class="cert-praise-intro">សូមកោតសរសើរចំពោះ</div>
 
-        <div style="margin: 8px 0 4px">
+        <div style="margin: 6px 0 2px">
           សិស្សឈ្មោះ៖ <span class="cert-student-highlight">${E(s.name)}</span>
           ភេទ <b style="font-size:16px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</b>
           រៀននៅថ្នាក់ទី <b style="font-size:16px">${E(i.cls || '...')}</b>
@@ -2078,12 +2032,6 @@ cert(){
         <div class="cert-bless-text">
           សូមជូនពរឱ្យទទួលបាននូវពុទ្ធពរទាំងបួនប្រការគឺ អាយុ វណ្ណៈ សុខៈ ពលៈ ជានិច្ចនិរន្តរ៍។
         </div>
-
-        ${s.ph ? `
-          <div class="cert-photo-mini">
-            <img src="${s.ph}">
-          </div>
-        ` : ''}
       </div>
 
       <!-- ៣. កាលបរិច្ឆេទ និងហត្ថលេខា (ឆ្វេង៖ នាយកសាលា, ស្តាំ៖ គ្រូបន្ទុកថ្នាក់) -->
