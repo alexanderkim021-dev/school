@@ -336,11 +336,11 @@ td input.t{width:120px;text-align:start}
 }
 .modal-box {
   background: #fff; border-radius: 18px; padding: 20px;
-  width: 90%; max-width: 680px; max-height: 85vh;
+  width: 90%; max-width: 720px; max-height: 85vh;
   overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
 }
 .border-grid-thumb {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 12px; margin: 14px 0;
 }
 .border-thumb-item {
@@ -352,7 +352,7 @@ td input.t{width:120px;text-align:start}
   border-color: var(--ac); box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
 }
 .border-thumb-item img {
-  width: 100%; height: 85px; object-fit: contain; border-radius: 6px; background: #fff;
+  width: 100%; height: 90px; object-fit: contain; border-radius: 6px; background: #fff;
 }
 .border-thumb-item .thumb-del {
   position: absolute; top: -6px; right: -6px; background: var(--rd);
@@ -404,8 +404,19 @@ const SUPABASE_URL = 'https://sobhopuuvwctrdhlgttw.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvYmhvcHV1dndjdHJkaGxndHR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwMDU2ODMsImV4cCI6MjEwOTU4MTY4M30.mKQx4lLq-AufDQiLYocmMVnnwVFGfI_-xklNoGkW_wA';
 
 const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';
-const BORDER_LIB_KEY = 'sms_cert_borders_v1';
-const SELECTED_BORDER_KEY = 'sms_selected_border_v1';
+const BORDER_LIB_KEY = 'sms_cert_borders_v2';
+const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
+
+// បញ្ជីស៊ុមក្បាច់ស្រាប់ទាំង ៧ ដែលបាន Upload ក្នុង Folder borders លើ GitHub
+const BUILTIN_BORDERS = [
+  { id: 'b1', name: 'ក្បាច់ផ្កាភ្ញីមាស', url: 'borders/Border ArtworkCreative (8).jpg' },
+  { id: 'b2', name: 'ក្បាច់រចនាខៀវ (មានស្នូក)', url: 'borders/Krou-IT168 (13).jpg' },
+  { id: 'b3', name: 'ក្បាច់រចនាខៀវបុរាណ', url: 'borders/Krou-IT168 (15).jpg' },
+  { id: 'b4', name: 'ក្បាច់ខ្មែរខៀវដិត', url: 'borders/ក្បាច់ខ្មែរ.ខៀវ.jpg' },
+  { id: 'b5', name: 'ក្បាច់ក្រហមរាជវាំង', url: 'borders/1609313260732.jpg' },
+  { id: 'b6', name: 'ក្បាច់ផ្កាឈូកស្វាយ', url: 'borders/1609314252883.jpg' },
+  { id: 'b7', name: 'ក្បាច់ក្រហមបន្ទាត់ភ្លោះ', url: 'borders/1609314252894.jpg' }
+];
 
 function getLogoSrc(){
   const S = getS();
@@ -424,7 +435,9 @@ function saveBorderLibrary(lib){
   localStorage.setItem(BORDER_LIB_KEY, JSON.stringify(lib));
 }
 function getSelectedBorder(){
-  return localStorage.getItem(SELECTED_BORDER_KEY) || '';
+  const s = localStorage.getItem(SELECTED_BORDER_KEY);
+  if (s !== null) return s;
+  return BUILTIN_BORDERS[0].url; // ជ្រើសរើសស៊ុមផ្កាភ្ញីមាសទី ១ ជាលំនាំដើម
 }
 function setSelectedBorder(url){
   localStorage.setItem(SELECTED_BORDER_KEY, url);
@@ -526,7 +539,7 @@ function smartKhmerDate(val){
   return s;
 }
 
-// ១. មុខវិជ្ជាបឋមសិក្សា[cite: 5]
+// ១. មុខវិជ្ជាបឋមសិក្សា[cite: 12]
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
@@ -535,7 +548,7 @@ const SUBJ_PRIMARY = [
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
-// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)[cite: 5]
+// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)[cite: 12]
 const SUBJ_SECONDARY = [
   {n:'សរសេរតាមអាន', s:[['សរសេរ', 40]]},
   {n:'តែងសេចក្តី', s:[['តែង', 60]]},
@@ -559,7 +572,7 @@ const SUBJ_SECONDARY = [
   {n:'ភាសាបរទេស', s:[['បរទេស', 50]]}
 ];
 
-// ៣. មុខវិជ្ជាវិទ្យាល័យ[cite: 5]
+// ៣. មុខវិជ្ជាវិទ្យាល័យ[cite: 12]
 const SUBJ_HIGH_SCIENCE = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
   {n:'រូបវិទ្យា', s:[['រូប', 75]]},
@@ -1207,7 +1220,7 @@ function renderOfficialHeaderHTML(i, logoSrc){
   `;
 }
 
-// មុខងារ Upload ស៊ុមក្បាច់ថ្មី
+// មុខងារ Upload ស៊ុមក្បាច់ថ្មីដោយដៃផ្ទាល់
 function uploadCustomBorder(file){
   if (!file) return;
   const r = new FileReader();
@@ -1242,7 +1255,7 @@ function deleteBorder(id, e){
   const target = lib.find(b => b.id === id);
   lib = lib.filter(b => b.id !== id);
   saveBorderLibrary(lib);
-  if (target && getSelectedBorder() === target.url) setSelectedBorder('');
+  if (target && getSelectedBorder() === target.url) setSelectedBorder(BUILTIN_BORDERS[0].url);
   R();
 }
 
@@ -1916,7 +1929,10 @@ cert(){
   const i = S.info;
   const logoSrc = getLogoSrc();
   const selectedBorder = getSelectedBorder();
-  const borderLib = getBorderLibrary();
+  const customLib = getBorderLibrary();
+
+  // បញ្ចូលស៊ុមទាំង ៧ ពី GitHub ជាមួយស៊ុមដែល User បាន Upload បន្ថែម
+  const allBorders = [...BUILTIN_BORDERS, ...customLib];
 
   let list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
     .filter(s => s.tot > 0)
@@ -1928,7 +1944,7 @@ cert(){
   else if (certLimit === 'A') list = list.filter(s => getGradeLetter(s.av, s.tot) === 'A');
 
   const certsHtml = list.map((s, idx) => `
-    <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${selectedBorder}');` : ''}">
+    <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
       <div class="cert-header">
         <div class="logo-box">
           <img src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
@@ -1986,7 +2002,7 @@ cert(){
       <option value="A" ${certLimit==='A'?'selected':''}>🌟 សិស្សនិទ្ទេស A ទាំងអស់</option>
       <option value="all" ${certLimit==='all'?'selected':''}>👥 សិស្សទាំងអស់ដែលមានពិន្ទុ</option>
     </select>
-    <button class="bt g" onclick="showBorderModal=true;R()">📂 រើសស៊ុមក្បាច់</button>
+    <button class="bt g" onclick="showBorderModal=true;R()">📂 រើសស៊ុមក្បាច់ (${allBorders.length})</button>
     <button class="bt" onclick="executeStandardPrint('certPrintArea', 'បណ្ណសរសើរស្វ័យប្រវត្តិ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
 
@@ -2000,17 +2016,17 @@ cert(){
           <h2 style="margin:0;font-size:17px;color:var(--ac)">📂 ឃ្លាំងស៊ុមក្បាច់បណ្ណសរសើរ (A4 Landscape)</h2>
           <button class="bt g" style="padding:4px 10px;min-height:30px" onclick="showBorderModal=false;R()">✕</button>
         </div>
-        <p class="mu small">លោកគ្រូអាចជ្រើសរើសស៊ុមដែលមានស្រាប់ ឬចុច Upload ស៊ុមក្បាច់ថ្មី (PNG/JPG) ដែលបាន Download ពីក្រៅមកប្រើបានភ្លាមៗ។</p>
+        <p class="mu small">លោកគ្រូអាចជ្រើសរើសស៊ុមក្បាច់បុរាណទាំង ៧ ពី Admin ខាងក្រោម ឬចុច Upload ស៊ុមផ្ទាល់ខ្លួនថ្មី (PNG/JPG) បន្ថែមបានគ្រប់ពេល។</p>
 
         <div class="border-grid-thumb">
           <div class="border-thumb-item ${!selectedBorder ? 'active' : ''}" onclick="setSelectedBorder('');showBorderModal=false;R()">
-            <div style="height:85px;display:flex;align-items:center;justify-content:center;background:#fff;border:3px double #b45309;border-radius:6px;font-size:12px;font-weight:bold;color:#b45309">ស៊ុមមាសស្តង់ដារ</div>
-            <div style="font-size:11.5px;margin-top:4px;font-weight:600">ស៊ុមបុរាណដើម</div>
+            <div style="height:90px;display:flex;align-items:center;justify-content:center;background:#fff;border:3px double #b45309;border-radius:6px;font-size:12px;font-weight:bold;color:#b45309">ស៊ុមបន្ទាត់មាស</div>
+            <div style="font-size:11.5px;margin-top:4px;font-weight:600">ស៊ុមដើម Minimal</div>
           </div>
-          ${borderLib.map(b => `
+          ${allBorders.map(b => `
             <div class="border-thumb-item ${selectedBorder===b.url ? 'active' : ''}" onclick="setSelectedBorder('${b.url}');showBorderModal=false;R()">
-              <button class="thumb-del" onclick="deleteBorder(${b.id}, event)" title="លុបស៊ុម">✕</button>
-              <img src="${b.url}">
+              ${typeof b.id === 'number' ? `<button class="thumb-del" onclick="deleteBorder(${b.id}, event)" title="លុបស៊ុម">✕</button>` : ''}
+              <img src="${encodeURI(b.url)}" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'70\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%23f1f5f9\\'/><text x=\\'50%\\' y=\\'50%\\' dominant-baseline=\\'middle\\' text-anchor=\\'middle\\' fill=\\'%2394a3b8\\' font-size=\\'11\\'>ស៊ុមក្បាច់</text></svg>';">
               <div style="font-size:11px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${E(b.name || 'ស៊ុមក្បាច់')}</div>
             </div>
           `).join('')}
@@ -2018,7 +2034,7 @@ cert(){
 
         <div class="f" style="margin-top:16px">
           <button class="bt" style="background:var(--ok)" onclick="$('#fBorderUpload').click()">➕ Upload បន្ថែមស៊ុមថ្មី (PNG/JPG)</button>
-          <button class="bt g" onclick="setSelectedBorder('');showBorderModal=false;R()">ប្រើស៊ុមដើមឡើងវិញ</button>
+          <button class="bt g" onclick="setSelectedBorder(BUILTIN_BORDERS[0].url);showBorderModal=false;R()">ជ្រើសស៊ុមផ្កាភ្ញីមាសទី ១</button>
         </div>
       </div>
     </div>
