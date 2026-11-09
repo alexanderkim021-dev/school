@@ -246,7 +246,6 @@ td input.t{width:120px;text-align:start}
 const SUPABASE_URL = 'https://sobhopuuvwctrdhlgttw.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvYmhvcHV1dndjdHJkaGxndHR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwMDU2ODMsImV4cCI6MjEwOTU4MTY4M30.mKQx4lLq-AufDQiLYocmMVnnwVFGfI_-xklNoGkW_wA';
 
-// ២. ឈ្មោះ File Logo ក្រសួងអប់រំ ពិតប្រាកដដែល Rename រួចលើ GitHub និងលើ Desktop
 const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';
 
 function getLogoSrc(){
@@ -349,7 +348,7 @@ function smartKhmerDate(val){
   return s;
 }
 
-// ១. មុខវិជ្ជាបឋមសិក្សា
+// ១. មុខវិជ្ជាបឋមសិក្សា[cite: 8]
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
@@ -358,7 +357,7 @@ const SUBJ_PRIMARY = [
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
-// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)
+// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)[cite: 8]
 const SUBJ_SECONDARY = [
   {n:'សរសេរតាមអាន', s:[['សរសេរ', 40]]},
   {n:'តែងសេចក្តី', s:[['តែង', 60]]},
@@ -382,7 +381,7 @@ const SUBJ_SECONDARY = [
   {n:'ភាសាបរទេស', s:[['បរទេស', 50]]}
 ];
 
-// ៣. មុខវិជ្ជាវិទ្យាល័យ (វិទ្យាសាស្ត្រពិត និងសង្គម)
+// ៣. មុខវិជ្ជាវិទ្យាល័យ[cite: 8]
 const SUBJ_HIGH_SCIENCE = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
   {n:'រូបវិទ្យា', s:[['រូប', 75]]},
@@ -424,9 +423,8 @@ function getDiv(lvl, stream){
   return 8.5;
 }
 
-function getMaxAv(lvl, stream){
-  const cols = getCols(lvl, stream);
-  return sum(cols.map(c => c.m)) / getDiv(lvl, stream);
+function getMaxAv(lvl){
+  return lvl === 'primary' ? 10 : 50;
 }
 
 const sum = a => a.reduce((x,y) => x + (+y || 0), 0);
@@ -511,28 +509,61 @@ async function createAccount(u, pw, fullname){
   const salt = crypto.getRandomValues(new Uint8Array(16));
   const key = await deriveKey(pw, salt);
   const chk = await seal(key, 'ok');
-  accounts[u] = {fullname, salt: b64(salt), check: chk, data: null, created: Date.now(), backupAt: 0};
+  accounts[u] = {fullname, salt: b64(salt), check: chk, data: null, status: 'active', created: Date.now(), backupAt: 0};
   saveAccounts();
-  sbPushUser({ username: u, fullname: fullname, salt: b64(salt), check: chk, data: null, updated_at: new Date().toISOString() }).catch(()=>{});
+  sbPushUser({ username: u, fullname: fullname, salt: b64(salt), check: chk, data: null, status: 'active', updated_at: new Date().toISOString() }).catch(()=>{});
   return key;
 }
 
+// Login Offline-First 100% និងផ្ទៀងផ្ទាត់ status
 async function unlock(u, pw){
   let acc = accounts[u];
+
   if (!acc) {
-    setStatus('កំពុងពិនិត្យលើ Cloud...');
-    const remote = await sbPullUser(u);
-    if (remote) {
-      accounts[u] = { fullname: remote.fullname, salt: remote.salt, check: remote.check, data: remote.data, created: Date.now(), backupAt: Date.now() };
-      saveAccounts();
-      acc = accounts[u];
+    setStatus('កំពុងស្វែងរកគណនីលើ Cloud...');
+    try {
+      const remote = await sbPullUser(u);
+      if (remote) {
+        if (remote.status && remote.status !== 'active') {
+          throw new Error('គណនីនេះត្រូវបានផ្អាកបណ្តោះអាសន្ន! សូមទាក់ទងអ្នកគ្រប់គ្រង។');
+        }
+        accounts[u] = { 
+          fullname: remote.fullname, 
+          salt: remote.salt, 
+          check: remote.check, 
+          data: remote.data, 
+          status: remote.status || 'active',
+          created: Date.now(), 
+          backupAt: Date.now() 
+        };
+        saveAccounts();
+        acc = accounts[u];
+      }
+    } catch(err) {
+      if (err.message && err.message.includes('ផ្អាក')) throw err;
     }
   }
+
   if (!acc) throw new Error('no-account');
+
+  if (acc.status && acc.status !== 'active') {
+    throw new Error('គណនីនេះត្រូវបានផ្អាកបណ្តោះអាសន្ន! សូមទាក់ទងអ្នកគ្រប់គ្រង។');
+  }
+
   const key = await deriveKey(pw, unb64(acc.salt));
   let ok = false;
   try { ok = (await open(key, acc.check)) === 'ok'; } catch (e) { ok = false; }
   if (!ok) throw new Error('bad-password');
+
+  sbPullUser(u).then(remote => {
+    if (remote && remote.status && remote.status !== 'active') {
+      accounts[u].status = remote.status;
+      saveAccounts();
+      alert('គណនីនេះត្រូវបានផ្អាកបណ្តោះអាសន្ន!');
+      logout();
+    }
+  }).catch(()=>{});
+
   return key;
 }
 
@@ -602,7 +633,7 @@ function getS(){
 }
 
 let saveChain = Promise.resolve();
-let pg = 'login'; // ទំព័រដើមជា Login ជាចម្បងជានិច្ច
+let pg = 'login';
 let mo = 7;
 let sem = 0;
 let examSem = 0;
@@ -613,7 +644,6 @@ function setStatus(text, err){
   if (el) { el.textContent = text; el.classList.toggle('err', !!err); }
 }
 
-// ៣. ជួសជុលបញ្ហា Cloud Sync (ដោះស្រាយ salt is not defined ដោយផ្ទាល់)
 function save(){
   if (!SESSION || !allYearsData) return;
   const key = SESSION.key, u = SESSION.username, snapshot = JSON.stringify(allYearsData);
@@ -632,6 +662,7 @@ function save(){
         salt: acc.salt,
         check: acc.check,
         data: acc.data,
+        status: acc.status || 'active',
         updated_at: new Date().toISOString()
       }).then(ok => {
         if (ok) setStatus('ពពក (Cloud Sync) ជោគជ័យ ☁️✓');
@@ -712,7 +743,7 @@ async function doLogin(){
     await openSession(u, key);
   } catch (e) {
     await sleep(600);
-    amsg('ឈ្មោះគណនី ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ', true);
+    amsg(e.message && e.message.includes('ផ្អាក') ? e.message : 'ឈ្មោះគណនី ឬពាក្យសម្ងាត់មិនត្រឹមត្រូវ', true);
   }
 }
 
@@ -760,9 +791,10 @@ const avSemExam = (id, sIdx) => {
   return t ? t / div : 0;
 };
 
+// កែសម្រួលក្បួនគណនានិទ្ទេសតាមកម្រិតពិន្ទុពេញជាក់ស្តែង (បឋម=១០, អនុ/វិទ្យាល័យ=៥០)[cite: 9]
 function getGradeLetter(a, t){
   if (!t || a <= 0) return '-';
-  const max = getMaxAv(currentLevel, getS().info.stream);
+  const max = getMaxAv(currentLevel);
   const pct = (a / max) * 100;
   if (pct >= 90) return 'A';
   if (pct >= 80) return 'B';
@@ -774,7 +806,7 @@ function getGradeLetter(a, t){
 
 function getPassStatus(a, t){
   if (!t || a <= 0) return 'គ្មាន';
-  const max = getMaxAv(currentLevel, getS().info.stream);
+  const max = getMaxAv(currentLevel);
   const pct = (a / max) * 100;
   return pct >= 50 ? 'ជាប់' : 'ធ្លាក់';
 }
@@ -803,7 +835,7 @@ const annualAv = id => {
 
 function getAnnualDecision(a){
   if (a <= 0) return '-';
-  const max = getMaxAv(currentLevel, getS().info.stream);
+  const max = getMaxAv(currentLevel);
   const pct = (a / max) * 100;
   if (pct >= 50) return 'ឡើងថ្នាក់';
   if (pct >= 45) return 'ប្រឡងសង';
@@ -850,7 +882,34 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print ដោយផ្ទាល់តាមទម្រង់ក្រដាសជាក់លាក់ (Universal Runner)
+// មុខងារចុច Enter ឬព្រួញ Keyboard ដើម្បីរំកិលប្រអប់វាយពិន្ទុ
+function handleKeyNav(e, r, c, maxR, maxC, pfx){
+  let tr = r, tc = c;
+  if (e.key === 'Enter' || e.key === 'ArrowRight') {
+    e.preventDefault();
+    tc++;
+    if (tc >= maxC) { tc = 0; tr++; }
+    if (tr >= maxR) tr = 0;
+  } else if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    tc--;
+    if (tc < 0) { tc = maxC - 1; tr--; }
+    if (tr < 0) tr = maxR - 1;
+  } else if (e.key === 'ArrowDown') {
+    e.preventDefault();
+    tr++;
+    if (tr >= maxR) tr = 0;
+  } else if (e.key === 'ArrowUp') {
+    e.preventDefault();
+    tr--;
+    if (tr < 0) tr = maxR - 1;
+  } else {
+    return;
+  }
+  const nextInput = document.getElementById(`${pfx}_${tr}_${tc}`);
+  if (nextInput) { nextInput.focus(); nextInput.select(); }
+}
+
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
@@ -900,7 +959,6 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   }
 }
 
-// មុខងារបង្កើត Header ផ្លូវការស្តង់ដារដ្ឋបាល
 function renderOfficialHeaderHTML(i, logoSrc){
   return `
     <div class="official-header">
@@ -1041,13 +1099,16 @@ home(){
 sc(){
   const S = getS();
   const cols = getCols(currentLevel, S.info.stream);
+  const totalRows = S.st.length;
+  const totalCols = cols.length;
+
   const rows = S.st.map((s,k) => {
     const a = (S.sc[mo] || {})[s.id] || [];
     return `<tr>
       <td style="width:45px">${k+1}</td>
       <td class="sn" style="min-width:130px"><b>${E(s.name)}</b></td>
       <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
-      ${cols.map((c,i) => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[i] ?? ''}" onchange="setSc(${s.id},${i},this)"></td>`).join('')}
+      ${cols.map((c,i) => `<td><input id="sc_${k}_${i}" type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[i] ?? ''}" onkeydown="handleKeyNav(event, ${k}, ${i}, ${totalRows}, ${totalCols}, 'sc')" onchange="setSc(${s.id},${i},this)"></td>`).join('')}
       <td id="t${s.id}" style="font-weight:bold"></td>
       <td id="a${s.id}" style="font-weight:bold;color:var(--ac)"></td>
       <td id="r${s.id}" style="font-weight:bold"></td>
@@ -1067,7 +1128,7 @@ sc(){
       <th style="width:45px">ល.រ</th>
       <th class="sn" style="min-width:130px">គោត្តនាម និងនាម</th>
       <th style="width:45px">ភេទ</th>
-      ${cols.map(c => `<th>${c.sn || c.n}<br><small class="mu">(${c.m})</small></th>`).join('')}
+      ${cols.map(c => `<th>${currentLevel === 'primary' ? (c.sn + '<br>' + c.n) : (c.sn || c.n)}<br><small class="mu">(${c.m})</small></th>`).join('')}
       <th style="width:65px">សរុប</th>
       <th style="width:65px">មធ្យម</th>
       <th style="width:55px">ចំណាត់ថ្នាក់</th>
@@ -1190,19 +1251,25 @@ examScore(){
   const i = S.info;
   const cols = getCols(currentLevel, S.info.stream);
   const logoSrc = getLogoSrc();
-  
-  // ១. បង្ហាញលើអេក្រង់ UI ធម្មតា
+  const totalRows = S.st.length;
+  const totalCols = cols.length;
+
+  // ១. បង្ហាញលើអេក្រង់ UI ធម្មតា (បន្ថែម ចំណាត់ថ្នាក់ និង និទ្ទេស)
   const rowsUI = S.st.map((s,k) => {
     const a = (S.semExamScores[examSem] || {})[s.id] || [];
     const t = totSemExam(s.id, examSem);
     const avVal = avSemExam(s.id, examSem);
+    const gr = getGradeLetter(avVal, t);
+    const rk = t > 0 ? (1 + S.st.filter(x => totSemExam(x.id, examSem) > t).length) : '-';
     return `<tr>
       <td style="width:45px">${k+1}</td>
       <td class="sn" style="min-width:130px"><b>${E(s.name)}</b></td>
       <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
-      ${cols.map((c,idx) => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[idx] ?? ''}" onchange="setExamSc(${s.id},${idx},this)"></td>`).join('')}
+      ${cols.map((c,idx) => `<td><input id="ex_${k}_${idx}" type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[idx] ?? ''}" onkeydown="handleKeyNav(event, ${k}, ${idx}, ${totalRows}, ${totalCols}, 'ex')" onchange="setExamSc(${s.id},${idx},this)"></td>`).join('')}
       <td id="ext${s.id}" style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td id="exa${s.id}" style="background:#fef3c7;font-weight:bold;color:#b45309">${avVal ? avVal.toFixed(2) : '-'}</td>
+      <td id="exr${s.id}" style="font-weight:bold">${rk}</td>
+      <td id="exg${s.id}" style="font-weight:bold">${gr}</td>
     </tr>`;
   }).join('');
 
@@ -1214,6 +1281,8 @@ examScore(){
     const a = (S.semExamScores[examSem] || {})[s.id] || [];
     const t = totSemExam(s.id, examSem);
     const avVal = avSemExam(s.id, examSem);
+    const gr = getGradeLetter(avVal, t);
+    const rk = t > 0 ? (1 + S.st.filter(x => totSemExam(x.id, examSem) > t).length) : '-';
     return `<tr>
       <td>${k+1}</td>
       <td style="text-align:start;padding-left:6px;font-weight:bold">${E(s.name)}</td>
@@ -1221,6 +1290,8 @@ examScore(){
       ${cols.map((c,idx) => `<td>${a[idx] ?? '-'}</td>`).join('')}
       <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
+      <td style="font-weight:bold">${rk}</td>
+      <td style="font-weight:bold">${gr}</td>
     </tr>`;
   }).join('');
 
@@ -1240,9 +1311,11 @@ examScore(){
       <th style="width:45px">ល.រ</th>
       <th class="sn" style="min-width:130px">គោត្តនាម និងនាម</th>
       <th style="width:45px">ភេទ</th>
-      ${cols.map(c => `<th>${c.sn || c.n}<br><small class="mu">(${c.m})</small></th>`).join('')}
+      ${cols.map(c => `<th>${currentLevel === 'primary' ? (c.sn + '<br>' + c.n) : (c.sn || c.n)}<br><small class="mu">(${c.m})</small></th>`).join('')}
       <th style="width:75px">សរុបប្រឡង</th>
       <th style="width:85px;background:#fef3c7">មធ្យមប្រឡង</th>
+      <th style="width:65px">ចំ.ថ្នាក់</th>
+      <th style="width:60px">និទ្ទេស</th>
     </tr>
   </thead>
   <tbody>
@@ -1250,7 +1323,7 @@ examScore(){
   </tbody>
   </table></div>
 
-  <!-- ទម្រង់បោះពុម្ពផ្លូវការ A4 Landscape ត្រឡប់ក្បាលតារាងឡើងលើ -->
+  <!-- ទម្រង់បោះពុម្ពផ្លូវការ A4 Landscape -->
   <div id="examPrintSheetArea" class="exam-print-container print-page">
     ${renderOfficialHeaderHTML(i, logoSrc)}
 
@@ -1266,16 +1339,18 @@ examScore(){
           <th rowspan="2" style="width:34px">ល.រ</th>
           <th rowspan="2" style="min-width:130px">គោត្តនាម និងនាម</th>
           <th rowspan="2" style="width:36px">ភេទ</th>
-          ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${c.sn || c.n}</span></th>`).join('')}
+          ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</span></th>`).join('')}
           <th rowspan="2" class="th-rot" style="background:#f1f5f9"><span class="th-rot-txt">សរុបប្រឡង</span></th>
           <th rowspan="2" class="th-rot" style="background:#fef3c7"><span class="th-rot-txt">មធ្យមប្រឡង</span></th>
+          <th rowspan="2" class="th-rot"><span class="th-rot-txt">ចំ.ថ្នាក់</span></th>
+          <th rowspan="2" class="th-rot"><span class="th-rot-txt">និទ្ទេស</span></th>
         </tr>
         <tr>
           ${cols.map(c => `<th class="th-rot-sub">${c.m}</th>`).join('')}
         </tr>
       </thead>
       <tbody>
-        ${rowsPrint || '<tr><td colspan="35" style="padding:15px;color:#888">មិនទាន់មានសិស្ស</td></tr>'}
+        ${rowsPrint || '<tr><td colspan="37" style="padding:15px;color:#888">មិនទាន់មានសិស្ស</td></tr>'}
       </tbody>
     </table>
 
@@ -1359,7 +1434,7 @@ annual(){
           <th style="width:85px;background:#d1fae5">មធ្យមប្រចាំឆ្នាំ</th>
           <th style="width:55px">ចំណាត់ថ្នាក់</th>
           <th style="width:55px">និទ្ទេស</th>
-          <th style="width:85px">សេចក្តីសម្រេច</th>
+          <th style="width:85px">លទ្ធផល</th>
         </tr>
       </thead>
       <tbody>
@@ -1871,10 +1946,17 @@ function setExamSc(id, i, el){
 
   const t = totSemExam(id, examSem);
   const avVal = avSemExam(id, examSem);
+  const gr = getGradeLetter(avVal, t);
+  const rk = t > 0 ? (1 + getS().st.filter(x => totSemExam(x.id, examSem) > t).length) : '-';
+
   const tEl = $('#ext' + id);
   const aEl = $('#exa' + id);
+  const rEl = $('#exr' + id);
+  const gEl = $('#exg' + id);
   if (tEl) tEl.textContent = t ? t.toFixed(0) : '-';
   if (aEl) aEl.textContent = avVal ? avVal.toFixed(2) : '-';
+  if (rEl) rEl.textContent = rk;
+  if (gEl) gEl.textContent = gr;
 }
 
 function setRm(id, v){ (getS().rm[mo] = getS().rm[mo] || {})[id] = v; save(); }
