@@ -214,6 +214,43 @@ td input.t{width:120px;text-align:start}
   background: #f1f5f9;
 }
 
+/* របារឧបករណ៍កំណត់បណ្ណសរសើរ (Toolbar) */
+.cert-customizer {
+  background: #fff;
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  padding: 12px 16px;
+  margin-bottom: 14px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+.cert-customizer-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  align-items: center;
+}
+.cert-citem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tx);
+}
+.cert-citem input[type="range"] {
+  width: 100px;
+  accent-color: var(--ac);
+  cursor: pointer;
+}
+.cert-citem input[type="color"] {
+  width: 36px;
+  height: 32px;
+  padding: 1px;
+  border-radius: 6px;
+  border: 1px solid var(--bd);
+  cursor: pointer;
+}
+
 /* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការស្តង់ដាររដ្ឋបាលជាតិ */
 .cert-page-a4 {
   width: 100%;
@@ -224,8 +261,7 @@ td input.t{width:120px;text-align:start}
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  /* គម្លាតខាងក្នុងសមាមាត្រកុំឱ្យជាន់ស៊ុមក្បាច់ */
-  padding: 8% 10% 6% 10%;
+  padding: var(--cert-pad-top, 8%) 10% 6% 10%;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   box-sizing: border-box;
   position: relative;
@@ -240,7 +276,7 @@ td input.t{width:120px;text-align:start}
   outline-offset: -14px;
 }
 
-/* ១. ក្បាលលិខិតបណ្ណសរសើរផ្លូវការ */
+/* ក្បាលលិខិតបណ្ណសរសើរ */
 .cert-gov-header {
   display: flex;
   justify-content: space-between;
@@ -248,6 +284,7 @@ td input.t{width:120px;text-align:start}
   width: 100%;
   position: relative;
   min-height: 12%;
+  margin-top: var(--cert-header-offset, 0px);
 }
 .cert-gov-left {
   text-align: center;
@@ -259,9 +296,11 @@ td input.t{width:120px;text-align:start}
 .cert-gov-left .inst-title {
   font-family: var(--title-font);
   font-size: clamp(9px, 1.3vw, 13px);
-  color: #1e3a8a;
+  color: var(--cert-header-color, #1e3a8a);
   display: block;
   margin-bottom: 2px;
+  line-height: 1.8 !important;
+  overflow: visible !important;
 }
 .cert-gov-center-logo {
   position: absolute;
@@ -287,14 +326,18 @@ td input.t{width:120px;text-align:start}
 .cert-gov-right .p1 {
   font-family: var(--title-font);
   font-size: clamp(10px, 1.5vw, 15px);
-  color: #1e3a8a;
+  color: var(--cert-header-color, #1e3a8a);
   margin: 0;
+  line-height: 1.8 !important;
+  overflow: visible !important;
 }
 .cert-gov-right .p2 {
   font-family: var(--title-font);
   font-size: clamp(9px, 1.3vw, 13px);
-  color: #1e3a8a;
+  color: var(--cert-header-color, #1e3a8a);
   margin: 2px 0 0;
+  line-height: 1.8 !important;
+  overflow: visible !important;
 }
 .cert-gov-right .wave {
   letter-spacing: 3px;
@@ -302,7 +345,24 @@ td input.t{width:120px;text-align:start}
   color: #334155;
 }
 
-/* ២. តួសេចក្តីបណ្ណសរសើរ (ចំកណ្តាលស្មើដៃជើង) */
+/* ទម្រង់ក្បាលលិខិតកណ្តាល (Center Header) */
+.cert-gov-header.layout-center {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+.cert-gov-header.layout-center .cert-gov-right {
+  width: 100%;
+  margin-bottom: 6px;
+}
+.cert-gov-header.layout-center .cert-gov-left {
+  width: 100%;
+}
+.cert-gov-header.layout-center .cert-gov-center-logo {
+  display: none;
+}
+
+/* តួសេចក្តីបណ្ណសរសើរ */
 .cert-body-wrap {
   text-align: center;
   margin: auto 0;
@@ -310,20 +370,25 @@ td input.t{width:120px;text-align:start}
   font-size: clamp(11px, 1.6vw, 15.5px);
   color: #1e293b;
   width: 100%;
+  transform: translateY(var(--cert-body-offset, 0px));
 }
 .cert-h1-title {
   font-family: var(--title-font);
   font-size: clamp(20px, 3.2vw, 32px);
-  color: #dc2626;
+  color: var(--cert-title-color, #dc2626);
   margin: 0 0 4px;
   letter-spacing: 2px;
-  line-height: 1.8;
+  line-height: 1.8 !important;
+  overflow: visible !important;
+  padding-bottom: 6px;
 }
 .cert-giver-title {
   font-family: var(--title-font);
   font-size: clamp(11px, 1.7vw, 16.5px);
   color: #1e3a8a;
   margin: 0 0 2px;
+  line-height: 1.8 !important;
+  overflow: visible !important;
 }
 .cert-praise-intro {
   font-size: clamp(11px, 1.6vw, 15.5px);
@@ -333,9 +398,11 @@ td input.t{width:120px;text-align:start}
 .cert-student-highlight {
   font-family: var(--title-font);
   font-size: clamp(14px, 2.3vw, 22px);
-  color: #0f172a;
+  color: var(--cert-student-color, #0f172a);
   display: inline-block;
   padding: 0 4px;
+  line-height: 1.8 !important;
+  overflow: visible !important;
 }
 .cert-reason-text {
   font-size: clamp(11px, 1.55vw, 15px);
@@ -347,7 +414,7 @@ td input.t{width:120px;text-align:start}
   margin-top: 4px;
 }
 
-/* ៣. កាលបរិច្ឆេទ និងហត្ថលេខា */
+/* កាលបរិច្ឆេទ និងហត្ថលេខា */
 .cert-sign-wrap {
   display: flex;
   justify-content: space-between;
@@ -366,11 +433,26 @@ td input.t{width:120px;text-align:start}
   font-size: clamp(9px, 1.3vw, 13px);
   color: #0f172a;
   margin-top: 2px;
+  line-height: 1.8 !important;
+  overflow: visible !important;
 }
 .cert-sign-box .teacher-name {
   margin-top: clamp(25px, 4.5vw, 45px);
   font-weight: bold;
   font-size: clamp(10px, 1.5vw, 14.5px);
+}
+
+/* ពេលប្រើប្រាស់ស៊ុមដែលបានបង្កប់ Logo និងចំណងជើងរួចស្រេច (ដូចជា border_3_blue1.png) */
+.cert-page-a4.has-builtin-decor .cert-gov-center-logo,
+.cert-page-a4.has-builtin-decor .cert-h1-title {
+  visibility: hidden !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+.cert-page-a4.has-builtin-decor .cert-body-wrap {
+  padding-top: 8% !important;
 }
 
 /* Modal បណ្ណាល័យស៊ុមក្បាច់ */
@@ -419,7 +501,7 @@ td input.t{width:120px;text-align:start}
     padding: 0 !important;
     margin: 0 !important;
   }
-  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay{display:none !important}
+  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.cert-customizer{display:none !important}
   main{max-width:100% !important;padding:0 !important;margin:0 !important}
   .card{box-shadow:none !important;border:none !important;padding:0 !important;margin:0 !important}
   .w{max-height:none !important;border:none !important;overflow:visible !important}
@@ -431,10 +513,14 @@ td input.t{width:120px;text-align:start}
     min-height: 209mm !important;
     box-shadow: none !important;
     margin: 0 !important;
-    padding: 24mm 32mm 18mm 32mm !important;
+    padding: var(--cert-pad-top, 24mm) 32mm 18mm 32mm !important;
     page-break-after: always;
     page-break-inside: avoid;
     box-sizing: border-box !important;
+  }
+  .cert-h1-title, .cert-student-highlight, .inst-title, .role-title, .p1, .p2 {
+    line-height: 1.8 !important;
+    overflow: visible !important;
   }
   .print-page{page-break-after:always}
 }
@@ -459,9 +545,11 @@ const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';
 const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
+const CERT_SETTINGS_KEY = 'sms_cert_settings_v1';
 
-// បញ្ជីស៊ុមក្បាច់ស្រាប់ទាំង ៧ ដែលបាន Upload ក្នុង Folder borders លើ GitHub[span_11](start_span)[span_11](end_span)[span_12](start_span)[span_12](end_span)
+// បញ្ជីស៊ុមក្បាច់ស្រាប់ ដាក់ស៊ុមថ្មី border_3_blue1.png ពី Photoshop ជាជម្រើសដំបូង
 const BUILTIN_BORDERS = [
+  { id: 'b0', name: 'ក្បាច់ខៀវស្នូក (Template ថ្មី Photoshop)', url: 'borders/border_3_blue1.png', hasBuiltinDecor: true },
   { id: 'b1', name: 'ក្បាច់ផ្កាភ្ញីមាស', url: 'borders/Border ArtworkCreative (8).jpg' },
   { id: 'b2', name: 'ក្បាច់រចនាខៀវ (មានស្នូក)', url: 'borders/Krou-IT168 (13).jpg' },
   { id: 'b3', name: 'ក្បាច់រចនាខៀវបុរាណ', url: 'borders/Krou-IT168 (15).jpg' },
@@ -477,7 +565,40 @@ function getLogoSrc(){
   return DEFAULT_MOEYS_LOGO;
 }
 
-// មុខងារគ្រប់គ្រងឃ្លាំងស៊ុមក្បាច់បណ្ណសរសើរ[span_13](start_span)[span_13](end_span)[span_14](start_span)[span_14](end_span)
+// មុខងារគ្រប់គ្រងការកំណត់ប្លង់បណ្ណសរសើរ (Layout Presets, Sliders, Colors)
+const defaultCertSettings = {
+  headerLayout: 'right', // 'right' ឬ 'center'
+  headerOffset: 0,       // ឡើង-ចុះ Header (px)
+  bodyOffset: 0,         // ឡើង-ចុះ តួសេចក្តី (px)
+  headerColor: '#1e3a8a',// ពណ៌ក្បាលលិខិត
+  titleColor: '#dc2626', // ពណ៌ពាក្យប័ណ្ណសរសើរ
+  studentColor: '#0f172a'// ពណ៌ឈ្មោះសិស្ស
+};
+
+function getCertSettings(){
+  try {
+    return { ...defaultCertSettings, ...JSON.parse(localStorage.getItem(CERT_SETTINGS_KEY) || '{}') };
+  } catch(e) { return defaultCertSettings; }
+}
+
+function updateCertSetting(key, val){
+  const cfg = getCertSettings();
+  cfg[key] = val;
+  localStorage.setItem(CERT_SETTINGS_KEY, JSON.stringify(cfg));
+  applyCertSettings(cfg);
+}
+
+function applyCertSettings(cfg){
+  const r = document.documentElement.style;
+  r.setProperty('--cert-header-offset', (cfg.headerOffset || 0) + 'px');
+  r.setProperty('--cert-body-offset', (cfg.bodyOffset || 0) + 'px');
+  r.setProperty('--cert-header-color', cfg.headerColor || '#1e3a8a');
+  r.setProperty('--cert-title-color', cfg.titleColor || '#dc2626');
+  r.setProperty('--cert-student-color', cfg.studentColor || '#0f172a');
+}
+applyCertSettings(getCertSettings());
+
+// មុខងារគ្រប់គ្រងឃ្លាំងស៊ុមក្បាច់បណ្ណសរសើរ
 function getBorderLibrary(){
   try {
     const raw = localStorage.getItem(BORDER_LIB_KEY);
@@ -490,7 +611,7 @@ function saveBorderLibrary(lib){
 function getSelectedBorder(){
   const s = localStorage.getItem(SELECTED_BORDER_KEY);
   if (s !== null) return s;
-  return BUILTIN_BORDERS[0].url; // ជ្រើសរើសស៊ុមផ្កាភ្ញីមាសទី ១ ជាលំនាំដើម
+  return BUILTIN_BORDERS[0].url; // ស៊ុមថ្មី border_3_blue1.png ជាលំនាំដើម
 }
 function setSelectedBorder(url){
   localStorage.setItem(SELECTED_BORDER_KEY, url);
@@ -592,7 +713,7 @@ function smartKhmerDate(val){
   return s;
 }
 
-// ១. មុខវិជ្ជាបឋមសិក្សា[span_15](start_span)[span_15](end_span)
+// ១. មុខវិជ្ជាបឋមសិក្សា
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
@@ -601,7 +722,7 @@ const SUBJ_PRIMARY = [
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
-// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)[span_16](start_span)[span_16](end_span)
+// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)
 const SUBJ_SECONDARY = [
   {n:'សរសេរតាមអាន', s:[['សរសេរ', 40]]},
   {n:'តែងសេចក្តី', s:[['តែង', 60]]},
@@ -625,7 +746,7 @@ const SUBJ_SECONDARY = [
   {n:'ភាសាបរទេស', s:[['បរទេស', 50]]}
 ];
 
-// ៣. មុខវិជ្ជាវិទ្យាល័យ[span_17](start_span)[span_17](end_span)
+// ៣. មុខវិជ្ជាវិទ្យាល័យ
 const SUBJ_HIGH_SCIENCE = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
   {n:'រូបវិទ្យា', s:[['រូប', 75]]},
@@ -759,7 +880,6 @@ async function createAccount(u, pw, fullname){
   return key;
 }
 
-// Login Offline-First 100% និងផ្ទៀងផ្ទាត់ status[span_18](start_span)[span_18](end_span)
 async function unlock(u, pw){
   let acc = accounts[u];
 
@@ -1126,7 +1246,7 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print ដោយផ្ទាល់ (គាំទ្រទាំង Browser កុំព្យូទ័រ និង iPhone/Android PWA)[span_19](start_span)[span_19](end_span)[span_20](start_span)[span_20](end_span)
+// មុខងារ Print ដោយផ្ទាល់
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
@@ -1193,7 +1313,6 @@ function renderOfficialHeaderHTML(i, logoSrc){
   `;
 }
 
-// មុខងារបង្កើតក្បាលតារាង ២ ជាន់ (Group Header) សម្រាប់បឋមសិក្សា[span_21](start_span)[span_21](end_span)[span_22](start_span)[span_22](end_span)
 function renderScoreTableHeadHTML(type){
   const lvl = currentLevel;
   const cols = getCols(lvl, getS().info.stream);
@@ -1246,7 +1365,6 @@ function renderScoreTableHeadHTML(type){
   }
 }
 
-// មុខងារ Upload ស៊ុមក្បាច់ថ្មីដោយដៃផ្ទាល់[span_23](start_span)[span_23](end_span)[span_24](start_span)[span_24](end_span)
 function uploadCustomBorder(file){
   if (!file) return;
   const r = new FileReader();
@@ -1409,7 +1527,6 @@ sc(){
   const S = getS();
   const cols = getCols(currentLevel, S.info.stream);
 
-  // ប្រអប់បញ្ចូលពិន្ទុបែបដើម (type="number") មិនរត់ហួសអេក្រង់[span_25](start_span)[span_25](end_span)
   const rows = S.st.map((s,k) => {
     const a = (S.sc[mo] || {})[s.id] || [];
     return `<tr>
@@ -1548,7 +1665,6 @@ examScore(){
   const cols = getCols(currentLevel, S.info.stream);
   const logoSrc = getLogoSrc();
 
-  // ១. បង្ហាញលើអេក្រង់ UI ធម្មតា (type="number" បែបដើម)[span_26](start_span)[span_26](end_span)
   const rowsUI = S.st.map((s,k) => {
     const a = (S.semExamScores[examSem] || {})[s.id] || [];
     const t = totSemExam(s.id, examSem);
@@ -1567,7 +1683,6 @@ examScore(){
     </tr>`;
   }).join('');
 
-  // ២. បង្ហាញទម្រង់សម្រាប់បោះពុម្ព[span_27](start_span)[span_27](end_span)
   const totalStudents = S.st.length;
   const femaleStudents = S.st.filter(s => s.sex === 'ស').length;
 
@@ -1598,7 +1713,6 @@ examScore(){
     <button class="bt" onclick="executeStandardPrint('examPrintSheetArea', 'តារាងប្រឡងឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
 
-  <!-- UI បញ្ចូលពិន្ទុធម្មតាលើអេក្រង់ (Screen UI) -->
   <div class="w screen-ui"><table>
   ${renderScoreTableHeadHTML('exam')}
   <tbody>
@@ -1606,7 +1720,6 @@ examScore(){
   </tbody>
   </table></div>
 
-  <!-- ទម្រង់បោះពុម្ពផ្លូវការ A4 Landscape[span_28](start_span)[span_28](end_span) -->
   <div id="examPrintSheetArea" class="exam-print-container print-page">
     ${renderOfficialHeaderHTML(i, logoSrc)}
 
@@ -1930,9 +2043,11 @@ cert(){
   const logoSrc = getLogoSrc();
   const selectedBorder = getSelectedBorder();
   const customLib = getBorderLibrary();
+  const cSet = getCertSettings();
 
-  // បញ្ចូលស៊ុមទាំង ៧ ពី GitHub ជាមួយស៊ុមដែល User បាន Upload បន្ថែម[span_29](start_span)[span_29](end_span)[span_30](start_span)[span_30](end_span)[span_31](start_span)[span_31](end_span)
   const allBorders = [...BUILTIN_BORDERS, ...customLib];
+  const curBorderObj = allBorders.find(b => b.url === selectedBorder) || {};
+  const isBuiltinDecor = curBorderObj.hasBuiltinDecor || false;
 
   let list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
     .filter(s => s.tot > 0)
@@ -1944,10 +2059,10 @@ cert(){
   else if (certLimit === 'A') list = list.filter(s => getGradeLetter(s.av, s.tot) === 'A');
 
   const certsHtml = list.map((s, idx) => `
-    <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
+    <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'} ${isBuiltinDecor ? 'has-builtin-decor' : ''}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
       
-      <!-- ១. ក្បាលលិខិតជាតិ (ឆ្វេង៖ សាលា, កណ្តាលលើ៖ Logo ក្រសួងធំ, ស្តាំ៖ ពាក្យស្លោកជាតិ)[span_32](start_span)[span_32](end_span)[span_33](start_span)[span_33](end_span) -->
-      <div class="cert-gov-header">
+      <!-- ១. ក្បាលលិខិតជាតិ (គាំទ្រការរំកិល និងប្តូរទម្រង់កណ្តាល/ស្តាំ) -->
+      <div class="cert-gov-header ${cSet.headerLayout === 'center' ? 'layout-center' : ''}">
         <div class="cert-gov-left">
           <span class="inst-title">${E(i.province ? ('ការិយាល័យអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</span>
           <div style="font-weight:bold;color:#0f172a">${E(i.school || 'សាលាបឋមសិក្សា....................')}</div>
@@ -1964,7 +2079,7 @@ cert(){
         </div>
       </div>
 
-      <!-- ២. តួសេចក្តីបណ្ណសរសើរ (ចំកណ្តាលស្មើដៃជើងតាមទម្រង់រដ្ឋបាលពិត ដូចរូបភាព ៦ និង ៧)[span_34](start_span)[span_34](end_span)[span_35](start_span)[span_35](end_span) -->
+      <!-- ២. តួសេចក្តីបណ្ណសរសើរ -->
       <div class="cert-body-wrap">
         <div class="cert-h1-title">ប័ណ្ណសរសើរ</div>
         <div class="cert-giver-title">គណៈគ្រប់គ្រង ${E(i.school || 'សាលារៀន')}</div>
@@ -1987,7 +2102,7 @@ cert(){
         </div>
       </div>
 
-      <!-- ៣. កាលបរិច្ឆេទ និងហត្ថលេខា (ឆ្វេង៖ នាយកសាលា, ស្តាំ៖ គ្រូបន្ទុកថ្នាក់)[span_36](start_span)[span_36](end_span)[span_37](start_span)[span_37](end_span) -->
+      <!-- ៣. កាលបរិច្ឆេទ និងហត្ថលេខា -->
       <div class="cert-sign-wrap">
         <div class="cert-sign-box">
           <div>បានឃើញ និងឯកភាព</div>
@@ -2017,6 +2132,41 @@ cert(){
     <button class="bt" onclick="executeStandardPrint('certPrintArea', 'បណ្ណសរសើរស្វ័យប្រវត្តិ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
 
+  <!-- របារបញ្ជាតម្រឹមប្លង់ និងប្តូរពណ៌អក្សរផ្ទាល់ភ្នែក -->
+  <div class="cert-customizer">
+    <div class="cert-customizer-grid">
+      <div class="cert-citem">
+        <span>ទម្រង់ក្បាលលិខិត៖</span>
+        <select onchange="updateCertSetting('headerLayout', this.value);R()" style="min-height:32px;padding:2px 8px">
+          <option value="right" ${cSet.headerLayout==='right'?'selected':''}>ស្តង់ដារ (ស្តាំលើ)</option>
+          <option value="center" ${cSet.headerLayout==='center'?'selected':''}>កណ្តាល (Center)</option>
+        </select>
+      </div>
+      <div class="cert-citem">
+        <span>រំកិលក្បាលលើ (Header $\\updownarrow$)៖</span>
+        <input type="range" min="-30" max="60" value="${cSet.headerOffset}" oninput="updateCertSetting('headerOffset', +this.value)">
+      </div>
+      <div class="cert-citem">
+        <span>រំកិលតួសេចក្តី (Body $\\updownarrow$)៖</span>
+        <input type="range" min="-40" max="60" value="${cSet.bodyOffset}" oninput="updateCertSetting('bodyOffset', +this.value)">
+      </div>
+      <div class="cert-citem">
+        <span>ពណ៌ក្បាលលិខិត៖</span>
+        <input type="color" value="${cSet.headerColor}" onchange="updateCertSetting('headerColor', this.value)">
+      </div>
+      ${!isBuiltinDecor ? `
+        <div class="cert-citem">
+          <span>ពណ៌ចំណងជើង៖</span>
+          <input type="color" value="${cSet.titleColor}" onchange="updateCertSetting('titleColor', this.value)">
+        </div>
+      ` : ''}
+      <div class="cert-citem">
+        <span>ពណ៌ឈ្មោះសិស្ស៖</span>
+        <input type="color" value="${cSet.studentColor}" onchange="updateCertSetting('studentColor', this.value)">
+      </div>
+    </div>
+  </div>
+
   <div id="certPrintArea">${certsHtml || '<div class="em">មិនទាន់មានសិស្សមានពិន្ទុសម្រាប់ទទួលបណ្ណសរសើរទេ</div>'}</div>
   </div>
 
@@ -2027,7 +2177,7 @@ cert(){
           <h2 style="margin:0;font-size:17px;color:var(--ac)">📂 ឃ្លាំងស៊ុមក្បាច់បណ្ណសរសើរ (A4 Landscape)</h2>
           <button class="bt g" style="padding:4px 10px;min-height:30px" onclick="showBorderModal=false;R()">✕</button>
         </div>
-        <p class="mu small">លោកគ្រូអាចជ្រើសរើសស៊ុមក្បាច់បុរាណទាំង ៧ ពី Admin ខាងក្រោម ឬចុច Upload ស៊ុមផ្ទាល់ខ្លួនថ្មី (PNG/JPG) បន្ថែមបានគ្រប់ពេល។</p>
+        <p class="mu small">លោកគ្រូអាចជ្រើសរើសស៊ុមក្បាច់ថ្មីពី Photoshop (border_3_blue1.png) ឬស៊ុមបុរាណ ព្រមទាំងចុច Upload ស៊ុមថ្មីបន្ថែមបានគ្រប់ពេល។</p>
 
         <div class="border-grid-thumb">
           <div class="border-thumb-item ${!selectedBorder ? 'active' : ''}" onclick="setSelectedBorder('');showBorderModal=false;R()">
@@ -2045,7 +2195,7 @@ cert(){
 
         <div class="f" style="margin-top:16px">
           <button class="bt" style="background:var(--ok)" onclick="$('#fBorderUpload').click()">➕ Upload បន្ថែមស៊ុមថ្មី (PNG/JPG)</button>
-          <button class="bt g" onclick="setSelectedBorder(BUILTIN_BORDERS[0].url);showBorderModal=false;R()">ជ្រើសស៊ុមផ្កាភ្ញីមាសទី ១</button>
+          <button class="bt g" onclick="setSelectedBorder(BUILTIN_BORDERS[0].url);showBorderModal=false;R()">ជ្រើសស៊ុមខៀវថ្មី (Photoshop)</button>
         </div>
       </div>
     </div>
@@ -2305,7 +2455,6 @@ function setSex(id, v){
   if(s){ s.sex = v; save(); }
 }
 
-// មុខងារបញ្ចូលពិន្ទុធម្មតា (កូដដើម)[span_38](start_span)[span_38](end_span)
 function setSc(id, i, el){
   const cols = getCols(currentLevel, getS().info.stream);
   const m = cols[i].m;
