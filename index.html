@@ -251,12 +251,22 @@ td input.t{width:120px;text-align:start}
   cursor: pointer;
 }
 
+/* ផ្ទាំង Viewport ទ្រទ្រង់ទូរស័ព្ទកុំឱ្យកន្ត្រាក់រួញទ្រង់ទ្រាយ */
+.cert-scroll-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 24px;
+  padding: 4px 0;
+}
+
 /* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការស្តង់ដាររដ្ឋបាលជាតិ */
 .cert-page-a4 {
   width: 100%;
+  min-width: 820px;
   max-width: 960px;
   aspect-ratio: 297 / 210;
-  margin: 0 auto 24px;
+  margin: 0 auto;
   background-color: #fff;
   background-position: center center;
   background-repeat: no-repeat;
@@ -445,14 +455,10 @@ td input.t{width:120px;text-align:start}
 /* ពេលប្រើប្រាស់ស៊ុមដែលបានបង្កប់ Logo និងចំណងជើងរួចស្រេច (ដូចជា border_3_blue1.png) */
 .cert-page-a4.has-builtin-decor .cert-gov-center-logo,
 .cert-page-a4.has-builtin-decor .cert-h1-title {
-  visibility: hidden !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
+  display: none !important;
 }
 .cert-page-a4.has-builtin-decor .cert-body-wrap {
-  padding-top: 8% !important;
+  padding-top: 70px !important;
 }
 
 /* Modal បណ្ណាល័យស៊ុមក្បាច់ */
@@ -506,6 +512,11 @@ td input.t{width:120px;text-align:start}
   .card{box-shadow:none !important;border:none !important;padding:0 !important;margin:0 !important}
   .w{max-height:none !important;border:none !important;overflow:visible !important}
   .exam-print-container { display: block !important; }
+  .cert-scroll-wrap {
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
   .cert-page-a4 {
     width: 297mm !important;
     height: 209mm !important;
@@ -565,14 +576,14 @@ function getLogoSrc(){
   return DEFAULT_MOEYS_LOGO;
 }
 
-// មុខងារគ្រប់គ្រងការកំណត់ប្លង់បណ្ណសរសើរ (Layout Presets, Sliders, Colors)
+// មុខងារគ្រប់គ្រងការកំណត់ប្លង់បណ្ណសរសើរ
 const defaultCertSettings = {
-  headerLayout: 'right', // 'right' ឬ 'center'
-  headerOffset: 0,       // ឡើង-ចុះ Header (px)
-  bodyOffset: 0,         // ឡើង-ចុះ តួសេចក្តី (px)
-  headerColor: '#1e3a8a',// ពណ៌ក្បាលលិខិត
-  titleColor: '#dc2626', // ពណ៌ពាក្យប័ណ្ណសរសើរ
-  studentColor: '#0f172a'// ពណ៌ឈ្មោះសិស្ស
+  headerLayout: 'right',
+  headerOffset: 0,
+  bodyOffset: 0,
+  headerColor: '#1e3a8a',
+  titleColor: '#dc2626',
+  studentColor: '#0f172a'
 };
 
 function getCertSettings(){
@@ -598,7 +609,6 @@ function applyCertSettings(cfg){
 }
 applyCertSettings(getCertSettings());
 
-// មុខងារគ្រប់គ្រងឃ្លាំងស៊ុមក្បាច់បណ្ណសរសើរ
 function getBorderLibrary(){
   try {
     const raw = localStorage.getItem(BORDER_LIB_KEY);
@@ -611,7 +621,7 @@ function saveBorderLibrary(lib){
 function getSelectedBorder(){
   const s = localStorage.getItem(SELECTED_BORDER_KEY);
   if (s !== null) return s;
-  return BUILTIN_BORDERS[0].url; // ស៊ុមថ្មី border_3_blue1.png ជាលំនាំដើម
+  return BUILTIN_BORDERS[0].url;
 }
 function setSelectedBorder(url){
   localStorage.setItem(SELECTED_BORDER_KEY, url);
@@ -632,7 +642,7 @@ async function sbFetch(path, opts = {}){
 
 async function sbPullUser(u){
   try {
-    const res = await sbFetch(`/users?username=eq.${encodeURIComponent(u)}&select=*`);
+    const res = await sbFetch('/users?username=eq.' + encodeURIComponent(u) + '&select=*');
     if (!res.ok) return null;
     const list = await res.json();
     return list && list.length ? list[0] : null;
@@ -708,12 +718,11 @@ function smartKhmerDate(val){
 
   if (d > 0 && d <= 31 && m > 0 && m <= 12 && y > 1900 && y < 2100) {
     const dd = String(d).padStart(2, '0');
-    return `${toKhNum(dd)} ${KH_MONTHS[m - 1]} ${toKhNum(y)}`;
+    return toKhNum(dd) + ' ' + KH_MONTHS[m - 1] + ' ' + toKhNum(y);
   }
   return s;
 }
 
-// ១. មុខវិជ្ជាបឋមសិក្សា
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
@@ -722,7 +731,6 @@ const SUBJ_PRIMARY = [
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
 
-// ២. មុខវិជ្ជាអនុវិទ្យាល័យ (២០ ជួរឈរ)
 const SUBJ_SECONDARY = [
   {n:'សរសេរតាមអាន', s:[['សរសេរ', 40]]},
   {n:'តែងសេចក្តី', s:[['តែង', 60]]},
@@ -746,7 +754,6 @@ const SUBJ_SECONDARY = [
   {n:'ភាសាបរទេស', s:[['បរទេស', 50]]}
 ];
 
-// ៣. មុខវិជ្ជាវិទ្យាល័យ
 const SUBJ_HIGH_SCIENCE = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 100]]},
   {n:'រូបវិទ្យា', s:[['រូប', 75]]},
@@ -2059,62 +2066,64 @@ cert(){
   else if (certLimit === 'A') list = list.filter(s => getGradeLetter(s.av, s.tot) === 'A');
 
   const certsHtml = list.map((s, idx) => `
-    <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'} ${isBuiltinDecor ? 'has-builtin-decor' : ''}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
-      
-      <!-- ១. ក្បាលលិខិតជាតិ (គាំទ្រការរំកិល និងប្តូរទម្រង់កណ្តាល/ស្តាំ) -->
-      <div class="cert-gov-header ${cSet.headerLayout === 'center' ? 'layout-center' : ''}">
-        <div class="cert-gov-left">
-          <span class="inst-title">${E(i.province ? ('ការិយាល័យអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</span>
-          <div style="font-weight:bold;color:#0f172a">${E(i.school || 'សាលាបឋមសិក្សា....................')}</div>
+    <div class="cert-scroll-wrap">
+      <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'} ${isBuiltinDecor ? 'has-builtin-decor' : ''}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
+        
+        <!-- ១. ក្បាលលិខិតជាតិ -->
+        <div class="cert-gov-header ${cSet.headerLayout === 'center' ? 'layout-center' : ''}">
+          <div class="cert-gov-left">
+            <span class="inst-title">${E(i.province ? ('ការិយាល័យអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</span>
+            <div style="font-weight:bold;color:#0f172a">${E(i.school || 'សាលាបឋមសិក្សា....................')}</div>
+          </div>
+
+          <div class="cert-gov-center-logo">
+            <img src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+          </div>
+
+          <div class="cert-gov-right">
+            <div class="p1">ព្រះរាជាណាចក្រកម្ពុជា</div>
+            <div class="p2">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+            <div class="wave">-0, -</div>
+          </div>
         </div>
 
-        <div class="cert-gov-center-logo">
-          <img src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+        <!-- ២. តួសេចក្តីបណ្ណសរសើរ -->
+        <div class="cert-body-wrap">
+          <div class="cert-h1-title">ប័ណ្ណសរសើរ</div>
+          <div class="cert-giver-title">គណៈគ្រប់គ្រង ${E(i.school || 'សាលារៀន')}</div>
+          <div class="cert-praise-intro">សូមកោតសរសើរចំពោះ</div>
+
+          <div style="margin: 4px 0 2px">
+            សិស្សឈ្មោះ៖ <span class="cert-student-highlight">${E(s.name)}</span>
+            ភេទ <b style="font-size:1.1em">${s.sex==='ស'?'ស្រី':'ប្រុស'}</b>
+            រៀននៅថ្នាក់ទី <b style="font-size:1.1em">${E(i.cls || '...')}</b>
+          </div>
+
+          <div class="cert-reason-text">
+            ដែលបានខិតខំប្រឹងប្រែងរៀនសូត្រ ទទួលបាន <b>ចំណាត់ថ្នាក់លេខ ${toKhNum(idx + 1)}</b>
+            ${s.av > 0 ? `(មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b>)` : ''}
+            ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b> ។
+          </div>
+
+          <div class="cert-bless-text">
+            សូមជូនពរឱ្យទទួលបាននូវពុទ្ធពរទាំងបួនប្រការគឺ អាយុ វណ្ណៈ សុខៈ ពលៈ ជានិច្ចនិរន្តរ៍។
+          </div>
         </div>
 
-        <div class="cert-gov-right">
-          <div class="p1">ព្រះរាជាណាចក្រកម្ពុជា</div>
-          <div class="p2">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-          <div class="wave">-0, -</div>
+        <!-- ៣. កាលបរិច្ឆេទ និងហត្ថលេខា -->
+        <div class="cert-sign-wrap">
+          <div class="cert-sign-box">
+            <div>បានឃើញ និងឯកភាព</div>
+            <div class="role-title">នាយកសាលា</div>
+          </div>
+          <div class="cert-sign-box">
+            <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
+            <div class="role-title">គ្រូបន្ទុកថ្នាក់</div>
+            <div class="teacher-name">${E(i.teacher || '')}</div>
+          </div>
         </div>
+
       </div>
-
-      <!-- ២. តួសេចក្តីបណ្ណសរសើរ -->
-      <div class="cert-body-wrap">
-        <div class="cert-h1-title">ប័ណ្ណសរសើរ</div>
-        <div class="cert-giver-title">គណៈគ្រប់គ្រង ${E(i.school || 'សាលារៀន')}</div>
-        <div class="cert-praise-intro">សូមកោតសរសើរចំពោះ</div>
-
-        <div style="margin: 4px 0 2px">
-          សិស្សឈ្មោះ៖ <span class="cert-student-highlight">${E(s.name)}</span>
-          ភេទ <b style="font-size:1.1em">${s.sex==='ស'?'ស្រី':'ប្រុស'}</b>
-          រៀននៅថ្នាក់ទី <b style="font-size:1.1em">${E(i.cls || '...')}</b>
-        </div>
-
-        <div class="cert-reason-text">
-          ដែលបានខិតខំប្រឹងប្រែងរៀនសូត្រ ទទួលបាន <b>ចំណាត់ថ្នាក់លេខ ${toKhNum(idx + 1)}</b>
-          ${s.av > 0 ? `(មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b>)` : ''}
-          ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b> ។
-        </div>
-
-        <div class="cert-bless-text">
-          សូមជូនពរឱ្យទទួលបាននូវពុទ្ធពរទាំងបួនប្រការគឺ អាយុ វណ្ណៈ សុខៈ ពលៈ ជានិច្ចនិរន្តរ៍។
-        </div>
-      </div>
-
-      <!-- ៣. កាលបរិច្ឆេទ និងហត្ថលេខា -->
-      <div class="cert-sign-wrap">
-        <div class="cert-sign-box">
-          <div>បានឃើញ និងឯកភាព</div>
-          <div class="role-title">នាយកសាលា</div>
-        </div>
-        <div class="cert-sign-box">
-          <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
-          <div class="role-title">គ្រូបន្ទុកថ្នាក់</div>
-          <div class="teacher-name">${E(i.teacher || '')}</div>
-        </div>
-      </div>
-
     </div>
   `).join('');
 
@@ -2132,7 +2141,7 @@ cert(){
     <button class="bt" onclick="executeStandardPrint('certPrintArea', 'បណ្ណសរសើរស្វ័យប្រវត្តិ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
 
-  <!-- របារបញ្ជាតម្រឹមប្លង់ និងប្តូរពណ៌អក្សរផ្ទាល់ភ្នែក -->
+  <!-- របារបញ្ជាតម្រឹមប្លង់ និងប្តូរពណ៌អក្សរ (គ្មានសញ្ញាខុសកូដ) -->
   <div class="cert-customizer">
     <div class="cert-customizer-grid">
       <div class="cert-citem">
@@ -2143,11 +2152,11 @@ cert(){
         </select>
       </div>
       <div class="cert-citem">
-        <span>រំកិលក្បាលលើ (Header $\\updownarrow$)៖</span>
+        <span>រំកិលក្បាលលើ (ឡើង-ចុះ)៖</span>
         <input type="range" min="-30" max="60" value="${cSet.headerOffset}" oninput="updateCertSetting('headerOffset', +this.value)">
       </div>
       <div class="cert-citem">
-        <span>រំកិលតួសេចក្តី (Body $\\updownarrow$)៖</span>
+        <span>រំកិលតួសេចក្តី (ឡើង-ចុះ)៖</span>
         <input type="range" min="-40" max="60" value="${cSet.bodyOffset}" oninput="updateCertSetting('bodyOffset', +this.value)">
       </div>
       <div class="cert-citem">
