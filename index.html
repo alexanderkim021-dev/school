@@ -153,20 +153,35 @@ td input.t{width:120px;text-align:start}
 .cp-box{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .cp-box input[type="color"]{min-height:40px;width:54px;padding:2px;cursor:pointer;border-radius:8px}
 
-/* ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល (Logo ជិតជាប់ពាក្យក្រសួង មិនឡើងលើដាច់ក្បាល) */
-.official-header{display:flex;justify-content:space-between;align-items:flex-start;margin-top:8px;margin-bottom:14px;line-height:1.4;padding:0 8px}
-.official-header .center-box{text-align:center;padding-top:2px}
-.official-header .side-box{text-align:center;padding-top:0}
-.official-print-logo{width:52px;height:52px;object-fit:contain;margin:0 auto 2px;display:block}
+/* ក្បាលលិខិតជាតិ Table Layout ស្តង់ដារ (ដោះស្រាយបញ្ហា Logo មិនឱ្យយឺត ឬដាច់ក្បាលលើ) */
+.official-header-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: none !important;
+  margin-top: 14px;
+  margin-bottom: 16px;
+}
+.official-header-table td {
+  border: none !important;
+  background: transparent !important;
+  padding: 0 4px !important;
+}
+.official-print-logo {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  margin: 0 auto 3px;
+  display: block;
+}
 
 /* ទម្រង់បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ & ប្រចាំឆ្នាំ (A4 Portrait) */
-.official-sheet{background:#fff;padding:16px 20px;color:#000;font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif}
+.official-sheet{background:#fff;padding:18px 24px;color:#000;font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif}
 .official-title{text-align:center;margin:10px 0 8px}
 .official-title h2{font-size:17.5px;margin:2px 0;color:#000}
 .official-table{border:1px solid #444;width:100%;border-collapse:collapse}
 .official-table th, .official-table td{border:1px solid #444;padding:5px 4px;text-align:center;font-size:12px}
 .official-table th{background:#f1f5f9;font-weight:bold}
-.official-footer{margin-top:16px;display:flex;justify-content:space-between;font-size:12.5px;line-height:1.5}
+.official-footer{margin-top:18px;display:flex;justify-content:space-between;font-size:12.5px;line-height:1.5}
 .official-stats{font-size:12px;line-height:1.6;margin-top:8px}
 
 /* ទម្រង់បោះពុម្ពតារាងប្រឡងឆមាស (A4 Landscape) */
@@ -231,7 +246,7 @@ td input.t{width:120px;text-align:start}
   transition: transform 0.15s ease-out;
 }
 
-/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការស្តង់ដាររដ្ឋបាលជាតិ */
+/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការ */
 .cert-page-a4 {
   width: 960px;
   height: 678px;
@@ -256,16 +271,39 @@ td input.t{width:120px;text-align:start}
   outline-offset: -14px;
 }
 
-/* តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop (អក្សរដិតស្អាតច្បាស់) */
+/* របារកំណត់តួសេចក្តីប័ណ្ណសរសើរ (Font, ពណ៌, ទំហំ) */
+.cert-text-tools {
+  background: #fff;
+  border: 1px solid var(--bd);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+.cert-text-tools label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tx);
+}
+
+/* តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop (អក្សរដិត អាចសារ៉េទំហំ និងចុះបន្ទាត់) */
 .cert-auto-body {
   width: 100%;
   text-align: center;
-  line-height: 2.25;
-  font-size: 15.5px;
+  line-height: var(--cert-line-height, 2.25);
+  font-size: var(--cert-font-size, 16px);
+  font-family: var(--cert-font-family, inherit);
+  color: var(--cert-text-color, #1e293b);
   font-weight: 700;
-  color: #1e293b;
   margin: auto 0;
   padding: 0 35px;
+  white-space: pre-wrap;
 }
 .cert-giver-title {
   font-family: var(--title-font);
@@ -276,14 +314,11 @@ td input.t{width:120px;text-align:start}
   overflow: visible !important;
 }
 .cert-praise-intro {
-  font-size: 15.5px;
-  font-weight: 700;
-  color: #1e293b;
   margin-bottom: 4px;
 }
 .cert-student-highlight {
   font-family: var(--title-font);
-  font-size: 21px;
+  font-size: 1.3em;
   color: #b91c1c;
   display: inline-block;
   padding: 0 4px;
@@ -291,12 +326,10 @@ td input.t{width:120px;text-align:start}
   overflow: visible !important;
 }
 .cert-reason-text {
-  font-size: 15.5px;
-  font-weight: 700;
   margin-top: 4px;
 }
 .cert-bless-text {
-  font-size: 13.5px;
+  font-size: 0.9em;
   font-weight: 600;
   color: #334155;
   margin-top: 6px;
@@ -375,7 +408,7 @@ td input.t{width:120px;text-align:start}
     padding: 0 !important;
     margin: 0 !important;
   }
-  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay{display:none !important}
+  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.cert-text-tools{display:none !important}
   main{max-width:100% !important;padding:0 !important;margin:0 !important}
   .card{box-shadow:none !important;border:none !important;padding:0 !important;margin:0 !important}
   .w{max-height:none !important;border:none !important;overflow:visible !important}
@@ -428,6 +461,8 @@ const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';
 const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
+const CERT_FORMAT_KEY = 'sms_cert_format_settings_v1';
+const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
 
 // បញ្ជីស៊ុមក្បាច់ស្រាប់ ដាក់ស៊ុមថ្មី border_3_blue1.png ពី Photoshop ជាជម្រើសដំបូង
 const BUILTIN_BORDERS = [
@@ -446,6 +481,36 @@ function getLogoSrc(){
   if (S && S.info && S.info.moeysLogo) return S.info.moeysLogo;
   return DEFAULT_MOEYS_LOGO;
 }
+
+// មុខងារគ្រប់គ្រងទម្រង់អក្សរប័ណ្ណសរសើរ
+const defaultCertFormat = {
+  fontSize: '16px',
+  lineHeight: '2.25',
+  textColor: '#1e293b',
+  fontFamily: "'Leelawadee UI', 'Kantumruy Pro', sans-serif"
+};
+
+function getCertFormat(){
+  try {
+    return { ...defaultCertFormat, ...JSON.parse(localStorage.getItem(CERT_FORMAT_KEY) || '{}') };
+  } catch(e) { return defaultCertFormat; }
+}
+
+function updateCertFormat(key, val){
+  const cfg = getCertFormat();
+  cfg[key] = val;
+  localStorage.setItem(CERT_FORMAT_KEY, JSON.stringify(cfg));
+  applyCertFormatToCSS(cfg);
+}
+
+function applyCertFormatToCSS(cfg){
+  const r = document.documentElement.style;
+  r.setProperty('--cert-font-size', cfg.fontSize || '16px');
+  r.setProperty('--cert-line-height', cfg.lineHeight || '2.25');
+  r.setProperty('--cert-text-color', cfg.textColor || '#1e293b');
+  r.setProperty('--cert-font-family', cfg.fontFamily || "'Leelawadee UI', 'Kantumruy Pro', sans-serif");
+}
+applyCertFormatToCSS(getCertFormat());
 
 // មុខងារ Auto-Scale ទ្រទ្រង់ទូរស័ព្ទបញ្ឈរឱ្យឃើញស៊ុមពេញ ១០០%
 function updateCertScale(){
@@ -658,7 +723,7 @@ const USER_RE = /^[a-z0-9_.-]{3,30}$/;
 
 const ACCKEY = 'sms_accounts_v7';
 const THEME_KEY = 'sms_theme_settings_v4';
-const ORDER_KEY = 'sms_btn_order_v8';
+const ORDER_KEY = 'sms_btn_order_v9';
 const LAST_YEAR_KEY = 'sms_last_selected_year_v1';
 
 // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem មិនស្ទួន
@@ -795,7 +860,7 @@ async function unlock(u, pw){
 
 let SESSION = null;
 let currentYear = localStorage.getItem(LAST_YEAR_KEY) || '២០២៥ - ២០២៦';
-let currentLevel = 'secondary';
+let currentLevel = localStorage.getItem(LAST_LEVEL_KEY) || 'secondary'; // ចងចាំកម្រិតថ្នាក់រហូត
 let allYearsData = {};
 
 function emptyLevelData(lbl, yr){
@@ -917,6 +982,9 @@ async function openSession(u, key){
   const savedLastYear = localStorage.getItem(LAST_YEAR_KEY);
   if (savedLastYear && allYearsData[savedLastYear]) currentYear = savedLastYear;
   else currentYear = Object.keys(allYearsData)[Object.keys(allYearsData).length - 1] || '២០២៥ - ២០២៦';
+
+  const savedLevel = localStorage.getItem(LAST_LEVEL_KEY);
+  if (savedLevel && ['primary','secondary','high'].includes(savedLevel)) currentLevel = savedLevel;
 
   SESSION = {username: u, key, fullname: acc.fullname};
   pg = 'home';
@@ -1076,6 +1144,7 @@ const go = p => { pg = p; R(); scrollTo(0,0); };
 function switchLevel(lvl){
   if (currentLevel === lvl) return;
   currentLevel = lvl;
+  localStorage.setItem(LAST_LEVEL_KEY, lvl); // ចងចាំកម្រិតថ្នាក់ជាប់ជានិច្ច
   getS().info.div = getDiv(currentLevel, getS().info.stream);
   save();
   R();
@@ -1108,7 +1177,7 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & បំបែក Portrait/Landscape ស្វ័យប្រវត្តិតាមទម្រង់រដ្ឋបាល)
+// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & កាត់ផ្ទៃប្រផេះចោល ១០០%)
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
@@ -1118,16 +1187,16 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   if (isStandalone && typeof html2pdf !== 'undefined') {
     setStatus('កំពុងបង្កើត PDF A4...');
     
-    // ដោះ Scale បង្រួមលើទូរស័ព្ទជាបណ្តោះអាសន្ន ដើម្បីចាប់យករូបភាព A4 ពេញកម្ពស់ ១០០% មិនដាច់ពាក់កណ្តាល
-    const wrappers = element.querySelectorAll('.cert-scaler-wrapper');
-    const oldTransforms = [];
-    const oldHeights = [];
-    wrappers.forEach((w, idx) => {
-      oldTransforms[idx] = w.style.transform;
-      oldHeights[idx] = w.style.height;
-      w.style.transform = 'none';
-      w.style.height = '678px';
-    });
+    // ចង្អុលចំតួប័ណ្ណសរសើរផ្ទាល់កុំឱ្យជាប់ផ្ទៃប្រផេះ និងដោះ Scale បណ្តោះអាសន្ន
+    const printTarget = element.querySelector('.cert-page-a4') || element;
+    const wrapper = element.querySelector('.cert-scaler-wrapper');
+    const oldTransform = wrapper ? wrapper.style.transform : '';
+    const oldHeight = wrapper ? wrapper.style.height : '';
+
+    if (wrapper) {
+      wrapper.style.transform = 'none';
+      wrapper.style.height = '678px';
+    }
 
     const prevDisplay = element.style.display;
     element.style.display = 'block';
@@ -1146,14 +1215,13 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait' }
     };
     try {
-      const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
+      const pdfBlob = await html2pdf().set(opt).from(printTarget).outputPdf('blob');
       element.style.display = prevDisplay;
       
-      // ដាក់ Scale បង្រួមលើអេក្រង់ទូរស័ព្ទមកវិញ
-      wrappers.forEach((w, idx) => {
-        w.style.transform = oldTransforms[idx] || '';
-        w.style.height = oldHeights[idx] || '';
-      });
+      if (wrapper) {
+        wrapper.style.transform = oldTransform;
+        wrapper.style.height = oldHeight;
+      }
 
       const file = new File([pdfBlob], opt.filename, { type: 'application/pdf' });
 
@@ -1169,10 +1237,10 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       }
     } catch (e) {
       element.style.display = prevDisplay;
-      wrappers.forEach((w, idx) => {
-        w.style.transform = oldTransforms[idx] || '';
-        w.style.height = oldHeights[idx] || '';
-      });
+      if (wrapper) {
+        wrapper.style.transform = oldTransform;
+        wrapper.style.height = oldHeight;
+      }
       window.print();
     }
   } else {
@@ -1182,26 +1250,29 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       styleSheet.id = 'dynamicPrintStyle';
       document.head.appendChild(styleSheet);
     }
-    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ
     styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: ${isLandscape ? '6mm' : '10mm 12mm'} !important; } }`;
     setTimeout(() => window.print(), 100);
   }
 }
 
+// ក្បាលលិខិតជាតិ Table Layout (Logo ជាប់ពាក្យក្រសួង មិនយឺតឡើងលើ)
 function renderOfficialHeaderHTML(i, logoSrc){
   return `
-    <div class="official-header">
-      <div class="side-box">
-        <img class="official-print-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
-        <div style="font-size:12.5px;font-weight:bold">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
-        <div style="font-weight:bold;font-size:13.5px">${E(i.school || 'សាលារៀន')}</div>
-      </div>
-      <div class="center-box">
-        <div class="muol-title" style="font-size:16px">ព្រះរាជាណាចក្រកម្ពុជា</div>
-        <div class="muol-title" style="font-size:14px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-        <div style="font-size:12px;letter-spacing:4px">~~~~~~~~~</div>
-      </div>
-    </div>
+    <table class="official-header-table">
+      <tr>
+        <td style="width:38%;text-align:center;vertical-align:top">
+          <img class="official-print-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+          <div style="font-size:12.5px;font-weight:bold">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+          <div style="font-weight:bold;font-size:13.5px">${E(i.school || 'សាលារៀន')}</div>
+        </td>
+        <td style="width:24%"></td>
+        <td style="width:38%;text-align:center;vertical-align:top;padding-top:10px !important">
+          <div class="muol-title" style="font-size:15.5px">ព្រះរាជាណាចក្រកម្ពុជា</div>
+          <div class="muol-title" style="font-size:13.5px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+          <div style="font-size:12px;letter-spacing:4px">-0, -</div>
+        </td>
+      </tr>
+    </table>
   `;
 }
 
@@ -1348,7 +1419,7 @@ home(){
   const touchCls = getTheme().touch || 'touch-3d';
   const logoSrc = getLogoSrc();
 
-  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem មិនស្ទួន
+  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
     stu: {cls:'bl', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
@@ -1934,6 +2005,7 @@ cert(){
   const i = S.info;
   const selectedBorder = getSelectedBorder();
   const customLib = getBorderLibrary();
+  const cfg = getCertFormat();
   const allBorders = [...BUILTIN_BORDERS, ...customLib];
 
   let list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
@@ -1950,22 +2022,22 @@ cert(){
       <div class="cert-scaler-wrapper">
         <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
           
-          <!-- ១. តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop (អក្សរដិតស្អាតច្បាស់) -->
+          <!-- តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត -->
           <div class="cert-auto-body">
             <div class="cert-giver-title">គណៈគ្រប់គ្រង ${E(i.school || 'សាលារៀន')}</div>
-            <div class="cert-praise-intro">សូមកោតសរសើរចំពោះ</div>
+            <div class="cert-praise-intro">សូមសរសើរចំពោះ៖</div>
 
             <div style="margin: 4px 0 2px">
               សិស្សឈ្មោះ៖ <span class="cert-student-highlight">${E(s.name)}</span>
-              ភេទ <b style="font-size:1.15em">${s.sex==='ស'?'ស្រី':'ប្រុស'}</b>
+              ភេទ <b>${s.sex==='ស'?'ស្រី':'ប្រុស'}</b>
               ${s.dob ? `កើតនៅថ្ងៃទី <b>${E(s.dob)}</b>` : ''}
-              រៀននៅថ្នាក់ទី <b style="font-size:1.15em">${E(i.cls || '...')}</b>
+              រៀននៅថ្នាក់ទី <b>${E(i.cls || '...')}</b>
             </div>
 
             <div class="cert-reason-text">
-              ដែលបានខិតខំប្រឹងប្រែងរៀនសូត្រ ទទួលបាន <b>ចំណាត់ថ្នាក់លេខ ${toKhNum(idx + 1)}</b>
+              ដែលទទួលបានលទ្ធផលល្អក្នុងការសិក្សា និងទទួលបានចំណាត់ថ្នាក់លេខ <b>${toKhNum(idx + 1)}</b>
               ${s.av > 0 ? `(មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b>)` : ''}
-              ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b> ។
+              ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b>
             </div>
 
             <div class="cert-bless-text">
@@ -1973,7 +2045,7 @@ cert(){
             </div>
           </div>
 
-          <!-- ២. កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម -->
+          <!-- កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម -->
           <div class="cert-auto-sign">
             <div class="cert-sign-box">
               <div>បានឃើញ និងឯកភាព</div>
@@ -2003,6 +2075,33 @@ cert(){
     </select>
     <button class="bt g" onclick="showBorderModal=true;R()">📂 រើសស៊ុមក្បាច់ (${allBorders.length})</button>
     <button class="bt" onclick="executeStandardPrint('certPrintArea', 'បណ្ណសរសើរស្វ័យប្រវត្តិ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+  </div>
+
+  <!-- របារកំណត់ទំហំ ពណ៌ និងគម្លាតអក្សរតួសេចក្តី -->
+  <div class="cert-text-tools">
+    <label>
+      <span>ទំហំអក្សរ៖</span>
+      <select onchange="updateCertFormat('fontSize', this.value)" style="min-height:32px;padding:2px 8px">
+        <option value="14px" ${cfg.fontSize==='14px'?'selected':''}>តូច (14px)</option>
+        <option value="15.5px" ${cfg.fontSize==='15.5px'?'selected':''}>ល្មម (15.5px)</option>
+        <option value="17px" ${cfg.fontSize==='17px'?'selected':''}>ធំ (17px)</option>
+        <option value="19px" ${cfg.fontSize==='19px'?'selected':''}>ធំដិត (19px)</option>
+      </select>
+    </label>
+
+    <label>
+      <span>គម្លាតបន្ទាត់៖</span>
+      <select onchange="updateCertFormat('lineHeight', this.value)" style="min-height:32px;padding:2px 8px">
+        <option value="1.9" ${cfg.lineHeight==='1.9'?'selected':''}>ប្រកៀក (1.9)</option>
+        <option value="2.25" ${cfg.lineHeight==='2.25'?'selected':''}>ស្តង់ដារ (2.25)</option>
+        <option value="2.5" ${cfg.lineHeight==='2.5'?'selected':''}>ស្រឡះ (2.5)</option>
+      </select>
+    </label>
+
+    <label>
+      <span>ពណ៌អក្សរ៖</span>
+      <input type="color" value="${cfg.textColor || '#1e293b'}" onchange="updateCertFormat('textColor', this.value)" style="min-height:32px;width:44px;padding:1px;border-radius:6px;cursor:pointer">
+    </label>
   </div>
 
   <div id="certPrintArea">${certsHtml || '<div class="em">មិនទាន់មានសិស្សមានពិន្ទុសម្រាប់ទទួលបណ្ណសរសើរទេ</div>'}</div>
