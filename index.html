@@ -214,7 +214,7 @@ td input.t{width:120px;text-align:start}
   background: #f1f5f9;
 }
 
-/* របារឧបករណ៍កំណត់បណ្ណសរសើរឆ្លាតវៃ */
+/* របារឧបករណ៍កំណត់បណ្ណសរសើរ */
 .cert-customizer {
   background: #ffffff;
   border: 1px solid var(--bd);
@@ -238,51 +238,6 @@ td input.t{width:120px;text-align:start}
   font-weight: 600;
   color: var(--tx);
 }
-.cert-citem input[type="color"] {
-  width: 38px;
-  height: 32px;
-  padding: 1px;
-  border-radius: 6px;
-  border: 1px solid var(--bd);
-  cursor: pointer;
-}
-
-/* គ្រាប់ចុចរំកិលព្រួញ ៤ ទិសនៅខាងស្តាំដៃ (D-Pad Nudge) */
-.dpad-nudge-box {
-  display: inline-grid;
-  grid-template-columns: 44px 44px 44px;
-  grid-template-rows: 40px 40px;
-  gap: 4px;
-  background: #f1f5f9;
-  padding: 6px;
-  border-radius: 14px;
-  border: 1px solid var(--bd);
-}
-.nudge-btn {
-  background: #ffffff;
-  border: 1px solid #cbd5e1;
-  border-radius: 8px;
-  font-size: 16px;
-  font-weight: bold;
-  color: var(--tx);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
-}
-.nudge-btn:active {
-  background: var(--ac);
-  color: #fff;
-  transform: scale(0.92);
-}
-.nudge-up    { grid-column: 2; grid-row: 1; }
-.nudge-left  { grid-column: 1; grid-row: 2; }
-.nudge-down  { grid-column: 2; grid-row: 2; }
-.nudge-right { grid-column: 3; grid-row: 2; }
 
 /* ផ្ទាំង Viewport ទ្រទ្រង់ Auto-Fit Scale បង្ហាញស៊ុមពេញលេញលើទូរស័ព្ទ */
 .cert-responsive-stage {
@@ -311,11 +266,15 @@ td input.t{width:120px;text-align:start}
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  padding: 30px 45px 25px 45px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.18);
   box-sizing: border-box;
   position: relative;
   border-radius: 4px;
-  transition: transform 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 .cert-page-a4.default-border {
   border: 8px double #b45309;
@@ -323,178 +282,75 @@ td input.t{width:120px;text-align:start}
   outline-offset: -14px;
 }
 
-/* ស្រទាប់ធាតុឯករាជ្យនីមួយៗ (Absolute Positioning) */
-.cert-elem-govleft {
-  position: absolute;
-  top: 48px;
-  left: 65px;
-  width: 270px;
+/* តួសេចក្តីស្វ័យប្រវត្តិចំកណ្តាល Template Photoshop */
+.cert-auto-body {
+  width: 820px;
   text-align: center;
-  line-height: 1.4;
-  font-size: 13px;
-  transform: translate(var(--dx-govleft, 0px), var(--dy-govleft, 0px));
-  color: var(--col-govleft, #0f172a);
-}
-.cert-elem-govleft .inst-title {
-  font-family: var(--title-font);
-  font-size: 13px;
-  color: inherit;
-  display: block;
-  margin-bottom: 2px;
-  line-height: 1.8 !important;
-  overflow: visible !important;
-}
-
-.cert-elem-govlogo {
-  position: absolute;
-  top: 36px;
-  left: 50%;
-  transform: translate(calc(-50% + var(--dx-govlogo, 0px)), var(--dy-govlogo, 0px));
-  width: 72px;
-  height: 72px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.cert-elem-govlogo img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-
-.cert-elem-govright {
-  position: absolute;
-  top: 48px;
-  right: 65px;
-  width: 270px;
-  text-align: center;
-  line-height: 1.4;
-  transform: translate(var(--dx-govright, 0px), var(--dy-govright, 0px));
-  color: var(--col-govright, #1e3a8a);
-}
-.cert-elem-govright .p1 {
-  font-family: var(--title-font);
-  font-size: 14.5px;
-  margin: 0;
-  line-height: 1.8 !important;
-  overflow: visible !important;
-}
-.cert-elem-govright .p2 {
-  font-family: var(--title-font);
-  font-size: 13px;
-  margin: 2px 0 0;
-  line-height: 1.8 !important;
-  overflow: visible !important;
-}
-.cert-elem-govright .wave {
-  letter-spacing: 3px;
-  font-size: 11.5px;
-  color: #334155;
-}
-
-.cert-elem-title {
-  position: absolute;
-  top: 130px;
-  left: 50%;
-  transform: translate(calc(-50% + var(--dx-title, 0px)), var(--dy-title, 0px));
-  font-family: var(--title-font);
-  font-size: 28px;
-  color: var(--col-title, #dc2626);
-  letter-spacing: 2px;
-  line-height: 1.8 !important;
-  overflow: visible !important;
-  text-align: center;
-  white-space: nowrap;
-}
-
-.cert-elem-body {
-  position: absolute;
-  top: 195px;
-  left: 50%;
-  transform: translate(calc(-50% + var(--dx-body, 0px)), var(--dy-body, 0px));
-  width: 780px;
-  text-align: center;
-  line-height: 2.1;
-  font-size: 15px;
-  color: var(--col-body, #1e293b);
-  white-space: pre-wrap;
+  line-height: 2.2;
+  font-size: 16px;
+  color: #1e293b;
+  margin-top: 30px;
 }
 .cert-giver-title {
   font-family: var(--title-font);
-  font-size: 15.5px;
-  color: inherit;
-  margin: 0 0 2px;
+  font-size: 16px;
+  color: #1e3a8a;
+  margin: 0 0 4px;
   line-height: 1.8 !important;
   overflow: visible !important;
 }
 .cert-praise-intro {
-  font-size: 15px;
-  color: inherit;
-  margin-bottom: 2px;
+  font-size: 15.5px;
+  color: #334155;
+  margin-bottom: 4px;
 }
 .cert-student-highlight {
   font-family: var(--title-font);
-  font-size: 20px;
-  color: var(--col-student, #0f172a);
+  font-size: 22px;
+  color: #0f172a;
   display: inline-block;
   padding: 0 4px;
   line-height: 1.8 !important;
   overflow: visible !important;
 }
 .cert-reason-text {
-  font-size: 14.5px;
-  margin-top: 2px;
-}
-.cert-bless-text {
-  font-size: 13px;
-  color: inherit;
-  opacity: 0.85;
+  font-size: 15px;
   margin-top: 4px;
 }
+.cert-bless-text {
+  font-size: 13.5px;
+  color: #475569;
+  margin-top: 6px;
+}
 
-.cert-elem-signleft {
+/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម */
+.cert-auto-sign {
   position: absolute;
-  bottom: 45px;
-  left: 95px;
-  width: 240px;
-  text-align: center;
-  font-size: 13px;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  padding: 0 85px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13.5px;
   line-height: 1.5;
-  transform: translate(var(--dx-signleft, 0px), var(--dy-signleft, 0px));
-  color: var(--col-signleft, #0f172a);
 }
-.cert-elem-signleft .role-title {
-  font-family: var(--title-font);
-  font-size: 13px;
-  color: inherit;
-  margin-top: 2px;
-  line-height: 1.8 !important;
-  overflow: visible !important;
-}
-
-.cert-elem-signright {
-  position: absolute;
-  bottom: 45px;
-  right: 95px;
+.cert-sign-box {
   width: 250px;
   text-align: center;
-  font-size: 13px;
-  line-height: 1.5;
-  transform: translate(var(--dx-signright, 0px), var(--dy-signright, 0px));
-  color: var(--col-signright, #0f172a);
 }
-.cert-elem-signright .role-title {
+.cert-sign-box .role-title {
   font-family: var(--title-font);
   font-size: 13px;
-  color: inherit;
+  color: #0f172a;
   margin-top: 2px;
   line-height: 1.8 !important;
   overflow: visible !important;
 }
-.cert-elem-signright .teacher-name {
-  margin-top: 38px;
+.cert-sign-box .teacher-name {
+  margin-top: 40px;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 14.5px;
 }
 
 /* Modal បណ្ណាល័យស៊ុមក្បាច់ */
@@ -567,7 +423,7 @@ td input.t{width:120px;text-align:start}
     page-break-inside: avoid;
     box-sizing: border-box !important;
   }
-  .cert-elem-title, .cert-student-highlight, .inst-title, .role-title, .p1, .p2 {
+  .cert-student-highlight, .inst-title, .role-title, .p1, .p2 {
     line-height: 1.8 !important;
     overflow: visible !important;
   }
@@ -594,7 +450,6 @@ const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';
 const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
-const CERT_POS_KEY = 'sms_cert_ultimate_v7';
 
 // បញ្ជីស៊ុមក្បាច់ស្រាប់ ដាក់ស៊ុមថ្មី border_3_blue1.png ពី Photoshop ជាជម្រើសដំបូង
 const BUILTIN_BORDERS = [
@@ -614,134 +469,7 @@ function getLogoSrc(){
   return DEFAULT_MOEYS_LOGO;
 }
 
-// មុខងារកំណត់ទីតាំង ពណ៌ និងទំហំ (D-Pad Right, Sync Color, Safe-Margin)
-let activeCertTarget = 'govleft';
-let nudgeTimer = null;
-let nudgeInterval = null;
-let showAdvancedPanel = false;
-
-const defaultCertConfig = {
-  frameMargin: 100, // 100% = ពេញក្រដាស | 92% = ទុកគែមដាក់ស៊ុមកញ្ចក់
-  syncAllColor: false,
-  globalColor: '#1e3a8a',
-  govleft:   { x: 0, y: 0, color: '#1e3a8a', visible: true },
-  govlogo:   { x: 0, y: 0, color: '#ffffff', visible: true },
-  govright:  { x: 0, y: 0, color: '#1e3a8a', visible: true },
-  title:     { x: 0, y: 0, color: '#dc2626', visible: true },
-  body:      { x: 0, y: 0, color: '#1e293b', studentColor: '#0f172a', visible: true },
-  signleft:  { x: 0, y: 0, color: '#0f172a', visible: true },
-  signright: { x: 0, y: 0, color: '#0f172a', visible: true }
-};
-
-function getAllCertOffsets(){
-  try {
-    const raw = localStorage.getItem(CERT_POS_KEY);
-    return raw ? JSON.parse(raw) : {};
-  } catch(e) { return {}; }
-}
-
-function getCurCertOffsets(){
-  const all = getAllCertOffsets();
-  const border = getSelectedBorder() || 'default';
-  const cur = all[border] || {};
-  const res = { ...defaultCertConfig, ...cur };
-  for (let k in defaultCertConfig) {
-    if (typeof defaultCertConfig[k] === 'object' && defaultCertConfig[k] !== null) {
-      res[k] = { ...defaultCertConfig[k], ...(cur[k] || {}) };
-    }
-  }
-  return res;
-}
-
-function saveCurCertOffsets(offsets){
-  const all = getAllCertOffsets();
-  const border = getSelectedBorder() || 'default';
-  all[border] = offsets;
-  localStorage.setItem(CERT_POS_KEY, JSON.stringify(all));
-  applyCertOffsetsToCSS(offsets);
-}
-
-function applyCertOffsetsToCSS(cfg){
-  const r = document.documentElement.style;
-  const isSync = cfg.syncAllColor || false;
-  const gCol = cfg.globalColor || '#1e3a8a';
-
-  for (let k in cfg) {
-    const item = cfg[k];
-    if (typeof item === 'object' && item !== null) {
-      r.setProperty('--dx-' + k, (item.x || 0) + 'px');
-      r.setProperty('--dy-' + k, (item.y || 0) + 'px');
-      r.setProperty('--col-' + k, isSync ? gCol : (item.color || '#000000'));
-      if (item.studentColor) r.setProperty('--col-student', isSync ? gCol : item.studentColor);
-    }
-  }
-  const scaleVal = ((cfg.frameMargin || 100) / 100).toFixed(2);
-  const certPage = document.querySelectorAll('.cert-page-a4');
-  certPage.forEach(p => { p.style.transform = `scale(${scaleVal})`; });
-}
-try { applyCertOffsetsToCSS(getCurCertOffsets()); } catch(e){}
-
-function nudge(dx, dy){
-  const cfg = getCurCertOffsets();
-  if (!cfg[activeCertTarget]) cfg[activeCertTarget] = { x: 0, y: 0, visible: true };
-  cfg[activeCertTarget].x = (cfg[activeCertTarget].x || 0) + dx;
-  cfg[activeCertTarget].y = (cfg[activeCertTarget].y || 0) + dy;
-  saveCurCertOffsets(cfg);
-  const infoEl = document.getElementById('preciseCoordInfo');
-  if (infoEl) infoEl.textContent = 'X: ' + (cfg[activeCertTarget].x || 0) + 'px | Y: ' + (cfg[activeCertTarget].y || 0) + 'px';
-}
-
-function startNudge(dx, dy){
-  nudge(dx, dy);
-  nudgeTimer = setTimeout(() => {
-    nudgeInterval = setInterval(() => { nudge(dx * 2, dy * 2); }, 60);
-  }, 350);
-}
-
-function stopNudge(){
-  clearTimeout(nudgeTimer);
-  clearInterval(nudgeInterval);
-}
-
-function snapAlign(type){
-  const cfg = getCurCertOffsets();
-  if (!cfg[activeCertTarget]) cfg[activeCertTarget] = { x: 0, y: 0, visible: true };
-  if (type === 'center') cfg[activeCertTarget].x = 0;
-  if (type === 'left') cfg[activeCertTarget].x = -150;
-  if (type === 'right') cfg[activeCertTarget].x = 150;
-  saveCurCertOffsets(cfg);
-  R();
-}
-
-function updateCertSettingProp(prop, val){
-  const cfg = getCurCertOffsets();
-  cfg[prop] = val;
-  saveCurCertOffsets(cfg);
-  R();
-}
-
-function updateTargetProp(prop, val){
-  const cfg = getCurCertOffsets();
-  if (!cfg[activeCertTarget]) cfg[activeCertTarget] = { x: 0, y: 0, visible: true };
-  cfg[activeCertTarget][prop] = val;
-  saveCurCertOffsets(cfg);
-  if (prop === 'visible') R();
-}
-
-function resetCurTarget(){
-  const cfg = getCurCertOffsets();
-  const def = defaultCertConfig[activeCertTarget] || { x: 0, y: 0, visible: true };
-  cfg[activeCertTarget] = { ...def };
-  saveCurCertOffsets(cfg);
-  R();
-}
-
-function resetAllTargets(){
-  if (!confirm('កំណត់ទីតាំង និងពណ៌ទាំងអស់នៃស៊ុមនេះទៅដូចដើមវិញ?')) return;
-  saveCurCertOffsets(defaultCertConfig);
-  R();
-}
-
+// មុខងារ Auto-Scale ទ្រទ្រង់ទូរស័ព្ទបញ្ឈរឱ្យឃើញស៊ុមពេញ ១០០%
 function updateCertScale(){
   const stage = document.querySelector('.cert-responsive-stage');
   const wrappers = document.querySelectorAll('.cert-scaler-wrapper');
@@ -773,7 +501,6 @@ function getSelectedBorder(){
 }
 function setSelectedBorder(url){
   localStorage.setItem(SELECTED_BORDER_KEY, url);
-  applyCertOffsetsToCSS(getCurCertOffsets());
 }
 
 let showBorderModal = false;
@@ -953,10 +680,10 @@ const USER_RE = /^[a-z0-9_.-]{3,30}$/;
 
 const ACCKEY = 'sms_accounts_v7';
 const THEME_KEY = 'sms_theme_settings_v4';
-const ORDER_KEY = 'sms_btn_order_v7';
+const ORDER_KEY = 'sms_btn_order_v8';
 const LAST_YEAR_KEY = 'sms_last_selected_year_v1';
 
-// រួមបញ្ចូលប៊ូតុងឆមាសមកនៅតែមួយ (sem) កុំឱ្យជាន់គ្នាដដែលៗ
+// បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ (sem) មិនស្ទួន
 const DEFAULT_BTNS = ['info','stu','sc','examScore','official','sem','annual','ab','honor','cert','idcard','bk','theme','clean'];
 
 function getBtnOrder(){
@@ -1472,7 +1199,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       styleSheet.id = 'dynamicPrintStyle';
       document.head.appendChild(styleSheet);
     }
-    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ ដោយអនុញ្ញាតឱ្យ Driver ម៉ាស៊ីនព្រីនប្តូរបាន
+    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ
     styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: ${isLandscape ? '6mm' : '10mm 12mm'} !important; } }`;
     setTimeout(() => window.print(), 100);
   }
@@ -1638,7 +1365,7 @@ home(){
   const touchCls = getTheme().touch || 'touch-3d';
   const logoSrc = getLogoSrc();
 
-  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ មិនស្ទួន
+  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem មិនស្ទួន
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
     stu: {cls:'bl', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
@@ -1948,6 +1675,61 @@ examScore(){
   </div>`;
 },
 
+sem(){
+  const S = getS();
+  const ms = semMonths(sem);
+  
+  const list = S.st.map(s => {
+    const mAv = semMonthlyAv(s.id, sem);
+    const examAv = avSemExam(s.id, sem);
+    const fAv = semFinalAv(s.id, sem);
+    const pass = getPassStatus(fAv, fAv > 0 ? 1 : 0);
+    const grade = getGradeLetter(fAv, fAv > 0 ? 1 : 0);
+    return { ...s, mAv, examAv, fAv, pass, grade };
+  }).sort((a,b) => b.fAv - a.fAv);
+
+  list.forEach((s, idx) => { s.rank = s.fAv > 0 ? (idx + 1) : '-'; });
+
+  const rows = list.map((s,k) => `
+    <tr>
+      <td>${k+1}</td>
+      <td class="sn" style="text-align:start;padding-left:8px"><b>${E(s.name)}</b></td>
+      <td>${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
+      ${ms.map(m => `<td>${tot(s.id,m) > 0 ? av(s.id,m).toFixed(2) : '-'}</td>`).join('')}
+      <td><b>${s.mAv > 0 ? s.mAv.toFixed(2) : '-'}</b></td>
+      <td style="background:#fef3c7;font-weight:bold;color:#b45309">${s.examAv > 0 ? s.examAv.toFixed(2) : '-'}</td>
+      <td style="background:#ecfdf5;font-weight:bold;color:#047857">${s.fAv > 0 ? s.fAv.toFixed(2) : '-'}</td>
+      <td><b>${s.rank}</b></td>
+      <td class="${s.fAv > 0 && s.pass === 'ធ្លាក់' ? 'bad' : ''}">${s.pass}</td>
+    </tr>
+  `).join('');
+
+  return head('សរុបពិន្ទុឆមាស (Auto)') + `<div class="card">
+  <div class="f">
+    <select onchange="sem=+this.value;R()">
+      <option value="0" ${sem===0?'selected':''}>ឆមាសទី ១</option>
+      <option value="1" ${sem===1?'selected':''}>ឆមាសទី ២</option>
+    </select>
+    <button class="bt" onclick="executeStandardPrint('semScorePrintArea', 'សរុបពិន្ទុឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+  </div>
+  <div class="w" id="semScorePrintArea"><table>
+  <thead>
+    <tr>
+      <th>ល.រ</th>
+      <th class="sn">ឈ្មោះ</th>
+      <th>ភេទ</th>
+      ${ms.map(m => `<th>ខែ${MO[m]}</th>`).join('')}
+      <th>មធ្យមខែ</th>
+      <th style="background:#fef3c7">ប្រឡងឆមាស (Auto)</th>
+      <th style="background:#d1fae5">មធ្យមឆមាសរួម</th>
+      <th>ចំណាត់ថ្នាក់</th>
+      <th>លទ្ធផល</th>
+    </tr>
+  </thead>
+  <tbody>${rows || '<tr><td colspan="14" class="em">មិនមានសិស្ស</td></tr>'}</tbody>
+  </table></div></div>`;
+},
+
 annual(){
   const S = getS();
   const i = S.info;
@@ -2037,61 +1819,6 @@ annual(){
     </div>
   </div>
   </div>`;
-},
-
-sem(){
-  const S = getS();
-  const ms = semMonths(sem);
-  
-  const list = S.st.map(s => {
-    const mAv = semMonthlyAv(s.id, sem);
-    const examAv = avSemExam(s.id, sem);
-    const fAv = semFinalAv(s.id, sem);
-    const pass = getPassStatus(fAv, fAv > 0 ? 1 : 0);
-    const grade = getGradeLetter(fAv, fAv > 0 ? 1 : 0);
-    return { ...s, mAv, examAv, fAv, pass, grade };
-  }).sort((a,b) => b.fAv - a.fAv);
-
-  list.forEach((s, idx) => { s.rank = s.fAv > 0 ? (idx + 1) : '-'; });
-
-  const rows = list.map((s,k) => `
-    <tr>
-      <td>${k+1}</td>
-      <td class="sn" style="text-align:start;padding-left:8px"><b>${E(s.name)}</b></td>
-      <td>${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
-      ${ms.map(m => `<td>${tot(s.id,m) > 0 ? av(s.id,m).toFixed(2) : '-'}</td>`).join('')}
-      <td><b>${s.mAv > 0 ? s.mAv.toFixed(2) : '-'}</b></td>
-      <td style="background:#fef3c7;font-weight:bold;color:#b45309">${s.examAv > 0 ? s.examAv.toFixed(2) : '-'}</td>
-      <td style="background:#ecfdf5;font-weight:bold;color:#047857">${s.fAv > 0 ? s.fAv.toFixed(2) : '-'}</td>
-      <td><b>${s.rank}</b></td>
-      <td class="${s.fAv > 0 && s.pass === 'ធ្លាក់' ? 'bad' : ''}">${s.pass}</td>
-    </tr>
-  `).join('');
-
-  return head('សរុបពិន្ទុឆមាស (Auto)') + `<div class="card">
-  <div class="f">
-    <select onchange="sem=+this.value;R()">
-      <option value="0" ${sem===0?'selected':''}>ឆមាសទី ១</option>
-      <option value="1" ${sem===1?'selected':''}>ឆមាសទី ២</option>
-    </select>
-    <button class="bt" onclick="executeStandardPrint('semScorePrintArea', 'សរុបពិន្ទុឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
-  </div>
-  <div class="w" id="semScorePrintArea"><table>
-  <thead>
-    <tr>
-      <th>ល.រ</th>
-      <th class="sn">ឈ្មោះ</th>
-      <th>ភេទ</th>
-      ${ms.map(m => `<th>ខែ${MO[m]}</th>`).join('')}
-      <th>មធ្យមខែ</th>
-      <th style="background:#fef3c7">ប្រឡងឆមាស (Auto)</th>
-      <th style="background:#d1fae5">មធ្យមឆមាសរួម</th>
-      <th>ចំណាត់ថ្នាក់</th>
-      <th>លទ្ធផល</th>
-    </tr>
-  </thead>
-  <tbody>${rows || '<tr><td colspan="14" class="em">មិនមានសិស្ស</td></tr>'}</tbody>
-  </table></div></div>`;
 },
 
 info(){
@@ -2222,12 +1949,8 @@ honor(){
 cert(){
   const S = getS();
   const i = S.info;
-  const logoSrc = getLogoSrc();
   const selectedBorder = getSelectedBorder();
   const customLib = getBorderLibrary();
-  const cfg = getCurCertOffsets();
-  const curTarget = cfg[activeCertTarget] || { x: 0, y: 0, visible: true };
-
   const allBorders = [...BUILTIN_BORDERS, ...customLib];
 
   let list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
@@ -2244,75 +1967,40 @@ cert(){
       <div class="cert-scaler-wrapper">
         <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
           
-          <!-- ១. ក្បាលស្ថាប័ន (ក្រសួង/មន្ទីរ/សាលា) ឆ្វេងលើ -->
-          ${cfg.govleft && cfg.govleft.visible !== false ? `
-            <div class="cert-elem-govleft">
-              <span class="inst-title">${E(i.province ? ('ការិយាល័យអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</span>
-              <div style="font-weight:bold">${E(i.school || 'សាលាបឋមសិក្សា....................')}</div>
+          <!-- តួសេចក្តីស្វ័យប្រវត្តិចំកណ្តាល Template Photoshop -->
+          <div class="cert-auto-body">
+            <div class="cert-giver-title">គណៈគ្រប់គ្រង ${E(i.school || 'សាលារៀន')}</div>
+            <div class="cert-praise-intro">សូមកោតសរសើរចំពោះ</div>
+
+            <div style="margin: 4px 0 2px">
+              សិស្សឈ្មោះ៖ <span class="cert-student-highlight">${E(s.name)}</span>
+              ភេទ <b style="font-size:1.1em">${s.sex==='ស'?'ស្រី':'ប្រុស'}</b>
+              រៀននៅថ្នាក់ទី <b style="font-size:1.1em">${E(i.cls || '...')}</b>
             </div>
-          ` : ''}
 
-          <!-- ២. Logo ក្រសួងកណ្តាលលើ -->
-          ${cfg.govlogo && cfg.govlogo.visible !== false ? `
-            <div class="cert-elem-govlogo">
-              <img src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+            <div class="cert-reason-text">
+              ដែលបានខិតខំប្រឹងប្រែងរៀនសូត្រ ទទួលបាន <b>ចំណាត់ថ្នាក់លេខ ${toKhNum(idx + 1)}</b>
+              ${s.av > 0 ? `(មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b>)` : ''}
+              ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b> ។
             </div>
-          ` : ''}
 
-          <!-- ៣. ពាក្យស្លោកជាតិ (ព្រះរាជាណាចក្រកម្ពុជា) ស្តាំលើ -->
-          ${cfg.govright && cfg.govright.visible !== false ? `
-            <div class="cert-elem-govright">
-              <div class="p1">ព្រះរាជាណាចក្រកម្ពុជា</div>
-              <div class="p2">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-              <div class="wave">-0, -</div>
+            <div class="cert-bless-text">
+              សូមជូនពរឱ្យទទួលបាននូវពុទ្ធពរទាំងបួនប្រការគឺ អាយុ វណ្ណៈ សុខៈ ពលៈ ជានិច្ចនិរន្តរ៍។
             </div>
-          ` : ''}
+          </div>
 
-          <!-- ៤. ចំណងជើង «ប័ណ្ណសរសើរ» -->
-          ${cfg.title && cfg.title.visible !== false ? `
-            <div class="cert-elem-title">ប័ណ្ណសរសើរ</div>
-          ` : ''}
-
-          <!-- ៥. តួសេចក្តី (ឈ្មោះសិស្ស, ថ្នាក់, ពិន្ទុ, ពុទ្ធពរ) -->
-          ${cfg.body && cfg.body.visible !== false ? `
-            <div class="cert-elem-body">
-              <div class="cert-giver-title">គណៈគ្រប់គ្រង ${E(i.school || 'សាលារៀន')}</div>
-              <div class="cert-praise-intro">សូមកោតសរសើរចំពោះ</div>
-
-              <div style="margin: 4px 0 2px">
-                សិស្សឈ្មោះ៖ <span class="cert-student-highlight">${E(s.name)}</span>
-                ភេទ <b style="font-size:1.1em">${s.sex==='ស'?'ស្រី':'ប្រុស'}</b>
-                រៀននៅថ្នាក់ទី <b style="font-size:1.1em">${E(i.cls || '...')}</b>
-              </div>
-
-              <div class="cert-reason-text">
-                ដែលបានខិតខំប្រឹងប្រែងរៀនសូត្រ ទទួលបាន <b>ចំណាត់ថ្នាក់លេខ ${toKhNum(idx + 1)}</b>
-                ${s.av > 0 ? `(មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b>)` : ''}
-                ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b> ។
-              </div>
-
-              <div class="cert-bless-text">
-                សូមជូនពរឱ្យទទួលបាននូវពុទ្ធពរទាំងបួនប្រការគឺ អាយុ វណ្ណៈ សុខៈ ពលៈ ជានិច្ចនិរន្តរ៍។
-              </div>
-            </div>
-          ` : ''}
-
-          <!-- ៦. ហត្ថលេខាឆ្វេង (បានឃើញ និងឯកភាព / នាយក) -->
-          ${cfg.signleft && cfg.signleft.visible !== false ? `
-            <div class="cert-elem-signleft">
+          <!-- កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម -->
+          <div class="cert-auto-sign">
+            <div class="cert-sign-box">
               <div>បានឃើញ និងឯកភាព</div>
               <div class="role-title">នាយកសាលា</div>
             </div>
-          ` : ''}
-
-          <!-- ៧. ហត្ថលេខាស្តាំ (កាលបរិច្ឆេទ / គ្រូបន្ទុកថ្នាក់) -->
-          ${cfg.signright && cfg.signright.visible !== false ? `
-            <div class="cert-elem-signright">
+            <div class="cert-sign-box">
               <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
               <div class="role-title">គ្រូបន្ទុកថ្នាក់</div>
               <div class="teacher-name">${E(i.teacher || '')}</div>
             </div>
-          ` : ''}
+          </div>
 
         </div>
       </div>
@@ -2330,101 +2018,8 @@ cert(){
       <option value="all" ${certLimit==='all'?'selected':''}>👥 សិស្សទាំងអស់ដែលមានពិន្ទុ</option>
     </select>
     <button class="bt g" onclick="showBorderModal=true;R()">📂 រើសស៊ុមក្បាច់ (${allBorders.length})</button>
-    <button class="bt g" style="color:var(--ac);font-weight:bold" onclick="showAdvancedPanel=!showAdvancedPanel;R()">${showAdvancedPanel?'▲ លាក់ផ្ទាំងកែតម្រូវ':'⚙️ កែតម្រូវទីតាំង & ពណ៌'}</button>
     <button class="bt" onclick="executeStandardPrint('certPrintArea', 'បណ្ណសរសើរស្វ័យប្រវត្តិ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
-
-  <!-- របារបញ្ជាកែសម្រួលលម្អិត (Advanced Control Panel) -->
-  ${showAdvancedPanel ? `
-    <div class="cert-customizer">
-      <div class="cert-customizer-grid">
-        
-        <!-- ជួរខាងឆ្វេង៖ រើសផ្នែក, តម្រឹមឆ្វេង-កណ្តាល-ស្តាំ និងពណ៌រួម -->
-        <div style="flex: 1; min-width: 260px; display: flex; flex-direction: column; gap: 8px;">
-          <div class="cert-citem">
-            <span>🎯 រើសផ្នែក៖</span>
-            <select onchange="activeCertTarget=this.value;R()" style="width:100%;min-height:34px;font-weight:600;color:var(--ac);border-radius:8px">
-              <option value="govleft"   ${activeCertTarget==='govleft'?'selected':''}>🏛️ ក្បាលស្ថាប័ន (ក្រសួង/សាលា)</option>
-              <option value="govlogo"   ${activeCertTarget==='govlogo'?'selected':''}>⚜️ Logo ក្រសួង (កណ្តាលលើ)</option>
-              <option value="govright"  ${activeCertTarget==='govright'?'selected':''}>🇰🇭 ព្រះរាជាណាចក្រកម្ពុជា</option>
-              <option value="title"     ${activeCertTarget==='title'?'selected':''}>📜 ចំណងជើង «ប័ណ្ណសរសើរ»</option>
-              <option value="body"      ${activeCertTarget==='body'?'selected':''}>👨‍🎓 តួសេចក្តី (ឈ្មោះ/ពិន្ទុ)</option>
-              <option value="signleft"  ${activeCertTarget==='signleft'?'selected':''}>✍️ បានឃើញ និងឯកភាព (នាយក)</option>
-              <option value="signright" ${activeCertTarget==='signright'?'selected':''}>📅 ថ្ងៃខែឆ្នាំ (គ្រូបន្ទុកថ្នាក់)</option>
-            </select>
-          </div>
-
-          <!-- ប៊ូតុងតម្រឹមកាត់រហ័ស (Snap Align) -->
-          <div class="cert-citem" style="gap:4px">
-            <button class="bt g" style="padding:4px 8px;min-height:32px;font-size:12px" onclick="snapAlign('left')" title="រុញផ្អឹបឆ្វេង">⇤ ឆ្វេង</button>
-            <button class="bt g" style="padding:4px 8px;min-height:32px;font-size:12px;color:var(--ac);font-weight:bold" onclick="snapAlign('center')" title="រុញចំកណ្តាល">↔ ចំកណ្តាល</button>
-            <button class="bt g" style="padding:4px 8px;min-height:32px;font-size:12px" onclick="snapAlign('right')" title="រុញផ្អឹបស្តាំ">⇥ ស្តាំ</button>
-          </div>
-
-          <!-- គ្រប់គ្រងពណ៌ (Sync All Color & Individual Color) -->
-          <div class="cert-citem" style="flex-wrap: wrap; gap: 8px;">
-            <label style="display:flex;align-items:center;gap:4px;cursor:pointer">
-              <input type="checkbox" ${cfg.syncAllColor?'checked':''} onchange="updateCertSettingProp('syncAllColor', this.checked)">
-              <span>🔗 ពណ៌ដូចគ្នាទាំងអស់</span>
-            </label>
-
-            ${cfg.syncAllColor ? `
-              <div style="display:flex;align-items:center;gap:6px">
-                <span>ពណ៌រួម៖</span>
-                <input type="color" value="${cfg.globalColor || '#1e3a8a'}" onchange="updateCertSettingProp('globalColor', this.value)">
-              </div>
-            ` : `
-              ${activeCertTarget !== 'govlogo' ? `
-                <div style="display:flex;align-items:center;gap:6px">
-                  <span>ពណ៌៖</span>
-                  <input type="color" value="${curTarget.color || '#000000'}" onchange="updateTargetProp('color', this.value)">
-                </div>
-              ` : ''}
-
-              ${activeCertTarget === 'body' ? `
-                <div style="display:flex;align-items:center;gap:6px">
-                  <span>ពណ៌ឈ្មោះសិស្ស៖</span>
-                  <input type="color" value="${curTarget.studentColor || '#0f172a'}" onchange="updateTargetProp('studentColor', this.value)">
-                </div>
-              ` : ''}
-            `}
-          </div>
-
-          <!-- គែមក្រដាសសម្រាប់ដាក់ស៊ុមកញ្ចក់ (Frame Margin Slider) -->
-          <div class="cert-citem">
-            <span>🖼️ គែមដាក់ស៊ុម៖</span>
-            <input type="range" min="88" max="100" value="${cfg.frameMargin || 100}" oninput="updateCertSettingProp('frameMargin', +this.value)" style="width:100px;accent-color:var(--ac);cursor:pointer">
-            <span>${cfg.frameMargin || 100}%</span>
-          </div>
-        </div>
-
-        <!-- ជួរខាងស្តាំដៃ៖ គ្រាប់ចុចរំកិលព្រួញ ៤ ទិសសុក្រឹត (D-Pad នៅស្តាំដៃ) -->
-        <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-          <div class="dpad-nudge-box">
-            <button class="nudge-btn nudge-up"    onmousedown="startNudge(0,-1)" onmouseup="stopNudge()" onmouseleave="stopNudge()" ontouchstart="startNudge(0,-1)" ontouchend="stopNudge()" title="ឡើងលើ">▲</button>
-            <button class="nudge-btn nudge-left"  onmousedown="startNudge(-1,0)" onmouseup="stopNudge()" onmouseleave="stopNudge()" ontouchstart="startNudge(-1,0)" ontouchend="stopNudge()" title="ទៅឆ្វេង">◀</button>
-            <button class="nudge-btn nudge-down"  onmousedown="startNudge(0,1)"  onmouseup="stopNudge()" onmouseleave="stopNudge()" ontouchstart="startNudge(0,1)"  ontouchend="stopNudge()" title="ចុះក្រោម">▼</button>
-            <button class="nudge-btn nudge-right" onmousedown="startNudge(1,0)"  onmouseup="stopNudge()" onmouseleave="stopNudge()" ontouchstart="startNudge(1,0)"  ontouchend="stopNudge()" title="ទៅស្តាំ">▶</button>
-          </div>
-          <div id="preciseCoordInfo" style="font-size:11.5px;font-weight:bold;color:var(--ac)">
-            X: ${curTarget.x || 0}px | Y: ${curTarget.y || 0}px
-          </div>
-        </div>
-
-      </div>
-
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding-top:8px;border-top:1px dashed var(--bd);font-size:12px;color:var(--mu)">
-        <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
-          <input type="checkbox" ${curTarget.visible!==false?'checked':''} onchange="updateTargetProp('visible', this.checked)">
-          <span style="font-weight:600">បង្ហាញធាតុនេះ (ដោះធីកបើចង់លាក់)</span>
-        </label>
-        <div style="display:flex;gap:6px">
-          <button class="bt g" style="padding:2px 8px;min-height:28px;font-size:11.5px" onclick="resetCurTarget()">🔄 កំណត់ធាតុនេះដើម</button>
-          <button class="bt g" style="padding:2px 8px;min-height:28px;font-size:11.5px;color:var(--bad)" onclick="resetAllTargets()">⚠️ កំណត់ទាំងអស់</button>
-        </div>
-      </div>
-    </div>
-  ` : ''}
 
   <div id="certPrintArea">${certsHtml || '<div class="em">មិនទាន់មានសិស្សមានពិន្ទុសម្រាប់ទទួលបណ្ណសរសើរទេ</div>'}</div>
   </div>
@@ -2809,7 +2404,7 @@ async function makePkgBlob(){
 }
 function downloadBlob(blob, name){
   const url = URL.createObjectURL(blob);
-  a = document.createElement('a');
+  const a = document.createElement('a');
   a.href = url; a.download = name;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 2000);
