@@ -214,42 +214,100 @@ td input.t{width:120px;text-align:start}
   background: #f1f5f9;
 }
 
-/* របារឧបករណ៍កំណត់បណ្ណសរសើរ (Toolbar) */
+/* ផ្ទាំងបញ្ជាគ្រាប់ចុច ៤ ទិស (D-Pad Controller UI) */
 .cert-customizer {
   background: #fff;
   border: 1px solid var(--bd);
-  border-radius: 14px;
-  padding: 12px 16px;
+  border-radius: 16px;
+  padding: 14px 16px;
   margin-bottom: 14px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.04);
 }
 .cert-customizer-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 16px;
   align-items: center;
+  justify-content: space-between;
 }
-.cert-citem {
+.cert-target-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 240px;
+  flex: 1;
+}
+.cert-target-col label {
+  font-size: 12.5px;
+  font-weight: bold;
+  color: var(--mu);
+}
+.cert-target-col select {
+  width: 100%;
+  font-weight: 600;
+  color: var(--ac);
+  border-radius: 10px;
+}
+.cert-opts-row {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.cert-opts-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 13px;
   font-weight: 600;
-  color: var(--tx);
 }
-.cert-citem input[type="range"] {
-  width: 100px;
-  accent-color: var(--ac);
-  cursor: pointer;
-}
-.cert-citem input[type="color"] {
-  width: 36px;
+.cert-opts-item input[type="color"] {
+  width: 40px;
   height: 32px;
-  padding: 1px;
-  border-radius: 6px;
-  border: 1px solid var(--bd);
+  padding: 2px;
+  border-radius: 8px;
   cursor: pointer;
 }
+
+/* គ្រាប់ចុចព្រួញបួនទិស (Cross D-Pad) */
+.dpad-cross-box {
+  display: inline-grid;
+  grid-template-columns: 38px 38px 38px;
+  grid-template-rows: 38px 38px;
+  gap: 4px;
+  justify-content: center;
+  align-items: center;
+  background: #f1f5f9;
+  padding: 6px;
+  border-radius: 14px;
+  border: 1px solid var(--bd);
+}
+.dpad-btn {
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: var(--tx);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  transition: all 0.1s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+}
+.dpad-btn:active {
+  background: var(--ac);
+  color: #fff;
+  transform: scale(0.92);
+}
+.dpad-up    { grid-column: 2; grid-row: 1; }
+.dpad-left  { grid-column: 1; grid-row: 2; }
+.dpad-down  { grid-column: 2; grid-row: 2; }
+.dpad-right { grid-column: 3; grid-row: 2; }
 
 /* ផ្ទាំង Viewport ទ្រទ្រង់ទូរស័ព្ទកុំឱ្យកន្ត្រាក់រួញទ្រង់ទ្រាយ */
 .cert-scroll-wrap {
@@ -262,17 +320,16 @@ td input.t{width:120px;text-align:start}
 
 /* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការស្តង់ដាររដ្ឋបាលជាតិ */
 .cert-page-a4 {
-  width: 100%;
-  min-width: 820px;
-  max-width: 960px;
+  width: 960px;
+  height: 678px;
   aspect-ratio: 297 / 210;
   margin: 0 auto;
   background-color: #fff;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  padding: var(--cert-pad-top, 8%) 10% 6% 10%;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  padding: 30px 45px 25px 45px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
   box-sizing: border-box;
   position: relative;
   display: flex;
@@ -286,179 +343,176 @@ td input.t{width:120px;text-align:start}
   outline-offset: -14px;
 }
 
-/* ក្បាលលិខិតបណ្ណសរសើរ */
-.cert-gov-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  position: relative;
-  min-height: 12%;
-  margin-top: var(--cert-header-offset, 0px);
-}
-.cert-gov-left {
+/* ស្រទាប់ធាតុឯករាជ្យនីមួយៗ (Absolute Positioning) */
+.cert-elem-govleft {
+  position: absolute;
+  top: 48px;
+  left: 65px;
+  width: 270px;
   text-align: center;
-  width: 32%;
   line-height: 1.4;
-  font-size: clamp(10px, 1.4vw, 14px);
-  color: #0f172a;
+  font-size: 13px;
+  transform: translate(var(--dx-govleft, 0px), var(--dy-govleft, 0px));
+  color: var(--col-govleft, #0f172a);
 }
-.cert-gov-left .inst-title {
+.cert-elem-govleft .inst-title {
   font-family: var(--title-font);
-  font-size: clamp(9px, 1.3vw, 13px);
-  color: var(--cert-header-color, #1e3a8a);
+  font-size: 13px;
+  color: inherit;
   display: block;
   margin-bottom: 2px;
   line-height: 1.8 !important;
   overflow: visible !important;
 }
-.cert-gov-center-logo {
+
+.cert-elem-govlogo {
   position: absolute;
+  top: 36px;
   left: 50%;
-  top: -15%;
-  transform: translateX(-50%);
-  width: clamp(45px, 7vw, 75px);
-  height: clamp(45px, 7vw, 75px);
+  transform: translate(calc(-50% + var(--dx-govlogo, 0px)), var(--dy-govlogo, 0px));
+  width: 72px;
+  height: 72px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.cert-gov-center-logo img {
+.cert-elem-govlogo img {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-.cert-gov-right {
+
+.cert-elem-govright {
+  position: absolute;
+  top: 48px;
+  right: 65px;
+  width: 270px;
   text-align: center;
-  width: 34%;
   line-height: 1.4;
+  transform: translate(var(--dx-govright, 0px), var(--dy-govright, 0px));
+  color: var(--col-govright, #1e3a8a);
 }
-.cert-gov-right .p1 {
+.cert-elem-govright .p1 {
   font-family: var(--title-font);
-  font-size: clamp(10px, 1.5vw, 15px);
-  color: var(--cert-header-color, #1e3a8a);
+  font-size: 14.5px;
   margin: 0;
   line-height: 1.8 !important;
   overflow: visible !important;
 }
-.cert-gov-right .p2 {
+.cert-elem-govright .p2 {
   font-family: var(--title-font);
-  font-size: clamp(9px, 1.3vw, 13px);
-  color: var(--cert-header-color, #1e3a8a);
+  font-size: 13px;
   margin: 2px 0 0;
   line-height: 1.8 !important;
   overflow: visible !important;
 }
-.cert-gov-right .wave {
+.cert-elem-govright .wave {
   letter-spacing: 3px;
-  font-size: clamp(8px, 1.1vw, 12px);
+  font-size: 11.5px;
   color: #334155;
 }
 
-/* ទម្រង់ក្បាលលិខិតកណ្តាល (Center Header) */
-.cert-gov-header.layout-center {
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-.cert-gov-header.layout-center .cert-gov-right {
-  width: 100%;
-  margin-bottom: 6px;
-}
-.cert-gov-header.layout-center .cert-gov-left {
-  width: 100%;
-}
-.cert-gov-header.layout-center .cert-gov-center-logo {
-  display: none;
-}
-
-/* តួសេចក្តីបណ្ណសរសើរ */
-.cert-body-wrap {
-  text-align: center;
-  margin: auto 0;
-  line-height: 2;
-  font-size: clamp(11px, 1.6vw, 15.5px);
-  color: #1e293b;
-  width: 100%;
-  transform: translateY(var(--cert-body-offset, 0px));
-}
-.cert-h1-title {
+.cert-elem-title {
+  position: absolute;
+  top: 130px;
+  left: 50%;
+  transform: translate(calc(-50% + var(--dx-title, 0px)), var(--dy-title, 0px));
   font-family: var(--title-font);
-  font-size: clamp(20px, 3.2vw, 32px);
-  color: var(--cert-title-color, #dc2626);
-  margin: 0 0 4px;
+  font-size: 28px;
+  color: var(--col-title, #dc2626);
   letter-spacing: 2px;
   line-height: 1.8 !important;
   overflow: visible !important;
-  padding-bottom: 6px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.cert-elem-body {
+  position: absolute;
+  top: 195px;
+  left: 50%;
+  transform: translate(calc(-50% + var(--dx-body, 0px)), var(--dy-body, 0px));
+  width: 780px;
+  text-align: center;
+  line-height: 2.1;
+  font-size: 15px;
+  color: var(--col-body, #1e293b);
 }
 .cert-giver-title {
   font-family: var(--title-font);
-  font-size: clamp(11px, 1.7vw, 16.5px);
+  font-size: 15.5px;
   color: #1e3a8a;
   margin: 0 0 2px;
   line-height: 1.8 !important;
   overflow: visible !important;
 }
 .cert-praise-intro {
-  font-size: clamp(11px, 1.6vw, 15.5px);
+  font-size: 15px;
   color: #334155;
   margin-bottom: 2px;
 }
 .cert-student-highlight {
   font-family: var(--title-font);
-  font-size: clamp(14px, 2.3vw, 22px);
-  color: var(--cert-student-color, #0f172a);
+  font-size: 20px;
+  color: var(--col-student, #0f172a);
   display: inline-block;
   padding: 0 4px;
   line-height: 1.8 !important;
   overflow: visible !important;
 }
 .cert-reason-text {
-  font-size: clamp(11px, 1.55vw, 15px);
+  font-size: 14.5px;
   margin-top: 2px;
 }
 .cert-bless-text {
-  font-size: clamp(10px, 1.4vw, 13.5px);
+  font-size: 13px;
   color: #475569;
   margin-top: 4px;
 }
 
-/* កាលបរិច្ឆេទ និងហត្ថលេខា */
-.cert-sign-wrap {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  font-size: clamp(10px, 1.4vw, 14px);
-  line-height: 1.5;
-  padding: 0 4%;
-}
-.cert-sign-box {
-  width: 35%;
+.cert-elem-signleft {
+  position: absolute;
+  bottom: 45px;
+  left: 95px;
+  width: 240px;
   text-align: center;
+  font-size: 13px;
+  line-height: 1.5;
+  transform: translate(var(--dx-signleft, 0px), var(--dy-signleft, 0px));
+  color: var(--col-signleft, #0f172a);
 }
-.cert-sign-box .role-title {
+.cert-elem-signleft .role-title {
   font-family: var(--title-font);
-  font-size: clamp(9px, 1.3vw, 13px);
-  color: #0f172a;
+  font-size: 13px;
+  color: inherit;
   margin-top: 2px;
   line-height: 1.8 !important;
   overflow: visible !important;
 }
-.cert-sign-box .teacher-name {
-  margin-top: clamp(25px, 4.5vw, 45px);
-  font-weight: bold;
-  font-size: clamp(10px, 1.5vw, 14.5px);
-}
 
-/* ពេលប្រើប្រាស់ស៊ុមដែលបានបង្កប់ Logo និងចំណងជើងរួចស្រេច (ដូចជា border_3_blue1.png) */
-.cert-page-a4.has-builtin-decor .cert-gov-center-logo,
-.cert-page-a4.has-builtin-decor .cert-h1-title {
-  display: none !important;
+.cert-elem-signright {
+  position: absolute;
+  bottom: 45px;
+  right: 95px;
+  width: 250px;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.5;
+  transform: translate(var(--dx-signright, 0px), var(--dy-signright, 0px));
+  color: var(--col-signright, #0f172a);
 }
-.cert-page-a4.has-builtin-decor .cert-body-wrap {
-  padding-top: 70px !important;
+.cert-elem-signright .role-title {
+  font-family: var(--title-font);
+  font-size: 13px;
+  color: inherit;
+  margin-top: 2px;
+  line-height: 1.8 !important;
+  overflow: visible !important;
+}
+.cert-elem-signright .teacher-name {
+  margin-top: 38px;
+  font-weight: bold;
+  font-size: 14px;
 }
 
 /* Modal បណ្ណាល័យស៊ុមក្បាច់ */
@@ -520,16 +574,15 @@ td input.t{width:120px;text-align:start}
   .cert-page-a4 {
     width: 297mm !important;
     height: 209mm !important;
-    max-width: 297mm !important;
     min-height: 209mm !important;
+    max-height: 209mm !important;
     box-shadow: none !important;
     margin: 0 !important;
-    padding: var(--cert-pad-top, 24mm) 32mm 18mm 32mm !important;
     page-break-after: always;
     page-break-inside: avoid;
     box-sizing: border-box !important;
   }
-  .cert-h1-title, .cert-student-highlight, .inst-title, .role-title, .p1, .p2 {
+  .cert-elem-title, .cert-student-highlight, .inst-title, .role-title, .p1, .p2 {
     line-height: 1.8 !important;
     overflow: visible !important;
   }
@@ -556,11 +609,10 @@ const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';
 const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
-const CERT_SETTINGS_KEY = 'sms_cert_settings_v1';
+const CERT_POS_KEY = 'sms_cert_dpad_positions_v4';
 
-// បញ្ជីស៊ុមក្បាច់ស្រាប់ ដាក់ស៊ុមថ្មី border_3_blue1.png ពី Photoshop ជាជម្រើសដំបូង
 const BUILTIN_BORDERS = [
-  { id: 'b0', name: 'ក្បាច់ខៀវស្នូក (Template ថ្មី Photoshop)', url: 'borders/border_3_blue1.png', hasBuiltinDecor: true },
+  { id: 'b0', name: 'ក្បាច់ខៀវស្នូក (Template ថ្មី Photoshop)', url: 'borders/border_3_blue1.png' },
   { id: 'b1', name: 'ក្បាច់ផ្កាភ្ញីមាស', url: 'borders/Border ArtworkCreative (8).jpg' },
   { id: 'b2', name: 'ក្បាច់រចនាខៀវ (មានស្នូក)', url: 'borders/Krou-IT168 (13).jpg' },
   { id: 'b3', name: 'ក្បាច់រចនាខៀវបុរាណ', url: 'borders/Krou-IT168 (15).jpg' },
@@ -576,38 +628,103 @@ function getLogoSrc(){
   return DEFAULT_MOEYS_LOGO;
 }
 
-// មុខងារគ្រប់គ្រងការកំណត់ប្លង់បណ្ណសរសើរ
-const defaultCertSettings = {
-  headerLayout: 'right',
-  headerOffset: 0,
-  bodyOffset: 0,
-  headerColor: '#1e3a8a',
-  titleColor: '#dc2626',
-  studentColor: '#0f172a'
+// មុខងារកំណត់ទីតាំង និងពណ៌ឯករាជ្យតាមផ្នែកនីមួយៗ (D-Pad Multi-Target Positioning)
+let activeDpadTarget = 'govleft';
+let dpadStep = 2;
+
+const defaultCertElements = {
+  govleft:   { x: 0, y: 0, color: '#1e3a8a', visible: true },
+  govlogo:   { x: 0, y: 0, color: '#ffffff', visible: true },
+  govright:  { x: 0, y: 0, color: '#1e3a8a', visible: true },
+  title:     { x: 0, y: 0, color: '#dc2626', visible: true },
+  body:      { x: 0, y: 0, color: '#1e293b', studentColor: '#0f172a', visible: true },
+  signleft:  { x: 0, y: 0, color: '#0f172a', visible: true },
+  signright: { x: 0, y: 0, color: '#0f172a', visible: true }
 };
 
-function getCertSettings(){
+function getAllCertOffsets(){
   try {
-    return { ...defaultCertSettings, ...JSON.parse(localStorage.getItem(CERT_SETTINGS_KEY) || '{}') };
-  } catch(e) { return defaultCertSettings; }
+    const raw = localStorage.getItem(CERT_POS_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch(e) { return {}; }
 }
 
-function updateCertSetting(key, val){
-  const cfg = getCertSettings();
-  cfg[key] = val;
-  localStorage.setItem(CERT_SETTINGS_KEY, JSON.stringify(cfg));
-  applyCertSettings(cfg);
+function getCurCertOffsets(){
+  const all = getAllCertOffsets();
+  const border = getSelectedBorder() || 'default';
+  const cur = all[border] || {};
+  const res = {};
+  for (let k in defaultCertElements) {
+    res[k] = { ...defaultCertElements[k], ...(cur[k] || {}) };
+  }
+  return res;
 }
 
-function applyCertSettings(cfg){
+function saveCurCertOffsets(offsets){
+  const all = getAllCertOffsets();
+  const border = getSelectedBorder() || 'default';
+  all[border] = offsets;
+  localStorage.setItem(CERT_POS_KEY, JSON.stringify(all));
+  applyCertOffsetsToCSS(offsets);
+}
+
+function applyCertOffsetsToCSS(offsets){
   const r = document.documentElement.style;
-  r.setProperty('--cert-header-offset', (cfg.headerOffset || 0) + 'px');
-  r.setProperty('--cert-body-offset', (cfg.bodyOffset || 0) + 'px');
-  r.setProperty('--cert-header-color', cfg.headerColor || '#1e3a8a');
-  r.setProperty('--cert-title-color', cfg.titleColor || '#dc2626');
-  r.setProperty('--cert-student-color', cfg.studentColor || '#0f172a');
+  for (let k in offsets) {
+    const item = offsets[k];
+    r.setProperty('--dx-' + k, (item.x || 0) + 'px');
+    r.setProperty('--dy-' + k, (item.y || 0) + 'px');
+    if (item.color) r.setProperty('--col-' + k, item.color);
+    if (item.studentColor) r.setProperty('--col-student', item.studentColor);
+  }
 }
-applyCertSettings(getCertSettings());
+
+try { applyCertOffsetsToCSS(getCurCertOffsets()); } catch(e){}
+
+function moveTarget(dx, dy){
+  const offsets = getCurCertOffsets();
+  if (!offsets[activeDpadTarget]) offsets[activeDpadTarget] = { x: 0, y: 0, visible: true };
+  offsets[activeDpadTarget].x = (offsets[activeDpadTarget].x || 0) + dx;
+  offsets[activeDpadTarget].y = (offsets[activeDpadTarget].y || 0) + dy;
+  saveCurCertOffsets(offsets);
+  const infoEl = document.getElementById('dpadCoordInfo');
+  if (infoEl) infoEl.textContent = 'X: ' + offsets[activeDpadTarget].x + 'px | Y: ' + offsets[activeDpadTarget].y + 'px';
+}
+
+function resetCurTarget(){
+  const offsets = getCurCertOffsets();
+  const def = defaultCertElements[activeDpadTarget] || { x: 0, y: 0, visible: true };
+  offsets[activeDpadTarget] = { ...def };
+  saveCurCertOffsets(offsets);
+  R();
+}
+
+function resetAllTargets(){
+  if (!confirm('កំណត់ទីតាំង និងពណ៌ទាំងអស់នៃស៊ុមនេះទៅដូចដើមឡើងវិញ?')) return;
+  saveCurCertOffsets(defaultCertElements);
+  R();
+}
+
+function updateTargetProp(prop, val){
+  const offsets = getCurCertOffsets();
+  if (!offsets[activeDpadTarget]) offsets[activeDpadTarget] = { x: 0, y: 0, visible: true };
+  offsets[activeDpadTarget][prop] = val;
+  saveCurCertOffsets(offsets);
+  if (prop === 'visible') R();
+}
+
+window.addEventListener('keydown', function(e){
+  if (pg !== 'cert') return;
+  if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(e.key) !== -1) {
+    if (document.activeElement && ['INPUT','SELECT','TEXTAREA'].indexOf(document.activeElement.tagName) !== -1) return;
+    e.preventDefault();
+    const step = e.shiftKey ? 5 : dpadStep;
+    if (e.key === 'ArrowUp') moveTarget(0, -step);
+    if (e.key === 'ArrowDown') moveTarget(0, step);
+    if (e.key === 'ArrowLeft') moveTarget(-step, 0);
+    if (e.key === 'ArrowRight') moveTarget(step, 0);
+  }
+});
 
 function getBorderLibrary(){
   try {
@@ -625,6 +742,7 @@ function getSelectedBorder(){
 }
 function setSelectedBorder(url){
   localStorage.setItem(SELECTED_BORDER_KEY, url);
+  applyCertOffsetsToCSS(getCurCertOffsets());
 }
 
 let showBorderModal = false;
@@ -1253,7 +1371,7 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print ដោយផ្ទាល់
+// មុខងារ Print ដោយផ្ទាល់ (កែសម្រួលសម្រាប់ iPhone PWA ឱ្យចេញពេញ A4 Landscape ចំកណ្តាល)
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
@@ -1267,9 +1385,15 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
 
     const opt = {
       margin: 0,
-      filename: `${reportName || 'តារាងសាលា'}.pdf`,
+      filename: `${reportName || 'ប័ណ្ណសរសើរ'}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
+      html2canvas: { 
+        scale: 2, 
+        useCORS: true,
+        windowWidth: isLandscape ? 1123 : 794,
+        scrollY: 0,
+        scrollX: 0
+      },
       jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait' }
     };
     try {
@@ -1278,7 +1402,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       const file = new File([pdfBlob], opt.filename, { type: 'application/pdf' });
 
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: reportName, text: 'តារាងពិន្ទុផ្លូវការ (A4)' });
+        await navigator.share({ files: [file], title: reportName, text: 'ប័ណ្ណសរសើរផ្លូវការ (A4)' });
         setStatus('បានចែករំលែក PDF ជោគជ័យ ✓');
       } else {
         const downloadUrl = URL.createObjectURL(pdfBlob);
@@ -2050,11 +2174,10 @@ cert(){
   const logoSrc = getLogoSrc();
   const selectedBorder = getSelectedBorder();
   const customLib = getBorderLibrary();
-  const cSet = getCertSettings();
+  const offsets = getCurCertOffsets();
+  const curTarget = offsets[activeDpadTarget] || { x: 0, y: 0, visible: true };
 
   const allBorders = [...BUILTIN_BORDERS, ...customLib];
-  const curBorderObj = allBorders.find(b => b.url === selectedBorder) || {};
-  const isBuiltinDecor = curBorderObj.hasBuiltinDecor || false;
 
   let list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
     .filter(s => s.tot > 0)
@@ -2067,61 +2190,77 @@ cert(){
 
   const certsHtml = list.map((s, idx) => `
     <div class="cert-scroll-wrap">
-      <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'} ${isBuiltinDecor ? 'has-builtin-decor' : ''}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
+      <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
         
-        <!-- ១. ក្បាលលិខិតជាតិ -->
-        <div class="cert-gov-header ${cSet.headerLayout === 'center' ? 'layout-center' : ''}">
-          <div class="cert-gov-left">
+        <!-- ១. ក្បាលស្ថាប័ន (ក្រសួង/មន្ទីរ/សាលា) ឆ្វេងលើ -->
+        ${offsets.govleft && offsets.govleft.visible !== false ? `
+          <div class="cert-elem-govleft">
             <span class="inst-title">${E(i.province ? ('ការិយាល័យអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</span>
-            <div style="font-weight:bold;color:#0f172a">${E(i.school || 'សាលាបឋមសិក្សា....................')}</div>
+            <div style="font-weight:bold">${E(i.school || 'សាលាបឋមសិក្សា....................')}</div>
           </div>
+        ` : ''}
 
-          <div class="cert-gov-center-logo">
+        <!-- ២. Logo ក្រសួងកណ្តាលលើ -->
+        ${offsets.govlogo && offsets.govlogo.visible !== false ? `
+          <div class="cert-elem-govlogo">
             <img src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
           </div>
+        ` : ''}
 
-          <div class="cert-gov-right">
+        <!-- ៣. ពាក្យស្លោកជាតិ (ព្រះរាជាណាចក្រកម្ពុជា) ស្តាំលើ -->
+        ${offsets.govright && offsets.govright.visible !== false ? `
+          <div class="cert-elem-govright">
             <div class="p1">ព្រះរាជាណាចក្រកម្ពុជា</div>
             <div class="p2">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
             <div class="wave">-0, -</div>
           </div>
-        </div>
+        ` : ''}
 
-        <!-- ២. តួសេចក្តីបណ្ណសរសើរ -->
-        <div class="cert-body-wrap">
-          <div class="cert-h1-title">ប័ណ្ណសរសើរ</div>
-          <div class="cert-giver-title">គណៈគ្រប់គ្រង ${E(i.school || 'សាលារៀន')}</div>
-          <div class="cert-praise-intro">សូមកោតសរសើរចំពោះ</div>
+        <!-- ៤. ចំណងជើង «ប័ណ្ណសរសើរ» -->
+        ${offsets.title && offsets.title.visible !== false ? `
+          <div class="cert-elem-title">ប័ណ្ណសរសើរ</div>
+        ` : ''}
 
-          <div style="margin: 4px 0 2px">
-            សិស្សឈ្មោះ៖ <span class="cert-student-highlight">${E(s.name)}</span>
-            ភេទ <b style="font-size:1.1em">${s.sex==='ស'?'ស្រី':'ប្រុស'}</b>
-            រៀននៅថ្នាក់ទី <b style="font-size:1.1em">${E(i.cls || '...')}</b>
+        <!-- ៥. តួសេចក្តី (ឈ្មោះសិស្ស, ថ្នាក់, ពិន្ទុ, ពុទ្ធពរ) -->
+        ${offsets.body && offsets.body.visible !== false ? `
+          <div class="cert-elem-body">
+            <div class="cert-giver-title">គណៈគ្រប់គ្រង ${E(i.school || 'សាលារៀន')}</div>
+            <div class="cert-praise-intro">សូមកោតសរសើរចំពោះ</div>
+
+            <div style="margin: 4px 0 2px">
+              សិស្សឈ្មោះ៖ <span class="cert-student-highlight">${E(s.name)}</span>
+              ភេទ <b style="font-size:1.1em">${s.sex==='ស'?'ស្រី':'ប្រុស'}</b>
+              រៀននៅថ្នាក់ទី <b style="font-size:1.1em">${E(i.cls || '...')}</b>
+            </div>
+
+            <div class="cert-reason-text">
+              ដែលបានខិតខំប្រឹងប្រែងរៀនសូត្រ ទទួលបាន <b>ចំណាត់ថ្នាក់លេខ ${toKhNum(idx + 1)}</b>
+              ${s.av > 0 ? `(មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b>)` : ''}
+              ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b> ។
+            </div>
+
+            <div class="cert-bless-text">
+              សូមជូនពរឱ្យទទួលបាននូវពុទ្ធពរទាំងបួនប្រការគឺ អាយុ វណ្ណៈ សុខៈ ពលៈ ជានិច្ចនិរន្តរ៍។
+            </div>
           </div>
+        ` : ''}
 
-          <div class="cert-reason-text">
-            ដែលបានខិតខំប្រឹងប្រែងរៀនសូត្រ ទទួលបាន <b>ចំណាត់ថ្នាក់លេខ ${toKhNum(idx + 1)}</b>
-            ${s.av > 0 ? `(មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b>)` : ''}
-            ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b> ។
-          </div>
-
-          <div class="cert-bless-text">
-            សូមជូនពរឱ្យទទួលបាននូវពុទ្ធពរទាំងបួនប្រការគឺ អាយុ វណ្ណៈ សុខៈ ពលៈ ជានិច្ចនិរន្តរ៍។
-          </div>
-        </div>
-
-        <!-- ៣. កាលបរិច្ឆេទ និងហត្ថលេខា -->
-        <div class="cert-sign-wrap">
-          <div class="cert-sign-box">
+        <!-- ៦. ហត្ថលេខាឆ្វេង (បានឃើញ និងឯកភាព / នាយក) -->
+        ${offsets.signleft && offsets.signleft.visible !== false ? `
+          <div class="cert-elem-signleft">
             <div>បានឃើញ និងឯកភាព</div>
             <div class="role-title">នាយកសាលា</div>
           </div>
-          <div class="cert-sign-box">
+        ` : ''}
+
+        <!-- ៧. ហត្ថលេខាស្តាំ (កាលបរិច្ឆេទ / គ្រូបន្ទុកថ្នាក់) -->
+        ${offsets.signright && offsets.signright.visible !== false ? `
+          <div class="cert-elem-signright">
             <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
             <div class="role-title">គ្រូបន្ទុកថ្នាក់</div>
             <div class="teacher-name">${E(i.teacher || '')}</div>
           </div>
-        </div>
+        ` : ''}
 
       </div>
     </div>
@@ -2141,38 +2280,76 @@ cert(){
     <button class="bt" onclick="executeStandardPrint('certPrintArea', 'បណ្ណសរសើរស្វ័យប្រវត្តិ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
 
-  <!-- របារបញ្ជាតម្រឹមប្លង់ និងប្តូរពណ៌អក្សរ (គ្មានសញ្ញាខុសកូដ) -->
+  <!-- ផ្ទាំងបញ្ជាគ្រាប់ចុច ៤ ទិស (D-Pad Controller) -->
   <div class="cert-customizer">
     <div class="cert-customizer-grid">
-      <div class="cert-citem">
-        <span>ទម្រង់ក្បាលលិខិត៖</span>
-        <select onchange="updateCertSetting('headerLayout', this.value);R()" style="min-height:32px;padding:2px 8px">
-          <option value="right" ${cSet.headerLayout==='right'?'selected':''}>ស្តង់ដារ (ស្តាំលើ)</option>
-          <option value="center" ${cSet.headerLayout==='center'?'selected':''}>កណ្តាល (Center)</option>
+      
+      <!-- ១. ប្រអប់ជ្រើសរើសផ្នែកដែលត្រូវរំកិល -->
+      <div class="cert-target-col">
+        <label>🎯 ជ្រើសរើសផ្នែកដែលត្រូវរំកិលទីតាំង & ពណ៌៖</label>
+        <select onchange="activeDpadTarget=this.value;R()">
+          <option value="govleft"   ${activeDpadTarget==='govleft'?'selected':''}>🏛️ ក្បាលស្ថាប័ន (ក្រសួង / មន្ទីរ / សាលា)</option>
+          <option value="govlogo"   ${activeDpadTarget==='govlogo'?'selected':''}>⚜️ Logo ក្រសួង (កណ្តាលលើ)</option>
+          <option value="govright"  ${activeDpadTarget==='govright'?'selected':''}>🇰🇭 ព្រះរាជាណាចក្រកម្ពុជា (ស្តាំលើ)</option>
+          <option value="title"     ${activeDpadTarget==='title'?'selected':''}>📜 ចំណងជើង «ប័ណ្ណសរសើរ»</option>
+          <option value="body"      ${activeDpadTarget==='body'?'selected':''}>👨‍🎓 តួសេចក្តី (ឈ្មោះសិស្ស, ថ្នាក់, ពិន្ទុ)</option>
+          <option value="signleft"  ${activeDpadTarget==='signleft'?'selected':''}>✍️ បានឃើញ និងឯកភាព (នាយកសាលា)</option>
+          <option value="signright" ${activeDpadTarget==='signright'?'selected':''}>📅 ថ្ងៃខែឆ្នាំ (គ្រូបន្ទុកថ្នាក់)</option>
         </select>
-      </div>
-      <div class="cert-citem">
-        <span>រំកិលក្បាលលើ (ឡើង-ចុះ)៖</span>
-        <input type="range" min="-30" max="60" value="${cSet.headerOffset}" oninput="updateCertSetting('headerOffset', +this.value)">
-      </div>
-      <div class="cert-citem">
-        <span>រំកិលតួសេចក្តី (ឡើង-ចុះ)៖</span>
-        <input type="range" min="-40" max="60" value="${cSet.bodyOffset}" oninput="updateCertSetting('bodyOffset', +this.value)">
-      </div>
-      <div class="cert-citem">
-        <span>ពណ៌ក្បាលលិខិត៖</span>
-        <input type="color" value="${cSet.headerColor}" onchange="updateCertSetting('headerColor', this.value)">
-      </div>
-      ${!isBuiltinDecor ? `
-        <div class="cert-citem">
-          <span>ពណ៌ចំណងជើង៖</span>
-          <input type="color" value="${cSet.titleColor}" onchange="updateCertSetting('titleColor', this.value)">
+
+        <div class="cert-opts-row">
+          <label class="cert-opts-item">
+            <input type="checkbox" ${curTarget.visible!==false?'checked':''} onchange="updateTargetProp('visible', this.checked)">
+            <span>បង្ហាញធាតុនេះ</span>
+          </label>
+
+          ${activeDpadTarget !== 'govlogo' ? `
+            <div class="cert-opts-item">
+              <span>ពណ៌៖</span>
+              <input type="color" value="${curTarget.color || '#000000'}" onchange="updateTargetProp('color', this.value)">
+            </div>
+          ` : ''}
+
+          ${activeDpadTarget === 'body' ? `
+            <div class="cert-opts-item">
+              <span>ពណ៌ឈ្មោះសិស្ស៖</span>
+              <input type="color" value="${curTarget.studentColor || '#0f172a'}" onchange="updateTargetProp('studentColor', this.value)">
+            </div>
+          ` : ''}
+
+          <div class="cert-opts-item">
+            <span>ល្បឿនរំកិល៖</span>
+            <select onchange="dpadStep=+this.value" style="min-height:30px;padding:2px 6px">
+              <option value="1">1px (ម៉ត់ល្អិត)</option>
+              <option value="2" selected>2px (ធម្មតា)</option>
+              <option value="5">5px (លឿន)</option>
+            </select>
+          </div>
         </div>
-      ` : ''}
-      <div class="cert-citem">
-        <span>ពណ៌ឈ្មោះសិស្ស៖</span>
-        <input type="color" value="${cSet.studentColor}" onchange="updateCertSetting('studentColor', this.value)">
       </div>
+
+      <!-- ២. គ្រាប់ចុចព្រួញ ៤ ទិស (D-Pad Cross) -->
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+        <div class="dpad-cross-box">
+          <button class="dpad-btn dpad-up"    onclick="moveTarget(0, -dpadStep)" title="ឡើងលើ">▲</button>
+          <button class="dpad-btn dpad-left"  onclick="moveTarget(-dpadStep, 0)" title="ទៅឆ្វេង">◀</button>
+          <button class="dpad-btn dpad-down"  onclick="moveTarget(0, dpadStep)"  title="ចុះក្រោម">▼</button>
+          <button class="dpad-btn dpad-right" onclick="moveTarget(dpadStep, 0)"  title="ទៅស្តាំ">▶</button>
+        </div>
+        <div id="dpadCoordInfo" style="font-size:11px;font-weight:bold;color:var(--mu)">
+          X: ${curTarget.x || 0}px | Y: ${curTarget.y || 0}px
+        </div>
+      </div>
+
+      <!-- ៣. ប៊ូតុងកំណត់ឡើងវិញ -->
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button class="bt g" style="padding:4px 10px;min-height:30px;font-size:12px" onclick="resetCurTarget()">🔄 កំណត់ធាតុនេះដើម</button>
+        <button class="bt g" style="padding:4px 10px;min-height:30px;font-size:12px;color:var(--bad)" onclick="resetAllTargets()">⚠️ កំណត់ទាំងអស់ឡើងវិញ</button>
+      </div>
+
+    </div>
+    <div style="font-size:11.5px;color:var(--mu);margin-top:8px">
+      💡 <b>គន្លឹះ៖</b> លើកុំព្យូទ័រ លោកគ្រូអាចចុចលើគ្រាប់ចុចព្រួញ Keyboard $(\uparrow \downarrow \leftarrow \rightarrow)$ ដើម្បីរំកិលបានដោយផ្ទាល់ដៃ។
     </div>
   </div>
 
