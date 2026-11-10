@@ -153,14 +153,14 @@ td input.t{width:120px;text-align:start}
 .cp-box{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .cp-box input[type="color"]{min-height:40px;width:54px;padding:2px;cursor:pointer;border-radius:8px}
 
-/* ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល (ទម្លាក់ចុះក្រោមសមរម្យ មិនឱ្យឡើងកៀកគែមលើ) */
-.official-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;line-height:1.5;padding-top:12px}
+/* ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល (ទម្លាក់ចុះក្រោមសមរម្យ មិនឡើងកៀកគែមលើ) */
+.official-header{display:flex;justify-content:space-between;align-items:flex-start;margin-top:14px;margin-bottom:16px;line-height:1.5;padding-top:8px}
 .official-header .center-box{text-align:center;padding-top:4px}
-.official-header .side-box{text-align:center;padding-top:10px}
-.official-print-logo{width:50px;height:50px;object-fit:contain;margin:0 auto 4px;display:block}
+.official-header .side-box{text-align:center;padding-top:6px}
+.official-print-logo{width:54px;height:54px;object-fit:contain;margin:0 auto 6px;display:block}
 
 /* ទម្រង់បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ & ប្រចាំឆ្នាំ (A4 Portrait) */
-.official-sheet{background:#fff;padding:20px 24px;color:#000;font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif}
+.official-sheet{background:#fff;padding:18px 24px;color:#000;font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif}
 .official-title{text-align:center;margin:12px 0 10px}
 .official-title h2{font-size:18px;margin:2px 0;color:#000}
 .official-table{border:1px solid #444;width:100%;border-collapse:collapse}
@@ -173,7 +173,7 @@ td input.t{width:120px;text-align:start}
 .exam-print-container {
   display: none;
   background: #fff;
-  padding: 12px 16px;
+  padding: 10px 14px;
   color: #000;
   font-family: 'Leelawadee UI', 'Kantumruy Pro', sans-serif;
 }
@@ -953,10 +953,11 @@ const USER_RE = /^[a-z0-9_.-]{3,30}$/;
 
 const ACCKEY = 'sms_accounts_v7';
 const THEME_KEY = 'sms_theme_settings_v4';
-const ORDER_KEY = 'sms_btn_order_v6';
+const ORDER_KEY = 'sms_btn_order_v7';
 const LAST_YEAR_KEY = 'sms_last_selected_year_v1';
 
-const DEFAULT_BTNS = ['info','stu','sc','examScore','official','sem0','sem1','annual','ab','honor','cert','idcard','bk','theme','clean'];
+// រួមបញ្ចូលប៊ូតុងឆមាសមកនៅតែមួយ (sem) កុំឱ្យជាន់គ្នាដដែលៗ
+const DEFAULT_BTNS = ['info','stu','sc','examScore','official','sem','annual','ab','honor','cert','idcard','bk','theme','clean'];
 
 function getBtnOrder(){
   try {
@@ -1402,7 +1403,7 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print ដោយផ្ទាល់ (បែងចែកទម្រង់ A4 Landscape & Portrait ស្វ័យប្រវត្តិតាមការចង់បាន)
+// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & បំបែក Portrait/Landscape ស្វ័យប្រវត្តិតាមទម្រង់រដ្ឋបាល)
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
@@ -1411,6 +1412,15 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
 
   if (isStandalone && typeof html2pdf !== 'undefined') {
     setStatus('កំពុងបង្កើត PDF A4...');
+    
+    // ដោះ Scale បង្រួមលើទូរស័ព្ទជាបណ្តោះអាសន្ន ដើម្បីចាប់យករូបភាព A4 ពេញទំហំ ១០០%
+    const wrappers = element.querySelectorAll('.cert-scaler-wrapper');
+    const oldTransforms = [];
+    wrappers.forEach((w, idx) => {
+      oldTransforms[idx] = w.style.transform;
+      w.style.transform = 'none';
+    });
+
     const prevDisplay = element.style.display;
     element.style.display = 'block';
 
@@ -1430,6 +1440,12 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
     try {
       const pdfBlob = await html2pdf().set(opt).from(element).outputPdf('blob');
       element.style.display = prevDisplay;
+      
+      // ដាក់ Scale បង្រួមលើអេក្រង់ទូរស័ព្ទមកវិញ
+      wrappers.forEach((w, idx) => {
+        w.style.transform = oldTransforms[idx] || '';
+      });
+
       const file = new File([pdfBlob], opt.filename, { type: 'application/pdf' });
 
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -1444,6 +1460,9 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       }
     } catch (e) {
       element.style.display = prevDisplay;
+      wrappers.forEach((w, idx) => {
+        w.style.transform = oldTransforms[idx] || '';
+      });
       window.print();
     }
   } else {
@@ -1453,7 +1472,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       styleSheet.id = 'dynamicPrintStyle';
       document.head.appendChild(styleSheet);
     }
-    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ ដោយអនុញ្ញាតឱ្យ Driver ម៉ាស៊ីនព្រីនប្តូរបាន
+    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ ដោយអនុញ្ញាតឱ្យ Driver ម៉ាស៊ីនព្រីនប្តូរបាន
     styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: ${isLandscape ? '6mm' : '10mm 12mm'} !important; } }`;
     setTimeout(() => window.print(), 100);
   }
@@ -1619,14 +1638,14 @@ home(){
   const touchCls = getTheme().touch || 'touch-3d';
   const logoSrc = getLogoSrc();
 
+  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ មិនស្ទួន
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
     stu: {cls:'bl', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
     sc: {cls:'gd', txt:'📊 តារាងពិន្ទុប្រចាំខែ', act:"go('sc')"},
     examScore: {cls:'tl', txt:'📝 តារាងប្រឡងឆមាស', act:"go('examScore')"},
     official: {cls:'in', txt:'🖨️ បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ', act:"go('official')"},
-    sem0: {cls:'gd', txt:'🥇 សរុបពិន្ទុឆមាសទី ១ (Auto)', act:"sem=0;go('sem')"},
-    sem1: {cls:'gd', txt:'🥈 សរុបពិន្ទុឆមាសទី ២ (Auto)', act:"sem=1;go('sem')"},
+    sem: {cls:'gd', txt:'🥇🥈 សរុបពិន្ទុឆមាស (Auto)', act:"go('sem')"},
     annual: {cls:'ro', txt:'🏆 សរុបលទ្ធផលប្រចាំឆ្នាំ', act:"go('annual')"},
     ab: {cls:'bk', txt:'📅 តារាងអវត្តមាន', act:"go('ab')"},
     honor: {cls:'pu', txt:'🏅 តារាងកិត្តិយស', act:"go('honor')"},
@@ -2020,6 +2039,61 @@ annual(){
   </div>`;
 },
 
+sem(){
+  const S = getS();
+  const ms = semMonths(sem);
+  
+  const list = S.st.map(s => {
+    const mAv = semMonthlyAv(s.id, sem);
+    const examAv = avSemExam(s.id, sem);
+    const fAv = semFinalAv(s.id, sem);
+    const pass = getPassStatus(fAv, fAv > 0 ? 1 : 0);
+    const grade = getGradeLetter(fAv, fAv > 0 ? 1 : 0);
+    return { ...s, mAv, examAv, fAv, pass, grade };
+  }).sort((a,b) => b.fAv - a.fAv);
+
+  list.forEach((s, idx) => { s.rank = s.fAv > 0 ? (idx + 1) : '-'; });
+
+  const rows = list.map((s,k) => `
+    <tr>
+      <td>${k+1}</td>
+      <td class="sn" style="text-align:start;padding-left:8px"><b>${E(s.name)}</b></td>
+      <td>${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
+      ${ms.map(m => `<td>${tot(s.id,m) > 0 ? av(s.id,m).toFixed(2) : '-'}</td>`).join('')}
+      <td><b>${s.mAv > 0 ? s.mAv.toFixed(2) : '-'}</b></td>
+      <td style="background:#fef3c7;font-weight:bold;color:#b45309">${s.examAv > 0 ? s.examAv.toFixed(2) : '-'}</td>
+      <td style="background:#ecfdf5;font-weight:bold;color:#047857">${s.fAv > 0 ? s.fAv.toFixed(2) : '-'}</td>
+      <td><b>${s.rank}</b></td>
+      <td class="${s.fAv > 0 && s.pass === 'ធ្លាក់' ? 'bad' : ''}">${s.pass}</td>
+    </tr>
+  `).join('');
+
+  return head('សរុបពិន្ទុឆមាស (Auto)') + `<div class="card">
+  <div class="f">
+    <select onchange="sem=+this.value;R()">
+      <option value="0" ${sem===0?'selected':''}>ឆមាសទី ១</option>
+      <option value="1" ${sem===1?'selected':''}>ឆមាសទី ២</option>
+    </select>
+    <button class="bt" onclick="executeStandardPrint('semScorePrintArea', 'សរុបពិន្ទុឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+  </div>
+  <div class="w" id="semScorePrintArea"><table>
+  <thead>
+    <tr>
+      <th>ល.រ</th>
+      <th class="sn">ឈ្មោះ</th>
+      <th>ភេទ</th>
+      ${ms.map(m => `<th>ខែ${MO[m]}</th>`).join('')}
+      <th>មធ្យមខែ</th>
+      <th style="background:#fef3c7">ប្រឡងឆមាស (Auto)</th>
+      <th style="background:#d1fae5">មធ្យមឆមាសរួម</th>
+      <th>ចំណាត់ថ្នាក់</th>
+      <th>លទ្ធផល</th>
+    </tr>
+  </thead>
+  <tbody>${rows || '<tr><td colspan="14" class="em">មិនមានសិស្ស</td></tr>'}</tbody>
+  </table></div></div>`;
+},
+
 info(){
   const S = getS();
   const i = S.info;
@@ -2101,61 +2175,6 @@ stu(){
       </tbody>
     </table></div>
   </div>`;
-},
-
-sem(){
-  const S = getS();
-  const ms = semMonths(sem);
-  
-  const list = S.st.map(s => {
-    const mAv = semMonthlyAv(s.id, sem);
-    const examAv = avSemExam(s.id, sem);
-    const fAv = semFinalAv(s.id, sem);
-    const pass = getPassStatus(fAv, fAv > 0 ? 1 : 0);
-    const grade = getGradeLetter(fAv, fAv > 0 ? 1 : 0);
-    return { ...s, mAv, examAv, fAv, pass, grade };
-  }).sort((a,b) => b.fAv - a.fAv);
-
-  list.forEach((s, idx) => { s.rank = s.fAv > 0 ? (idx + 1) : '-'; });
-
-  const rows = list.map((s,k) => `
-    <tr>
-      <td>${k+1}</td>
-      <td class="sn" style="text-align:start;padding-left:8px"><b>${E(s.name)}</b></td>
-      <td>${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
-      ${ms.map(m => `<td>${tot(s.id,m) > 0 ? av(s.id,m).toFixed(2) : '-'}</td>`).join('')}
-      <td><b>${s.mAv > 0 ? s.mAv.toFixed(2) : '-'}</b></td>
-      <td style="background:#fef3c7;font-weight:bold;color:#b45309">${s.examAv > 0 ? s.examAv.toFixed(2) : '-'}</td>
-      <td style="background:#ecfdf5;font-weight:bold;color:#047857">${s.fAv > 0 ? s.fAv.toFixed(2) : '-'}</td>
-      <td><b>${s.rank}</b></td>
-      <td class="${s.fAv > 0 && s.pass === 'ធ្លាក់' ? 'bad' : ''}">${s.pass}</td>
-    </tr>
-  `).join('');
-
-  return head('សរុបពិន្ទុឆមាសទី ' + (sem+1)) + `<div class="card">
-  <div class="f">
-    <select onchange="sem=+this.value;R()">
-      <option value="0" ${sem===0?'selected':''}>ឆមាសទី ១</option>
-      <option value="1" ${sem===1?'selected':''}>ឆមាសទី ២</option>
-    </select>
-    <button class="bt" onclick="executeStandardPrint('semScorePrintArea', 'សរុបពិន្ទុឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
-  </div>
-  <div class="w" id="semScorePrintArea"><table>
-  <thead>
-    <tr>
-      <th>ល.រ</th>
-      <th class="sn">ឈ្មោះ</th>
-      <th>ភេទ</th>
-      ${ms.map(m => `<th>ខែ${MO[m]}</th>`).join('')}
-      <th>មធ្យមខែ</th>
-      <th style="background:#fef3c7">ប្រឡងឆមាស (Auto)</th>
-      <th style="background:#d1fae5">មធ្យមឆមាសរួម</th>
-      <th>ចំណាត់ថ្នាក់</th>
-      <th>លទ្ធផល</th>
-    </tr>
-  </thead>
-  <tbody>${rows || '<tr><td colspan="14" class="em">មិនមានសិស្ស</td></tr>'}</tbody>
-  </table></div></div>`;
 },
 
 ab(){
@@ -2790,7 +2809,7 @@ async function makePkgBlob(){
 }
 function downloadBlob(blob, name){
   const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
+  a = document.createElement('a');
   a.href = url; a.download = name;
   document.body.appendChild(a); a.click(); a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 2000);
