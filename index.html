@@ -153,12 +153,12 @@ td input.t{width:120px;text-align:start}
 .cp-box{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .cp-box input[type="color"]{min-height:40px;width:54px;padding:2px;cursor:pointer;border-radius:8px}
 
-/* ក្បាលលិខិតជាតិ Table Layout ស្តង់ដារ (ដោះស្រាយបញ្ហា Logo មិនយឺត និងមិនដាច់ក្បាលលើ) */
+/* ក្បាលលិខិតរដ្ឋបាលជាតិ Table Layout (ព្រះរាជាណាចក្រកម្ពុជានៅលើបង្អស់ដាច់គេ គ្មាន Logo យឺតទៀតឡើយ) */
 .official-header-table {
   width: 100%;
   border-collapse: collapse;
   border: none !important;
-  margin-top: 4px;
+  margin-top: 6px;
   margin-bottom: 12px;
 }
 .official-header-table td {
@@ -166,18 +166,10 @@ td input.t{width:120px;text-align:start}
   background: transparent !important;
   padding: 0 4px !important;
 }
-.official-print-logo {
-  width: 48px;
-  height: auto;
-  max-height: 58px;
-  object-fit: contain;
-  margin: 0 auto 3px;
-  display: block;
-}
 
 /* ទម្រង់បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ & ប្រចាំឆ្នាំ (A4 Portrait) */
 .official-sheet{background:#fff;padding:16px 20px;color:#000;font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif}
-.official-title{text-align:center;margin:10px 0 8px}
+.official-title{text-align:center;margin:8px 0 6px}
 .official-title h2{font-size:17.5px;margin:2px 0;color:#000}
 .official-table{border:1px solid #444;width:100%;border-collapse:collapse}
 .official-table th, .official-table td{border:1px solid #444;padding:5px 4px;text-align:center;font-size:12px}
@@ -185,7 +177,7 @@ td input.t{width:120px;text-align:start}
 .official-footer{margin-top:16px;display:flex;justify-content:space-between;font-size:12.5px;line-height:1.5}
 .official-stats{font-size:12px;line-height:1.6;margin-top:8px}
 
-/* ទម្រង់បោះពុម្ពតារាងពិន្ទុ និងប្រឡងឆមាស (A4 Landscape) */
+/* ទម្រង់បោះពុម្ពតារាងពិន្ទុ, ឆមាស (A4 Landscape) */
 .exam-print-container {
   display: none;
   background: #fff;
@@ -247,7 +239,7 @@ td input.t{width:120px;text-align:start}
   transition: transform 0.15s ease-out;
 }
 
-/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការ (សូន្យ Padding ដើម្បីត្រូវគ្នានឹង Template Photoshop ១០០%) */
+/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការ (សូន្យ Padding ត្រូវគ្នានឹង Template Photoshop ១០០%) */
 .cert-page-a4 {
   width: 960px;
   height: 678px;
@@ -430,7 +422,7 @@ const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
 const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
 
-// បញ្ជីស៊ុមក្បាច់ស្រាប់ ដាក់ស៊ុមថ្មី border_3_blue1.png ពី Photoshop ជាជម្រើសដំបូង
+// បញ្ជីស៊ុមក្បាច់ស្រាប់ ដាក់ស៊ុមថ្មី border_3_blue1.png ពី Photoshop ជាជម្រើសដំបូង[span_0](start_span)[span_0](end_span)
 const BUILTIN_BORDERS = [
   { id: 'b0', name: 'ក្បាច់ខៀវស្នូក (Template ថ្មី Photoshop)', url: 'borders/border_3_blue1.png' },
   { id: 'b1', name: 'ក្បាច់ផ្កាភ្ញីមាស', url: 'borders/Border ArtworkCreative (8).jpg' },
@@ -448,7 +440,7 @@ function getLogoSrc(){
   return DEFAULT_MOEYS_LOGO;
 }
 
-// មុខងារ Auto-Scale ទ្រទ្រង់ទូរស័ព្ទបញ្ឈរឱ្យឃើញស៊ុមពេញ ១០០%
+// មុខងារ Auto-Scale ទ្រទ្រង់ទូរស័ព្ទបញ្ឈរឱ្យឃើញស៊ុមពេញ ១០០%[span_1](start_span)[span_1](end_span)
 function updateCertScale(){
   const stage = document.querySelector('.cert-responsive-stage');
   const wrappers = document.querySelectorAll('.cert-scaler-wrapper');
@@ -659,7 +651,7 @@ const USER_RE = /^[a-z0-9_.-]{3,30}$/;
 
 const ACCKEY = 'sms_accounts_v7';
 const THEME_KEY = 'sms_theme_settings_v4';
-const ORDER_KEY = 'sms_btn_order_v10';
+const ORDER_KEY = 'sms_btn_order_v11';
 const LAST_YEAR_KEY = 'sms_last_selected_year_v1';
 
 // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem
@@ -796,7 +788,7 @@ async function unlock(u, pw){
 
 let SESSION = null;
 let currentYear = localStorage.getItem(LAST_YEAR_KEY) || '២០២៥ - ២០២៦';
-let currentLevel = localStorage.getItem(LAST_LEVEL_KEY) || 'secondary'; // ចងចាំកម្រិតថ្នាក់ជាប់ជានិច្ច
+let currentLevel = localStorage.getItem(LAST_LEVEL_KEY) || 'secondary'; // ចងចាំកម្រិតថ្នាក់រហូត[span_2](start_span)[span_2](end_span)
 let allYearsData = {};
 
 function emptyLevelData(lbl, yr){
@@ -1080,7 +1072,7 @@ const go = p => { pg = p; R(); scrollTo(0,0); };
 function switchLevel(lvl){
   if (currentLevel === lvl) return;
   currentLevel = lvl;
-  localStorage.setItem(LAST_LEVEL_KEY, lvl); // ចងចាំកម្រិតថ្នាក់ជាប់ជានិច្ច
+  localStorage.setItem(LAST_LEVEL_KEY, lvl); // ចងចាំកម្រិតថ្នាក់ជាប់ជានិច្ច[span_3](start_span)[span_3](end_span)
   getS().info.div = getDiv(currentLevel, getS().info.stream);
   save();
   R();
@@ -1113,7 +1105,7 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & កាត់ផ្ទៃប្រផេះចោល ១០០%)
+// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & កាត់ផ្ទៃប្រផេះចោល ១០០%)[span_4](start_span)[span_4](end_span)
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
@@ -1123,7 +1115,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   if (isStandalone && typeof html2pdf !== 'undefined') {
     setStatus('កំពុងបង្កើត PDF A4...');
     
-    // ចង្អុលចំតួប័ណ្ណសរសើរផ្ទាល់កុំឱ្យជាប់ផ្ទៃប្រផេះ និងដោះ Scale បណ្តោះអាសន្ន
+    // ចង្អុលចំតួប័ណ្ណសរសើរផ្ទាល់កុំឱ្យជាប់ផ្ទៃប្រផេះ និងដោះ Scale បណ្តោះអាសន្ន[span_5](start_span)[span_5](end_span)
     const printTarget = element.querySelector('.cert-page-a4') || element;
     const wrapper = element.querySelector('.cert-scaler-wrapper');
     const oldTransform = wrapper ? wrapper.style.transform : '';
@@ -1186,25 +1178,25 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       styleSheet.id = 'dynamicPrintStyle';
       document.head.appendChild(styleSheet);
     }
-    styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: ${isLandscape ? '6mm' : '10mm 12mm'} !important; } }`;
+    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ[span_6](start_span)[span_6](end_span)
+    styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: ${isLandscape ? '0mm' : '8mm 12mm'} !important; } }`;
     setTimeout(() => window.print(), 100);
   }
 }
 
-// ក្បាលលិខិតជាតិ Table Layout (Logo ជាប់ពាក្យក្រសួង មិនយឺតឡើងលើ)
-function renderOfficialHeaderHTML(i, logoSrc){
+// ក្បាលលិខិតជាតិ Table Layout (ព្រះរាជាណាចក្រកម្ពុជានៅលើបង្អស់ដាច់គេ គ្មាន Logo)
+function renderOfficialHeaderHTML(i){
   return `
     <table class="official-header-table">
       <tr>
-        <td style="width:38%;text-align:center;vertical-align:top">
-          <img class="official-print-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
-          <div style="font-size:12.5px;font-weight:bold">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
-          <div style="font-weight:bold;font-size:13.5px">${E(i.school || 'សាលារៀន')}</div>
+        <td style="width:38%;text-align:center;vertical-align:top;padding-top:14px !important">
+          <div style="font-size:13px;font-weight:bold">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+          <div style="font-weight:bold;font-size:14px;margin-top:2px">${E(i.school || 'សាលារៀន')}</div>
         </td>
         <td style="width:24%"></td>
-        <td style="width:38%;text-align:center;vertical-align:top;padding-top:10px !important">
-          <div class="muol-title" style="font-size:15.5px">ព្រះរាជាណាចក្រកម្ពុជា</div>
-          <div class="muol-title" style="font-size:13.5px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+        <td style="width:38%;text-align:center;vertical-align:top;padding-top:0 !important">
+          <div class="muol-title" style="font-size:16px">ព្រះរាជាណាចក្រកម្ពុជា</div>
+          <div class="muol-title" style="font-size:14px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
           <div style="font-size:12px;letter-spacing:4px">-0, -</div>
         </td>
       </tr>
@@ -1355,7 +1347,7 @@ home(){
   const touchCls = getTheme().touch || 'touch-3d';
   const logoSrc = getLogoSrc();
 
-  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem
+  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem[span_7](start_span)[span_7](end_span)
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
     stu: {cls:'bl', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
@@ -1426,7 +1418,7 @@ sc(){
   const S = getS();
   const i = S.info;
   const cols = getCols(currentLevel, S.info.stream);
-  const logoSrc = getLogoSrc();
+  const divVal = getDiv(currentLevel, S.info.stream);
 
   const rows = S.st.map((s,k) => {
     const a = (S.sc[mo] || {})[s.id] || [];
@@ -1478,13 +1470,15 @@ sc(){
   </table></div>
 
   <div id="monthlyScorePrintContainer" class="exam-print-container print-page">
-    ${renderOfficialHeaderHTML(i, logoSrc)}
+    ${renderOfficialHeaderHTML(i)}
 
-    <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0 8px">
-      <div style="font-size:12.5px;font-weight:bold">តារាងស្រង់ពិន្ទុប្រចាំ ខែ${MO[mo]}</div>
-      <div style="font-size:12.5px;font-weight:bold">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
-      <div style="font-size:11.5px">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
+    <div style="text-align:center;margin:4px 0 6px">
+      <div class="muol-title" style="font-size:16px">តារាងស្រង់ពិន្ទុប្រចាំ ខែ${MO[mo]}</div>
+      <div style="font-size:13px;font-weight:bold;margin-top:2px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមភាគ = ពិន្ទុសរុប ÷ តួចែក ${divVal} )</div>
     </div>
+
+    <div style="font-size:11.5px;text-align:end;margin-bottom:4px">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
 
     <table class="exam-paper-table">
       <thead>
@@ -1526,7 +1520,7 @@ sc(){
 official(){
   const S = getS();
   const i = S.info;
-  const logoSrc = getLogoSrc();
+  const divVal = getDiv(currentLevel, S.info.stream);
   
   const list = S.st.map(s => {
     const t = tot(s.id, mo);
@@ -1570,11 +1564,12 @@ official(){
   </div>
 
   <div class="official-sheet print-page" id="officialSheetArea">
-    ${renderOfficialHeaderHTML(i, logoSrc)}
+    ${renderOfficialHeaderHTML(i)}
 
     <div class="official-title">
       <h2 class="muol-title">ចំណាត់ថ្នាក់សិស្សប្រចាំ ខែ${MO[mo]}</h2>
-      <div style="font-weight:bold;font-size:15px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-weight:bold;font-size:14.5px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមភាគ = ពិន្ទុសរុប ÷ ${divVal} )</div>
     </div>
 
     <table class="official-table">
@@ -1631,7 +1626,7 @@ examScore(){
   const S = getS();
   const i = S.info;
   const cols = getCols(currentLevel, S.info.stream);
-  const logoSrc = getLogoSrc();
+  const divVal = getDiv(currentLevel, S.info.stream);
 
   const rowsUI = S.st.map((s,k) => {
     const a = (S.semExamScores[examSem] || {})[s.id] || [];
@@ -1689,13 +1684,15 @@ examScore(){
   </table></div>
 
   <div id="examPrintSheetArea" class="exam-print-container print-page">
-    ${renderOfficialHeaderHTML(i, logoSrc)}
+    ${renderOfficialHeaderHTML(i)}
 
-    <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0 8px">
-      <div style="font-size:12.5px;font-weight:bold">តារាងស្រង់ពិន្ទុប្រឡងឆមាសទី ${examSem + 1}</div>
-      <div style="font-size:12.5px;font-weight:bold">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
-      <div style="font-size:11.5px">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
+    <div style="text-align:center;margin:4px 0 6px">
+      <div class="muol-title" style="font-size:16px">តារាងស្រង់ពិន្ទុប្រឡងឆមាសទី ${examSem + 1}</div>
+      <div style="font-size:13px;font-weight:bold;margin-top:2px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមប្រឡង = សរុបប្រឡង ÷ ${divVal} )</div>
     </div>
+
+    <div style="font-size:11.5px;text-align:end;margin-bottom:4px">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
 
     <table class="exam-paper-table">
       <thead>
@@ -1736,6 +1733,7 @@ examScore(){
 
 sem(){
   const S = getS();
+  const i = S.info;
   const ms = semMonths(sem);
   
   const list = S.st.map(s => {
@@ -1763,15 +1761,29 @@ sem(){
     </tr>
   `).join('');
 
+  const rowsPrint = list.map((s,k) => `
+    <tr>
+      <td>${k+1}</td>
+      <td style="text-align:start;padding-left:6px;font-weight:bold">${E(s.name)}</td>
+      <td>${s.sex==='ស'?'ស':'ប'}</td>
+      ${ms.map(m => `<td>${tot(s.id,m) > 0 ? av(s.id,m).toFixed(2) : '-'}</td>`).join('')}
+      <td style="font-weight:bold">${s.mAv > 0 ? s.mAv.toFixed(2) : '-'}</td>
+      <td style="font-weight:bold;background:#fef3c7">${s.examAv > 0 ? s.examAv.toFixed(2) : '-'}</td>
+      <td style="font-weight:bold;background:#ecfdf5;color:#047857">${s.fAv > 0 ? s.fAv.toFixed(2) : '-'}</td>
+      <td style="font-weight:bold">${s.rank}</td>
+      <td style="font-weight:bold">${s.pass}</td>
+    </tr>
+  `).join('');
+
   return head('សរុបពិន្ទុឆមាស (Auto)') + `<div class="card">
   <div class="f">
     <select onchange="sem=+this.value;R()">
       <option value="0" ${sem===0?'selected':''}>ឆមាសទី ១</option>
       <option value="1" ${sem===1?'selected':''}>ឆមាសទី ២</option>
     </select>
-    <button class="bt" onclick="executeStandardPrint('semScorePrintArea', 'សរុបពិន្ទុឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+    <button class="bt" onclick="executeStandardPrint('semScorePrintContainer', 'សរុបពិន្ទុឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
-  <div class="w" id="semScorePrintArea"><table>
+  <div class="w screen-ui"><table>
   <thead>
     <tr>
       <th>ល.រ</th>
@@ -1786,13 +1798,53 @@ sem(){
     </tr>
   </thead>
   <tbody>${rows || '<tr><td colspan="14" class="em">មិនមានសិស្ស</td></tr>'}</tbody>
-  </table></div></div>`;
+  </table></div>
+
+  <div id="semScorePrintContainer" class="exam-print-container print-page">
+    ${renderOfficialHeaderHTML(i)}
+
+    <div style="text-align:center;margin:4px 0 6px">
+      <div class="muol-title" style="font-size:16px">តារាងសរុបពិន្ទុ ឆមាសទី ${sem + 1}</div>
+      <div style="font-size:13px;font-weight:bold;margin-top:2px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមឆមាសរួម = [មធ្យមខែ + មធ្យមប្រឡង] ÷ ២ )</div>
+    </div>
+
+    <table class="exam-paper-table">
+      <thead>
+        <tr>
+          <th>ល.រ</th>
+          <th style="min-width:130px">គោត្តនាម-នាម</th>
+          <th>ភេទ</th>
+          ${ms.map(m => `<th>ខែ${MO[m]}</th>`).join('')}
+          <th>មធ្យមខែ</th>
+          <th style="background:#fef3c7">ប្រឡងឆមាស</th>
+          <th style="background:#d1fae5">មធ្យមឆមាសរួម</th>
+          <th>ចំ.ថ្នាក់</th>
+          <th>លទ្ធផល</th>
+        </tr>
+      </thead>
+      <tbody>${rowsPrint || '<tr><td colspan="14" style="padding:15px;color:#888">មិនមានសិស្ស</td></tr>'}</tbody>
+    </table>
+
+    <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
+      <div style="text-align:center;width:180px">
+        <div>បានឃើញ និងឯកភាព</div>
+        <div style="font-weight:bold;margin-top:2px">នាយកសាលា</div>
+      </div>
+      <div style="text-align:center;width:220px">
+        <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
+        <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
+        <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
+      </div>
+    </div>
+  </div>
+
+  </div>`;
 },
 
 annual(){
   const S = getS();
   const i = S.info;
-  const logoSrc = getLogoSrc();
   
   const list = S.st.map(s => {
     const s1 = semFinalAv(s.id, 0);
@@ -1834,11 +1886,12 @@ annual(){
   </div>
 
   <div class="official-sheet print-page" id="annualPrintArea">
-    ${renderOfficialHeaderHTML(i, logoSrc)}
+    ${renderOfficialHeaderHTML(i)}
 
     <div class="official-title">
       <h2 class="muol-title">តារាងបូកសរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ</h2>
-      <div style="font-weight:bold;font-size:15px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-weight:bold;font-size:14.5px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមប្រចាំឆ្នាំ = [មធ្យម ឆ.១ + មធ្យម ឆ.២ × ២] ÷ ៣ )</div>
     </div>
 
     <table class="official-table">
