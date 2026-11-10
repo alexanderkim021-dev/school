@@ -153,13 +153,13 @@ td input.t{width:120px;text-align:start}
 .cp-box{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .cp-box input[type="color"]{min-height:40px;width:54px;padding:2px;cursor:pointer;border-radius:8px}
 
-/* ក្បាលលិខិតជាតិ Table Layout ស្តង់ដារ (ដោះស្រាយបញ្ហា Logo មិនឱ្យយឺត ឬដាច់ក្បាលលើ) */
+/* ក្បាលលិខិតជាតិ Table Layout ស្តង់ដារ (ដោះស្រាយបញ្ហា Logo មិនយឺត និងមិនដាច់ក្បាលលើ) */
 .official-header-table {
   width: 100%;
   border-collapse: collapse;
   border: none !important;
-  margin-top: 14px;
-  margin-bottom: 16px;
+  margin-top: 4px;
+  margin-bottom: 12px;
 }
 .official-header-table td {
   border: none !important;
@@ -167,24 +167,25 @@ td input.t{width:120px;text-align:start}
   padding: 0 4px !important;
 }
 .official-print-logo {
-  width: 52px;
-  height: 52px;
+  width: 48px;
+  height: auto;
+  max-height: 58px;
   object-fit: contain;
   margin: 0 auto 3px;
   display: block;
 }
 
 /* ទម្រង់បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ & ប្រចាំឆ្នាំ (A4 Portrait) */
-.official-sheet{background:#fff;padding:18px 24px;color:#000;font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif}
+.official-sheet{background:#fff;padding:16px 20px;color:#000;font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif}
 .official-title{text-align:center;margin:10px 0 8px}
 .official-title h2{font-size:17.5px;margin:2px 0;color:#000}
 .official-table{border:1px solid #444;width:100%;border-collapse:collapse}
 .official-table th, .official-table td{border:1px solid #444;padding:5px 4px;text-align:center;font-size:12px}
 .official-table th{background:#f1f5f9;font-weight:bold}
-.official-footer{margin-top:18px;display:flex;justify-content:space-between;font-size:12.5px;line-height:1.5}
+.official-footer{margin-top:16px;display:flex;justify-content:space-between;font-size:12.5px;line-height:1.5}
 .official-stats{font-size:12px;line-height:1.6;margin-top:8px}
 
-/* ទម្រង់បោះពុម្ពតារាងប្រឡងឆមាស (A4 Landscape) */
+/* ទម្រង់បោះពុម្ពតារាងពិន្ទុ និងប្រឡងឆមាស (A4 Landscape) */
 .exam-print-container {
   display: none;
   background: #fff;
@@ -246,7 +247,7 @@ td input.t{width:120px;text-align:start}
   transition: transform 0.15s ease-out;
 }
 
-/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការ */
+/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការ (សូន្យ Padding ដើម្បីត្រូវគ្នានឹង Template Photoshop ១០០%) */
 .cert-page-a4 {
   width: 960px;
   height: 678px;
@@ -256,14 +257,11 @@ td input.t{width:120px;text-align:start}
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 100% 100%;
-  padding: 24px 50px 20px 50px;
+  padding: 0 !important;
   box-shadow: 0 8px 30px rgba(0,0,0,0.18);
   box-sizing: border-box;
   position: relative;
   border-radius: 4px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 .cert-page-a4.default-border {
   border: 8px double #b45309;
@@ -271,50 +269,17 @@ td input.t{width:120px;text-align:start}
   outline-offset: -14px;
 }
 
-/* របារកំណត់តួសេចក្តីប័ណ្ណសរសើរ (Font, ពណ៌, ទំហំ) */
-.cert-text-tools {
-  background: #fff;
-  border: 1px solid var(--bd);
-  border-radius: 14px;
-  padding: 12px 14px;
-  margin-bottom: 12px;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-}
-.cert-text-tools label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--tx);
-}
-
-/* តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop (អក្សរដិត អាចសារ៉េទំហំ និងចុះបន្ទាត់) */
+/* តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត */
 .cert-auto-body {
-  width: 100%;
+  position: absolute;
+  top: 36%;
+  left: 12%;
+  width: 76%;
   text-align: center;
-  line-height: var(--cert-line-height, 2.25);
-  font-size: var(--cert-font-size, 16px);
-  font-family: var(--cert-font-family, inherit);
-  color: var(--cert-text-color, #1e293b);
+  line-height: 2.3;
+  font-size: 15.5px;
   font-weight: 700;
-  margin: auto 0;
-  padding: 0 35px;
-  white-space: pre-wrap;
-}
-.cert-giver-title {
-  font-family: var(--title-font);
-  font-size: 16px;
-  color: #1e3a8a;
-  margin: 0 0 4px;
-  line-height: 1.8 !important;
-  overflow: visible !important;
-}
-.cert-praise-intro {
-  margin-bottom: 4px;
+  color: #1e293b;
 }
 .cert-student-highlight {
   font-family: var(--title-font);
@@ -337,17 +302,19 @@ td input.t{width:120px;text-align:start}
 
 /* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម */
 .cert-auto-sign {
-  width: 100%;
+  position: absolute;
+  bottom: 48px;
+  left: 12%;
+  width: 76%;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   font-size: 13.5px;
   font-weight: 700;
   line-height: 1.5;
-  padding: 0 30px 10px 30px;
 }
 .cert-sign-box {
-  width: 250px;
+  width: 240px;
   text-align: center;
 }
 .cert-sign-box .role-title {
@@ -359,9 +326,9 @@ td input.t{width:120px;text-align:start}
   overflow: visible !important;
 }
 .cert-sign-box .teacher-name {
-  margin-top: 42px;
+  margin-top: 40px;
   font-weight: 800;
-  font-size: 15px;
+  font-size: 14.5px;
 }
 
 /* Modal បណ្ណាល័យស៊ុមក្បាច់ */
@@ -408,7 +375,7 @@ td input.t{width:120px;text-align:start}
     padding: 0 !important;
     margin: 0 !important;
   }
-  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.cert-text-tools{display:none !important}
+  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay{display:none !important}
   main{max-width:100% !important;padding:0 !important;margin:0 !important}
   .card{box-shadow:none !important;border:none !important;padding:0 !important;margin:0 !important}
   .w{max-height:none !important;border:none !important;overflow:visible !important}
@@ -461,7 +428,6 @@ const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';
 const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
-const CERT_FORMAT_KEY = 'sms_cert_format_settings_v1';
 const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
 
 // បញ្ជីស៊ុមក្បាច់ស្រាប់ ដាក់ស៊ុមថ្មី border_3_blue1.png ពី Photoshop ជាជម្រើសដំបូង
@@ -481,36 +447,6 @@ function getLogoSrc(){
   if (S && S.info && S.info.moeysLogo) return S.info.moeysLogo;
   return DEFAULT_MOEYS_LOGO;
 }
-
-// មុខងារគ្រប់គ្រងទម្រង់អក្សរប័ណ្ណសរសើរ
-const defaultCertFormat = {
-  fontSize: '16px',
-  lineHeight: '2.25',
-  textColor: '#1e293b',
-  fontFamily: "'Leelawadee UI', 'Kantumruy Pro', sans-serif"
-};
-
-function getCertFormat(){
-  try {
-    return { ...defaultCertFormat, ...JSON.parse(localStorage.getItem(CERT_FORMAT_KEY) || '{}') };
-  } catch(e) { return defaultCertFormat; }
-}
-
-function updateCertFormat(key, val){
-  const cfg = getCertFormat();
-  cfg[key] = val;
-  localStorage.setItem(CERT_FORMAT_KEY, JSON.stringify(cfg));
-  applyCertFormatToCSS(cfg);
-}
-
-function applyCertFormatToCSS(cfg){
-  const r = document.documentElement.style;
-  r.setProperty('--cert-font-size', cfg.fontSize || '16px');
-  r.setProperty('--cert-line-height', cfg.lineHeight || '2.25');
-  r.setProperty('--cert-text-color', cfg.textColor || '#1e293b');
-  r.setProperty('--cert-font-family', cfg.fontFamily || "'Leelawadee UI', 'Kantumruy Pro', sans-serif");
-}
-applyCertFormatToCSS(getCertFormat());
 
 // មុខងារ Auto-Scale ទ្រទ្រង់ទូរស័ព្ទបញ្ឈរឱ្យឃើញស៊ុមពេញ ១០០%
 function updateCertScale(){
@@ -723,10 +659,10 @@ const USER_RE = /^[a-z0-9_.-]{3,30}$/;
 
 const ACCKEY = 'sms_accounts_v7';
 const THEME_KEY = 'sms_theme_settings_v4';
-const ORDER_KEY = 'sms_btn_order_v9';
+const ORDER_KEY = 'sms_btn_order_v10';
 const LAST_YEAR_KEY = 'sms_last_selected_year_v1';
 
-// បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem មិនស្ទួន
+// បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem
 const DEFAULT_BTNS = ['info','stu','sc','examScore','official','sem','annual','ab','honor','cert','idcard','bk','theme','clean'];
 
 function getBtnOrder(){
@@ -860,7 +796,7 @@ async function unlock(u, pw){
 
 let SESSION = null;
 let currentYear = localStorage.getItem(LAST_YEAR_KEY) || '២០២៥ - ២០២៦';
-let currentLevel = localStorage.getItem(LAST_LEVEL_KEY) || 'secondary'; // ចងចាំកម្រិតថ្នាក់រហូត
+let currentLevel = localStorage.getItem(LAST_LEVEL_KEY) || 'secondary'; // ចងចាំកម្រិតថ្នាក់ជាប់ជានិច្ច
 let allYearsData = {};
 
 function emptyLevelData(lbl, yr){
@@ -1488,7 +1424,9 @@ home(){
 
 sc(){
   const S = getS();
+  const i = S.info;
   const cols = getCols(currentLevel, S.info.stream);
+  const logoSrc = getLogoSrc();
 
   const rows = S.st.map((s,k) => {
     const a = (S.sc[mo] || {})[s.id] || [];
@@ -1496,7 +1434,7 @@ sc(){
       <td style="width:45px">${k+1}</td>
       <td class="sn" style="min-width:130px"><b>${E(s.name)}</b></td>
       <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
-      ${cols.map((c,i) => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[i] ?? ''}" onchange="setSc(${s.id},${i},this)"></td>`).join('')}
+      ${cols.map((c,idx) => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[idx] ?? ''}" onchange="setSc(${s.id},${idx},this)"></td>`).join('')}
       <td id="t${s.id}" style="font-weight:bold"></td>
       <td id="a${s.id}" style="font-weight:bold;color:var(--ac)"></td>
       <td id="r${s.id}" style="font-weight:bold"></td>
@@ -1505,17 +1443,84 @@ sc(){
     </tr>`;
   }).join('');
 
+  // សន្លឹក Print តារាងពិន្ទុប្រចាំខែ (A4 Landscape ពេញលេញ មានក្បាលលិខិត ស្ថិតិ និងហត្ថលេខា)
+  const rowsPrint = S.st.map((s,k) => {
+    const a = (S.sc[mo] || {})[s.id] || [];
+    const t = tot(s.id, mo);
+    const avVal = av(s.id, mo);
+    const gr = getGradeLetter(avVal, t);
+    const rk = t > 0 ? (1 + S.st.filter(x => tot(x.id, mo) > t).length) : '-';
+    return `<tr>
+      <td>${k+1}</td>
+      <td style="text-align:start;padding-left:6px;font-weight:bold">${E(s.name)}</td>
+      <td>${s.sex==='ស'?'ស':'ប'}</td>
+      ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
+      <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
+      <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
+      <td style="font-weight:bold">${rk}</td>
+      <td style="font-weight:bold">${gr}</td>
+    </tr>`;
+  }).join('');
+
+  const totalStudents = S.st.length;
+  const femaleStudents = S.st.filter(s => s.sex === 'ស').length;
+
   return head('តារាងពិន្ទុប្រចាំខែ') + `<div class="card">
   <div class="f">
     ${moSel()}
-    <button class="bt" onclick="executeStandardPrint('monthlyScorePrintArea', 'តារាងពិន្ទុប្រចាំខែ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
+    <button class="bt" onclick="executeStandardPrint('monthlyScorePrintContainer', 'តារាងពិន្ទុប្រចាំខែ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
-  <div class="w" id="monthlyScorePrintArea"><table>
+  <div class="w screen-ui"><table>
   ${renderScoreTableHeadHTML('monthly')}
   <tbody>
     ${rows || '<tr><td colspan="35" class="em">មិនទាន់មានសិស្ស</td></tr>'}
   </tbody>
-  </table></div></div>`;
+  </table></div>
+
+  <div id="monthlyScorePrintContainer" class="exam-print-container print-page">
+    ${renderOfficialHeaderHTML(i, logoSrc)}
+
+    <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0 8px">
+      <div style="font-size:12.5px;font-weight:bold">តារាងស្រង់ពិន្ទុប្រចាំ ខែ${MO[mo]}</div>
+      <div style="font-size:12.5px;font-weight:bold">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-size:11.5px">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
+    </div>
+
+    <table class="exam-paper-table">
+      <thead>
+        <tr>
+          <th rowspan="2" style="width:34px">ល.រ</th>
+          <th rowspan="2" style="min-width:130px">គោត្តនាម និងនាម</th>
+          <th rowspan="2" style="width:36px">ភេទ</th>
+          ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</span></th>`).join('')}
+          <th rowspan="2" class="th-rot" style="background:#f1f5f9"><span class="th-rot-txt">សរុប</span></th>
+          <th rowspan="2" class="th-rot" style="background:#fef3c7"><span class="th-rot-txt">មធ្យម</span></th>
+          <th rowspan="2" class="th-rot"><span class="th-rot-txt">ចំ.ថ្នាក់</span></th>
+          <th rowspan="2" class="th-rot"><span class="th-rot-txt">និទ្ទេស</span></th>
+        </tr>
+        <tr>
+          ${cols.map(c => `<th class="th-rot-sub">${c.m}</th>`).join('')}
+        </tr>
+      </thead>
+      <tbody>
+        ${rowsPrint || '<tr><td colspan="37" style="padding:15px;color:#888">មិនទាន់មានសិស្ស</td></tr>'}
+      </tbody>
+    </table>
+
+    <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
+      <div style="text-align:center;width:180px">
+        <div>បានឃើញ និងឯកភាព</div>
+        <div style="font-weight:bold;margin-top:2px">នាយកសាលា</div>
+      </div>
+      <div style="text-align:center;width:220px">
+        <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
+        <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
+        <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
+      </div>
+    </div>
+  </div>
+
+  </div>`;
 },
 
 official(){
@@ -2005,7 +2010,6 @@ cert(){
   const i = S.info;
   const selectedBorder = getSelectedBorder();
   const customLib = getBorderLibrary();
-  const cfg = getCertFormat();
   const allBorders = [...BUILTIN_BORDERS, ...customLib];
 
   let list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
@@ -2024,8 +2028,7 @@ cert(){
           
           <!-- តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត -->
           <div class="cert-auto-body">
-            <div class="cert-giver-title">គណៈគ្រប់គ្រង ${E(i.school || 'សាលារៀន')}</div>
-            <div class="cert-praise-intro">សូមសរសើរចំពោះ៖</div>
+            <div>សូមសរសើរចំពោះ៖</div>
 
             <div style="margin: 4px 0 2px">
               សិស្សឈ្មោះ៖ <span class="cert-student-highlight">${E(s.name)}</span>
@@ -2075,33 +2078,6 @@ cert(){
     </select>
     <button class="bt g" onclick="showBorderModal=true;R()">📂 រើសស៊ុមក្បាច់ (${allBorders.length})</button>
     <button class="bt" onclick="executeStandardPrint('certPrintArea', 'បណ្ណសរសើរស្វ័យប្រវត្តិ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
-  </div>
-
-  <!-- របារកំណត់ទំហំ ពណ៌ និងគម្លាតអក្សរតួសេចក្តី -->
-  <div class="cert-text-tools">
-    <label>
-      <span>ទំហំអក្សរ៖</span>
-      <select onchange="updateCertFormat('fontSize', this.value)" style="min-height:32px;padding:2px 8px">
-        <option value="14px" ${cfg.fontSize==='14px'?'selected':''}>តូច (14px)</option>
-        <option value="15.5px" ${cfg.fontSize==='15.5px'?'selected':''}>ល្មម (15.5px)</option>
-        <option value="17px" ${cfg.fontSize==='17px'?'selected':''}>ធំ (17px)</option>
-        <option value="19px" ${cfg.fontSize==='19px'?'selected':''}>ធំដិត (19px)</option>
-      </select>
-    </label>
-
-    <label>
-      <span>គម្លាតបន្ទាត់៖</span>
-      <select onchange="updateCertFormat('lineHeight', this.value)" style="min-height:32px;padding:2px 8px">
-        <option value="1.9" ${cfg.lineHeight==='1.9'?'selected':''}>ប្រកៀក (1.9)</option>
-        <option value="2.25" ${cfg.lineHeight==='2.25'?'selected':''}>ស្តង់ដារ (2.25)</option>
-        <option value="2.5" ${cfg.lineHeight==='2.5'?'selected':''}>ស្រឡះ (2.5)</option>
-      </select>
-    </label>
-
-    <label>
-      <span>ពណ៌អក្សរ៖</span>
-      <input type="color" value="${cfg.textColor || '#1e293b'}" onchange="updateCertFormat('textColor', this.value)" style="min-height:32px;width:44px;padding:1px;border-radius:6px;cursor:pointer">
-    </label>
   </div>
 
   <div id="certPrintArea">${certsHtml || '<div class="em">មិនទាន់មានសិស្សមានពិន្ទុសម្រាប់ទទួលបណ្ណសរសើរទេ</div>'}</div>
