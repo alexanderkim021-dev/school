@@ -169,9 +169,10 @@ td input.t{width:120px;text-align:start}
   line-height: 1.4;
   width: 100%;
 }
+/* ខាងឆ្វេងរំកិលចុះក្រោមបន្ថែម ឯខាងស្តាំព្រះរាជាណាចក្រកម្ពុជានៅដដែលមិនឱ្យរំកិលទេ */
 .official-header .side-box {
   text-align: center;
-  padding-top: 22px;
+  padding-top: 32px;
 }
 .official-header .center-box {
   text-align: center;
@@ -339,7 +340,7 @@ td input.t{width:120px;text-align:start}
 .cert-sign-left {
   width: 260px;
   text-align: center;
-  margin-top: 14px;
+  margin-top: 0;
 }
 .cert-sign-right {
   width: 260px;
@@ -440,7 +441,7 @@ td input.t{width:120px;text-align:start}
 }
 .honor-poster-sheet .official-header .side-box {
   text-align: center;
-  padding-top: 24px;
+  padding-top: 32px;
 }
 .honor-top5-stage {
   margin: 28px auto 20px;
@@ -702,6 +703,15 @@ const MO = ['តុលា','វិច្ឆិកា','ធ្នូ','មករ�
 const KH_NUMS = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
 const toKhNum = n => String(n).split('').map(d => KH_NUMS[d] || d).join('');
 const KH_MONTHS = ['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
+
+// អនុគមន៍បង្កើតកាលបរិច្ឆេទខ្មែរបច្ចុប្បន្នស្វ័យប្រវត្តិ (ឧ. ថ្ងៃទី ១១ ខែវិច្ឆិកា ឆ្នាំ២០២៦)
+function getKhmerCurrentDate(){
+  const now = new Date();
+  const d = String(now.getDate()).padStart(2, '0');
+  const m = now.getMonth();
+  const y = now.getFullYear();
+  return `ថ្ងៃទី ${toKhNum(d)} ខែ${KH_MONTHS[m]} ឆ្នាំ${toKhNum(y)}`;
+}
 
 function smartKhmerDate(val){
   if (!val) return '';
@@ -1026,6 +1036,7 @@ function setStatus(text, err){
   if (el) { el.textContent = text; el.classList.toggle('err', !!err); }
 }
 
+// មុខងារ save() ធានា Offline-First និង LocalStorage ១០០% គ្មាន Bug salt ទៀតឡើយ
 function save(){
   if (!SESSION || !allYearsData) return;
   const key = SESSION.key, u = SESSION.username, snapshot = JSON.stringify(allYearsData);
@@ -1037,18 +1048,21 @@ function save(){
       saveAccounts();
       setStatus('បានរក្សាទុក (Local) ✓');
 
-      const acc = accounts[u];
-      sbPushUser({
-        username: u,
-        fullname: acc.fullname,
-        salt: b64(salt),
-        check: acc.check,
-        data: acc.data,
-        status: acc.status || 'active',
-        updated_at: new Date().toISOString()
-      }).then(ok => {
-        if (ok) setStatus('ពពក (Cloud Sync) ជោគជ័យ ☁️✓');
-      }).catch(()=>{});
+      // ធ្វើការ Sync ទៅ Cloud តែពេលមាន Internet បើគ្មាន Internet ក៏មិនបង្ក Error ឬគាំង Local ឡើយ
+      if (navigator.onLine) {
+        const acc = accounts[u];
+        sbPushUser({
+          username: u,
+          fullname: acc.fullname,
+          salt: acc.salt, // កែតម្រូវប្រើ acc.salt ត្រឹមត្រូវ ១០០%
+          check: acc.check,
+          data: acc.data,
+          status: acc.status || 'active',
+          updated_at: new Date().toISOString()
+        }).then(ok => {
+          if (ok) setStatus('ពពក (Cloud Sync) ជោគជ័យ ☁️✓');
+        }).catch(()=>{});
+      }
     } catch (e) {
       setStatus('រក្សាទុកមិនបាន: ' + e.message, true);
     }
@@ -1081,19 +1095,21 @@ async function openSession(u, key){
   R();
   resetIdle();
 
-  sbPullUser(u).then(async remote => {
-    if (remote && remote.data && remote.data !== acc.data) {
-      try {
-        const remoteBox = typeof remote.data === 'string' ? JSON.parse(remote.data) : remote.data;
-        const remoteParsed = JSON.parse(await open(key, remoteBox));
-        allYearsData = normalizeAllYears(remoteParsed);
-        accounts[u].data = remote.data;
-        saveAccounts();
-        R();
-        setStatus('ទាញយកទិន្នន័យថ្មីពី Cloud ជោគជ័យ ☁️✓');
-      } catch (err){}
-    }
-  }).catch(()=>{});
+  if (navigator.onLine) {
+    sbPullUser(u).then(async remote => {
+      if (remote && remote.data && remote.data !== acc.data) {
+        try {
+          const remoteBox = typeof remote.data === 'string' ? JSON.parse(remote.data) : remote.data;
+          const remoteParsed = JSON.parse(await open(key, remoteBox));
+          allYearsData = normalizeAllYears(remoteParsed);
+          accounts[u].data = remote.data;
+          saveAccounts();
+          R();
+          setStatus('ទាញយកទិន្នន័យថ្មីពី Cloud ជោគជ័យ ☁️✓');
+        } catch (err){}
+      }
+    }).catch(()=>{});
+  }
 }
 
 async function logout(){
@@ -1162,7 +1178,7 @@ function togglePw(id, btn){
   btn.textContent = isPw ? '🙈' : '👁️';
 }
 
-const tot = (id, m) => sum(((getS().sc[m] || {})[id]) || []);
+const tot = (id, m) => sum(((getS().sc[mo] || {})[id]) || []);
 const av = (id, m) => {
   const t = tot(id, m);
   const div = getDiv(currentLevel, getS().info.stream);
@@ -1267,7 +1283,7 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & កាត់ផ្ទៃប្រផេះចោល ១០០% ពេញលេញ A4 Landscape $1123\text{px} \times 794\text{px}$)[span_31](start_span)[span_31](end_span)
+// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & កាត់ផ្ទៃប្រផេះចោល ១០០% ពេញលេញ A4 Landscape 1123px x 794px)
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
@@ -1340,13 +1356,13 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       styleSheet.id = 'dynamicPrintStyle';
       document.head.appendChild(styleSheet);
     }
-    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ[span_32](start_span)[span_32](end_span)
+    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ
     styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: ${isLandscape ? '0mm' : '8mm 12mm'} !important; } }`;
     setTimeout(() => window.print(), 100);
   }
 }
 
-// ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាលពីកូដចាស់ (ស្មើសងខាង Layout ដូច Word បេះបិទ ដក Logo ចេញ)[span_33](start_span)[span_33](end_span)
+// ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល (ព្រះរាជាណាចក្រកម្ពុជានៅដដែលមិនរំកិលទេ ឯខាងឆ្វេងរំកិលចុះក្រោមខ្លាំង)
 function renderOfficialHeaderHTML(i){
   return `
     <div class="official-header">
@@ -1372,7 +1388,7 @@ function renderScoreTableHeadHTML(type){
       <thead>
         <tr>
           <th rowspan="2" style="width:45px">ល.រ</th>
-          <th rowspan="2" class="sn" style="min-width:130px">គោត្តនាម និងនាម</th>
+          <th rowspan="2" class="sn" style="min-width:110px">គោត្តនាម និងនាម</th>
           <th rowspan="2" style="width:45px">ភេទ</th>
           ${SUBJ_PRIMARY.map(sub => `<th colspan="${sub.s.length}" style="background:#e2e8f0;font-weight:bold">${sub.n}</th>`).join('')}
           <th rowspan="2" style="width:75px">${type==='exam'?'សរុបប្រឡង':'សរុប'}</th>
@@ -1396,7 +1412,7 @@ function renderScoreTableHeadHTML(type){
       <thead>
         <tr>
           <th style="width:45px">ល.រ</th>
-          <th class="sn" style="min-width:130px">គោត្តនាម និងនាម</th>
+          <th class="sn" style="min-width:110px">គោត្តនាម និងនាម</th>
           <th style="width:45px">ភេទ</th>
           ${cols.map(c => `<th>${c.sn || c.n}<br><small class="mu">(${c.m})</small></th>`).join('')}
           <th style="width:75px">${type==='exam'?'សរុបប្រឡង':'សរុប'}</th>
@@ -1506,7 +1522,7 @@ home(){
   const touchCls = getTheme().touch || 'touch-3d';
   const logoSrc = getLogoSrc();
 
-  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem[span_34](start_span)[span_34](end_span)
+  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
     stu: {cls:'bl', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
@@ -1536,7 +1552,7 @@ home(){
       <img class="moeys-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
       <div class="moeys-text">
         <span class="t1">ព្រះរាជាណាចក្រកម្ពុជា</span>
-        <span class="t2">ក្រសួងអប់រំ យុវជន និងកីឡា</span>
+        <span class="t2">ក្រសងអប់រំ យុវជន និងកីឡា</span>
       </div>
     </div>
     <div>
@@ -1578,12 +1594,13 @@ sc(){
   const i = S.info;
   const cols = getCols(currentLevel, S.info.stream);
   const divVal = getDiv(currentLevel, S.info.stream);
+  const curDateStr = getKhmerCurrentDate();
 
   const rows = S.st.map((s,k) => {
     const a = (S.sc[mo] || {})[s.id] || [];
     return `<tr>
       <td style="width:45px">${k+1}</td>
-      <td class="sn" style="min-width:130px"><b>${E(s.name)}</b></td>
+      <td class="sn" style="min-width:110px"><b>${E(s.name)}</b></td>
       <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
       ${cols.map((c,idx) => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[idx] ?? ''}" onchange="setSc(${s.id},${idx},this)"></td>`).join('')}
       <td id="t${s.id}" style="font-weight:bold"></td>
@@ -1594,7 +1611,7 @@ sc(){
     </tr>`;
   }).join('');
 
-  // សន្លឹក Print តារាងពិន្ទុប្រចាំខែ (A4 Landscape ពេញលេញ មានក្បាលលិខិត ថ្ងៃខែកំណើត ស្ថិតិ និងហត្ថលេខា)[span_35](start_span)[span_35](end_span)
+  // សន្លឹក Print តារាងពិន្ទុប្រចាំខែ (A4 Landscape ពេញលេញ មានក្បាលលិខិត ថ្ងៃខែកំណើត ស្ថិតិ និងហត្ថលេខា)
   const rowsPrint = S.st.map((s,k) => {
     const a = (S.sc[mo] || {})[s.id] || [];
     const t = tot(s.id, mo);
@@ -1603,7 +1620,7 @@ sc(){
     const rk = t > 0 ? (1 + S.st.filter(x => tot(x.id, mo) > t).length) : '-';
     return `<tr>
       <td>${k+1}</td>
-      <td style="text-align:start;padding-left:6px;font-weight:bold">${E(s.name)}</td>
+      <td style="text-align:start;padding-left:6px;font-weight:bold;width:110px">${E(s.name)}</td>
       <td>${s.sex==='ស'?'ស':'ប'}</td>
       <td style="font-size:10px">${E(s.dob || '-')}</td>
       ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
@@ -1644,7 +1661,7 @@ sc(){
       <thead>
         <tr>
           <th rowspan="2" style="width:34px">ល.រ</th>
-          <th rowspan="2" style="min-width:130px">គោត្តនាម និងនាម</th>
+          <th rowspan="2" style="width:110px">គោត្តនាម និងនាម</th>
           <th rowspan="2" style="width:36px">ភេទ</th>
           <th rowspan="2" style="width:85px">ថ្ងៃខែឆ្នាំកំណើត</th>
           ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</span></th>`).join('')}
@@ -1663,12 +1680,13 @@ sc(){
     </table>
 
     <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
-      <div style="text-align:center;width:180px;margin-top:24px">
-        <div>បានឃើញ និងឯកភាព</div>
-        <div style="font-weight:bold;margin-top:2px">នាយកសាលា</div>
-      </div>
       <div style="text-align:center;width:220px">
-        <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
+        <div>បានឃើញ និងឯកភាព</div>
+        <div style="font-size:11px;color:#475569;margin:2px 0">${curDateStr}</div>
+        <div style="font-weight:bold">នាយកសាលា</div>
+      </div>
+      <div style="text-align:center;width:240px">
+        <div style="font-weight:600">${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
@@ -1682,6 +1700,7 @@ official(){
   const S = getS();
   const i = S.info;
   const divVal = getDiv(currentLevel, S.info.stream);
+  const curDateStr = getKhmerCurrentDate();
   
   const list = S.st.map(s => {
     const t = tot(s.id, mo);
@@ -1707,7 +1726,7 @@ official(){
   const rows = list.map((s, idx) => `
     <tr>
       <td>${idx + 1}</td>
-      <td style="text-align:start;padding-left:10px"><b>${E(s.name)}</b></td>
+      <td style="text-align:start;padding-left:10px;width:110px"><b>${E(s.name)}</b></td>
       <td>${s.sex === 'ស' ? 'ស' : 'ប'}</td>
       <td>${E(s.dob || '-')}</td>
       <td>${s.tot ? s.tot.toFixed(0) : '-'}</td>
@@ -1737,7 +1756,7 @@ official(){
       <thead>
         <tr>
           <th style="width:40px">ល.រ</th>
-          <th>គោត្តនាម-នាម</th>
+          <th style="width:110px">គោត្តនាម-នាម</th>
           <th style="width:45px">ភេទ</th>
           <th style="width:130px">ថ្ងៃខែឆ្នាំកំណើត</th>
           <th style="width:75px">ពិន្ទុសរុប</th>
@@ -1769,13 +1788,14 @@ official(){
     </div>
 
     <div class="official-footer">
-      <div style="text-align:center;width:200px;margin-top:24px">
+      <div style="text-align:center;width:220px">
         <div>បានឃើញ និងឯកភាព</div>
-        <div style="font-weight:bold;margin-top:4px">នាយកសាលា</div>
+        <div style="font-size:11px;color:#475569;margin:2px 0">${curDateStr}</div>
+        <div style="font-weight:bold">នាយកសាលា</div>
       </div>
       <div style="text-align:center;width:240px">
-        <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
-        <div style="font-weight:bold;margin-top:4px">គ្រូបន្ទុកថ្នាក់</div>
+        <div style="font-weight:600">${curDateStr}</div>
+        <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
     </div>
@@ -1788,6 +1808,7 @@ examScore(){
   const i = S.info;
   const cols = getCols(currentLevel, S.info.stream);
   const divVal = getDiv(currentLevel, S.info.stream);
+  const curDateStr = getKhmerCurrentDate();
 
   const rowsUI = S.st.map((s,k) => {
     const a = (S.semExamScores[examSem] || {})[s.id] || [];
@@ -1797,7 +1818,7 @@ examScore(){
     const rk = t > 0 ? (1 + S.st.filter(x => totSemExam(x.id, examSem) > t).length) : '-';
     return `<tr>
       <td style="width:45px">${k+1}</td>
-      <td class="sn" style="min-width:130px"><b>${E(s.name)}</b></td>
+      <td class="sn" style="min-width:110px"><b>${E(s.name)}</b></td>
       <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
       ${cols.map((c,idx) => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[idx] ?? ''}" onchange="setExamSc(${s.id},${idx},this)"></td>`).join('')}
       <td id="ext${s.id}" style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
@@ -1818,7 +1839,7 @@ examScore(){
     const rk = t > 0 ? (1 + S.st.filter(x => totSemExam(x.id, examSem) > t).length) : '-';
     return `<tr>
       <td>${k+1}</td>
-      <td style="text-align:start;padding-left:6px;font-weight:bold">${E(s.name)}</td>
+      <td style="text-align:start;padding-left:6px;font-weight:bold;width:110px">${E(s.name)}</td>
       <td>${s.sex==='ស'?'ស':'ប'}</td>
       <td style="font-size:10px">${E(s.dob || '-')}</td>
       ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
@@ -1860,7 +1881,7 @@ examScore(){
       <thead>
         <tr>
           <th rowspan="2" style="width:34px">ល.រ</th>
-          <th rowspan="2" style="min-width:130px">គោត្តនាម និងនាម</th>
+          <th rowspan="2" style="width:110px">គោត្តនាម និងនាម</th>
           <th rowspan="2" style="width:36px">ភេទ</th>
           <th rowspan="2" style="width:85px">ថ្ងៃខែឆ្នាំកំណើត</th>
           ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</span></th>`).join('')}
@@ -1879,12 +1900,13 @@ examScore(){
     </table>
 
     <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
-      <div style="text-align:center;width:180px;margin-top:24px">
-        <div>បានឃើញ និងឯកភាព</div>
-        <div style="font-weight:bold;margin-top:2px">នាយកសាលា</div>
-      </div>
       <div style="text-align:center;width:220px">
-        <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
+        <div>បានឃើញ និងឯកភាព</div>
+        <div style="font-size:11px;color:#475569;margin:2px 0">${curDateStr}</div>
+        <div style="font-weight:bold">នាយកសាលា</div>
+      </div>
+      <div style="text-align:center;width:240px">
+        <div style="font-weight:600">${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
@@ -1898,6 +1920,7 @@ sem(){
   const S = getS();
   const i = S.info;
   const ms = semMonths(sem);
+  const curDateStr = getKhmerCurrentDate();
   
   const list = S.st.map(s => {
     const mAv = semMonthlyAv(s.id, sem);
@@ -1927,7 +1950,7 @@ sem(){
   const rowsPrint = list.map((s,k) => `
     <tr>
       <td>${k+1}</td>
-      <td style="text-align:start;padding-left:6px;font-weight:bold">${E(s.name)}</td>
+      <td style="text-align:start;padding-left:6px;font-weight:bold;width:110px">${E(s.name)}</td>
       <td>${s.sex==='ស'?'ស':'ប'}</td>
       <td style="font-size:10px">${E(s.dob || '-')}</td>
       ${ms.map(m => `<td>${tot(s.id,m) > 0 ? av(s.id,m).toFixed(2) : '-'}</td>`).join('')}
@@ -1992,12 +2015,13 @@ sem(){
     </table>
 
     <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
-      <div style="text-align:center;width:180px;margin-top:24px">
-        <div>បានឃើញ និងឯកភាព</div>
-        <div style="font-weight:bold;margin-top:2px">នាយកសាលា</div>
-      </div>
       <div style="text-align:center;width:220px">
-        <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
+        <div>បានឃើញ និងឯកភាព</div>
+        <div style="font-size:11px;color:#475569;margin:2px 0">${curDateStr}</div>
+        <div style="font-weight:bold">នាយកសាលា</div>
+      </div>
+      <div style="text-align:center;width:240px">
+        <div style="font-weight:600">${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
@@ -2010,6 +2034,7 @@ sem(){
 annual(){
   const S = getS();
   const i = S.info;
+  const curDateStr = getKhmerCurrentDate();
   
   const list = S.st.map(s => {
     const s1 = semFinalAv(s.id, 0);
@@ -2033,7 +2058,7 @@ annual(){
   const rows = list.map((s, idx) => `
     <tr>
       <td>${idx + 1}</td>
-      <td style="text-align:start;padding-left:10px"><b>${E(s.name)}</b></td>
+      <td style="text-align:start;padding-left:10px;width:110px"><b>${E(s.name)}</b></td>
       <td>${s.sex === 'ស' ? 'ស' : 'ប'}</td>
       <td>${E(s.dob || '-')}</td>
       <td>${s.s1 > 0 ? s.s1.toFixed(2) : '-'}</td>
@@ -2063,7 +2088,7 @@ annual(){
       <thead>
         <tr>
           <th style="width:40px">ល.រ</th>
-          <th>គោត្តនាម-នាម</th>
+          <th style="width:110px">គោត្តនាម-នាម</th>
           <th style="width:45px">ភេទ</th>
           <th style="width:130px">ថ្ងៃខែឆ្នាំកំណើត</th>
           <th style="width:75px">មធ្យម ឆ.១</th>
@@ -2084,13 +2109,14 @@ annual(){
     </div>
 
     <div class="official-footer">
-      <div style="text-align:center;width:200px;margin-top:24px">
+      <div style="text-align:center;width:220px">
         <div>បានឃើញ និងឯកភាព</div>
-        <div style="font-weight:bold;margin-top:4px">នាយកសាលា</div>
+        <div style="font-size:11px;color:#475569;margin:2px 0">${curDateStr}</div>
+        <div style="font-weight:bold">នាយកសាលា</div>
       </div>
       <div style="text-align:center;width:240px">
-        <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
-        <div style="font-weight:bold;margin-top:4px">គ្រូបន្ទុកថ្នាក់</div>
+        <div style="font-weight:600">${curDateStr}</div>
+        <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
     </div>
@@ -2202,6 +2228,7 @@ ab(){
 honor(){
   const S = getS();
   const i = S.info;
+  const curDateStr = getKhmerCurrentDate();
   const list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
     .filter(s => s.tot > 0)
     .sort((a,b) => b.av - a.av)
@@ -2246,13 +2273,14 @@ honor(){
     </div>
 
     <div style="margin-top:20px;display:flex;justify-content:space-between;font-size:13px;padding:0 20px">
-      <div style="text-align:center;width:200px;margin-top:24px">
+      <div style="text-align:center;width:220px">
         <div>បានឃើញ និងឯកភាព</div>
-        <div style="font-weight:bold;margin-top:4px">នាយកសាលា</div>
+        <div style="font-size:11px;color:#475569;margin:2px 0">${curDateStr}</div>
+        <div style="font-weight:bold">នាយកសាលា</div>
       </div>
       <div style="text-align:center;width:240px">
-        <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
-        <div style="font-weight:bold;margin-top:4px">គ្រូបន្ទុកថ្នាក់</div>
+        <div style="font-weight:600">${curDateStr}</div>
+        <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
     </div>
@@ -2265,6 +2293,7 @@ cert(){
   const i = S.info;
   const selectedBorder = getSelectedBorder();
   const customLib = getBorderLibrary();
+  const curDateStr = getKhmerCurrentDate();
 
   const levelTitles = {
     primary: 'សាលាបឋមសិក្សា',
@@ -2292,7 +2321,7 @@ cert(){
             នាយក${currentLevelLabel} ${E(i.school || '....................')}
           </div>
 
-          <!-- តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop (កម្រិត 45% អក្សរធំដិត ស្មើ Layout សងខាង) -->
+          <!-- តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop (កម្រិត 45% ទទឹង 88% អក្សរធំដិត ស្មើ Layout សងខាង) -->
           <div class="cert-auto-body">
             <div>
               សូមសរសើរចំពោះ៖ សិស្សឈ្មោះ <span class="cert-red-auto">${E(s.name)}</span>
@@ -2316,10 +2345,11 @@ cert(){
           <div class="cert-auto-sign">
             <div class="cert-sign-left">
               <div>បានឃើញ និងឯកភាព</div>
+              <div style="font-size:12px;color:#334155;margin:2px 0">${curDateStr}</div>
               <div class="cert-sign-role">នាយក${currentLevelLabel}</div>
             </div>
             <div class="cert-sign-right">
-              <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
+              <div>${curDateStr}</div>
               <div class="cert-sign-role">គ្រូបន្ទុកថ្នាក់</div>
               <div class="cert-sign-name">${E(i.teacher || '')}</div>
             </div>
@@ -2401,7 +2431,7 @@ cert(){
 idcard(){
   const S = getS();
   
-  // បែងចែកកាតជាក្រុមៗ ក្នុងមួយទំព័រ A4 បញ្ឈរផ្ទុកបាន ៤ កាត (A6 ២x២)[span_36](start_span)[span_36](end_span)
+  // បែងចែកកាតជាក្រុមៗ ក្នុងមួយទំព័រ A4 បញ្ឈរផ្ទុកបាន ៤ កាត (A6 ២x២)
   const chunks = [];
   for (let idx = 0; idx < S.st.length; idx += 4) {
     chunks.push(S.st.slice(idx, idx + 4));
@@ -2446,7 +2476,7 @@ theme(){
   const th = getTheme();
   const touchCls = th.touch || 'touch-3d';
 
-  // មុខងារជ្រើសរើស Theme Presets មួយចុចបានភ្លាម[span_37](start_span)[span_37](end_span)
+  // មុខងារជ្រើសរើស Theme Presets មួយចុចបានភ្លាម
   window.applyThemePreset = function(type){
     if (type === 'gold') {
       thUpdateMultiple({
