@@ -261,10 +261,10 @@ td input.t{width:120px;text-align:start}
   outline-offset: -14px;
 }
 
-/* ពាក្យនាយក... ក្រោមពាក្យប័ណ្ណសរសើរ */
+/* ពាក្យនាយក... នៅក្រោមពាក្យប័ណ្ណសរសើរធំក្រហម (កម្រិត 42%) */
 .cert-director-sub {
   position: absolute;
-  top: 26.5%;
+  top: 42%;
   left: 10%;
   width: 80%;
   text-align: center;
@@ -274,10 +274,10 @@ td input.t{width:120px;text-align:start}
   line-height: 1.6;
 }
 
-/* តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត (Battambang/Kantumruy Bold ជិតល្មម) */
+/* តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត (កម្រិត 49% មិនជាន់ពាក្យប័ណ្ណសរសើរឡើយ) */
 .cert-auto-body {
   position: absolute;
-  top: 34%;
+  top: 49%;
   left: 10%;
   width: 80%;
   text-align: center;
@@ -340,6 +340,39 @@ td input.t{width:120px;text-align:start}
   margin-top: 36px;
   font-weight: 800;
   font-size: 14.5px;
+}
+
+/* Modal បណ្ណាល័យស៊ុមក្បាច់ */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(15, 23, 42, 0.65);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 9999; backdrop-filter: blur(3px);
+}
+.modal-box {
+  background: #fff; border-radius: 18px; padding: 20px;
+  width: 90%; max-width: 720px; max-height: 85vh;
+  overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+}
+.border-grid-thumb {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px; margin: 14px 0;
+}
+.border-thumb-item {
+  border: 2px solid var(--bd); border-radius: 10px; padding: 4px;
+  cursor: pointer; transition: 0.15s; background: #f8fafc; text-align: center;
+  position: relative;
+}
+.border-thumb-item:hover, .border-thumb-item.active {
+  border-color: var(--ac); box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+.border-thumb-item img {
+  width: 100%; height: 90px; object-fit: contain; border-radius: 6px; background: #fff;
+}
+.border-thumb-item .thumb-del {
+  position: absolute; top: -6px; right: -6px; background: var(--rd);
+  color: #fff; border: 0; border-radius: 50%; width: 22px; height: 22px;
+  font-size: 12px; font-weight: bold; cursor: pointer; line-height: 22px; padding: 0;
 }
 
 /* កាតសម្គាល់ខ្លួនសិស្ស (A6 បញ្ឈរ Print លើ A4 បញ្ឈរ) */
@@ -2110,12 +2143,12 @@ cert(){
       <div class="cert-scaler-wrapper">
         <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
           
-          <!-- ចំណងជើងរងក្រោមប័ណ្ណសរសើរធំ -->
+          <!-- ចំណងជើងរងក្រោមប័ណ្ណសរសើរធំក្រហម (កម្រិត 42%) -->
           <div class="cert-director-sub">
             នាយក${currentLevelLabel} ${E(i.school || '....................')}
           </div>
 
-          <!-- តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត -->
+          <!-- តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត (កម្រិត 49% មិនជាន់ពាក្យប័ណ្ណសរសើរឡើយ) -->
           <div class="cert-auto-body">
             <div>សូមសរសើរចំពោះ៖ សិស្សឈ្មោះ <b>${E(s.name)}</b> ភេទ <b>${s.sex==='ស'?'ស្រី':'ប្រុស'}</b> ${s.dob ? `កើតនៅថ្ងៃទី <b>${E(s.dob)}</b>` : ''} រៀននៅថ្នាក់ទី <b>${E(i.cls || '...')}</b></div>
 
