@@ -185,7 +185,7 @@ td input.t{width:120px;text-align:start}
 .official-table{border:1px solid #444;width:100%;border-collapse:collapse}
 .official-table th, .official-table td{border:1px solid #444;padding:5px 4px;text-align:center;font-size:12px}
 .official-table th{background:#f1f5f9;font-weight:bold}
-.official-footer{margin-top:14px;display:flex;justify-content:space-between;font-size:12.5px;line-height:1.5}
+.official-footer{margin-top:14px;display:flex;justify-content:space-between;font-size:12px;line-height:1.5}
 .official-stats{font-size:12px;line-height:1.6;margin-top:8px}
 
 /* ទម្រង់បោះពុម្ពតារាងពិន្ទុ, ឆមាស (A4 Landscape) */
@@ -332,17 +332,17 @@ td input.t{width:120px;text-align:start}
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.5;
 }
 .cert-sign-left {
-  width: 270px;
+  width: 310px;
   text-align: center;
   margin-top: 0;
 }
 .cert-sign-right {
-  width: 270px;
+  width: 310px;
   text-align: center;
   margin-top: 0;
 }
@@ -703,15 +703,29 @@ const KH_NUMS = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
 const toKhNum = n => String(n).split('').map(d => KH_NUMS[d] || d).join('');
 const KH_MONTHS = ['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
 
-// អនុគមន៍បង្កើតកាលបរិច្ឆេទខ្មែរ ២ ជួរស្វ័យប្រវត្តិតាមគំរូរូបភាព[span_12](start_span)[span_12](end_span)
+// អនុគមន៍គណនាកាលបរិច្ឆេទខ្មែរ ២ ជួរអូតូរាល់ថ្ងៃ និងមិនបាក់ជួរធ្លាក់ពាក្យ
 function getKhmerCurrentDate(){
   const now = new Date();
-  const d = String(now.getDate()).padStart(2, '0');
+  const d = now.getDate();
   const m = now.getMonth();
   const y = now.getFullYear();
+  const dayOfWeek = now.getDay();
+
+  const daysKh = ['អាទិត្យ', 'ចន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'];
+  
+  // គណនាថ្ងៃកើត/រោចធៀបនឹងថ្ងៃពុធ ២កើត ខែកត្តិក (11-Nov-2026)
+  const baseDate = new Date(2026, 10, 11);
+  const diffDays = Math.round((new Date(y, m, d) - baseDate) / (1000 * 60 * 60 * 24));
+  
+  let lunarDayNum = (2 + diffDays) % 30;
+  if (lunarDayNum <= 0) lunarDayNum += 30;
+  
+  const moonPhase = lunarDayNum <= 15 ? `${toKhNum(lunarDayNum)}កើត` : `${toKhNum(lunarDayNum - 15)}រោច`;
+  const dayName = daysKh[dayOfWeek];
+
   return `
-    <div>ថ្ងៃទី${toKhNum(d)} ខែ${KH_MONTHS[m]} ឆ្នាំ${toKhNum(y)}</div>
-    <div style="font-size:0.92em;margin-top:2px">ត្រូវនឹងថ្ងៃពុធ ២កើត ខែកត្តិក ឆ្នាំមមី សដ្ឋស័ក ព.ស២០២៦</div>
+    <div style="font-size:12.5px;font-weight:bold;white-space:nowrap">ថ្ងៃទី${toKhNum(String(d).padStart(2,'0'))} ខែ${KH_MONTHS[m]} ឆ្នាំ${toKhNum(y)}</div>
+    <div style="font-size:10.5px;margin-top:2px;white-space:nowrap">ត្រូវនឹងថ្ងៃ${dayName} ${moonPhase} ខែកត្តិក ឆ្នាំមមី អដ្ឋស័ក ព.ស.២៥៧០</div>
   `;
 }
 
@@ -1285,7 +1299,7 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & កាត់ផ្ទៃប្រផេះចោល ១០០% ពេញលេញ A4 Landscape 1123px x 794px)
+// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & កាត់ផ្ទៃប្រផេះចោល ១០០% ពេញលេញ A4 Landscape 1123px x 794px)[span_13](start_span)[span_13](end_span)
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
@@ -1358,13 +1372,13 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       styleSheet.id = 'dynamicPrintStyle';
       document.head.appendChild(styleSheet);
     }
-    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ
+    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ[span_14](start_span)[span_14](end_span)
     styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: ${isLandscape ? '0mm' : '8mm 12mm'} !important; } }`;
     setTimeout(() => window.print(), 100);
   }
 }
 
-// ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល (ព្រះរាជាណាចក្រកម្ពុជានៅដដែលមិនរំកិលទេ ឯខាងឆ្វេងរំកិលចុះក្រោមខ្លាំង)
+// ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល (ព្រះរាជាណាចក្រកម្ពុជានៅដដែលមិនរំកិលទេ ឯខាងឆ្វេងរំកិលចុះក្រោមខ្លាំង)[span_15](start_span)[span_15](end_span)
 function renderOfficialHeaderHTML(i){
   return `
     <div class="official-header">
@@ -1524,7 +1538,7 @@ home(){
   const touchCls = getTheme().touch || 'touch-3d';
   const logoSrc = getLogoSrc();
 
-  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem
+  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem[span_16](start_span)[span_16](end_span)
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
     stu: {cls:'bl', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
@@ -1613,7 +1627,7 @@ sc(){
     </tr>`;
   }).join('');
 
-  // សន្លឹក Print តារាងពិន្ទុប្រចាំខែ (A4 Landscape ពេញលេញ មានក្បាលលិខិត ថ្ងៃខែកំណើត ស្ថិតិ និងហត្ថលេខា)
+  // សន្លឹក Print តារាងពិន្ទុប្រចាំខែ (A4 Landscape ពេញលេញ មានក្បាលលិខិត ថ្ងៃខែកំណើត ស្ថិតិ និងហត្ថលេខា)[span_17](start_span)[span_17](end_span)
   const rowsPrint = S.st.map((s,k) => {
     const a = (S.sc[mo] || {})[s.id] || [];
     const t = tot(s.id, mo);
@@ -1682,13 +1696,13 @@ sc(){
     </table>
 
     <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
-      <div style="text-align:center;width:240px">
+      <div style="text-align:center;min-width:280px;max-width:320px">
         <div>បានឃើញ និងឯកភាព</div>
-        <div style="font-size:11px;color:#475569;margin:2px 0">${curDateStr}</div>
+        <div style="margin:2px 0">${curDateStr}</div>
         <div style="font-weight:bold">នាយកសាលា</div>
       </div>
-      <div style="text-align:center;width:260px">
-        <div style="font-weight:600">${curDateStr}</div>
+      <div style="text-align:center;min-width:280px;max-width:320px">
+        <div>${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
@@ -1790,13 +1804,13 @@ official(){
     </div>
 
     <div class="official-footer">
-      <div style="text-align:center;width:240px">
+      <div style="text-align:center;min-width:280px;max-width:320px">
         <div>បានឃើញ និងឯកភាព</div>
-        <div style="font-size:11px;color:#475569;margin:2px 0">${curDateStr}</div>
+        <div style="margin:2px 0">${curDateStr}</div>
         <div style="font-weight:bold">នាយកសាលា</div>
       </div>
-      <div style="text-align:center;width:260px">
-        <div style="font-weight:600">${curDateStr}</div>
+      <div style="text-align:center;min-width:280px;max-width:320px">
+        <div>${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
@@ -1902,13 +1916,13 @@ examScore(){
     </table>
 
     <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
-      <div style="text-align:center;width:240px">
+      <div style="text-align:center;min-width:280px;max-width:320px">
         <div>បានឃើញ និងឯកភាព</div>
-        <div style="font-size:11px;color:#475569;margin:2px 0">${curDateStr}</div>
+        <div style="margin:2px 0">${curDateStr}</div>
         <div style="font-weight:bold">នាយកសាលា</div>
       </div>
-      <div style="text-align:center;width:260px">
-        <div style="font-weight:600">${curDateStr}</div>
+      <div style="text-align:center;min-width:280px;max-width:320px">
+        <div>${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
@@ -2017,13 +2031,13 @@ sem(){
     </table>
 
     <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
-      <div style="text-align:center;width:240px">
+      <div style="text-align:center;min-width:280px;max-width:320px">
         <div>បានឃើញ និងឯកភាព</div>
-        <div style="font-size:11px;color:#475569;margin:2px 0">${curDateStr}</div>
+        <div style="margin:2px 0">${curDateStr}</div>
         <div style="font-weight:bold">នាយកសាលា</div>
       </div>
-      <div style="text-align:center;width:260px">
-        <div style="font-weight:600">${curDateStr}</div>
+      <div style="text-align:center;min-width:280px;max-width:320px">
+        <div>${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
@@ -2111,13 +2125,13 @@ annual(){
     </div>
 
     <div class="official-footer">
-      <div style="text-align:center;width:240px">
+      <div style="text-align:center;min-width:280px;max-width:320px">
         <div>បានឃើញ និងឯកភាព</div>
-        <div style="font-size:11px;color:#475569;margin:2px 0">${curDateStr}</div>
+        <div style="margin:2px 0">${curDateStr}</div>
         <div style="font-weight:bold">នាយកសាលា</div>
       </div>
-      <div style="text-align:center;width:260px">
-        <div style="font-weight:600">${curDateStr}</div>
+      <div style="text-align:center;min-width:280px;max-width:320px">
+        <div>${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
@@ -2275,13 +2289,13 @@ honor(){
     </div>
 
     <div style="margin-top:20px;display:flex;justify-content:space-between;font-size:13px;padding:0 20px">
-      <div style="text-align:center;width:240px">
+      <div style="text-align:center;min-width:280px;max-width:320px">
         <div>បានឃើញ និងឯកភាព</div>
-        <div style="font-size:11px;color:#475569;margin:2px 0">${curDateStr}</div>
+        <div style="margin:2px 0">${curDateStr}</div>
         <div style="font-weight:bold">នាយកសាលា</div>
       </div>
-      <div style="text-align:center;width:260px">
-        <div style="font-weight:600">${curDateStr}</div>
+      <div style="text-align:center;min-width:280px;max-width:320px">
+        <div>${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
@@ -2347,7 +2361,7 @@ cert(){
           <div class="cert-auto-sign">
             <div class="cert-sign-left">
               <div>បានឃើញ និងឯកភាព</div>
-              <div style="font-size:12px;color:#334155;margin:2px 0">${curDateStr}</div>
+              <div style="margin:2px 0">${curDateStr}</div>
               <div class="cert-sign-role">នាយក${currentLevelLabel}</div>
             </div>
             <div class="cert-sign-right">
@@ -2433,7 +2447,7 @@ cert(){
 idcard(){
   const S = getS();
   
-  // បែងចែកកាតជាក្រុមៗ ក្នុងមួយទំព័រ A4 បញ្ឈរផ្ទុកបាន ៤ កាត (A6 ២x២)
+  // បែងចែកកាតជាក្រុមៗ ក្នុងមួយទំព័រ A4 បញ្ឈរផ្ទុកបាន ៤ កាត (A6 ២x២)[span_18](start_span)[span_18](end_span)
   const chunks = [];
   for (let idx = 0; idx < S.st.length; idx += 4) {
     chunks.push(S.st.slice(idx, idx + 4));
@@ -2478,7 +2492,7 @@ theme(){
   const th = getTheme();
   const touchCls = th.touch || 'touch-3d';
 
-  // មុខងារជ្រើសរើស Theme Presets មួយចុចបានភ្លាម
+  // មុខងារជ្រើសរើស Theme Presets មួយចុចបានភ្លាម[span_19](start_span)[span_19](end_span)
   window.applyThemePreset = function(type){
     if (type === 'gold') {
       thUpdateMultiple({
