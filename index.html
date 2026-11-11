@@ -159,18 +159,23 @@ td input.t{width:120px;text-align:start}
 .cp-box{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .cp-box input[type="color"]{min-height:40px;width:54px;padding:2px;cursor:pointer;border-radius:8px}
 
-/* ក្បាលលិខិតរដ្ឋបាលជាតិ Table Layout (ស្មើសងខាង Layout ស្អាតដូចគំរូរូប Safari.pdf ដក Logo ចេញ) */
-.official-header-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: none !important;
+/* ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាលពីកូដចាស់ (ស្មើសងខាង Layout ដូច Word បេះបិទ ដក Logo ចេញ) */
+.official-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   margin-top: 4px;
   margin-bottom: 12px;
+  line-height: 1.4;
+  width: 100%;
 }
-.official-header-table td {
-  border: none !important;
-  background: transparent !important;
-  padding: 0 4px !important;
+.official-header .side-box {
+  text-align: center;
+  padding-top: 14px;
+}
+.official-header .center-box {
+  text-align: center;
+  padding-top: 0;
 }
 
 /* ទម្រង់បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ & ប្រចាំឆ្នាំ (A4 Portrait) */
@@ -195,23 +200,20 @@ td input.t{width:120px;text-align:start}
   border: 1px solid #000;
   width: 100%;
   border-collapse: collapse;
-  table-layout: fixed;
 }
 .exam-paper-table th, .exam-paper-table td {
   border: 1px solid #000;
   padding: 4px 1px;
   text-align: center;
   font-size: 11px;
-  overflow: hidden;
 }
 .exam-paper-table th { background: #f8fafc; font-weight: bold; }
 
-/* បង្វិលក្បាលតារាងអានពីក្រោមឡើងលើត្រឹមត្រូវ ១០០% លើ Safari / iOS មិនក្រឡាប់ទទឹងតារាងឡើយ */
+/* បង្វិលក្បាលតារាងអានពីក្រោមឡើងលើត្រឹមត្រូវ ១០០% តាមកូដចាស់ មិនក្រឡាប់ទទឹងតារាងឡើយ */
 .th-rot {
   white-space: nowrap !important;
-  height: 120px !important;
-  width: 28px !important;
-  min-width: 28px !important;
+  height: 110px !important;
+  min-width: 25px !important;
   max-width: 28px !important;
   vertical-align: bottom !important;
   padding: 0 !important;
@@ -219,15 +221,13 @@ td input.t{width:120px;text-align:start}
 .th-rot-txt {
   writing-mode: vertical-rl !important;
   -webkit-writing-mode: vertical-rl !important;
-  text-orientation: mixed !important;
+  transform: rotate(180deg) !important;
+  -webkit-transform: rotate(180deg) !important;
+  display: inline-block !important;
   white-space: nowrap !important;
-  width: 28px !important;
-  height: 118px !important;
-  line-height: 28px !important;
-  margin: 0 auto !important;
+  padding: 6px 2px !important;
   font-size: 11px !important;
-  letter-spacing: 0px !important;
-  overflow: visible !important;
+  line-height: 1.1 !important;
 }
 .th-rot-sub {
   font-size: 10px;
@@ -323,7 +323,7 @@ td input.t{width:120px;text-align:start}
   margin-top: 4px;
 }
 
-/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (ប្រើ top: 68% រំកិលឡើងលើផុតពីស៊ុមខៀវបាតក្រោមស្មើ layout តួសេចក្តី) */
+/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (ប្រើ top: 68% រំកិលឡើងលើផុតពីស៊ុមខៀវបាតក្រោម ស្មើ layout តួសេចក្តី) */
 .cert-auto-sign {
   position: absolute;
   top: 68%;
@@ -978,7 +978,7 @@ function save(){
       sbPushUser({
         username: u,
         fullname: acc.fullname,
-        salt: b64(salt),
+        salt: acc.salt,
         check: acc.check,
         data: acc.data,
         status: acc.status || 'active',
@@ -1171,7 +1171,7 @@ const go = p => { pg = p; R(); scrollTo(0,0); };
 function switchLevel(lvl){
   if (currentLevel === lvl) return;
   currentLevel = lvl;
-  localStorage.setItem(LAST_LEVEL_KEY, lvl); // ចងចាំកម្រិតថ្នាក់ជាប់ជានិច្ច
+  localStorage.setItem(LAST_LEVEL_KEY, lvl); // ចងចាំកម្រិតថ្នាក់រហូត
   getS().info.div = getDiv(currentLevel, getS().info.stream);
   save();
   R();
@@ -1204,7 +1204,7 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & កាត់ផ្ទៃប្រផេះចោល ១០០% ពេញលេញ A4 Landscape $1123\text{px} \times 794\text{px}$)
+// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & កាត់ផ្ទៃប្រផេះចោល ១០០% ពេញលេញ A4 Landscape $1123\text{px} \times 794\text{px}$)[span_28](start_span)[span_28](end_span)
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
@@ -1277,29 +1277,26 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       styleSheet.id = 'dynamicPrintStyle';
       document.head.appendChild(styleSheet);
     }
-    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ
+    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ[span_29](start_span)[span_29](end_span)
     styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: ${isLandscape ? '0mm' : '8mm 12mm'} !important; } }`;
     setTimeout(() => window.print(), 100);
   }
 }
 
-// ក្បាលលិខិតជាតិ Table Layout (ស្មើសងខាង Layout ស្អាតដូចគំរូរូប Safari.pdf ដក Logo ចេញ)
+// ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាលពីកូដចាស់ (ស្មើសងខាង Layout ដូច Word បេះបិទ ដក Logo ចេញ)[span_30](start_span)[span_30](end_span)
 function renderOfficialHeaderHTML(i){
   return `
-    <table class="official-header-table">
-      <tr>
-        <td style="width:42%;text-align:center;vertical-align:top;padding-top:16px !important">
-          <div style="font-size:13.5px;font-weight:bold;line-height:1.4">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
-          <div style="font-weight:bold;font-size:14.5px;line-height:1.4;margin-top:2px">${E(i.school || 'សាលារៀន')}</div>
-        </td>
-        <td style="width:16%"></td>
-        <td style="width:42%;text-align:center;vertical-align:top;padding-top:0 !important">
-          <div class="muol-title" style="font-size:16px;line-height:1.4">ព្រះរាជាណាចក្រកម្ពុជា</div>
-          <div class="muol-title" style="font-size:14px;line-height:1.4">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-          <div style="font-size:12px;letter-spacing:4px;margin-top:2px">- 0 , -</div>
-        </td>
-      </tr>
-    </table>
+    <div class="official-header">
+      <div class="side-box">
+        <div style="font-size:13px;font-weight:bold;line-height:1.4">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+        <div style="font-weight:bold;font-size:14px;line-height:1.4;margin-top:2px">${E(i.school || 'សាលារៀន')}</div>
+      </div>
+      <div class="center-box">
+        <div class="muol-title" style="font-size:16px;line-height:1.4">ព្រះរាជាណាចក្រកម្ពុជា</div>
+        <div class="muol-title" style="font-size:14px;line-height:1.4">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+        <div style="font-size:12px;letter-spacing:4px;margin-top:2px">- 0 , -</div>
+      </div>
+    </div>
   `;
 }
 
@@ -1446,7 +1443,7 @@ home(){
   const touchCls = getTheme().touch || 'touch-3d';
   const logoSrc = getLogoSrc();
 
-  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem
+  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem[span_31](start_span)[span_31](end_span)
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
     stu: {cls:'bl', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
@@ -1534,7 +1531,7 @@ sc(){
     </tr>`;
   }).join('');
 
-  // សន្លឹក Print តារាងពិន្ទុប្រចាំខែ (A4 Landscape ពេញលេញ មានក្បាលលិខិត ថ្ងៃខែកំណើត ស្ថិតិ និងហត្ថលេខា)
+  // សន្លឹក Print តារាងពិន្ទុប្រចាំខែ (A4 Landscape ពេញលេញ មានក្បាលលិខិត ថ្ងៃខែកំណើត ស្ថិតិ និងហត្ថលេខា)[span_32](start_span)[span_32](end_span)
   const rowsPrint = S.st.map((s,k) => {
     const a = (S.sc[mo] || {})[s.id] || [];
     const t = tot(s.id, mo);
@@ -1587,11 +1584,11 @@ sc(){
           <th rowspan="2" style="min-width:130px">គោត្តនាម និងនាម</th>
           <th rowspan="2" style="width:36px">ភេទ</th>
           <th rowspan="2" style="width:85px">ថ្ងៃខែឆ្នាំកំណើត</th>
-          ${cols.map(c => `<th class="th-rot"><div class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</div></th>`).join('')}
-          <th rowspan="2" class="th-rot" style="background:#f1f5f9"><div class="th-rot-txt">សរុប</div></th>
-          <th rowspan="2" class="th-rot" style="background:#fef3c7"><div class="th-rot-txt">មធ្យម</div></th>
-          <th rowspan="2" class="th-rot"><div class="th-rot-txt">ចំ.ថ្នាក់</div></th>
-          <th rowspan="2" class="th-rot"><div class="th-rot-txt">និទ្ទេស</div></th>
+          ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</span></th>`).join('')}
+          <th rowspan="2" class="th-rot" style="background:#f1f5f9"><span class="th-rot-txt">សរុប</span></th>
+          <th rowspan="2" class="th-rot" style="background:#fef3c7"><span class="th-rot-txt">មធ្យម</span></th>
+          <th rowspan="2" class="th-rot"><span class="th-rot-txt">ចំ.ថ្នាក់</span></th>
+          <th rowspan="2" class="th-rot"><span class="th-rot-txt">និទ្ទេស</span></th>
         </tr>
         <tr>
           ${cols.map(c => `<th class="th-rot-sub">${c.m}</th>`).join('')}
@@ -1803,11 +1800,11 @@ examScore(){
           <th rowspan="2" style="min-width:130px">គោត្តនាម និងនាម</th>
           <th rowspan="2" style="width:36px">ភេទ</th>
           <th rowspan="2" style="width:85px">ថ្ងៃខែឆ្នាំកំណើត</th>
-          ${cols.map(c => `<th class="th-rot"><div class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</div></th>`).join('')}
-          <th rowspan="2" class="th-rot" style="background:#f1f5f9"><div class="th-rot-txt">សរុបប្រឡង</div></th>
-          <th rowspan="2" class="th-rot" style="background:#fef3c7"><div class="th-rot-txt">មធ្យមប្រឡង</div></th>
-          <th rowspan="2" class="th-rot"><div class="th-rot-txt">ចំ.ថ្នាក់</div></th>
-          <th rowspan="2" class="th-rot"><div class="th-rot-txt">និទ្ទេស</div></th>
+          ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</span></th>`).join('')}
+          <th rowspan="2" class="th-rot" style="background:#f1f5f9"><span class="th-rot-txt">សរុបប្រឡង</span></th>
+          <th rowspan="2" class="th-rot" style="background:#fef3c7"><span class="th-rot-txt">មធ្យមប្រឡង</span></th>
+          <th rowspan="2" class="th-rot"><span class="th-rot-txt">ចំ.ថ្នាក់</span></th>
+          <th rowspan="2" class="th-rot"><span class="th-rot-txt">និទ្ទេស</span></th>
         </tr>
         <tr>
           ${cols.map(c => `<th class="th-rot-sub">${c.m}</th>`).join('')}
@@ -2307,7 +2304,7 @@ cert(){
 idcard(){
   const S = getS();
   
-  // បែងចែកកាតជាក្រុមៗ ក្នុងមួយទំព័រ A4 បញ្ឈរផ្ទុកបាន ៤ កាត (A6 ២x២)
+  // បែងចែកកាតជាក្រុមៗ ក្នុងមួយទំព័រ A4 បញ្ឈរផ្ទុកបាន ៤ កាត (A6 ២x២)[span_33](start_span)[span_33](end_span)
   const chunks = [];
   for (let idx = 0; idx < S.st.length; idx += 4) {
     chunks.push(S.st.slice(idx, idx + 4));
@@ -2352,7 +2349,7 @@ theme(){
   const th = getTheme();
   const touchCls = th.touch || 'touch-3d';
 
-  // មុខងារជ្រើសរើស Theme Presets មួយចុចបានភ្លាម
+  // មុខងារជ្រើសរើស Theme Presets មួយចុចបានភ្លាម[span_34](start_span)[span_34](end_span)
   window.applyThemePreset = function(type){
     if (type === 'gold') {
       thUpdateMultiple({
