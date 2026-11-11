@@ -25,6 +25,8 @@
   --app-font: 'Leelawadee UI', 'Kantumruy Pro', 'Khmer UI', system-ui, sans-serif;
   --title-font: 'Khmer OS Muol Light', 'Khmer OS Muol', 'Moul', serif;
   --anim-speed: 0.24s;
+  --btn-shadow: 0 6px 16px rgba(0, 0, 0, 0.22), 0 2px 4px rgba(0, 0, 0, 0.15);
+  --btn-grad-overlay: none;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
@@ -94,8 +96,12 @@ h1, h2, h3, .muol-title { font-family: var(--title-font) !important; font-weight
 .pb{
   border:0; border-radius:var(--btn-radius); padding:15px 14px; font:inherit; font-size:15px; font-weight:600; color:#fff;
   cursor:grab; display:flex; align-items:center; justify-content:center; user-select:none; -webkit-user-select:none;
-  touch-action:manipulation; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22), 0 2px 4px rgba(0, 0, 0, 0.15);
+  touch-action:manipulation; box-shadow: var(--btn-shadow); position: relative; overflow: hidden;
   transition:transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+}
+.pb::after{
+  content:''; position:absolute; top:0; left:0; right:0; height:45%;
+  background: var(--btn-grad-overlay); border-radius: inherit; pointer-events:none;
 }
 
 .touch-3d:active { transform: translateY(4px) !important; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; }
@@ -198,21 +204,25 @@ td input.t{width:120px;text-align:start}
 }
 .exam-paper-table th { background: #f8fafc; font-weight: bold; }
 
-/* បង្វិលក្បាលតារាងអានពីក្រោមឡើងលើត្រឹមត្រូវ */
+/* បង្វិលក្បាលតារាងអានពីក្រោមឡើងលើត្រឹមត្រូវ ១០០% លើ Safari / iOS */
 .th-rot {
-  white-space: nowrap;
-  height: 105px;
-  min-width: 25px;
-  max-width: 28px;
-  vertical-align: bottom;
+  white-space: nowrap !important;
+  height: 110px !important;
+  width: 28px !important;
+  min-width: 28px !important;
+  max-width: 28px !important;
+  vertical-align: bottom !important;
   padding: 0 !important;
 }
 .th-rot-txt {
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  display: inline-block;
-  padding: 6px 2px;
-  font-size: 11px;
+  writing-mode: vertical-rl !important;
+  transform: rotate(180deg) !important;
+  -webkit-transform: rotate(180deg) !important;
+  display: inline-block !important;
+  white-space: nowrap !important;
+  padding: 6px 2px !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
 }
 .th-rot-sub {
   font-size: 10px;
@@ -261,28 +271,28 @@ td input.t{width:120px;text-align:start}
   outline-offset: -14px;
 }
 
-/* ពាក្យនាយក... នៅក្រោមពាក្យប័ណ្ណសរសើរធំក្រហម (កម្រិត 41%) */
+/* ពាក្យនាយក... នៅក្រោមពាក្យប័ណ្ណសរសើរធំក្រហម (កម្រិត 40.5% អក្សរធំល្មមសមាមាត្រ) */
 .cert-director-sub {
   position: absolute;
-  top: 41%;
-  left: 8%;
-  width: 84%;
+  top: 40.5%;
+  left: 5%;
+  width: 90%;
   text-align: center;
   font-family: var(--title-font);
-  font-size: 16px;
+  font-size: 18px;
   color: #1e3a8a;
   line-height: 1.5;
 }
 
-/* តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត (កម្រិត 46% មិនជាន់ពាក្យប័ណ្ណសរសើរឡើយ) */
+/* តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត (កម្រិត 45% ទទឹងរីកដល់ 90% អក្សរធំដិតស្អាត មិនជាន់ពាក្យប័ណ្ណសរសើរឡើយ) */
 .cert-auto-body {
   position: absolute;
-  top: 46%;
-  left: 8%;
-  width: 84%;
+  top: 45%;
+  left: 5%;
+  width: 90%;
   text-align: center;
   line-height: 1.85;
-  font-size: 16.5px;
+  font-size: 19.5px;
   font-weight: 700;
   color: #1e293b;
 }
@@ -296,21 +306,21 @@ td input.t{width:120px;text-align:start}
   overflow: visible !important;
 }
 .cert-reason-text {
-  margin-top: 3px;
+  margin-top: 4px;
 }
 .cert-bless-text {
-  font-size: 0.95em;
+  font-size: 0.92em;
   font-weight: 700;
   color: #1e293b;
   margin-top: 4px;
 }
 
-/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (រំកិលឡើងលើដល់ 95px ទុកចន្លោះទំនេរធំទូលាយសម្រាប់បិទរូបថត 4x6 និងបោះត្រា) */
+/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (រំកិលឡើងលើដល់ 95px និងរំកិលចូលក្នុងផុតស៊ុមសងខាង ទុកចន្លោះទំនេរធំទូលាយសម្រាប់បិទរូបថត 4x6 និងបោះត្រា) */
 .cert-auto-sign {
   position: absolute;
   bottom: 95px;
-  left: 8%;
-  width: 84%;
+  left: 9%;
+  width: 82%;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -319,12 +329,12 @@ td input.t{width:120px;text-align:start}
   line-height: 1.5;
 }
 .cert-sign-left {
-  width: 260px;
+  width: 270px;
   text-align: center;
   margin-top: 14px;
 }
 .cert-sign-right {
-  width: 260px;
+  width: 270px;
   text-align: center;
   margin-top: 0;
 }
@@ -342,7 +352,7 @@ td input.t{width:120px;text-align:start}
   font-size: 15px;
 }
 
-/* Modal បណ្ណាល័យស៊ុមក្បាច់ */
+/* Modal បណ្ណាល័យស៊ុមក្បាច់ (កម្ពស់ត្រឹម 58vh បង្ហាញពាក់កណ្តាលអេក្រង់ទូរស័ព្ទស្អាត មិនបាត់ក្បាល) */
 .modal-overlay {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(15, 23, 42, 0.65);
@@ -350,13 +360,25 @@ td input.t{width:120px;text-align:start}
   z-index: 9999; backdrop-filter: blur(3px);
 }
 .modal-box {
-  background: #fff; border-radius: 18px; padding: 20px;
-  width: 90%; max-width: 720px; max-height: 85vh;
+  background: #fff; border-radius: 18px; padding: 18px;
+  width: 92%; max-width: 680px; max-height: 58vh;
   overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  display: flex; flex-direction: column;
+}
+.modal-tabs {
+  display: flex; gap: 8px; margin-bottom: 12px; border-bottom: 1px solid var(--bd); padding-bottom: 8px;
+}
+.modal-tab-btn {
+  flex: 1; border: 0; background: #f1f5f9; padding: 8px 12px; border-radius: 999px;
+  font: inherit; font-size: 13px; font-weight: 600; color: var(--mu); cursor: pointer;
+  transition: all 0.15s ease;
+}
+.modal-tab-btn.active {
+  background: var(--ac); color: #fff; box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
 }
 .border-grid-thumb {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px; margin: 14px 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 12px; margin: 10px 0; overflow-y: auto; flex: 1;
 }
 .border-thumb-item {
   border: 2px solid var(--bd); border-radius: 10px; padding: 4px;
@@ -367,7 +389,7 @@ td input.t{width:120px;text-align:start}
   border-color: var(--ac); box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
 }
 .border-thumb-item img {
-  width: 100%; height: 90px; object-fit: contain; border-radius: 6px; background: #fff;
+  width: 100%; height: 85px; object-fit: contain; border-radius: 6px; background: #fff;
 }
 .border-thumb-item .thumb-del {
   position: absolute; top: -6px; right: -6px; background: var(--rd);
@@ -399,6 +421,17 @@ td input.t{width:120px;text-align:start}
   margin: 0 auto;
   box-sizing: border-box;
 }
+
+/* Preset Themes Grid */
+.preset-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 10px 0 16px;
+}
+.preset-btn {
+  border: 1px solid var(--bd); border-radius: 12px; padding: 10px 8px; text-align: center;
+  cursor: pointer; font-size: 13px; font-weight: bold; color: #fff;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1); transition: transform 0.12s ease;
+}
+.preset-btn:active { transform: scale(0.96); }
 
 /* @media print ស្ដង់ដារទម្រង់រដ្ឋបាល */
 @media print{
@@ -529,6 +562,7 @@ function setSelectedBorder(url){
 }
 
 let showBorderModal = false;
+let borderModalTab = 'photoshop'; // 'photoshop' ឬ 'general'
 
 async function sbFetch(path, opts = {}){
   const headers = {
@@ -705,7 +739,7 @@ const USER_RE = /^[a-z0-9_.-]{3,30}$/;
 
 const ACCKEY = 'sms_accounts_v7';
 const THEME_KEY = 'sms_theme_settings_v4';
-const ORDER_KEY = 'sms_btn_order_v13';
+const ORDER_KEY = 'sms_btn_order_v14';
 const LAST_YEAR_KEY = 'sms_last_selected_year_v1';
 
 // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem
@@ -721,7 +755,8 @@ function getBtnOrder(){
 const defaultTheme = {
   ac: '#2563eb', gd: '#d97706', ok: '#16a34a', bk: '#334155', rd: '#dc2626', bg: '#f4f6fa',
   radius: '999px', font: "'Leelawadee UI', 'Kantumruy Pro', 'Khmer UI', sans-serif",
-  anim: 'fade', touch: 'touch-3d'
+  anim: 'fade', touch: 'touch-3d', btnShadow: '0 6px 16px rgba(0, 0, 0, 0.22), 0 2px 4px rgba(0, 0, 0, 0.15)',
+  btnGradOverlay: 'none'
 };
 
 function getTheme(){
@@ -739,6 +774,8 @@ function applyTheme(th){
   r.setProperty('--bg', th.bg);
   r.setProperty('--btn-radius', th.radius);
   r.setProperty('--app-font', th.font);
+  r.setProperty('--btn-shadow', th.btnShadow || defaultTheme.btnShadow);
+  r.setProperty('--btn-grad-overlay', th.btnGradOverlay || defaultTheme.btnGradOverlay);
 }
 
 function saveTheme(th){
@@ -1238,7 +1275,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   }
 }
 
-// ក្បាលលិខិតជាតិ Table Layout (ព្រះរាជាណាចក្រកម្ពុជានៅលើបង្អស់ដាច់គេ ឆ្វេងទម្លាក់ចុះក្រោមបន្តិចទុកដាក់ Logo ពេលក្រោយ)
+// ក្បាលលិខិតជាតិ Table Layout (ព្រះរាជាណាចក្រកម្ពុជានៅលើបង្អស់ដាច់គេ ឆ្វេងទម្លាក់ចុះក្រោមសមរម្យ)
 function renderOfficialHeaderHTML(i){
   return `
     <table class="official-header-table">
@@ -2016,7 +2053,7 @@ stu(){
         </select>
       </td>
       <td>
-        <input type="text" placeholder="វាយ 06022015 ឬ 06/02/2015" value="${E(s.dob || '')}" onblur="setDobDirect(${s.id}, this.value)" style="width:145px;text-align:start">
+        <input type="text" placeholder="វាយ 06022015 ឬ 06/02/2015" value="${E(s.dob || '')}" onchange="setDobDirect(${s.id}, this.value)" onblur="setDobDirect(${s.id}, this.value)" style="width:145px;text-align:start">
       </td>
       <td><input type="text" placeholder="ឈ្មោះឪពុក" value="${E(s.fa || '')}" onchange="setStuProp(${s.id}, 'fa', this.value)" style="width:110px;text-align:start"></td>
       <td><input type="text" placeholder="ឈ្មោះម្តាយ" value="${E(s.mo || '')}" onchange="setStuProp(${s.id}, 'mo', this.value)" style="width:110px;text-align:start"></td>
@@ -2040,7 +2077,7 @@ stu(){
     <input id="nnote" lang="km" placeholder="ផ្សេងៗ">
     <button class="bt" onclick="addS()">➕ បន្ថែមសិស្ស</button>
   </div>
-  <small class="mu">💡 ត្រង់ថ្ងៃខែឆ្នាំកំណើត គ្រាន់តែវាយលេខជាប់គ្នាដូចជា <b>06022015</b> ឬ <b>06/02/2015</b> វានឹងចេញជា <b>០៦ កុម្ភៈ ២០១៥</b> ភ្លាមៗ។</small>
+  <small class="mu">💡 ត្រង់ថ្ងៃខែឆ្នាំកំណើត គ្រាន់តែវាយលេខជាប់គ្នាដូចជា <b>06022015</b> ឬ <b>06/02/2015</b> វានឹងចេញជា <b>០៦ កុម្ភៈ ២០១៥</b> ភ្លាមៗ (ទាំងប្រអប់លើ និងក្នុងតារាងកែដោយដៃ)។</small>
   </div>
 
   <div class="card">
@@ -2120,7 +2157,6 @@ cert(){
   const i = S.info;
   const selectedBorder = getSelectedBorder();
   const customLib = getBorderLibrary();
-  const allBorders = [...BUILTIN_BORDERS, ...customLib];
 
   const levelTitles = {
     primary: 'សាលាបឋមសិក្សា',
@@ -2143,19 +2179,19 @@ cert(){
       <div class="cert-scaler-wrapper">
         <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
           
-          <!-- ចំណងជើងរងក្រោមប័ណ្ណសរសើរធំក្រហម (កម្រិត 41%) -->
+          <!-- ចំណងជើងរងក្រោមប័ណ្ណសរសើរធំក្រហម (កម្រិត 40.5%) -->
           <div class="cert-director-sub">
             នាយក${currentLevelLabel} ${E(i.school || '....................')}
           </div>
 
-          <!-- តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត (កម្រិត 46% មិនជាន់ពាក្យប័ណ្ណសរសើរឡើយ) -->
+          <!-- តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត (កម្រិត 45% អក្សរធំដិត មិនជាន់ពាក្យប័ណ្ណសរសើរឡើយ) -->
           <div class="cert-auto-body">
             <div>សូមសរសើរចំពោះ៖ សិស្សឈ្មោះ <b>${E(s.name)}</b> ភេទ <b>${s.sex==='ស'?'ស្រី':'ប្រុស'}</b> ${s.dob ? `កើតនៅថ្ងៃទី <b>${E(s.dob)}</b>` : ''} រៀននៅថ្នាក់ទី <b>${E(i.cls || '...')}</b></div>
 
             <div class="cert-reason-text">
               ដែលទទួលបានលទ្ធផលល្អក្នុងការសិក្សា និងទទួលបានចំណាត់ថ្នាក់លេខ <b>${toKhNum(idx + 1)}</b>
               ${s.av > 0 ? `( មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b> )` : ''}
-              <div style="margin-top:2px">ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b></div>
+              <div style="margin-top:4px">ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b></div>
             </div>
 
             <div class="cert-bless-text">
@@ -2163,7 +2199,7 @@ cert(){
             </div>
           </div>
 
-          <!-- កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (រំកិលឡើងលើដល់ 95px ទុកចន្លោះទំនេរធំទូលាយសម្រាប់បិទរូបថត 4x6 និងបោះត្រា) -->
+          <!-- កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (រំកិលឡើងលើដល់ 95px និងរំកិលចូលក្នុងផុតស៊ុមសងខាង ទុកចន្លោះទំនេរធំទូលាយសម្រាប់បិទរូបថត 4x6 និងបោះត្រា) -->
           <div class="cert-auto-sign">
             <div class="cert-sign-left">
               <div>បានឃើញ និងឯកភាព</div>
@@ -2181,6 +2217,10 @@ cert(){
     </div>
   `).join('');
 
+  // បំបែកបញ្ជីស៊ុមជា ២ Folder
+  const psBorders = [BUILTIN_BORDERS[0], ...customLib];
+  const generalBorders = BUILTIN_BORDERS.slice(1);
+
   return head('បណ្ណសរសើរស្វ័យប្រវត្តិ (A4 Landscape)') + `<div class="card">
   <div class="f">
     ${moSel()}
@@ -2191,7 +2231,7 @@ cert(){
       <option value="A" ${certLimit==='A'?'selected':''}>🌟 សិស្សនិទ្ទេស A ទាំងអស់</option>
       <option value="all" ${certLimit==='all'?'selected':''}>👥 សិស្សទាំងអស់ដែលមានពិន្ទុ</option>
     </select>
-    <button class="bt g" onclick="showBorderModal=true;R()">📂 រើសស៊ុមក្បាច់ (${allBorders.length})</button>
+    <button class="bt g" onclick="showBorderModal=true;R()">📂 រើសស៊ុមក្បាច់</button>
     <button class="bt" onclick="executeStandardPrint('certPrintArea', 'បណ្ណសរសើរស្វ័យប្រវត្តិ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
 
@@ -2201,30 +2241,44 @@ cert(){
   ${showBorderModal ? `
     <div class="modal-overlay" onclick="showBorderModal=false;R()">
       <div class="modal-box" onclick="event.stopPropagation()">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-          <h2 style="margin:0;font-size:17px;color:var(--ac)">📂 ឃ្លាំងស៊ុមក្បាច់បណ្ណសរសើរ (A4 Landscape)</h2>
-          <button class="bt g" style="padding:4px 10px;min-height:30px" onclick="showBorderModal=false;R()">✕</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <h2 style="margin:0;font-size:16px;color:var(--ac)">📂 ឃ្លាំងស៊ុមក្បាច់បណ្ណសរសើរ</h2>
+          <button class="bt g" style="padding:2px 8px;min-height:28px" onclick="showBorderModal=false;R()">✕</button>
         </div>
-        <p class="mu small">លោកគ្រូអាចជ្រើសរើសស៊ុមក្បាច់ថ្មីពី Photoshop (border_3_blue1.png) ឬស៊ុមបុរាណ ព្រមទាំងចុច Upload ស៊ុមថ្មីបន្ថែមបានគ្រប់ពេល។</p>
 
-        <div class="border-grid-thumb">
-          <div class="border-thumb-item ${!selectedBorder ? 'active' : ''}" onclick="setSelectedBorder('');showBorderModal=false;R()">
-            <div style="height:90px;display:flex;align-items:center;justify-content:center;background:#fff;border:3px double #b45309;border-radius:6px;font-size:12px;font-weight:bold;color:#b45309">ស៊ុមបន្ទាត់មាស</div>
-            <div style="font-size:11.5px;margin-top:4px;font-weight:600">ស៊ុមដើម Minimal</div>
+        <div class="modal-tabs">
+          <button class="modal-tab-btn ${borderModalTab==='photoshop'?'active':''}" onclick="borderModalTab='photoshop';R()">🎨 ប័ណ្ណសរសើរគំរូស្រាប់ (Photoshop)</button>
+          <button class="modal-tab-btn ${borderModalTab==='general'?'active':''}" onclick="borderModalTab='general';R()">🖼️ ជ្រើសរើសម៉ូដស៊ុម</button>
+        </div>
+
+        ${borderModalTab === 'photoshop' ? `
+          <div class="border-grid-thumb">
+            ${psBorders.map(b => `
+              <div class="border-thumb-item ${selectedBorder===b.url ? 'active' : ''}" onclick="setSelectedBorder('${b.url}');showBorderModal=false;R()">
+                ${typeof b.id === 'number' ? `<button class="thumb-del" onclick="deleteBorder(${b.id}, event)" title="លុបស៊ុម">✕</button>` : ''}
+                <img src="${encodeURI(b.url)}" onerror="this.onerror=null;this.src='borders/border_3_blue1.png';">
+                <div style="font-size:11px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${E(b.name || 'ស៊ុមក្បាច់')}</div>
+              </div>
+            `).join('')}
           </div>
-          ${allBorders.map(b => `
-            <div class="border-thumb-item ${selectedBorder===b.url ? 'active' : ''}" onclick="setSelectedBorder('${b.url}');showBorderModal=false;R()">
-              ${typeof b.id === 'number' ? `<button class="thumb-del" onclick="deleteBorder(${b.id}, event)" title="លុបស៊ុម">✕</button>` : ''}
-              <img src="${encodeURI(b.url)}" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'70\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%23f1f5f9\\'/><text x=\\'50%\\' y=\\'50%\\' dominant-baseline=\\'middle\\' text-anchor=\\'middle\\' fill=\\'%2394a3b8\\' font-size=\\'11\\'>ស៊ុមក្បាច់</text></svg>';">
-              <div style="font-size:11px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${E(b.name || 'ស៊ុមក្បាច់')}</div>
+        ` : `
+          <div style="margin-bottom:8px;display:flex;gap:8px;align-items:center">
+            <button class="bt" style="background:var(--ok);padding:5px 12px;font-size:12.5px" onclick="$('#fBorderUpload').click()">➕ Upload ស៊ុមថ្មី (PNG/JPG)</button>
+            <small class="mu">ផ្ទុកស៊ុមក្បាច់បុរាណ និងស៊ុមដែល Upload ថ្មីៗ</small>
+          </div>
+          <div class="border-grid-thumb">
+            <div class="border-thumb-item ${!selectedBorder ? 'active' : ''}" onclick="setSelectedBorder('');showBorderModal=false;R()">
+              <div style="height:85px;display:flex;align-items:center;justify-content:center;background:#fff;border:3px double #b45309;border-radius:6px;font-size:12px;font-weight:bold;color:#b45309">ស៊ុមបន្ទាត់មាស</div>
+              <div style="font-size:11px;margin-top:4px;font-weight:600">ស៊ុមដើម Minimal</div>
             </div>
-          `).join('')}
-        </div>
-
-        <div class="f" style="margin-top:16px">
-          <button class="bt" style="background:var(--ok)" onclick="$('#fBorderUpload').click()">➕ Upload បន្ថែមស៊ុមថ្មី (PNG/JPG)</button>
-          <button class="bt g" onclick="setSelectedBorder(BUILTIN_BORDERS[0].url);showBorderModal=false;R()">ជ្រើសស៊ុមខៀវថ្មី (Photoshop)</button>
-        </div>
+            ${generalBorders.map(b => `
+              <div class="border-thumb-item ${selectedBorder===b.url ? 'active' : ''}" onclick="setSelectedBorder('${b.url}');showBorderModal=false;R()">
+                <img src="${encodeURI(b.url)}" onerror="this.onerror=null;this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' width=\\'100\\' height=\\'70\\'><rect width=\\'100%\\' height=\\'100%\\' fill=\\'%23f1f5f9\\'/><text x=\\'50%\\' y=\\'50%\\' dominant-baseline=\\'middle\\' text-anchor=\\'middle\\' fill=\\'%2394a3b8\\' font-size=\\'11\\'>ស៊ុមក្បាច់</text></svg>';">
+                <div style="font-size:11px;margin-top:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${E(b.name || 'ស៊ុមក្បាច់')}</div>
+              </div>
+            `).join('')}
+          </div>
+        `}
       </div>
     </div>
   ` : ''}
@@ -2278,7 +2332,45 @@ idcard(){
 theme(){
   const th = getTheme();
   const touchCls = th.touch || 'touch-3d';
+
+  // មុខងារជ្រើសរើស Theme Presets មួយចុចបានភ្លាម
+  window.applyThemePreset = function(type){
+    if (type === 'gold') {
+      thUpdateMultiple({
+        ac: '#b45309', gd: '#d97706', ok: '#059669', bk: '#1e293b', rd: '#b91c1c', bg: '#fdfbf7',
+        btnShadow: '0 8px 20px rgba(180, 83, 9, 0.35), 0 2px 6px rgba(0,0,0,0.15)',
+        btnGradOverlay: 'linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.05) 100%)'
+      });
+    } else if (type === 'ocean') {
+      thUpdateMultiple({
+        ac: '#0284c7', gd: '#0d9488', ok: '#10b981', bk: '#0f172a', rd: '#e11d48', bg: '#f0f9ff',
+        btnShadow: '0 8px 20px rgba(2, 132, 199, 0.35), 0 2px 6px rgba(0,0,0,0.15)',
+        btnGradOverlay: 'linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.08) 100%)'
+      });
+    } else if (type === 'emerald') {
+      thUpdateMultiple({
+        ac: '#059669', gd: '#d97706', ok: '#16a34a', bk: '#064e3b', rd: '#dc2626', bg: '#f0fdf4',
+        btnShadow: '0 8px 20px rgba(5, 150, 105, 0.35), 0 2px 6px rgba(0,0,0,0.15)',
+        btnGradOverlay: 'linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.05) 100%)'
+      });
+    } else if (type === 'midnight') {
+      thUpdateMultiple({
+        ac: '#6366f1', gd: '#eab308', ok: '#10b981', bk: '#090d16', rd: '#f43f5e', bg: '#f8fafc',
+        btnShadow: '0 8px 22px rgba(99, 102, 241, 0.35), 0 2px 6px rgba(0,0,0,0.2)',
+        btnGradOverlay: 'linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.02) 100%)'
+      });
+    }
+  };
+
   return head('កំណត់ស្ទីល និងពណ៌កម្មវិធី') + `<div class="card">
+  <h2>🌟 ជ្រើសរើស Theme Style បែប Premium (ចុចម្តងបានភ្លាម)</h2>
+  <div class="preset-grid">
+    <div class="preset-btn" style="background:linear-gradient(135deg, #b45309, #d97706)" onclick="applyThemePreset('gold')">👑 Royal Gold</div>
+    <div class="preset-btn" style="background:linear-gradient(135deg, #0284c7, #2563eb)" onclick="applyThemePreset('ocean')">🌊 Ocean Luxury</div>
+    <div class="preset-btn" style="background:linear-gradient(135deg, #059669, #10b981)" onclick="applyThemePreset('emerald')">💎 Emerald Glass</div>
+    <div class="preset-btn" style="background:linear-gradient(135deg, #0f172a, #6366f1)" onclick="applyThemePreset('midnight')">🌌 Midnight Dark</div>
+  </div>
+
   <h2>ជ្រើសរើសចលនា និងការចុច (Animation & Touch UX)</h2>
   <div class="f">
     <label class="mu">ចលនាពេលប្តូរផ្ទាំង (Screen Transition)
@@ -2308,12 +2400,12 @@ theme(){
 
   <h2 style="margin-top:16px">ជ្រើសរើសរាងប៊ូតុង និងពុម្ពអក្សរ (Shape & Font)</h2>
   <div class="f">
-    <label class="mu">រាងជ្រុង / មូល
+    <label class="mu">រាងជ្រុង / មូល / Glass Pill
       <select onchange="thUpdate('radius', this.value)">
         <option value="6px" ${th.radius==='6px'?'selected':''}>ជ្រុងស្មើរាប (Modern Minimal - 6px)</option>
         <option value="14px" ${th.radius==='14px'?'selected':''}>ជ្រុងមូលស្រាល (iOS Style - 14px)</option>
         <option value="20px" ${th.radius==='20px'?'selected':''}>ជ្រុងមូលធំ (Smooth - 20px)</option>
-        <option value="999px" ${th.radius==='999px'?'selected':''}>រង្វង់មូលទាំងស្រុង (Fully Round / Pill - 999px)</option>
+        <option value="999px" ${th.radius==='999px'?'selected':''}>រង្វង់មូលទាំងស្រុង (Glossy Pill - 999px)</option>
       </select>
     </label>
     <label class="mu">ពុម្ពអក្សរទូទៅ (Font)
@@ -2357,6 +2449,12 @@ bk(){
 function thUpdate(key, val){
   const th = getTheme();
   th[key] = val;
+  saveTheme(th);
+  R();
+}
+
+function thUpdateMultiple(obj){
+  const th = { ...getTheme(), ...obj };
   saveTheme(th);
   R();
 }
@@ -2494,7 +2592,7 @@ function setInfo(key, v, num){
 
 function setDobDirect(id, val){
   const s = getS().st.find(x => x.id === id);
-  if(s){ s.dob = smartKhmerDate(val); save(); }
+  if(s){ s.dob = smartKhmerDate(val); save(); R(); }
 }
 
 function setStuProp(id, prop, val){
