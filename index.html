@@ -159,13 +159,13 @@ td input.t{width:120px;text-align:start}
 .cp-box{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .cp-box input[type="color"]{min-height:40px;width:54px;padding:2px;cursor:pointer;border-radius:8px}
 
-/* ក្បាលលិខិតរដ្ឋបាលជាតិ Table Layout (ព្រះរាជាណាចក្រកម្ពុជានៅលើបង្អស់ដាច់គេ ឆ្វេងទម្លាក់ចុះក្រោមសមរម្យ) */
+/* ក្បាលលិខិតរដ្ឋបាលជាតិ Table Layout (ស្មើសងខាង Layout ស្អាតដូចគំរូរូប Safari.pdf ដក Logo ចេញ) */
 .official-header-table {
   width: 100%;
   border-collapse: collapse;
   border: none !important;
-  margin-top: 2px;
-  margin-bottom: 8px;
+  margin-top: 4px;
+  margin-bottom: 12px;
 }
 .official-header-table td {
   border: none !important;
@@ -195,19 +195,21 @@ td input.t{width:120px;text-align:start}
   border: 1px solid #000;
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 .exam-paper-table th, .exam-paper-table td {
   border: 1px solid #000;
-  padding: 4px 2px;
+  padding: 4px 1px;
   text-align: center;
   font-size: 11px;
+  overflow: hidden;
 }
 .exam-paper-table th { background: #f8fafc; font-weight: bold; }
 
-/* បង្វិលក្បាលតារាងអានពីក្រោមឡើងលើត្រឹមត្រូវ ១០០% លើ Safari / iOS */
+/* បង្វិលក្បាលតារាងអានពីក្រោមឡើងលើត្រឹមត្រូវ ១០០% លើ Safari / iOS មិនក្រឡាប់ទទឹងតារាងឡើយ */
 .th-rot {
   white-space: nowrap !important;
-  height: 110px !important;
+  height: 120px !important;
   width: 28px !important;
   min-width: 28px !important;
   max-width: 28px !important;
@@ -216,13 +218,16 @@ td input.t{width:120px;text-align:start}
 }
 .th-rot-txt {
   writing-mode: vertical-rl !important;
-  transform: rotate(180deg) !important;
-  -webkit-transform: rotate(180deg) !important;
-  display: inline-block !important;
+  -webkit-writing-mode: vertical-rl !important;
+  text-orientation: mixed !important;
   white-space: nowrap !important;
-  padding: 6px 2px !important;
+  width: 28px !important;
+  height: 118px !important;
+  line-height: 28px !important;
+  margin: 0 auto !important;
   font-size: 11px !important;
-  line-height: 1.2 !important;
+  letter-spacing: 0px !important;
+  overflow: visible !important;
 }
 .th-rot-sub {
   font-size: 10px;
@@ -275,36 +280,39 @@ td input.t{width:120px;text-align:start}
 .cert-director-sub {
   position: absolute;
   top: 40.5%;
-  left: 5%;
-  width: 90%;
+  left: 6%;
+  width: 88%;
   text-align: center;
   font-family: var(--title-font);
-  font-size: 18px;
+  font-size: 18.5px;
   color: #1e3a8a;
   line-height: 1.5;
 }
 
-/* តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត (កម្រិត 45% ទទឹងរីកដល់ 90% អក្សរធំដិតស្អាត មិនជាន់ពាក្យប័ណ្ណសរសើរឡើយ) */
+/* តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop (កម្រិត 45% ទទឹង 88% អក្សរធំដិតស្អាត) */
 .cert-auto-body {
   position: absolute;
   top: 45%;
-  left: 5%;
-  width: 90%;
+  left: 6%;
+  width: 88%;
   text-align: center;
   line-height: 1.85;
-  font-size: 19.5px;
+  font-size: 20.5px;
   font-weight: 700;
   color: #1e293b;
 }
-.cert-student-highlight {
-  font-family: var(--title-font);
-  font-size: 1.25em;
-  color: #b91c1c;
+
+/* អក្សរក្រហមចាក់អូតូ Khmer OS Muol Light */
+.cert-red-auto {
+  font-family: var(--title-font) !important;
+  color: #b91c1c !important;
+  font-weight: normal !important;
   display: inline-block;
-  padding: 0 4px;
-  line-height: 1.8 !important;
+  padding: 0 2px;
+  line-height: 1.7 !important;
   overflow: visible !important;
 }
+
 .cert-reason-text {
   margin-top: 4px;
 }
@@ -315,16 +323,16 @@ td input.t{width:120px;text-align:start}
   margin-top: 4px;
 }
 
-/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (រំកិលឡើងលើដល់ 95px និងរំកិលចូលក្នុងផុតស៊ុមសងខាង ទុកចន្លោះទំនេរធំទូលាយសម្រាប់បិទរូបថត 4x6 និងបោះត្រា) */
+/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (ប្រើ top: 68% រំកិលឡើងលើផុតពីស៊ុមខៀវបាតក្រោមស្មើ layout តួសេចក្តី) */
 .cert-auto-sign {
   position: absolute;
-  bottom: 95px;
-  left: 9%;
-  width: 82%;
+  top: 68%;
+  left: 8%;
+  width: 84%;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  font-size: 14px;
+  font-size: 14.5px;
   font-weight: 700;
   line-height: 1.5;
 }
@@ -340,7 +348,7 @@ td input.t{width:120px;text-align:start}
 }
 .cert-sign-role {
   font-family: var(--title-font);
-  font-size: 13.5px;
+  font-size: 14px;
   color: #0f172a;
   margin-top: 2px;
   line-height: 1.8 !important;
@@ -482,7 +490,7 @@ td input.t{width:120px;text-align:start}
     border: 1px dashed #94a3b8 !important;
     box-shadow: none !important;
   }
-  .cert-student-highlight, .inst-title, .role-title, .p1, .p2 {
+  .cert-red-auto, .inst-title, .role-title, .p1, .p2 {
     line-height: 1.8 !important;
     overflow: visible !important;
   }
@@ -511,7 +519,7 @@ const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
 
 // បញ្ជីស៊ុមក្បាច់ស្រាប់ ដាក់ស៊ុមថ្មី border_3_blue1.png ពី Photoshop ជាជម្រើសដំបូង
 const BUILTIN_BORDERS = [
-  { id: 'b0', name: 'ក្បាច់ខៀវស្នូក (Template ថ្មី Photoshop)', url: 'borders/border_3_blue1.png' },
+  { id: 'b0', name: 'ក្បាច់ខៀវស្នូក', url: 'borders/border_3_blue1.png' },
   { id: 'b1', name: 'ក្បាច់ផ្កាភ្ញីមាស', url: 'borders/Border ArtworkCreative (8).jpg' },
   { id: 'b2', name: 'ក្បាច់រចនាខៀវ (មានស្នូក)', url: 'borders/Krou-IT168 (13).jpg' },
   { id: 'b3', name: 'ក្បាច់រចនាខៀវបុរាណ', url: 'borders/Krou-IT168 (15).jpg' },
@@ -562,7 +570,7 @@ function setSelectedBorder(url){
 }
 
 let showBorderModal = false;
-let borderModalTab = 'photoshop'; // 'photoshop' ឬ 'general'
+let borderModalTab = 'ready'; // 'ready' (ប័ណ្ណសរសើរគំរូស្រាប់) ឬ 'general' (ជ្រើសរើសម៉ូដស៊ុម)
 
 async function sbFetch(path, opts = {}){
   const headers = {
@@ -970,7 +978,7 @@ function save(){
       sbPushUser({
         username: u,
         fullname: acc.fullname,
-        salt: acc.salt,
+        salt: b64(salt),
         check: acc.check,
         data: acc.data,
         status: acc.status || 'active',
@@ -1275,20 +1283,20 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   }
 }
 
-// ក្បាលលិខិតជាតិ Table Layout (ព្រះរាជាណាចក្រកម្ពុជានៅលើបង្អស់ដាច់គេ ឆ្វេងទម្លាក់ចុះក្រោមសមរម្យ)
+// ក្បាលលិខិតជាតិ Table Layout (ស្មើសងខាង Layout ស្អាតដូចគំរូរូប Safari.pdf ដក Logo ចេញ)
 function renderOfficialHeaderHTML(i){
   return `
     <table class="official-header-table">
       <tr>
-        <td style="width:38%;text-align:center;vertical-align:top;padding-top:22px !important">
-          <div style="font-size:13px;font-weight:bold;line-height:1.35">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
-          <div style="font-weight:bold;font-size:14px;line-height:1.35;margin-top:1px">${E(i.school || 'សាលារៀន')}</div>
+        <td style="width:42%;text-align:center;vertical-align:top;padding-top:16px !important">
+          <div style="font-size:13.5px;font-weight:bold;line-height:1.4">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+          <div style="font-weight:bold;font-size:14.5px;line-height:1.4;margin-top:2px">${E(i.school || 'សាលារៀន')}</div>
         </td>
-        <td style="width:24%"></td>
-        <td style="width:38%;text-align:center;vertical-align:top;padding-top:0 !important">
-          <div class="muol-title" style="font-size:16px">ព្រះរាជាណាចក្រកម្ពុជា</div>
-          <div class="muol-title" style="font-size:14px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-          <div style="font-size:12px;letter-spacing:4px">-0, -</div>
+        <td style="width:16%"></td>
+        <td style="width:42%;text-align:center;vertical-align:top;padding-top:0 !important">
+          <div class="muol-title" style="font-size:16px;line-height:1.4">ព្រះរាជាណាចក្រកម្ពុជា</div>
+          <div class="muol-title" style="font-size:14px;line-height:1.4">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+          <div style="font-size:12px;letter-spacing:4px;margin-top:2px">- 0 , -</div>
         </td>
       </tr>
     </table>
@@ -1526,7 +1534,7 @@ sc(){
     </tr>`;
   }).join('');
 
-  // សន្លឹក Print តារាងពិន្ទុប្រចាំខែ (A4 Landscape ពេញលេញ មានក្បាលលិខិត ស្ថិតិ និងហត្ថលេខា)
+  // សន្លឹក Print តារាងពិន្ទុប្រចាំខែ (A4 Landscape ពេញលេញ មានក្បាលលិខិត ថ្ងៃខែកំណើត ស្ថិតិ និងហត្ថលេខា)
   const rowsPrint = S.st.map((s,k) => {
     const a = (S.sc[mo] || {})[s.id] || [];
     const t = tot(s.id, mo);
@@ -1537,6 +1545,7 @@ sc(){
       <td>${k+1}</td>
       <td style="text-align:start;padding-left:6px;font-weight:bold">${E(s.name)}</td>
       <td>${s.sex==='ស'?'ស':'ប'}</td>
+      <td style="font-size:10px">${E(s.dob || '-')}</td>
       ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
       <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
@@ -1577,18 +1586,19 @@ sc(){
           <th rowspan="2" style="width:34px">ល.រ</th>
           <th rowspan="2" style="min-width:130px">គោត្តនាម និងនាម</th>
           <th rowspan="2" style="width:36px">ភេទ</th>
-          ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</span></th>`).join('')}
-          <th rowspan="2" class="th-rot" style="background:#f1f5f9"><span class="th-rot-txt">សរុប</span></th>
-          <th rowspan="2" class="th-rot" style="background:#fef3c7"><span class="th-rot-txt">មធ្យម</span></th>
-          <th rowspan="2" class="th-rot"><span class="th-rot-txt">ចំ.ថ្នាក់</span></th>
-          <th rowspan="2" class="th-rot"><span class="th-rot-txt">និទ្ទេស</span></th>
+          <th rowspan="2" style="width:85px">ថ្ងៃខែឆ្នាំកំណើត</th>
+          ${cols.map(c => `<th class="th-rot"><div class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</div></th>`).join('')}
+          <th rowspan="2" class="th-rot" style="background:#f1f5f9"><div class="th-rot-txt">សរុប</div></th>
+          <th rowspan="2" class="th-rot" style="background:#fef3c7"><div class="th-rot-txt">មធ្យម</div></th>
+          <th rowspan="2" class="th-rot"><div class="th-rot-txt">ចំ.ថ្នាក់</div></th>
+          <th rowspan="2" class="th-rot"><div class="th-rot-txt">និទ្ទេស</div></th>
         </tr>
         <tr>
           ${cols.map(c => `<th class="th-rot-sub">${c.m}</th>`).join('')}
         </tr>
       </thead>
       <tbody>
-        ${rowsPrint || '<tr><td colspan="37" style="padding:15px;color:#888">មិនទាន់មានសិស្ស</td></tr>'}
+        ${rowsPrint || '<tr><td colspan="38" style="padding:15px;color:#888">មិនទាន់មានសិស្ស</td></tr>'}
       </tbody>
     </table>
 
@@ -1750,6 +1760,7 @@ examScore(){
       <td>${k+1}</td>
       <td style="text-align:start;padding-left:6px;font-weight:bold">${E(s.name)}</td>
       <td>${s.sex==='ស'?'ស':'ប'}</td>
+      <td style="font-size:10px">${E(s.dob || '-')}</td>
       ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
       <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
@@ -1791,18 +1802,19 @@ examScore(){
           <th rowspan="2" style="width:34px">ល.រ</th>
           <th rowspan="2" style="min-width:130px">គោត្តនាម និងនាម</th>
           <th rowspan="2" style="width:36px">ភេទ</th>
-          ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</span></th>`).join('')}
-          <th rowspan="2" class="th-rot" style="background:#f1f5f9"><span class="th-rot-txt">សរុបប្រឡង</span></th>
-          <th rowspan="2" class="th-rot" style="background:#fef3c7"><span class="th-rot-txt">មធ្យមប្រឡង</span></th>
-          <th rowspan="2" class="th-rot"><span class="th-rot-txt">ចំ.ថ្នាក់</span></th>
-          <th rowspan="2" class="th-rot"><span class="th-rot-txt">និទ្ទេស</span></th>
+          <th rowspan="2" style="width:85px">ថ្ងៃខែឆ្នាំកំណើត</th>
+          ${cols.map(c => `<th class="th-rot"><div class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</div></th>`).join('')}
+          <th rowspan="2" class="th-rot" style="background:#f1f5f9"><div class="th-rot-txt">សរុបប្រឡង</div></th>
+          <th rowspan="2" class="th-rot" style="background:#fef3c7"><div class="th-rot-txt">មធ្យមប្រឡង</div></th>
+          <th rowspan="2" class="th-rot"><div class="th-rot-txt">ចំ.ថ្នាក់</div></th>
+          <th rowspan="2" class="th-rot"><div class="th-rot-txt">និទ្ទេស</div></th>
         </tr>
         <tr>
           ${cols.map(c => `<th class="th-rot-sub">${c.m}</th>`).join('')}
         </tr>
       </thead>
       <tbody>
-        ${rowsPrint || '<tr><td colspan="37" style="padding:15px;color:#888">មិនទាន់មានសិស្ស</td></tr>'}
+        ${rowsPrint || '<tr><td colspan="38" style="padding:15px;color:#888">មិនទាន់មានសិស្ស</td></tr>'}
       </tbody>
     </table>
 
@@ -1857,6 +1869,7 @@ sem(){
       <td>${k+1}</td>
       <td style="text-align:start;padding-left:6px;font-weight:bold">${E(s.name)}</td>
       <td>${s.sex==='ស'?'ស':'ប'}</td>
+      <td style="font-size:10px">${E(s.dob || '-')}</td>
       ${ms.map(m => `<td>${tot(s.id,m) > 0 ? av(s.id,m).toFixed(2) : '-'}</td>`).join('')}
       <td style="font-weight:bold">${s.mAv > 0 ? s.mAv.toFixed(2) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${s.examAv > 0 ? s.examAv.toFixed(2) : '-'}</td>
@@ -1906,6 +1919,7 @@ sem(){
           <th>ល.រ</th>
           <th style="min-width:130px">គោត្តនាម-នាម</th>
           <th>ភេទ</th>
+          <th style="width:85px">ថ្ងៃខែឆ្នាំកំណើត</th>
           ${ms.map(m => `<th>ខែ${MO[m]}</th>`).join('')}
           <th>មធ្យមខែ</th>
           <th style="background:#fef3c7">ប្រឡងឆមាស</th>
@@ -1914,7 +1928,7 @@ sem(){
           <th>លទ្ធផល</th>
         </tr>
       </thead>
-      <tbody>${rowsPrint || '<tr><td colspan="14" style="padding:15px;color:#888">មិនមានសិស្ស</td></tr>'}</tbody>
+      <tbody>${rowsPrint || '<tr><td colspan="15" style="padding:15px;color:#888">មិនមានសិស្ស</td></tr>'}</tbody>
     </table>
 
     <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
@@ -2184,14 +2198,19 @@ cert(){
             នាយក${currentLevelLabel} ${E(i.school || '....................')}
           </div>
 
-          <!-- តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត (កម្រិត 45% អក្សរធំដិត មិនជាន់ពាក្យប័ណ្ណសរសើរឡើយ) -->
+          <!-- តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop (កម្រិត 45% អក្សរធំដិត ស្មើ Layout សងខាង) -->
           <div class="cert-auto-body">
-            <div>សូមសរសើរចំពោះ៖ សិស្សឈ្មោះ <b>${E(s.name)}</b> ភេទ <b>${s.sex==='ស'?'ស្រី':'ប្រុស'}</b> ${s.dob ? `កើតនៅថ្ងៃទី <b>${E(s.dob)}</b>` : ''} រៀននៅថ្នាក់ទី <b>${E(i.cls || '...')}</b></div>
+            <div>
+              សូមសរសើរចំពោះ៖ សិស្សឈ្មោះ <span class="cert-red-auto">${E(s.name)}</span>
+              ភេទ <span class="cert-red-auto">${s.sex==='ស'?'ស្រី':'ប្រុស'}</span>
+              ${s.dob ? `កើតនៅថ្ងៃទី <span class="cert-red-auto">${E(s.dob)}</span>` : ''}
+              រៀននៅថ្នាក់ទី <span class="cert-red-auto">${E(i.cls || '...')}</span>
+            </div>
 
             <div class="cert-reason-text">
-              ដែលទទួលបានលទ្ធផលល្អក្នុងការសិក្សា និងទទួលបានចំណាត់ថ្នាក់លេខ <b>${toKhNum(idx + 1)}</b>
-              ${s.av > 0 ? `( មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b> )` : ''}
-              <div style="margin-top:4px">ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b></div>
+              ដែលទទួលបានលទ្ធផលល្អក្នុងការសិក្សា និងទទួលបានចំណាត់ថ្នាក់លេខ <span class="cert-red-auto">${toKhNum(idx + 1)}</span>
+              ${s.av > 0 ? `( មធ្យមភាគ <span class="cert-red-auto">${toKhNum(s.av.toFixed(2))}</span> និទ្ទេស <span class="cert-red-auto">${getGradeLetter(s.av, s.tot)}</span> )` : ''}
+              <div style="margin-top:4px">ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <span class="cert-red-auto">${toKhNum(currentYear)}</span></div>
             </div>
 
             <div class="cert-bless-text">
@@ -2199,7 +2218,7 @@ cert(){
             </div>
           </div>
 
-          <!-- កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (រំកិលឡើងលើដល់ 95px និងរំកិលចូលក្នុងផុតស៊ុមសងខាង ទុកចន្លោះទំនេរធំទូលាយសម្រាប់បិទរូបថត 4x6 និងបោះត្រា) -->
+          <!-- កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (ប្រើ top: 68% រំកិលឡើងលើផុតពីស៊ុមខៀវបាតក្រោម ស្មើ layout តួសេចក្តី) -->
           <div class="cert-auto-sign">
             <div class="cert-sign-left">
               <div>បានឃើញ និងឯកភាព</div>
@@ -2217,7 +2236,7 @@ cert(){
     </div>
   `).join('');
 
-  // បំបែកបញ្ជីស៊ុមជា ២ Folder
+  // បំបែកបញ្ជីស៊ុមជា ២ Folder (Tab ១: ប័ណ្ណសរសើរគំរូស្រាប់, Tab ២: ជ្រើសរើសម៉ូដស៊ុម)
   const psBorders = [BUILTIN_BORDERS[0], ...customLib];
   const generalBorders = BUILTIN_BORDERS.slice(1);
 
@@ -2247,11 +2266,11 @@ cert(){
         </div>
 
         <div class="modal-tabs">
-          <button class="modal-tab-btn ${borderModalTab==='photoshop'?'active':''}" onclick="borderModalTab='photoshop';R()">🎨 ប័ណ្ណសរសើរគំរូស្រាប់ (Photoshop)</button>
+          <button class="modal-tab-btn ${borderModalTab==='ready'?'active':''}" onclick="borderModalTab='ready';R()">🎨 ប័ណ្ណសរសើរគំរូស្រាប់</button>
           <button class="modal-tab-btn ${borderModalTab==='general'?'active':''}" onclick="borderModalTab='general';R()">🖼️ ជ្រើសរើសម៉ូដស៊ុម</button>
         </div>
 
-        ${borderModalTab === 'photoshop' ? `
+        ${borderModalTab === 'ready' ? `
           <div class="border-grid-thumb">
             ${psBorders.map(b => `
               <div class="border-thumb-item ${selectedBorder===b.url ? 'active' : ''}" onclick="setSelectedBorder('${b.url}');showBorderModal=false;R()">
