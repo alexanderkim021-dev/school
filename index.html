@@ -261,21 +261,34 @@ td input.t{width:120px;text-align:start}
   outline-offset: -14px;
 }
 
-/* តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត */
+/* ពាក្យនាយក... ក្រោមពាក្យប័ណ្ណសរសើរ */
+.cert-director-sub {
+  position: absolute;
+  top: 26.5%;
+  left: 10%;
+  width: 80%;
+  text-align: center;
+  font-family: var(--title-font);
+  font-size: 15px;
+  color: #1e3a8a;
+  line-height: 1.6;
+}
+
+/* តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត (Battambang/Kantumruy Bold ជិតល្មម) */
 .cert-auto-body {
   position: absolute;
-  top: 36%;
-  left: 12%;
-  width: 76%;
+  top: 34%;
+  left: 10%;
+  width: 80%;
   text-align: center;
-  line-height: 2.3;
+  line-height: 1.85;
   font-size: 15.5px;
   font-weight: 700;
   color: #1e293b;
 }
 .cert-student-highlight {
   font-family: var(--title-font);
-  font-size: 1.3em;
+  font-size: 1.25em;
   color: #b91c1c;
   display: inline-block;
   padding: 0 4px;
@@ -283,21 +296,21 @@ td input.t{width:120px;text-align:start}
   overflow: visible !important;
 }
 .cert-reason-text {
-  margin-top: 4px;
+  margin-top: 3px;
 }
 .cert-bless-text {
-  font-size: 0.9em;
-  font-weight: 600;
-  color: #334155;
-  margin-top: 6px;
+  font-size: 0.92em;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 4px;
 }
 
-/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម */
+/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (រំកិលឡើងលើទុកចន្លោះទំនេរធំទូលាយសម្រាប់បោះត្រា) */
 .cert-auto-sign {
   position: absolute;
-  bottom: 48px;
-  left: 12%;
-  width: 76%;
+  bottom: 60px;
+  left: 10%;
+  width: 80%;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -305,11 +318,17 @@ td input.t{width:120px;text-align:start}
   font-weight: 700;
   line-height: 1.5;
 }
-.cert-sign-box {
-  width: 240px;
+.cert-sign-left {
+  width: 250px;
   text-align: center;
+  margin-top: 14px; /* ខាងឆ្វេងចុះក្រោមបន្តិច */
 }
-.cert-sign-box .role-title {
+.cert-sign-right {
+  width: 250px;
+  text-align: center;
+  margin-top: 0;    /* ខាងស្តាំឡើងខ្ពស់ជាង */
+}
+.cert-sign-role {
   font-family: var(--title-font);
   font-size: 13px;
   color: #0f172a;
@@ -317,43 +336,35 @@ td input.t{width:120px;text-align:start}
   line-height: 1.8 !important;
   overflow: visible !important;
 }
-.cert-sign-box .teacher-name {
-  margin-top: 40px;
+.cert-sign-name {
+  margin-top: 36px;
   font-weight: 800;
   font-size: 14.5px;
 }
 
-/* Modal បណ្ណាល័យស៊ុមក្បាច់ */
-.modal-overlay {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(15, 23, 42, 0.65);
-  display: flex; align-items: center; justify-content: center;
-  z-index: 9999; backdrop-filter: blur(3px);
+/* កាតសម្គាល់ខ្លួនសិស្ស (A6 បញ្ឈរ Print លើ A4 បញ្ឈរ) */
+.idcard-a4-page {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  padding: 10px;
+  background: #fff;
 }
-.modal-box {
-  background: #fff; border-radius: 18px; padding: 20px;
-  width: 90%; max-width: 720px; max-height: 85vh;
-  overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
-}
-.border-grid-thumb {
-  display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px; margin: 14px 0;
-}
-.border-thumb-item {
-  border: 2px solid var(--bd); border-radius: 10px; padding: 4px;
-  cursor: pointer; transition: 0.15s; background: #f8fafc; text-align: center;
-  position: relative;
-}
-.border-thumb-item:hover, .border-thumb-item.active {
-  border-color: var(--ac); box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
-}
-.border-thumb-item img {
-  width: 100%; height: 90px; object-fit: contain; border-radius: 6px; background: #fff;
-}
-.border-thumb-item .thumb-del {
-  position: absolute; top: -6px; right: -6px; background: var(--rd);
-  color: #fff; border: 0; border-radius: 50%; width: 22px; height: 22px;
-  font-size: 12px; font-weight: bold; cursor: pointer; line-height: 22px; padding: 0;
+.id-card-a6 {
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 105 / 148;
+  border: 2px solid var(--bd);
+  border-radius: 12px;
+  padding: 14px 10px;
+  text-align: center;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* @media print ស្ដង់ដារទម្រង់រដ្ឋបាល */
@@ -393,14 +404,24 @@ td input.t{width:120px;text-align:start}
     page-break-inside: avoid;
     box-sizing: border-box !important;
   }
+  .idcard-a4-page {
+    width: 210mm !important;
+    height: 297mm !important;
+    padding: 10mm !important;
+    gap: 8mm !important;
+    page-break-after: always;
+    page-break-inside: avoid;
+  }
+  .id-card-a6 {
+    border: 1px dashed #94a3b8 !important;
+    box-shadow: none !important;
+  }
   .cert-student-highlight, .inst-title, .role-title, .p1, .p2 {
     line-height: 1.8 !important;
     overflow: visible !important;
   }
   .print-page{page-break-after:always}
 }
-.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
-.id-card{border:2px solid var(--bd);border-radius:14px;padding:14px;text-align:center;background:#fff;box-shadow:0 2px 6px rgba(0,0,0,0.05)}
 </style></head><body>
 
 <div id="updBanner" class="update-banner">
@@ -422,7 +443,7 @@ const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
 const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
 
-// បញ្ជីស៊ុមក្បាច់ស្រាប់ ដាក់ស៊ុមថ្មី border_3_blue1.png ពី Photoshop ជាជម្រើសដំបូង[span_0](start_span)[span_0](end_span)
+// បញ្ជីស៊ុមក្បាច់ស្រាប់ ដាក់ស៊ុមថ្មី border_3_blue1.png ពី Photoshop ជាជម្រើសដំបូង
 const BUILTIN_BORDERS = [
   { id: 'b0', name: 'ក្បាច់ខៀវស្នូក (Template ថ្មី Photoshop)', url: 'borders/border_3_blue1.png' },
   { id: 'b1', name: 'ក្បាច់ផ្កាភ្ញីមាស', url: 'borders/Border ArtworkCreative (8).jpg' },
@@ -440,7 +461,7 @@ function getLogoSrc(){
   return DEFAULT_MOEYS_LOGO;
 }
 
-// មុខងារ Auto-Scale ទ្រទ្រង់ទូរស័ព្ទបញ្ឈរឱ្យឃើញស៊ុមពេញ ១០០%[span_1](start_span)[span_1](end_span)
+// មុខងារ Auto-Scale ទ្រទ្រង់ទូរស័ព្ទបញ្ឈរឱ្យឃើញស៊ុមពេញ ១០០%
 function updateCertScale(){
   const stage = document.querySelector('.cert-responsive-stage');
   const wrappers = document.querySelectorAll('.cert-scaler-wrapper');
@@ -651,7 +672,7 @@ const USER_RE = /^[a-z0-9_.-]{3,30}$/;
 
 const ACCKEY = 'sms_accounts_v7';
 const THEME_KEY = 'sms_theme_settings_v4';
-const ORDER_KEY = 'sms_btn_order_v11';
+const ORDER_KEY = 'sms_btn_order_v12';
 const LAST_YEAR_KEY = 'sms_last_selected_year_v1';
 
 // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem
@@ -788,7 +809,7 @@ async function unlock(u, pw){
 
 let SESSION = null;
 let currentYear = localStorage.getItem(LAST_YEAR_KEY) || '២០២៥ - ២០២៦';
-let currentLevel = localStorage.getItem(LAST_LEVEL_KEY) || 'secondary'; // ចងចាំកម្រិតថ្នាក់រហូត[span_2](start_span)[span_2](end_span)
+let currentLevel = localStorage.getItem(LAST_LEVEL_KEY) || 'secondary'; // ចងចាំកម្រិតថ្នាក់រហូត
 let allYearsData = {};
 
 function emptyLevelData(lbl, yr){
@@ -1072,7 +1093,7 @@ const go = p => { pg = p; R(); scrollTo(0,0); };
 function switchLevel(lvl){
   if (currentLevel === lvl) return;
   currentLevel = lvl;
-  localStorage.setItem(LAST_LEVEL_KEY, lvl); // ចងចាំកម្រិតថ្នាក់ជាប់ជានិច្ច[span_3](start_span)[span_3](end_span)
+  localStorage.setItem(LAST_LEVEL_KEY, lvl); // ចងចាំកម្រិតថ្នាក់ជាប់ជានិច្ច
   getS().info.div = getDiv(currentLevel, getS().info.stream);
   save();
   R();
@@ -1105,7 +1126,7 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & កាត់ផ្ទៃប្រផេះចោល ១០០%)[span_4](start_span)[span_4](end_span)
+// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & កាត់ផ្ទៃប្រផេះចោល ១០០%)
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
@@ -1115,7 +1136,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   if (isStandalone && typeof html2pdf !== 'undefined') {
     setStatus('កំពុងបង្កើត PDF A4...');
     
-    // ចង្អុលចំតួប័ណ្ណសរសើរផ្ទាល់កុំឱ្យជាប់ផ្ទៃប្រផេះ និងដោះ Scale បណ្តោះអាសន្ន[span_5](start_span)[span_5](end_span)
+    // ចង្អុលចំតួប័ណ្ណសរសើរផ្ទាល់កុំឱ្យជាប់ផ្ទៃប្រផេះ និងដោះ Scale បណ្តោះអាសន្ន
     const printTarget = element.querySelector('.cert-page-a4') || element;
     const wrapper = element.querySelector('.cert-scaler-wrapper');
     const oldTransform = wrapper ? wrapper.style.transform : '';
@@ -1178,7 +1199,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       styleSheet.id = 'dynamicPrintStyle';
       document.head.appendChild(styleSheet);
     }
-    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ[span_6](start_span)[span_6](end_span)
+    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ
     styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: ${isLandscape ? '0mm' : '8mm 12mm'} !important; } }`;
     setTimeout(() => window.print(), 100);
   }
@@ -1347,7 +1368,7 @@ home(){
   const touchCls = getTheme().touch || 'touch-3d';
   const logoSrc = getLogoSrc();
 
-  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem[span_7](start_span)[span_7](end_span)
+  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
     stu: {cls:'bl', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
@@ -1967,7 +1988,8 @@ stu(){
       <td><input type="text" placeholder="ឈ្មោះឪពុក" value="${E(s.fa || '')}" onchange="setStuProp(${s.id}, 'fa', this.value)" style="width:110px;text-align:start"></td>
       <td><input type="text" placeholder="ឈ្មោះម្តាយ" value="${E(s.mo || '')}" onchange="setStuProp(${s.id}, 'mo', this.value)" style="width:110px;text-align:start"></td>
       <td><input type="text" placeholder="លេខទូរស័ព្ទ" value="${E(s.phn || '')}" onchange="setStuProp(${s.id}, 'phn', this.value)" style="width:105px;text-align:start"></td>
-      <td><input type="text" placeholder="អាសយដ្ឋានបច្ចុប្បន្ន" value="${E(s.addr || '')}" onchange="setStuProp(${s.id}, 'addr', this.value)" style="width:150px;text-align:start"></td>
+      <td><input type="text" placeholder="អាសយដ្ឋានបច្ចុប្បន្ន" value="${E(s.addr || '')}" onchange="setStuProp(${s.id}, 'addr', this.value)" style="width:140px;text-align:start"></td>
+      <td><input type="text" placeholder="ផ្សេងៗ (Notes)" value="${E(s.note || '')}" onchange="setStuProp(${s.id}, 'note', this.value)" style="width:120px;text-align:start"></td>
       <td style="width:50px"><button class="x" onclick="del(${s.id})">លុប</button></td>
     </tr>
   `).join('');
@@ -1982,6 +2004,7 @@ stu(){
     <input id="nmo" lang="km" placeholder="ឈ្មោះម្តាយ">
     <input id="nphn" type="tel" placeholder="លេខទូរស័ព្ទ">
     <input id="naddr" lang="km" placeholder="អាសយដ្ឋាន (ភូមិ/ឃុំ)">
+    <input id="nnote" lang="km" placeholder="ផ្សេងៗ">
     <button class="bt" onclick="addS()">➕ បន្ថែមសិស្ស</button>
   </div>
   <small class="mu">💡 ត្រង់ថ្ងៃខែឆ្នាំកំណើត គ្រាន់តែវាយលេខជាប់គ្នាដូចជា <b>06022015</b> ឬ <b>06/02/2015</b> វានឹងចេញជា <b>០៦ កុម្ភៈ ២០១៥</b> ភ្លាមៗ។</small>
@@ -2001,16 +2024,17 @@ stu(){
           <th style="width:50px">រូប</th>
           <th class="sn">គោត្តនាម-នាម</th>
           <th style="width:75px">ភេទ</th>
-          <th style="width:150px">ថ្ងៃខែឆ្នាំកំណើត</th>
+          <th style="width:145px">ថ្ងៃខែឆ្នាំកំណើត</th>
           <th>ឈ្មោះឪពុក</th>
           <th>ឈ្មោះម្តាយ</th>
           <th>លេខទូរស័ព្ទ</th>
           <th>អាសយដ្ឋាន</th>
+          <th>ផ្សេងៗ</th>
           <th style="width:50px"></th>
         </tr>
       </thead>
       <tbody>
-        ${rows || '<tr><td colspan="10" class="em">មិនទាន់មានសិស្សក្នុងឆ្នាំសិក្សា ' + currentYear + '</td></tr>'}
+        ${rows || '<tr><td colspan="11" class="em">មិនទាន់មានសិស្សក្នុងឆ្នាំសិក្សា ' + currentYear + '</td></tr>'}
       </tbody>
     </table></div>
   </div>`;
@@ -2065,6 +2089,13 @@ cert(){
   const customLib = getBorderLibrary();
   const allBorders = [...BUILTIN_BORDERS, ...customLib];
 
+  const levelTitles = {
+    primary: 'សាលាបឋមសិក្សា',
+    secondary: 'អនុវិទ្យាល័យ',
+    high: 'វិទ្យាល័យ'
+  };
+  const currentLevelLabel = levelTitles[currentLevel] || 'សាលារៀន';
+
   let list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
     .filter(s => s.tot > 0)
     .sort((a,b) => b.av - a.av);
@@ -2079,20 +2110,18 @@ cert(){
       <div class="cert-scaler-wrapper">
         <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
           
+          <!-- ចំណងជើងរងក្រោមប័ណ្ណសរសើរធំ -->
+          <div class="cert-director-sub">
+            នាយក${currentLevelLabel} ${E(i.school || '....................')}
+          </div>
+
           <!-- តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop តាមគំរូរូបពិត -->
           <div class="cert-auto-body">
-            <div>សូមសរសើរចំពោះ៖</div>
-
-            <div style="margin: 4px 0 2px">
-              សិស្សឈ្មោះ៖ <span class="cert-student-highlight">${E(s.name)}</span>
-              ភេទ <b>${s.sex==='ស'?'ស្រី':'ប្រុស'}</b>
-              ${s.dob ? `កើតនៅថ្ងៃទី <b>${E(s.dob)}</b>` : ''}
-              រៀននៅថ្នាក់ទី <b>${E(i.cls || '...')}</b>
-            </div>
+            <div>សូមសរសើរចំពោះ៖ សិស្សឈ្មោះ <b>${E(s.name)}</b> ភេទ <b>${s.sex==='ស'?'ស្រី':'ប្រុស'}</b> ${s.dob ? `កើតនៅថ្ងៃទី <b>${E(s.dob)}</b>` : ''} រៀននៅថ្នាក់ទី <b>${E(i.cls || '...')}</b></div>
 
             <div class="cert-reason-text">
               ដែលទទួលបានលទ្ធផលល្អក្នុងការសិក្សា និងទទួលបានចំណាត់ថ្នាក់លេខ <b>${toKhNum(idx + 1)}</b>
-              ${s.av > 0 ? `(មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b>)` : ''}
+              ${s.av > 0 ? `( មធ្យមភាគ <b>${toKhNum(s.av.toFixed(2))}</b> និទ្ទេស <b>${getGradeLetter(s.av, s.tot)}</b> )` : ''}
               ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <b>${toKhNum(currentYear)}</b>
             </div>
 
@@ -2101,16 +2130,16 @@ cert(){
             </div>
           </div>
 
-          <!-- កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម -->
+          <!-- កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (រំកិលឡើងលើទុកចន្លោះទំនេរធំទូលាយសម្រាប់បោះត្រា) -->
           <div class="cert-auto-sign">
-            <div class="cert-sign-box">
+            <div class="cert-sign-left">
               <div>បានឃើញ និងឯកភាព</div>
-              <div class="role-title">នាយកសាលា</div>
+              <div class="cert-sign-role">នាយក${currentLevelLabel}</div>
             </div>
-            <div class="cert-sign-box">
+            <div class="cert-sign-right">
               <div>ថ្ងៃ...................ខែ............ឆ្នាំ២០២...</div>
-              <div class="role-title">គ្រូបន្ទុកថ្នាក់</div>
-              <div class="teacher-name">${E(i.teacher || '')}</div>
+              <div class="cert-sign-role">គ្រូបន្ទុកថ្នាក់</div>
+              <div class="cert-sign-name">${E(i.teacher || '')}</div>
             </div>
           </div>
 
@@ -2171,22 +2200,45 @@ cert(){
 
 idcard(){
   const S = getS();
-  const cardsHtml = S.st.map(s => `
-    <div class="id-card">
-      <div style="font-size:12px;font-weight:bold;color:var(--ac);margin-bottom:4px">${E(S.info.school || 'សាលារៀន')}</div>
-      <div class="muol-title" style="font-size:13px;margin-bottom:8px">កាតសម្គាល់ខ្លួនសិស្ស</div>
-      <div style="width:70px;height:70px;border-radius:50%;margin:0 auto 8px;overflow:hidden;border:1px solid #ccc;background:#f8fafc">
-        ${s.ph ? `<img src="${s.ph}" style="width:100%;height:100%;object-fit:cover">` : '<div style="line-height:70px;color:#aaa">+</div>'}
-      </div>
-      <div style="font-size:15px;font-weight:bold;margin-bottom:4px">${E(s.name)}</div>
-      <div style="font-size:12px;color:var(--mu)">ភេទ៖ ${s.sex==='ស'?'ស្រី':'ប្រុស'} | ថ្នាក់៖ ${E(S.info.cls || '-')}</div>
-      <div style="font-size:11px;color:var(--mu);margin-top:4px">ឆ្នាំសិក្សា ${E(currentYear)}</div>
+  
+  // បែងចែកកាតជាក្រុមៗ ក្នុងមួយទំព័រ A4 បញ្ឈរផ្ទុកបាន ៤ កាត (A6 ២x២)
+  const chunks = [];
+  for (let idx = 0; idx < S.st.length; idx += 4) {
+    chunks.push(S.st.slice(idx, idx + 4));
+  }
+
+  const pagesHtml = chunks.map(chunk => `
+    <div class="idcard-a4-page print-page">
+      ${chunk.map(s => `
+        <div class="id-card-a6">
+          <div style="border-bottom:1px solid #cbd5e1;padding-bottom:6px">
+            <div style="font-size:11.5px;font-weight:bold;color:var(--ac);margin-bottom:2px">${E(S.info.school || 'សាលារៀន')}</div>
+            <div class="muol-title" style="font-size:12.5px;color:#1e3a8a">កាតសម្គាល់ខ្លួនសិស្ស</div>
+          </div>
+
+          <div style="margin:auto 0;padding:8px 0">
+            <div style="width:78px;height:78px;border-radius:50%;margin:0 auto 8px;overflow:hidden;border:2px solid #cbd5e1;background:#f8fafc">
+              ${s.ph ? `<img src="${s.ph}" style="width:100%;height:100%;object-fit:cover">` : '<div style="line-height:78px;color:#aaa;font-size:24px">+</div>'}
+            </div>
+            <div style="font-size:16px;font-weight:bold;color:#0f172a;margin-bottom:4px">${E(s.name)}</div>
+            <div style="font-size:12px;color:var(--mu);font-weight:600">ភេទ៖ ${s.sex==='ស'?'ស្រី':'ប្រុស'} | ថ្នាក់ទី៖ ${E(S.info.cls || '-')}</div>
+            <div style="font-size:11.5px;color:var(--mu);margin-top:2px">ថ្ងៃខែឆ្នាំកំណើត៖ ${E(s.dob || '-')}</div>
+          </div>
+
+          <div style="border-top:1px dashed #cbd5e1;padding-top:4px;font-size:11px;color:var(--mu);display:flex;justify-content:space-between">
+            <span>ឆ្នាំសិក្សា ${E(currentYear)}</span>
+            <span>នាយកសាលា</span>
+          </div>
+        </div>
+      `).join('')}
     </div>
   `).join('');
 
-  return head('កាតសម្គាល់ខ្លួនសិស្ស') + `<div class="card">
-  <div class="f"><button class="bt" onclick="executeStandardPrint('idCardPrintArea', 'កាតសម្គាល់ខ្លួនសិស្ស', false)">🖨️ បោះពុម្ព / ទាញយកជា PDF</button></div>
-  <div class="card-grid" id="idCardPrintArea">${cardsHtml || '<div class="em">មិនទាន់មានសិស្សក្នុងកម្រិតនេះ</div>'}</div>
+  return head('កាតសម្គាល់ខ្លួនសិស្ស (A6 / ៤ កាតលើ A4)') + `<div class="card">
+  <div class="f">
+    <button class="bt" onclick="executeStandardPrint('idCardPrintArea', 'កាតសម្គាល់ខ្លួនសិស្ស', false)">🖨️ បោះពុម្ពកាតលើ A4 បញ្ឈរ (៤ កាត/សន្លឹក)</button>
+  </div>
+  <div id="idCardPrintArea">${pagesHtml || '<div class="em">មិនទាន់មានសិស្សក្នុងកម្រិតនេះ</div>'}</div>
   </div>`;
 },
 
@@ -2476,13 +2528,14 @@ function addS(){
   const mo = $('#nmo').value.trim();
   const phn = $('#nphn').value.trim();
   const addr = $('#naddr').value.trim();
+  const note = ($('#nnote') ? $('#nnote').value : '').trim();
 
   if (!n) return alert('សូមបញ្ចូលឈ្មោះសិស្ស');
   const dobText = smartKhmerDate(rawDob);
 
   getS().st.push({
     id: getS().n++, name: n, sex: $('#ns').value,
-    dob: dobText, fa, mo, phn, addr
+    dob: dobText, fa, mo, phn, addr, note
   });
   save(); R();
 }
