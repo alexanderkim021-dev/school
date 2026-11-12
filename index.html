@@ -159,7 +159,7 @@ td input.t{width:120px;text-align:start}
 .cp-box{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .cp-box input[type="color"]{min-height:40px;width:54px;padding:2px;cursor:pointer;border-radius:8px}
 
-/* ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល (ព្រះរាជាណាចក្រកម្ពុជានៅដដែលមិនរំកិលទេ ឯខាងឆ្វេងរំកិលចុះក្រោមខ្លាំង) */
+/* ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល */
 .official-header {
   display: flex;
   justify-content: space-between;
@@ -209,7 +209,7 @@ td input.t{width:120px;text-align:start}
 }
 .exam-paper-table th { background: #f8fafc; font-weight: bold; }
 
-/* បង្វិលក្បាលតារាងអានពីក្រោមឡើងលើត្រឹមត្រូវ ១០០% តាមកូដចាស់ មិនក្រឡាប់ទទឹងតារាងឡើយ */
+/* បង្វិលក្បាលតារាងអានពីក្រោមឡើងលើត្រឹមត្រូវ ១០០% */
 .th-rot {
   white-space: nowrap !important;
   height: 115px !important;
@@ -276,28 +276,41 @@ td input.t{width:120px;text-align:start}
   outline-offset: -14px;
 }
 
-/* ពាក្យនាយក... នៅក្រោមពាក្យប័ណ្ណសរសើរធំក្រហម (កម្រិត 40.5% អក្សរធំល្មមសមាមាត្រ) */
-.cert-director-sub {
+/* ចាក់ឈ្មោះសាលា និងទីកន្លែងអូតូ ចំកណ្តាលខាងក្រោមពាក្យ មន្ទីរអប់រំ យុវជន និងកីឡា កៀកគ្នា */
+.cert-header-left-auto {
   position: absolute;
-  top: 40.5%;
-  left: 6%;
-  width: 88%;
+  top: 24.8%;
+  left: 11.2%;
+  width: 220px;
   text-align: center;
   font-family: var(--title-font);
-  font-size: 18.5px;
+  font-size: 12.5px;
   color: #1e3a8a;
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
-/* តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop (កម្រិត 45% ទទឹង 88% អក្សរធំដិតស្អាត) */
+/* ពាក្យនាយក... រំកិលឡើងលើមកកៀកពាក្យប័ណ្ណសរសើរធំក្រហម (37.2%) */
+.cert-director-sub {
+  position: absolute;
+  top: 37.2%;
+  left: 11%;
+  width: 78%;
+  text-align: center;
+  font-family: var(--title-font);
+  font-size: 16.5px;
+  color: #1e3a8a;
+  line-height: 1.45;
+}
+
+/* តួសេចក្តីស្វ័យប្រវត្តិ (រំកិលឡើងលើមក 41.5% និងបង្រួមទំហំមក 18.5px ទទឹង 78% កុំឱ្យជាន់ស៊ុមក្បាច់សងខាង) */
 .cert-auto-body {
   position: absolute;
-  top: 45%;
-  left: 6%;
-  width: 88%;
+  top: 41.5%;
+  left: 11%;
+  width: 78%;
   text-align: center;
-  line-height: 1.85;
-  font-size: 20.5px;
+  line-height: 1.78;
+  font-size: 18.5px;
   font-weight: 700;
   color: #1e293b;
 }
@@ -309,58 +322,58 @@ td input.t{width:120px;text-align:start}
   font-weight: normal !important;
   display: inline-block;
   padding: 0 2px;
-  line-height: 1.7 !important;
+  line-height: 1.65 !important;
   overflow: visible !important;
 }
 
 .cert-reason-text {
-  margin-top: 4px;
+  margin-top: 3px;
 }
 .cert-bless-text {
   font-size: 0.92em;
   font-weight: 700;
   color: #1e293b;
-  margin-top: 4px;
+  margin-top: 3px;
 }
 
-/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (ប្រើ top: 68% រំកិលឡើងលើផុតពីស៊ុមបាតក្រោម និងចូលក្នុង width: 76%; left: 12%; ផុតពីស៊ុមសងខាង ១០០%) */
+/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (រំកិលឡើងមក 63.5% កុំឱ្យប៉ះស៊ុមបាតក្រោម និងប្រអប់ 4x6) */
 .cert-auto-sign {
   position: absolute;
-  top: 68%;
+  top: 63.5%;
   left: 12%;
   width: 76%;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 700;
-  line-height: 1.5;
+  line-height: 1.45;
 }
 .cert-sign-left {
-  width: 310px;
+  width: 325px;
   text-align: center;
   margin-top: 0;
 }
 .cert-sign-right {
-  width: 310px;
+  width: 325px;
   text-align: center;
   margin-top: 0;
 }
 .cert-sign-role {
   font-family: var(--title-font);
-  font-size: 14px;
+  font-size: 13.5px;
   color: #0f172a;
   margin-top: 2px;
-  line-height: 1.8 !important;
+  line-height: 1.75 !important;
   overflow: visible !important;
 }
 .cert-sign-name {
-  margin-top: 38px;
+  margin-top: 34px;
   font-weight: 800;
-  font-size: 15px;
+  font-size: 14.5px;
 }
 
-/* Modal បណ្ណាល័យស៊ុមក្បាច់ (កម្ពស់ត្រឹម 58vh បង្ហាញពាក់កណ្តាលអេក្រង់ទូរស័ព្ទស្អាត មិនបាត់ក្បាល) */
+/* Modal បណ្ណាល័យស៊ុមក្បាច់ */
 .modal-overlay {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(15, 23, 42, 0.65);
@@ -430,7 +443,7 @@ td input.t{width:120px;text-align:start}
   box-sizing: border-box;
 }
 
-/* ទម្រង់បោះពុម្ពតារាងកិត្តិយស (Top 5) A4 Portrait ដូចគំរូរូបភាពពិត */
+/* ទម្រង់បោះពុម្ពតារាងកិត្តិយស (Top 5) A4 Portrait */
 .honor-poster-sheet {
   background: #fff;
   padding: 24px 20px 20px;
@@ -580,9 +593,15 @@ const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
 const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
 
-// បញ្ជីស៊ុមក្បាច់ស្រាប់ ដាក់ស៊ុមថ្មី border_3_blue1.png ពី Photoshop ជាជម្រើសដំបូង
+// បញ្ជីស៊ុមក្បាច់ស្រាប់ រួមបញ្ចូលទាំងស៊ុមថ្មីទាំង ៦ ដែលបាន Upload លើ GitHub
 const BUILTIN_BORDERS = [
   { id: 'b0', name: 'ក្បាច់ខៀវស្នូក', url: 'borders/border_3_blue1.png' },
+  { id: 'b_g1', name: 'ក្បាច់មាសទី ១', url: 'borders/border_3_gold1.png' },
+  { id: 'b_g2', name: 'ក្បាច់មាសទី ២', url: 'borders/border_3_gold2.png' },
+  { id: 'b_gr1', name: 'ក្បាច់បៃតងទី ១', url: 'borders/border_3_green1.png' },
+  { id: 'b_r1', name: 'ក្បាច់ក្រហមទី ១', url: 'borders/border_3_red1.png' },
+  { id: 'b_b4', name: 'ក្បាច់ខៀវគំរូ ៤', url: 'borders/border_4_blue1.png' },
+  { id: 'b_g4', name: 'ក្បាច់មាសគំរូ ៤', url: 'borders/border_4_gold1.png' },
   { id: 'b1', name: 'ក្បាច់ផ្កាភ្ញីមាស', url: 'borders/Border ArtworkCreative (8).jpg' },
   { id: 'b2', name: 'ក្បាច់រចនាខៀវ (មានស្នូក)', url: 'borders/Krou-IT168 (13).jpg' },
   { id: 'b3', name: 'ក្បាច់រចនាខៀវបុរាណ', url: 'borders/Krou-IT168 (15).jpg' },
@@ -703,7 +722,9 @@ const KH_NUMS = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
 const toKhNum = n => String(n).split('').map(d => KH_NUMS[d] || d).join('');
 const KH_MONTHS = ['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
 
-// អនុគមន៍គណនាកាលបរិច្ឆេទខ្មែរ ២ ជួរអូតូរាល់ថ្ងៃ និងមិនបាក់ជួរធ្លាក់ពាក្យ
+// អនុគមន៍គណនាកាលបរិច្ឆេទខ្មែរ ២ ជួរអូតូតាមទម្រង់គំរូ៖
+// ជួរទី ១៖ ថ្ងៃព្រហស្បតិ៍ ៣កើត ខែកត្តិក ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ
+// ជួរទី ២៖ ២៥៧០ ត្រូវនឹងថ្ងៃទី១២ ខែវិច្ឆិកា ឆ្នាំ២០២៦
 function getKhmerCurrentDate(){
   const now = new Date();
   const d = now.getDate();
@@ -724,8 +745,8 @@ function getKhmerCurrentDate(){
   const dayName = daysKh[dayOfWeek];
 
   return `
-    <div style="font-size:12.5px;font-weight:bold;white-space:nowrap">ថ្ងៃទី${toKhNum(String(d).padStart(2,'0'))} ខែ${KH_MONTHS[m]} ឆ្នាំ${toKhNum(y)}</div>
-    <div style="font-size:10.5px;margin-top:2px;white-space:nowrap">ត្រូវនឹងថ្ងៃ${dayName} ${moonPhase} ខែកត្តិក ឆ្នាំមមី អដ្ឋស័ក ព.ស.២៥៧០</div>
+    <div style="font-size:11px;font-weight:bold;white-space:nowrap">ថ្ងៃ${dayName} ${moonPhase} ខែកត្តិក ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ</div>
+    <div style="font-size:11.5px;font-weight:bold;margin-top:2px;white-space:nowrap">២៥៧០ ត្រូវនឹងថ្ងៃទី${toKhNum(String(d).padStart(2,'0'))} ខែ${KH_MONTHS[m]} ឆ្នាំ${toKhNum(y)}</div>
   `;
 }
 
@@ -808,7 +829,7 @@ const SUBJ_HIGH_SOCIAL = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 75]]},
   {n:'ភាសាបរទេស', s:[['ភាសា', 50]]},
   {n:'ផែនដីវិទ្យា', s:[['ផែនដី', 50]]},
-  {n:'វិទ្យាសាស្ត្រអនុវត្ត', s:[['វិទ្យា', 50]]},
+  {n:'វិទ្យាសាស្ត្រអនុុវត្ត', s:[['វិទ្យា', 50]]},
   {n:'គេហវិទ្យា/សេដ្ឋកិច្ច', s:[['សេដ្ឋកិច្ច', 50]]},
   {n:'អប់រំកាយ', s:[['កីឡា', 25]]}
 ];
@@ -976,7 +997,7 @@ async function unlock(u, pw){
 
 let SESSION = null;
 let currentYear = localStorage.getItem(LAST_YEAR_KEY) || '២០២៥ - ២០២៦';
-let currentLevel = localStorage.getItem(LAST_LEVEL_KEY) || 'secondary'; // ចងចាំកម្រិតថ្នាក់រហូត
+let currentLevel = localStorage.getItem(LAST_LEVEL_KEY) || 'secondary';
 allYearsData = {};
 
 function emptyLevelData(lbl, yr){
@@ -1052,7 +1073,6 @@ function setStatus(text, err){
   if (el) { el.textContent = text; el.classList.toggle('err', !!err); }
 }
 
-// មុខងារ save() ធានា Offline-First និង LocalStorage ១០០% គ្មាន Bug salt ទៀតឡើយ
 function save(){
   if (!SESSION || !allYearsData) return;
   const key = SESSION.key, u = SESSION.username, snapshot = JSON.stringify(allYearsData);
@@ -1064,13 +1084,12 @@ function save(){
       saveAccounts();
       setStatus('បានរក្សាទុក (Local) ✓');
 
-      // ធ្វើការ Sync ទៅ Cloud តែពេលមាន Internet បើគ្មាន Internet ក៏មិនបង្ក Error ឬគាំង Local ឡើយ
       if (navigator.onLine) {
         const acc = accounts[u];
         sbPushUser({
           username: u,
           fullname: acc.fullname,
-          salt: acc.salt, // កែតម្រូវប្រើ acc.salt ត្រឹមត្រូវ ១០០%
+          salt: acc.salt,
           check: acc.check,
           data: acc.data,
           status: acc.status || 'active',
@@ -1266,7 +1285,7 @@ const go = p => { pg = p; R(); scrollTo(0,0); };
 function switchLevel(lvl){
   if (currentLevel === lvl) return;
   currentLevel = lvl;
-  localStorage.setItem(LAST_LEVEL_KEY, lvl); // ចងចាំកម្រិតថ្នាក់រហូត
+  localStorage.setItem(LAST_LEVEL_KEY, lvl);
   getS().info.div = getDiv(currentLevel, getS().info.stream);
   save();
   R();
@@ -1299,7 +1318,7 @@ function addNewYearPrompt(){
   switchYear(yr);
 }
 
-// មុខងារ Print ដោយផ្ទាល់ (ដោះស្រាយបញ្ហា iPhone PWA & កាត់ផ្ទៃប្រផេះចោល ១០០% ពេញលេញ A4 Landscape 1123px x 794px)[span_13](start_span)[span_13](end_span)
+// មុខងារ Print ដោយផ្ទាល់
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
@@ -1309,7 +1328,6 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   if (isStandalone && typeof html2pdf !== 'undefined') {
     setStatus('កំពុងបង្កើត PDF A4...');
     
-    // ចង្អុលចំតួប័ណ្ណសរសើរផ្ទាល់កុំឱ្យជាប់ផ្ទៃប្រផេះ និងដោះ Scale បណ្តោះអាសន្ន
     const printTarget = element.querySelector('.cert-page-a4') || element;
     const wrapper = element.querySelector('.cert-scaler-wrapper');
     const oldTransform = wrapper ? wrapper.style.transform : '';
@@ -1372,13 +1390,12 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       styleSheet.id = 'dynamicPrintStyle';
       document.head.appendChild(styleSheet);
     }
-    // បង្ខំទម្រង់ A4 Landscape សម្រាប់ប្រឡងឆមាស/ប័ណ្ណសរសើរ និង A4 Portrait សម្រាប់ប្រចាំខែ/ប្រចាំឆ្នាំ[span_14](start_span)[span_14](end_span)
     styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: ${isLandscape ? '0mm' : '8mm 12mm'} !important; } }`;
     setTimeout(() => window.print(), 100);
   }
 }
 
-// ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល (ព្រះរាជាណាចក្រកម្ពុជានៅដដែលមិនរំកិលទេ ឯខាងឆ្វេងរំកិលចុះក្រោមខ្លាំង)[span_15](start_span)[span_15](end_span)
+// ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល
 function renderOfficialHeaderHTML(i){
   return `
     <div class="official-header">
@@ -1538,7 +1555,6 @@ home(){
   const touchCls = getTheme().touch || 'touch-3d';
   const logoSrc = getLogoSrc();
 
-  // បង្រួមប៊ូតុងឆមាសមកនៅតែមួយ sem[span_16](start_span)[span_16](end_span)
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
     stu: {cls:'bl', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
@@ -1627,7 +1643,6 @@ sc(){
     </tr>`;
   }).join('');
 
-  // សន្លឹក Print តារាងពិន្ទុប្រចាំខែ (A4 Landscape ពេញលេញ មានក្បាលលិខិត ថ្ងៃខែកំណើត ស្ថិតិ និងហត្ថលេខា)[span_17](start_span)[span_17](end_span)
   const rowsPrint = S.st.map((s,k) => {
     const a = (S.sc[mo] || {})[s.id] || [];
     const t = tot(s.id, mo);
@@ -2332,12 +2347,18 @@ cert(){
       <div class="cert-scaler-wrapper">
         <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
           
-          <!-- ចំណងជើងរងក្រោមប័ណ្ណសរសើរធំក្រហម (កម្រិត 40.5%) -->
+          <!-- ចាក់អូតូឈ្មោះសាលា និងទីកន្លែង ចំកណ្តាលខាងក្រោមពាក្យ មន្ទីរអប់រំ យុវជន និងកីឡា កៀកគ្នា -->
+          <div class="cert-header-left-auto">
+            <div>${currentLevelLabel} ${E(i.school || '....................')}</div>
+            ${i.province ? `<div style="font-size:11.5px;margin-top:1px">${E(i.province)}</div>` : ''}
+          </div>
+
+          <!-- ចំណងជើងរងក្រោមប័ណ្ណសរសើរធំក្រហម (រំកិលឡើងមក 37.2%) -->
           <div class="cert-director-sub">
             នាយក${currentLevelLabel} ${E(i.school || '....................')}
           </div>
 
-          <!-- តួសេចក្តីស្វ័យប្រវត្តិចាក់បំពេញលើ Template Photoshop (កម្រិត 45% ទទឹង 88% អក្សរធំដិត ស្មើ Layout សងខាង) -->
+          <!-- តួសេចក្តីស្វ័យប្រវត្តិ (រំកិលឡើងមក 41.5% ទទឹង 78% អក្សរ 18.5px មិនជាន់ស៊ុមសងខាង) -->
           <div class="cert-auto-body">
             <div>
               សូមសរសើរចំពោះ៖ សិស្សឈ្មោះ <span class="cert-red-auto">${E(s.name)}</span>
@@ -2349,7 +2370,7 @@ cert(){
             <div class="cert-reason-text">
               ដែលទទួលបានលទ្ធផលល្អក្នុងការសិក្សា និងទទួលបានចំណាត់ថ្នាក់លេខ <span class="cert-red-auto">${toKhNum(idx + 1)}</span>
               ${s.av > 0 ? `( មធ្យមភាគ <span class="cert-red-auto">${toKhNum(s.av.toFixed(2))}</span> និទ្ទេស <span class="cert-red-auto">${getGradeLetter(s.av, s.tot)}</span> )` : ''}
-              <div style="margin-top:4px">ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <span class="cert-red-auto">${toKhNum(currentYear)}</span></div>
+              <div style="margin-top:3px">ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <span class="cert-red-auto">${toKhNum(currentYear)}</span></div>
             </div>
 
             <div class="cert-bless-text">
@@ -2357,7 +2378,7 @@ cert(){
             </div>
           </div>
 
-          <!-- កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (ប្រើ top: 68% រំកិលឡើងលើផុតពីស៊ុមបាតក្រោម និងចូលក្នុង width: 76%; left: 12%; ផុតពីស៊ុមសងខាង ១០០%) -->
+          <!-- កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (រំកិលឡើងមក 63.5% ផុតពីស៊ុមបាតក្រោម និងប្រអប់ 4x6) -->
           <div class="cert-auto-sign">
             <div class="cert-sign-left">
               <div>បានឃើញ និងឯកភាព</div>
@@ -2377,8 +2398,8 @@ cert(){
   `).join('');
 
   // បំបែកបញ្ជីស៊ុមជា ២ Folder (Tab ១: ប័ណ្ណសរសើរគំរូស្រាប់, Tab ២: ជ្រើសរើសម៉ូដស៊ុម)
-  const psBorders = [BUILTIN_BORDERS[0], ...customLib];
-  const generalBorders = BUILTIN_BORDERS.slice(1);
+  const psBorders = [...BUILTIN_BORDERS.slice(0, 7), ...customLib];
+  const generalBorders = BUILTIN_BORDERS.slice(7);
 
   return head('បណ្ណសរសើរស្វ័យប្រវត្តិ (A4 Landscape)') + `<div class="card">
   <div class="f">
@@ -2447,7 +2468,6 @@ cert(){
 idcard(){
   const S = getS();
   
-  // បែងចែកកាតជាក្រុមៗ ក្នុងមួយទំព័រ A4 បញ្ឈរផ្ទុកបាន ៤ កាត (A6 ២x២)[span_18](start_span)[span_18](end_span)
   const chunks = [];
   for (let idx = 0; idx < S.st.length; idx += 4) {
     chunks.push(S.st.slice(idx, idx + 4));
@@ -2492,7 +2512,6 @@ theme(){
   const th = getTheme();
   const touchCls = th.touch || 'touch-3d';
 
-  // មុខងារជ្រើសរើស Theme Presets មួយចុចបានភ្លាម[span_19](start_span)[span_19](end_span)
   window.applyThemePreset = function(type){
     if (type === 'gold') {
       thUpdateMultiple({
