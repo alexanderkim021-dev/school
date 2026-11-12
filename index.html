@@ -276,41 +276,42 @@ td input.t{width:120px;text-align:start}
   outline-offset: -14px;
 }
 
-/* ចាក់ឈ្មោះសាលា និងទីកន្លែងអូតូ ចំកណ្តាលខាងក្រោមពាក្យ មន្ទីរអប់រំ យុវជន និងកីឡា កៀកគ្នា */
+/* ចាក់ឈ្មោះសាលា និងទីកន្លែងអូតូ ចំកណ្តាលខាងក្រោមពាក្យ មន្ទីរអប់រំ យុវជន និងកីឡា កៀកគ្នា (top: 31.5%) */
 .cert-header-left-auto {
   position: absolute;
-  top: 24.8%;
+  top: 31.5%;
   left: 11.2%;
-  width: 220px;
+  width: 230px;
   text-align: center;
   font-family: var(--title-font);
-  font-size: 12.5px;
+  font-size: 13px;
   color: #1e3a8a;
   line-height: 1.45;
+  white-space: nowrap;
 }
 
-/* ពាក្យនាយក... រំកិលឡើងលើមកកៀកពាក្យប័ណ្ណសរសើរធំក្រហម (37.2%) */
+/* ពាក្យនាយក... នៅក្រោមពាក្យប័ណ្ណសរសើរធំក្រហម (ពង្រីកឡើងដល់ 18px) */
 .cert-director-sub {
   position: absolute;
   top: 37.2%;
-  left: 11%;
-  width: 78%;
+  left: 9%;
+  width: 82%;
   text-align: center;
   font-family: var(--title-font);
-  font-size: 16.5px;
+  font-size: 18px;
   color: #1e3a8a;
   line-height: 1.45;
 }
 
-/* តួសេចក្តីស្វ័យប្រវត្តិ (រំកិលឡើងលើមក 41.5% និងបង្រួមទំហំមក 18.5px ទទឹង 78% កុំឱ្យជាន់ស៊ុមក្បាច់សងខាង) */
+/* តួសេចក្តីស្វ័យប្រវត្តិ (ពង្រីកឡើងដល់ 19.5px ទទឹង 82% អក្សរច្បាស់ល្អមិនជាន់ស៊ុមសងខាង) */
 .cert-auto-body {
   position: absolute;
   top: 41.5%;
-  left: 11%;
-  width: 78%;
+  left: 9%;
+  width: 82%;
   text-align: center;
-  line-height: 1.78;
-  font-size: 18.5px;
+  line-height: 1.8;
+  font-size: 19.5px;
   font-weight: 700;
   color: #1e293b;
 }
@@ -336,7 +337,7 @@ td input.t{width:120px;text-align:start}
   margin-top: 3px;
 }
 
-/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (រំកិលឡើងមក 63.5% កុំឱ្យប៉ះស៊ុមបាតក្រោម និងប្រអប់ 4x6) */
+/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (top: 63.5% ផុតពីស៊ុមបាតក្រោម និងប្រអប់ 4x6) */
 .cert-auto-sign {
   position: absolute;
   top: 63.5%;
@@ -2333,6 +2334,16 @@ cert(){
   };
   const currentLevelLabel = levelTitles[currentLevel] || 'សាលារៀន';
 
+  // រួមបញ្ចូលឈ្មោះសាលា និងទីកន្លែង/ខេត្ត ឱ្យរត់បន្តជួរតែមួយជាមួយកម្រិតថ្នាក់ (ឧ. អនុវិទ្យាល័យ កោះកុង)
+  const schoolVal = (i.school || '').trim();
+  const provVal = (i.province || '').trim();
+  let schoolDisplay = '';
+  if (schoolVal && provVal && !schoolVal.includes(provVal)) {
+    schoolDisplay = `${schoolVal} ${provVal}`;
+  } else {
+    schoolDisplay = schoolVal || provVal || '....................';
+  }
+
   let list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
     .filter(s => s.tot > 0)
     .sort((a,b) => b.av - a.av);
@@ -2347,18 +2358,17 @@ cert(){
       <div class="cert-scaler-wrapper">
         <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
           
-          <!-- ចាក់អូតូឈ្មោះសាលា និងទីកន្លែង ចំកណ្តាលខាងក្រោមពាក្យ មន្ទីរអប់រំ យុវជន និងកីឡា កៀកគ្នា -->
+          <!-- ចាក់អូតូឈ្មោះសាលា និងទីកន្លែង ចំកណ្តាលខាងក្រោមពាក្យ មន្ទីរអប់រំ យុវជន និងកីឡា កៀកគ្នា (top: 31.5%) -->
           <div class="cert-header-left-auto">
-            <div>${currentLevelLabel} ${E(i.school || '....................')}</div>
-            ${i.province ? `<div style="font-size:11.5px;margin-top:1px">${E(i.province)}</div>` : ''}
+            ${currentLevelLabel} ${E(schoolDisplay)}
           </div>
 
-          <!-- ចំណងជើងរងក្រោមប័ណ្ណសរសើរធំក្រហម (រំកិលឡើងមក 37.2%) -->
+          <!-- ចំណងជើងរងក្រោមប័ណ្ណសរសើរធំក្រហម (ពង្រីក 18px) -->
           <div class="cert-director-sub">
-            នាយក${currentLevelLabel} ${E(i.school || '....................')}
+            នាយក${currentLevelLabel} ${E(schoolDisplay)}
           </div>
 
-          <!-- តួសេចក្តីស្វ័យប្រវត្តិ (រំកិលឡើងមក 41.5% ទទឹង 78% អក្សរ 18.5px មិនជាន់ស៊ុមសងខាង) -->
+          <!-- តួសេចក្តីស្វ័យប្រវត្តិ (ពង្រីក 19.5px ទទឹង 82% អក្សរច្បាស់ល្អមិនជាន់ស៊ុមសងខាង) -->
           <div class="cert-auto-body">
             <div>
               សូមសរសើរចំពោះ៖ សិស្សឈ្មោះ <span class="cert-red-auto">${E(s.name)}</span>
@@ -2378,7 +2388,7 @@ cert(){
             </div>
           </div>
 
-          <!-- កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (រំកិលឡើងមក 63.5% ផុតពីស៊ុមបាតក្រោម និងប្រអប់ 4x6) -->
+          <!-- កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម (top: 63.5% ផុតពីស៊ុមបាតក្រោម និងប្រអប់ 4x6) -->
           <div class="cert-auto-sign">
             <div class="cert-sign-left">
               <div>បានឃើញ និងឯកភាព</div>
