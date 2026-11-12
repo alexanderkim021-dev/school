@@ -419,29 +419,174 @@ td input.t{width:120px;text-align:start}
   font-size: 12px; font-weight: bold; cursor: pointer; line-height: 22px; padding: 0;
 }
 
-/* កាតសម្គាល់ខ្លួនសិស្ស (A6 បញ្ឈរ Print លើ A4 បញ្ឈរ ៤ កាត/សន្លឹក) */
+/* កាតសម្គាល់ខ្លួនសិស្ស (A6 បញ្ឈរ Print លើ A4 បញ្ឈរ ៤ កាត/សន្លឹក - រចនាដូចគំរូផ្លូវការ ១០០%) */
 .idcard-a4-page {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  padding: 10px;
+  gap: 14px;
+  padding: 12px;
   background: #fff;
 }
 .id-card-a6 {
   width: 100%;
-  max-width: 340px;
+  max-width: 350px;
   aspect-ratio: 105 / 148;
-  border: 2px solid var(--bd);
-  border-radius: 12px;
-  padding: 14px 10px;
-  text-align: center;
+  border: 2.5px solid #1e3a8a;
+  border-radius: 4px;
+  padding: 10px 12px 12px;
   background: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.08);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin: 0 auto;
   box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  color: #0f172a;
+}
+.id-card-watermark {
+  position: absolute;
+  top: 56%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 185px;
+  height: 185px;
+  object-fit: contain;
+  opacity: 0.14;
+  pointer-events: none;
+  z-index: 0;
+}
+.id-card-header {
+  position: relative;
+  z-index: 1;
+  border-bottom: 2px solid #1e3a8a;
+  padding-bottom: 6px;
+}
+.id-card-head-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.id-card-logo {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+.id-card-kingdom {
+  flex: 1;
+  text-align: center;
+  line-height: 1.4;
+  color: #0f172a;
+}
+.id-card-kingdom .k1 {
+  font-family: var(--title-font);
+  font-size: 11.5px;
+}
+.id-card-kingdom .k2 {
+  font-family: var(--title-font);
+  font-size: 10.5px;
+}
+.id-card-dept {
+  text-align: center;
+  font-family: var(--title-font);
+  font-size: 10px;
+  color: #1e3a8a;
+  margin-top: 3px;
+  line-height: 1.35;
+}
+.id-card-body {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 6px;
+}
+.id-card-title-box {
+  text-align: center;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.id-card-title-box .t-main {
+  font-family: var(--title-font);
+  font-size: 14.5px;
+  color: #0f172a;
+}
+.id-card-title-box .t-sub {
+  font-family: var(--title-font);
+  font-size: 11px;
+  color: #1e293b;
+}
+.id-card-info-rows {
+  text-align: left;
+  font-size: 11.5px;
+  line-height: 1.75;
+  color: #0f172a;
+}
+.id-card-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+.id-card-lbl {
+  min-width: 82px;
+  color: #1e293b;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.id-card-val {
+  font-weight: 700;
+  color: #0f172a;
+}
+.id-card-val.muol {
+  font-family: var(--title-font);
+  font-weight: normal;
+  font-size: 11.5px;
+}
+.id-card-bottom {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+.id-card-photo-box {
+  width: 76px;
+  height: 98px;
+  border: 1.5px solid #94a3b8;
+  background: #f8fafc;
+  overflow: hidden;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.id-card-photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.id-card-sign-box {
+  flex: 1;
+  text-align: center;
+  font-size: 10.5px;
+  line-height: 1.55;
+  padding-bottom: 14px;
+}
+.id-card-school-line {
+  font-size: 10.5px;
+  margin-bottom: 2px;
+  text-align: left;
+}
+.id-card-school-line b {
+  font-family: var(--title-font);
+  font-weight: normal;
+  font-size: 10px;
 }
 
 /* ទម្រង់បោះពុម្ពតារាងកិត្តិយស (Top 5) A4 Portrait */
@@ -558,17 +703,18 @@ td input.t{width:120px;text-align:start}
   .idcard-a4-page {
     width: 210mm !important;
     height: 297mm !important;
-    padding: 10mm !important;
+    padding: 8mm !important;
     gap: 8mm !important;
     page-break-after: always;
     page-break-inside: avoid;
   }
   .id-card-a6 {
-    border: 1px dashed #94a3b8 !important;
+    border: 2.5px solid #1e3a8a !important;
     box-shadow: none !important;
+    max-width: none !important;
   }
-  .cert-red-auto, .inst-title, .role-title, .p1, .p2 {
-    line-height: 1.8 !important;
+  .cert-red-auto, .inst-title, .role-title, .p1, .p2, .id-card-kingdom .k1, .id-card-kingdom .k2, .id-card-dept, .id-card-title-box .t-main {
+    line-height: 1.7 !important;
     overflow: visible !important;
   }
   .print-page{page-break-after:always}
@@ -751,6 +897,15 @@ function getKhmerCurrentDate(){
   `;
 }
 
+// កាលបរិច្ឆេទសុរិយគតិខ្លីសម្រាប់ប័ណ្ណសម្គាល់ខ្លួនសិស្ស (ធ្វើនៅថ្ងៃទី... ខែ... ឆ្នាំ...)
+function getKhmerSolarDateLine(){
+  const now = new Date();
+  const d = String(now.getDate()).padStart(2, '0');
+  const m = now.getMonth();
+  const y = now.getFullYear();
+  return `ធ្វើនៅថ្ងៃទី${toKhNum(d)} ខែ${KH_MONTHS[m]} ឆ្នាំ${toKhNum(y)}`;
+}
+
 function smartKhmerDate(val){
   if (!val) return '';
   const s = String(val).trim();
@@ -830,7 +985,7 @@ const SUBJ_HIGH_SOCIAL = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 75]]},
   {n:'ភាសាបរទេស', s:[['ភាសា', 50]]},
   {n:'ផែនដីវិទ្យា', s:[['ផែនដី', 50]]},
-  {n:'វិទ្យាសាស្ត្រអនុុវត្ត', s:[['វិទ្យា', 50]]},
+  {n:'វិទ្យាសាស្ត្រអនុវត្ត', s:[['វិទ្យា', 50]]},
   {n:'គេហវិទ្យា/សេដ្ឋកិច្ច', s:[['សេដ្ឋកិច្ច', 50]]},
   {n:'អប់រំកាយ', s:[['កីឡា', 25]]}
 ];
@@ -2477,36 +2632,99 @@ cert(){
 
 idcard(){
   const S = getS();
-  
+  const i = S.info;
+  const logoSrc = getLogoSrc();
+  const solarDateStr = getKhmerSolarDateLine();
+
+  const levelTitles = {
+    primary: 'សាលាបឋមសិក្សា',
+    secondary: 'អនុវិទ្យាល័យ',
+    high: 'វិទ្យាល័យ'
+  };
+  const currentLevelLabel = levelTitles[currentLevel] || 'សាលារៀន';
+  const schoolNameFull = `${currentLevelLabel} ${i.school || ''}`.trim();
+
+  // បែងចែកកាតជាក្រុមៗ ក្នុងមួយទំព័រ A4 បញ្ឈរផ្ទុកបាន ៤ កាត (A6 ២x២)
   const chunks = [];
   for (let idx = 0; idx < S.st.length; idx += 4) {
     chunks.push(S.st.slice(idx, idx + 4));
   }
 
-  const pagesHtml = chunks.map(chunk => `
+  const pagesHtml = chunks.map((chunk, cIdx) => `
     <div class="idcard-a4-page print-page">
-      ${chunk.map(s => `
+      ${chunk.map((s, sIdx) => {
+        const globalNum = cIdx * 4 + sIdx + 1;
+        const stdCode = 'STD' + String(globalNum).padStart(4, '0');
+        return `
         <div class="id-card-a6">
-          <div style="border-bottom:1px solid #cbd5e1;padding-bottom:6px">
-            <div style="font-size:11.5px;font-weight:bold;color:var(--ac);margin-bottom:2px">${E(S.info.school || 'សាលារៀន')}</div>
-            <div class="muol-title" style="font-size:12.5px;color:#1e3a8a">កាតសម្គាល់ខ្លួនសិស្ស</div>
-          </div>
+          <!-- ឡូហ្គោស្រាលៗនៅចំកណ្តាលផ្ទៃខាងក្រោយ (Watermark) -->
+          <img class="id-card-watermark" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
 
-          <div style="margin:auto 0;padding:8px 0">
-            <div style="width:78px;height:78px;border-radius:50%;margin:0 auto 8px;overflow:hidden;border:2px solid #cbd5e1;background:#f8fafc">
-              ${s.ph ? `<img src="${s.ph}" style="width:100%;height:100%;object-fit:cover">` : '<div style="line-height:78px;color:#aaa;font-size:24px">+</div>'}
+          <!-- ក្បាលកាតផ្លូវការ -->
+          <div class="id-card-header">
+            <div class="id-card-head-top">
+              <img class="id-card-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+              <div class="id-card-kingdom">
+                <div class="k1">ព្រះរាជាណាចក្រកម្ពុជា</div>
+                <div class="k2">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+              </div>
             </div>
-            <div style="font-size:16px;font-weight:bold;color:#0f172a;margin-bottom:4px">${E(s.name)}</div>
-            <div style="font-size:12px;color:var(--mu);font-weight:600">ភេទ៖ ${s.sex==='ស'?'ស្រី':'ប្រុស'} | ថ្នាក់ទី៖ ${E(S.info.cls || '-')}</div>
-            <div style="font-size:11.5px;color:var(--mu);margin-top:2px">ថ្ងៃខែឆ្នាំកំណើត៖ ${E(s.dob || '-')}</div>
+            <div class="id-card-dept">
+              ${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'មន្ទីរអប់រំ យុវជន និងកីឡា')}
+            </div>
           </div>
 
-          <div style="border-top:1px dashed #cbd5e1;padding-top:4px;font-size:11px;color:var(--mu);display:flex;justify-content:space-between">
-            <span>ឆ្នាំសិក្សា ${E(currentYear)}</span>
-            <span>នាយកសាលា</span>
+          <!-- តួព័ត៌មានសិស្ស -->
+          <div class="id-card-body">
+            <div class="id-card-title-box">
+              <div class="t-main">ប័ណ្ណសម្គាល់ខ្លួនសិស្ស</div>
+              <div class="t-sub">ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
+              <div class="t-sub">ថ្នាក់ទី ${E(i.cls || '...')}</div>
+            </div>
+
+            <div class="id-card-info-rows">
+              <div class="id-card-row" style="justify-content:space-between">
+                <div><span class="id-card-lbl">គោត្តនាម-នាម</span> <span class="id-card-val muol">${E(s.name)}</span></div>
+                <div><span style="font-weight:600">ភេទ</span> <span class="id-card-val">${s.sex==='ស'?'ស្រី':'ប្រុស'}</span></div>
+              </div>
+
+              <div class="id-card-row">
+                <span class="id-card-lbl">អត្តលេខ</span>
+                <span class="id-card-val">${stdCode}</span>
+              </div>
+
+              <div class="id-card-row">
+                <span class="id-card-lbl">ថ្ងៃ-ខែ-ឆ្នាំកំណើត</span>
+                <span class="id-card-val">${E(s.dob || '....................')}</span>
+              </div>
+
+              <div class="id-card-row">
+                <span class="id-card-lbl">ទីកន្លែងកំណើត</span>
+                <span class="id-card-val">${E(s.addr || '....................')}</span>
+              </div>
+
+              <div class="id-card-row" style="flex-wrap:wrap;gap:6px">
+                <div><span style="font-weight:600">ឪពុកឈ្មោះ</span> <span class="id-card-val">${E(s.fa || '............')}</span></div>
+                <div><span style="font-weight:600">ម្តាយឈ្មោះ</span> <span class="id-card-val">${E(s.mo || '............')}</span></div>
+              </div>
+            </div>
+
+            <!-- ផ្នែកបាតកាត៖ រូបថតសិស្ស 4x6 ខាងឆ្វេង និងហត្ថលេខានាយកសាលាខាងស្តាំ -->
+            <div class="id-card-bottom">
+              <div class="id-card-photo-box" onclick="pick(u=>{getS().st.find(x=>x.id==${s.id}).ph=u;save();R()})" title="ចុចដើម្បីដាក់ឬប្តូររូបថតសិស្ស" style="cursor:pointer">
+                ${s.ph ? `<img src="${s.ph}">` : '<span style="color:#94a3b8;font-size:11px;text-align:center">រូបថត<br>៤x៦</span>'}
+              </div>
+
+              <div class="id-card-sign-box">
+                <div class="id-card-school-line">ជាសិស្ស <b>${E(schoolNameFull)}</b></div>
+                <div>${solarDateStr}</div>
+                <div style="font-weight:800;font-size:11.5px;margin-top:2px">នាយកសាលា</div>
+              </div>
+            </div>
           </div>
         </div>
-      `).join('')}
+        `;
+      }).join('')}
     </div>
   `).join('');
 
@@ -2514,6 +2732,7 @@ idcard(){
   <div class="f">
     <button class="bt" onclick="executeStandardPrint('idCardPrintArea', 'កាតសម្គាល់ខ្លួនសិស្ស', false)">🖨️ បោះពុម្ពកាតលើ A4 បញ្ឈរ (៤ កាត/សន្លឹក)</button>
   </div>
+  <div class="mu small" style="margin-bottom:10px">💡 លោកគ្រូអាចចុចលើប្រអប់រូបថត (៤x៦) ផ្ទាល់ដើម្បីដាក់ ឬផ្លាស់ប្តូររូបថតសិស្សម្នាក់ៗបានភ្លាមៗ។</div>
   <div id="idCardPrintArea">${pagesHtml || '<div class="em">មិនទាន់មានសិស្សក្នុងកម្រិតនេះ</div>'}</div>
   </div>`;
 },
