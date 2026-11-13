@@ -1,3 +1,17 @@
+ខ្ញុំបានបញ្ចូលកែសម្រួលទាំងអស់ទៅក្នុងកូដ index.html ពេញលេញរួចរាល់ហើយ ដោយរក្សាទុកមុខងារ និងទម្រង់ដែលល្អត្រឹមត្រូវទាំងអស់ឱ្យនៅដដែល ១០០%៖
+សង្ខេបចំណុចដែលបានកែសម្រួលថ្មី៖
+ * ផ្ទាំង Smart Welcome Gate (ដំឡើងកម្មវិធីលើគ្រប់ម៉ូដទូរស័ព្ទ និងកុំព្យូទ័រ)៖
+   * លោតផ្ទាំងស្វាគមន៍ធំចំកណ្តាលអេក្រង់ភ្លាមៗពេលបើក Link លើ Web (មិនទាន់ Add to Home Screen)៖
+     * Android / Windows / Mac (Chrome & Edge)៖ លោតប៊ូតុងពណ៌បៃតងធំ «📲 ចុចទីនេះដើម្បីដំឡើង App (Install)» តែម្តង។
+     * Telegram / Messenger In-App Browser៖ ចាប់សញ្ញាបានភ្លាម និងបង្ហាញព្រួញណែនាំឱ្យចុចរូបត្រីវិស័យ 🧭 (ជ្រុងក្រោមស្តាំ) ឬ ⋮ Open in Chrome ដើម្បីចេញទៅ Browser ពិត។
+     * iPhone / iPad (Safari)៖ បង្ហាញការណែនាំ ៣ ជំហានងាយយល់ (⬆️ Share → ➕ Add to Home Screen → Add) ព្រមទាំងប៊ូតុង «បន្តប្រើលើ Web សិន»។
+ * ប្រវត្តិរូបសិស្ស (បង្រួមប្រអប់ភេទ និងបន្ថែម Crop រំកិលរូបថតឡើងលើ-ចុះក្រោម)៖
+   * ប្រអប់ជ្រើសរើសភេទក្នុងតារាងសិស្ស៖ បង្រួមមកត្រឹម 68px (ខ្លីល្មមសមរម្យ បង្ហាញពាក្យ «ស្រី» ឬ «ប្រុស» ច្បាស់ស្អាត មិនវែងហួសពេកដូចមុន)។
+   * មុខងារ Crop រំកិលរូបថតឡើងលើ-ចុះក្រោម (Vertical Crop Slider)៖ នៅពេលចុចលើរូបថតសិស្ស ផ្ទាំង Popup នឹងមានរបារអូស (Slider) «↕️ រំកិលរូបថតឡើងលើ / ចុះក្រោម» ដើម្បីឱ្យលោកគ្រូអូសតម្រឹមមុខសិស្សឱ្យចំកណ្តាលស៊ុម 4 \times 6 រួចចុច «💾 រក្សាទុកទីតាំងរូប» ភ្លាមៗ!
+ * តម្រឹមក្បាលលិខិត និងហត្ថលេខានាយកសាលាតាមស្តង់ដាររដ្ឋបាល៖
+   * ក្បាលលិខិតខាងឆ្វេង៖ រំកិលឡើងលើវិញបន្តិច (padding-top: 34px) ដើម្បីឱ្យសមាមាត្រជាមួយ «ព្រះរាជាណាចក្រកម្ពុជា» ខាងស្តាំ។
+   * ហត្ថលេខាខាងក្រោម («បានឃើញ និងឯកភាព / នាយកសាលា»)៖ រំកិលចុះក្រោមបន្តិច (padding-top: 24px) ឱ្យទាបជាង «គ្រូបន្ទុកថ្នាក់» តាមក្បួនខ្នាតលិខិតរដ្ឋបាលផ្លូវការ (ទាំងលើតារាងប្រចាំខែ ប្រចាំឆ្នាំ តារាងពិន្ទុ ប្រឡងឆមាស តារាងកិត្តិយស និងប័ណ្ណសរសើរ)។
+កូដពេញលេញ index.html (ចម្លងយកទៅជំនួសលើ GitHub បានភ្លាម)
 <!DOCTYPE html>
 <html lang="km"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover">
@@ -52,40 +66,41 @@ main{max-width:1100px;width:100%;margin:0 auto;padding:12px 14px 60px;will-chang
 .update-banner.show{transform:translateX(-50%) translateY(0)}
 .btn-upd{background:var(--ac);color:#fff;border:0;padding:5px 14px;border-radius:999px;font:inherit;font-size:12.5px;cursor:pointer;font-weight:bold}
 
-/* ផ្ទាំង Smart Install Prompt (Android/PC/iOS/Telegram) */
-.install-sheet-overlay{
-  position:fixed;left:0;right:0;bottom:0;z-index:99998;
-  padding:12px 14px calc(16px + env(safe-area-inset-bottom, 0px));
-  background:linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,0.45) 100%);
-  display:none;justify-content:center;align-items:flex-end;
-  pointer-events:none;
+/* ផ្ទាំង Smart Welcome Gate (Center Modal សម្រាប់គ្រប់ម៉ូដទូរស័ព្ទ និងកុំព្យូទ័រ) */
+.install-modal-overlay{
+  position:fixed;top:0;left:0;right:0;bottom:0;z-index:99998;
+  background:rgba(15, 23, 42, 0.72);
+  backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);
+  display:none;justify-content:center;align-items:center;padding:16px;
 }
-.install-sheet-overlay.show{display:flex;animation:appFade 0.35s ease forwards}
-.install-sheet-card{
-  pointer-events:auto;
-  width:100%;max-width:460px;background:#ffffff;
-  border:2px solid var(--ac);border-radius:20px;
-  padding:16px 18px;box-shadow:0 16px 40px rgba(15,23,42,0.32);
-  position:relative;text-align:left;
+.install-modal-overlay.show{display:flex;animation:appFade 0.28s ease forwards}
+.install-modal-card{
+  width:100%;max-width:420px;background:#ffffff;
+  border:2px solid var(--ac);border-radius:22px;
+  padding:22px 20px 18px;box-shadow:0 20px 50px rgba(0,0,0,0.38);
+  position:relative;text-align:center;
 }
-.install-sheet-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
-.install-sheet-icon{width:52px;height:52px;border-radius:12px;object-fit:cover;border:1px solid var(--bd);flex-shrink:0}
-.install-sheet-title{font-family:var(--title-font);font-size:15px;color:#1e3a8a;line-height:1.4}
-.install-sheet-sub{font-size:12.5px;color:var(--mu);line-height:1.4}
-.install-sheet-close{
-  position:absolute;top:10px;right:10px;background:#f1f5f9;border:0;
-  width:28px;height:28px;border-radius:50%;font-size:14px;font-weight:bold;
-  color:var(--mu);cursor:pointer;line-height:28px;text-align:center;padding:0;
+.install-modal-icon{
+  width:72px;height:72px;border-radius:18px;object-fit:cover;
+  border:2px solid var(--bd);margin:0 auto 10px;display:block;
+  box-shadow:0 6px 16px rgba(0,0,0,0.12);
 }
+.install-modal-title{font-family:var(--title-font);font-size:17px;color:#1e3a8a;line-height:1.45;margin-bottom:4px}
+.install-modal-sub{font-size:13px;color:var(--mu);line-height:1.45;margin-bottom:14px}
 .install-guide-box{
-  background:#eff6ff;border:1px dashed #93c5fd;border-radius:12px;
-  padding:10px 12px;font-size:13px;color:#1e3a8a;line-height:1.6;margin-top:8px;
+  background:#eff6ff;border:1.5px dashed #60a5fa;border-radius:14px;
+  padding:12px 14px;font-size:13.5px;color:#1e3a8a;line-height:1.7;
+  text-align:left;margin-bottom:14px;
 }
 .install-guide-box.warn{background:#fef3c7;border-color:#f59e0b;color:#92400e}
 .ios-share-badge{
   display:inline-flex;align-items:center;justify-content:center;
   background:#fff;border:1px solid #cbd5e1;border-radius:6px;
   padding:1px 7px;font-weight:bold;color:#0284c7;margin:0 2px;
+}
+.btn-skip-install{
+  background:none;border:0;color:var(--mu);font:inherit;font-size:13px;
+  font-weight:600;cursor:pointer;text-decoration:underline;padding:6px 12px;
 }
 
 /* Sticky Header សម្រាប់ទំព័រដើម (Home) */
@@ -200,7 +215,8 @@ th{background:var(--hd);position:sticky;top:0;z-index:2;font-weight:600;color:#3
 th.sn{z-index:4;background:var(--hd)}
 td input{width:56px;padding:4px;min-height:32px;text-align:center;border-radius:6px;font-size:14px}
 td input.t{width:120px;text-align:start;font-size:14px}
-td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font-size:14px;border-radius:6px}
+/* ប្រអប់ភេទក្នុងតារាងសិស្ស ខ្លីល្មមសមរម្យ បង្ហាញពាក្យ ស្រី/ប្រុស ច្បាស់ */
+td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font-size:13.5px;border-radius:6px;text-align:center}
 
 .lg{border:2px dashed var(--bd);border-radius:50%;margin:0 auto 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;color:var(--mu);cursor:pointer;line-height:1.3;background:#f8fafc}
 .lg img{width:100%;height:100%;object-fit:contain}
@@ -235,7 +251,7 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
   margin-bottom: 12px;
 }
 
-/* ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល */
+/* ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល (រំកិលមន្ទីរ/សាលាឡើងលើវិញបន្តិចឱ្យសមាមាត្រ) */
 .official-header {
   display: flex;
   justify-content: space-between;
@@ -247,16 +263,16 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
 }
 .official-header .side-box {
   text-align: center;
-  padding-top: 52px;
+  padding-top: 34px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 .official-header .side-box img.hdr-moeys-logo {
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
   object-fit: contain;
-  margin-bottom: 4px;
+  margin-bottom: 3px;
 }
 .official-header .center-box {
   text-align: center;
@@ -298,8 +314,22 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
 .official-table{border:1px solid #444;width:100%;border-collapse:collapse}
 .official-table th, .official-table td{border:1px solid #444;padding:5px 4px;text-align:center;font-size:12px}
 .official-table th{background:#f1f5f9;font-weight:bold}
-.official-footer{margin-top:18px;display:flex;justify-content:space-between;font-size:12px;line-height:1.5}
+.official-footer{margin-top:18px;display:flex;justify-content:space-between;align-items:flex-start;font-size:12px;line-height:1.5}
 .official-stats{font-size:12px;line-height:1.6;margin-top:10px}
+
+/* ហត្ថលេខាខាងឆ្វេង (នាយកសាលា) រំកិលចុះក្រោមជាងគ្រូបន្ទុកថ្នាក់តាមស្តង់ដាររដ្ឋបាល */
+.director-sign-box{
+  text-align:center;
+  min-width:280px;
+  max-width:320px;
+  padding-top: 24px;
+}
+.teacher-sign-box{
+  text-align:center;
+  min-width:280px;
+  max-width:320px;
+  padding-top: 0;
+}
 
 /* ទម្រង់បោះពុម្ពតារាងពិន្ទុ, ឆមាស (A4 Landscape) */
 .exam-print-container {
@@ -461,12 +491,12 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
 .cert-sign-left {
   width: 325px;
   text-align: center;
-  margin-top: 0;
+  padding-top: 18px;
 }
 .cert-sign-right {
   width: 325px;
   text-align: center;
-  margin-top: 0;
+  padding-top: 0;
 }
 .cert-sign-role {
   font-family: var(--title-font);
@@ -715,7 +745,7 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
 }
 .honor-poster-sheet .official-header .side-box {
   text-align: center;
-  padding-top: 52px;
+  padding-top: 34px;
 }
 .honor-top5-stage {
   margin: 34px auto 24px;
@@ -790,7 +820,7 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
     padding: 0 !important;
     margin: 0 !important;
   }
-  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.hint-note,.install-sheet-overlay{display:none !important}
+  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.hint-note,.install-modal-overlay{display:none !important}
   main{max-width:100% !important;padding:0 !important;margin:0 !important}
   .card{box-shadow:none !important;border:none !important;padding:0 !important;margin:0 !important}
   .w{max-height:none !important;border:none !important;overflow:visible !important}
@@ -851,9 +881,9 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
   <button class="btn-upd" onclick="applyAppUpdate()">ចុចអាប់ដេតឥឡូវ</button>
 </div>
 
-<!-- ផ្ទាំង Smart Install Prompt (Android/PC លោតប៊ូតុង Install និង iOS/Telegram លោតផ្ទាំងណែនាំ) -->
-<div id="smartInstallOverlay" class="install-sheet-overlay">
-  <div class="install-sheet-card" id="smartInstallCard"></div>
+<!-- ផ្ទាំង Smart Welcome Gate (Center Modal ដំឡើងកម្មវិធីលើគ្រប់ឧបករណ៍) -->
+<div id="smartInstallOverlay" class="install-modal-overlay" onclick="hideSmartInstallSheet()">
+  <div class="install-modal-card" id="smartInstallCard" onclick="event.stopPropagation()"></div>
 </div>
 
 <main id="app"></main>
@@ -871,7 +901,7 @@ const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
 const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
 
 // ==========================================
-// ប្រព័ន្ធ SMART INSTALL PROMPT (Android / PC / iOS / Telegram)
+// ប្រព័ន្ធ SMART WELCOME GATE (Android / PC / iOS / Telegram)
 // ==========================================
 let deferredInstallPrompt = null;
 let installDismissed = false;
@@ -933,23 +963,24 @@ function showSmartInstallSheet(force = false){
   const { isInApp, isIOS, isAndroid } = getDeviceEnv();
   let bodyHtml = '';
 
-  if (isInApp) {
+  if (deferredInstallPrompt) {
+    bodyHtml = `
+      <button class="pb gr wide" style="margin:6px 0 12px;cursor:pointer;font-size:16px" onclick="triggerNativeInstall()">📲 ចុចដំឡើងកម្មវិធីទីនេះ (Install App)</button>
+      <div class="mu small" style="margin-bottom:10px">ដំឡើងរួច កម្មវិធីនឹងលោតលើអេក្រង់ និងប្រើពេលគ្មានអ៊ីនធឺណិតបាន ១០០%</div>
+    `;
+  } else if (isInApp) {
     bodyHtml = `
       <div class="install-guide-box warn">
         ⚠️ <b>អ្នកកំពុងបើកក្នុង Telegram / Messenger!</b><br>
-        ដើម្បីដំឡើងកម្មវិធីដាក់លើអេក្រង់ទូរស័ព្ទ សូមចុចសញ្ញាចុចបី <b>(•••)</b> ឬ <b>(⋮)</b> នៅជ្រុងខាងលើ រួចរើសយក <b>«Open in Safari»</b> (សម្រាប់ iPhone) ឬ <b>«Open in Chrome»</b> (សម្រាប់ Android)។
+        ដើម្បីដំឡើងកម្មវិធីដាក់លើអេក្រង់ សូមចុចរូបត្រីវិស័យ <b>(🧭)</b> នៅជ្រុងក្រោមស្តាំ ឬសញ្ញាចុចបី <b>(⋮)</b> នៅជ្រុងលើ រួចរើសយក <b>«Open in Safari»</b> ឬ <b>«Open in Chrome»</b>។
       </div>
-    `;
-  } else if (deferredInstallPrompt) {
-    bodyHtml = `
-      <button class="pb gr wide" style="margin:10px 0 4px;cursor:pointer" onclick="triggerNativeInstall()">📲 ចុចទីនេះដើម្បីដំឡើង App (Install)</button>
-      <div class="mu small" style="text-align:center">ដំឡើងរួច កម្មវិធីនឹងលោតលើអេក្រង់ និងប្រើពេលគ្មានអ៊ីនធឺណិតបាន ១០០%</div>
     `;
   } else if (isIOS) {
     bodyHtml = `
       <div class="install-guide-box">
         <b>វិធីដំឡើងលើ iPhone / iPad (៣ វិនាទី)៖</b><br>
         ១. ចុចប៊ូតុង <span class="ios-share-badge">⬆️ Share</span> នៅរបារខាងក្រោមអេក្រង់ Safari<br>
+        *(បើបើកក្នុង Telegram សូមចុចរូបត្រីវិស័យ 🧭 ជ្រុងក្រោមស្តាំសិន)*<br>
         ២. អូសឡើងលើ រួចចុចពាក្យ <b>«Add to Home Screen»</b> ➕<br>
         ៣. ចុចពាក្យ <b>«Add»</b> នៅជ្រុងខាងលើស្តាំជាការស្រេច!
       </div>
@@ -971,28 +1002,23 @@ function showSmartInstallSheet(force = false){
   }
 
   card.innerHTML = `
-    <button class="install-sheet-close" onclick="hideSmartInstallSheet()" title="បិទ">✕</button>
-    <div class="install-sheet-head">
-      <img class="install-sheet-icon" src="IMG_2013.png" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
-      <div>
-        <div class="install-sheet-title">ដំឡើងកម្មវិធី «គ្រប់គ្រងថ្នាក់រៀន»</div>
-        <div class="install-sheet-sub">ប្រើបានរហ័សពេញអេក្រង់ និងដំណើរការ Offline ១០០%</div>
-      </div>
-    </div>
+    <img class="install-modal-icon" src="IMG_2013.png" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+    <div class="install-modal-title">ដំឡើងកម្មវិធី «គ្រប់គ្រងថ្នាក់រៀន»</div>
+    <div class="install-modal-sub">ប្រើបានរហ័សពេញអេក្រង់ និងដំណើរការ Offline ១០០%</div>
     ${bodyHtml}
+    <button class="btn-skip-install" onclick="hideSmartInstallSheet()">បន្តប្រើប្រាស់លើ Web សិន ➔</button>
   `;
 
   overlay.classList.add('show');
 }
 
-// បង្ហាញផ្ទាំងណែនាំ Install ដោយស្វ័យប្រវត្តិក្រោយបើក Link ១.២ វិនាទី (ប្រសិនបើមិនទាន់បាន Install)
 window.addEventListener('load', () => {
   if (!isAppStandalone()) {
-    setTimeout(() => showSmartInstallSheet(false), 1200);
+    setTimeout(() => showSmartInstallSheet(false), 600);
   }
 });
 
-// បញ្ជីស៊ុមក្បាច់ស្រាប់ រួមបញ្ចូលទាំងស៊ុមថ្មីទាំង ៦ ដែលបាន Upload លើ GitHub
+// បញ្ជីស៊ុមក្បាច់ស្រាប់
 const BUILTIN_BORDERS = [
   { id: 'b0', name: 'ក្បាច់ខៀវស្នូក', url: 'borders/border_3_blue1.png' },
   { id: 'b_g1', name: 'ក្បាច់មាសទី ១', url: 'borders/border_3_gold1.png' },
@@ -1064,6 +1090,8 @@ function setSelectedBorder(url){
 let showBorderModal = false;
 let borderModalTab = 'ready';
 let photoActionStudentId = null;
+let tempPhotoRawData = null; // រក្សាទុករូបថតដើមសម្រាប់ Crop រំកិលឡើងលើ-ចុះក្រោម
+let tempPhotoOffsetY = 50;   // ទីតាំងបញ្ឈរ 0% (លើ) ដល់ 100% (ក្រោម)
 
 async function sbFetch(path, opts = {}){
   const headers = {
@@ -1934,7 +1962,7 @@ function deleteBorder(id, e){
 
 const P = {
 login(){
-  const showInstallBtn = !isAppStandalone();
+  const showInstallBtn = !isAppStandalone() && !!deferredInstallPrompt;
   return `<div class="auth"><div class="card">
   <h2>ចូលប្រព័ន្ធ</h2>
   <div id="amsg" class="msg"></div>
@@ -2021,7 +2049,7 @@ home(){
       </div>
     </div>
     <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
-      ${showInstallBtn ? `<button class="bt" style="padding:4px 10px;min-height:32px;font-size:12px;background:var(--ok)" onclick="triggerNativeInstall()">📲 Install</button>` : ''}
+      ${showInstallBtn ? `<button class="bt" style="padding:4px 10px;min-height:32px;font-size:12px;background:var(--ok)" onclick="showSmartInstallSheet(true)">📲 ដំឡើង App</button>` : ''}
       <button class="bt g" style="padding:4px 10px;min-height:32px;font-size:12px;color:var(--bad)" onclick="logout()">🚪 ចាកចេញ</button>
     </div>
   </div>
@@ -2146,13 +2174,13 @@ sc(){
       </tbody>
     </table>
 
-    <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
-      <div style="text-align:center;min-width:280px;max-width:320px">
+    <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:flex-start;font-size:12px">
+      <div class="director-sign-box">
         <div>បានឃើញ និងឯកភាព</div>
         <div style="margin:2px 0">${dirDateStr}</div>
         <div style="font-weight:bold">នាយកសាលា</div>
       </div>
-      <div style="text-align:center;min-width:280px;max-width:320px">
+      <div class="teacher-sign-box">
         <div>${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
@@ -2259,12 +2287,12 @@ official(){
         </div>
 
         <div class="official-footer">
-          <div style="text-align:center;min-width:280px;max-width:320px">
+          <div class="director-sign-box">
             <div>បានឃើញ និងឯកភាព</div>
             <div style="margin:2px 0">${dirDateStr}</div>
             <div style="font-weight:bold">នាយកសាលា</div>
           </div>
-          <div style="text-align:center;min-width:280px;max-width:320px">
+          <div class="teacher-sign-box">
             <div>${curDateStr}</div>
             <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
             <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
@@ -2374,13 +2402,13 @@ examScore(){
       </tbody>
     </table>
 
-    <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
-      <div style="text-align:center;min-width:280px;max-width:320px">
+    <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:flex-start;font-size:12px">
+      <div class="director-sign-box">
         <div>បានឃើញ និងឯកភាព</div>
         <div style="margin:2px 0">${dirDateStr}</div>
         <div style="font-weight:bold">នាយកសាលា</div>
       </div>
-      <div style="text-align:center;min-width:280px;max-width:320px">
+      <div class="teacher-sign-box">
         <div>${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
@@ -2491,13 +2519,13 @@ sem(){
       <tbody>${rowsPrint || '<tr><td colspan="15" style="padding:15px;color:#888">មិនមានសិស្ស</td></tr>'}</tbody>
     </table>
 
-    <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
-      <div style="text-align:center;min-width:280px;max-width:320px">
+    <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:flex-start;font-size:12px">
+      <div class="director-sign-box">
         <div>បានឃើញ និងឯកភាព</div>
         <div style="margin:2px 0">${dirDateStr}</div>
         <div style="font-weight:bold">នាយកសាលា</div>
       </div>
-      <div style="text-align:center;min-width:280px;max-width:320px">
+      <div class="teacher-sign-box">
         <div>${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
         <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
@@ -2590,12 +2618,12 @@ annual(){
         </div>
 
         <div class="official-footer">
-          <div style="text-align:center;min-width:280px;max-width:320px">
+          <div class="director-sign-box">
             <div>បានឃើញ និងឯកភាព</div>
             <div style="margin:2px 0">${dirDateStr}</div>
             <div style="font-weight:bold">នាយកសាលា</div>
           </div>
-          <div style="text-align:center;min-width:280px;max-width:320px">
+          <div class="teacher-sign-box">
             <div>${curDateStr}</div>
             <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
             <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
@@ -2634,7 +2662,7 @@ stu(){
       <td style="width:45px">${i+1}</td>
       <td style="width:55px">${photo(s)}</td>
       <td class="sn"><input type="text" class="t" value="${E(s.name)}" onchange="setStuProp(${s.id}, 'name', this.value)" style="width:130px;font-weight:600"></td>
-      <td style="width:95px">
+      <td style="width:72px">
         <select class="sex-sel" onchange="setSex(${s.id}, this.value)">
           <option value="ស" ${s.sex==='ស'?'selected':''}>ស្រី</option>
           <option value="ប" ${s.sex==='ប'?'selected':''}>ប្រុស</option>
@@ -2685,7 +2713,7 @@ stu(){
           <th style="width:45px">ល.រ</th>
           <th style="width:55px">រូប</th>
           <th class="sn">គោត្តនាម-នាម</th>
-          <th style="width:95px">ភេទ</th>
+          <th style="width:72px">ភេទ</th>
           <th style="width:145px">ថ្ងៃខែឆ្នាំកំណើត</th>
           <th>ឈ្មោះឪពុក</th>
           <th>ឈ្មោះម្តាយ</th>
@@ -2702,14 +2730,21 @@ stu(){
   </div>
 
   ${targetStu ? `
-    <div class="modal-overlay" onclick="photoActionStudentId=null;R()">
-      <div class="modal-box" style="max-width:340px;text-align:center" onclick="event.stopPropagation()">
-        <h2 style="margin:0 0 12px;font-size:16px;color:var(--ac)">រូបថត៖ ${E(targetStu.name)}</h2>
-        ${targetStu.ph ? `<img src="${targetStu.ph}" style="width:110px;height:135px;object-fit:cover;border-radius:10px;border:2px solid var(--bd);margin:0 auto 14px">` : ''}
-        <div style="display:flex;flex-direction:column;gap:10px">
-          <button class="bt" onclick="const id=photoActionStudentId;photoActionStudentId=null;pick(u=>{getS().st.find(x=>x.id==id).ph=u;save();R()})">📷 ប្តូររូបថតថ្មី</button>
+    <div class="modal-overlay" onclick="photoActionStudentId=null;tempPhotoRawData=null;R()">
+      <div class="modal-box" style="max-width:360px;text-align:center" onclick="event.stopPropagation()">
+        <h2 style="margin:0 0 10px;font-size:16px;color:var(--ac)">រូបថត៖ ${E(targetStu.name)}</h2>
+        <div style="width:120px;height:150px;margin:0 auto 10px;border-radius:10px;border:2px solid var(--ac);overflow:hidden;background:#f8fafc">
+          <img id="cropPreviewImg" src="${tempPhotoRawData || targetStu.ph}" style="width:100%;height:100%;object-fit:cover;object-position:center ${tempPhotoOffsetY}%">
+        </div>
+        <div style="margin-bottom:12px;background:#f1f5f9;padding:8px 12px;border-radius:10px">
+          <label style="font-size:12.5px;font-weight:600;color:var(--tx);display:block;margin-bottom:4px">↕️ រំកិលរូបថតឡើងលើ / ចុះក្រោម</label>
+          <input type="range" min="0" max="100" value="${tempPhotoOffsetY}" oninput="updatePhotoCropY(this.value)" style="min-height:24px;padding:0">
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="bt" style="background:var(--ok)" onclick="applyPhotoCrop(${targetStu.id})">💾 រក្សាទុកទីតាំងរូប</button>
+          <button class="bt" onclick="pick(u=>{tempPhotoRawData=u;tempPhotoOffsetY=50;R()})">📷 ប្តូររូបថតថ្មី</button>
           <button class="bt r" onclick="deleteStuPhoto(${targetStu.id})">🗑️ លុបរូបថត (Delete)</button>
-          <button class="bt g" onclick="photoActionStudentId=null;R()">បោះបង់</button>
+          <button class="bt g" onclick="photoActionStudentId=null;tempPhotoRawData=null;R()">បោះបង់</button>
         </div>
       </div>
     </div>
@@ -2782,13 +2817,13 @@ honor(){
           ${renderCard(getSAt(4), 5)}
         </div>
 
-        <div style="margin-top:20px;display:flex;justify-content:space-between;font-size:13px;padding:0 20px">
-          <div style="text-align:center;min-width:280px;max-width:320px">
+        <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:flex-start;font-size:13px;padding:0 20px">
+          <div class="director-sign-box">
             <div>បានឃើញ និងឯកភាព</div>
             <div style="margin:2px 0">${dirDateStr}</div>
             <div style="font-weight:bold">នាយកសាលា</div>
           </div>
-          <div style="text-align:center;min-width:280px;max-width:320px">
+          <div class="teacher-sign-box">
             <div>${curDateStr}</div>
             <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
             <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
@@ -3290,11 +3325,63 @@ function handleStuPhotoClick(id){
   const s = getS().st.find(x => x.id === id);
   if (!s) return;
   if (!s.ph) {
-    pick(u => { s.ph = u; save(); R(); });
+    pick(u => {
+      photoActionStudentId = id;
+      tempPhotoRawData = u;
+      tempPhotoOffsetY = 50;
+      R();
+    });
   } else {
     photoActionStudentId = id;
+    tempPhotoRawData = s.ph;
+    tempPhotoOffsetY = 50;
     R();
   }
+}
+
+function updatePhotoCropY(val){
+  tempPhotoOffsetY = Number(val);
+  const img = document.getElementById('cropPreviewImg');
+  if (img) img.style.objectPosition = `center ${tempPhotoOffsetY}%`;
+}
+
+function applyPhotoCrop(id){
+  const s = getS().st.find(x => x.id === id);
+  const srcData = tempPhotoRawData || (s && s.ph);
+  if (!s || !srcData) return;
+
+  const im = new Image();
+  im.onload = () => {
+    const targetW = 180;
+    const targetH = 225;
+    const c = document.createElement('canvas');
+    c.width = targetW;
+    c.height = targetH;
+    const ctx = c.getContext('2d');
+
+    const imgRatio = im.width / im.height;
+    const boxRatio = targetW / targetH;
+    let drawW, drawH, offsetX = 0, offsetY = 0;
+
+    if (imgRatio > boxRatio) {
+      drawH = targetH;
+      drawW = im.width * (targetH / im.height);
+      offsetX = -(drawW - targetW) / 2;
+    } else {
+      drawW = targetW;
+      drawH = im.height * (targetW / im.width);
+      offsetY = -(drawH - targetH) * (tempPhotoOffsetY / 100);
+    }
+
+    ctx.drawImage(im, offsetX, offsetY, drawW, drawH);
+    s.ph = c.toDataURL('image/png', 0.92);
+    photoActionStudentId = null;
+    tempPhotoRawData = null;
+    save();
+    R();
+    setStatus('បានរក្សាទុកទីតាំងរូបថត ✓');
+  };
+  im.src = srcData;
 }
 
 function deleteStuPhoto(id){
@@ -3302,6 +3389,7 @@ function deleteStuPhoto(id){
   if (s) {
     delete s.ph;
     photoActionStudentId = null;
+    tempPhotoRawData = null;
     save();
     R();
     setStatus('បានលុបរូបថតសិស្ស ✓');
@@ -3319,14 +3407,14 @@ function pick(cb){
     r.onload = () => {
       const im = new Image();
       im.onload = () => {
-        const k = Math.min(1, 240 / Math.max(im.width, im.height));
+        const k = Math.min(1, 360 / Math.max(im.width, im.height));
         const c = document.createElement('canvas');
         c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
         const x = c.getContext('2d');
         x.fillStyle = 'rgba(255,255,255,0)';
         x.clearRect(0, 0, c.width, c.height);
         x.drawImage(im, 0, 0, c.width, c.height);
-        cb(c.toDataURL('image/png', 0.9));
+        cb(c.toDataURL('image/png', 0.92));
       };
       im.src = r.result;
     };
@@ -3488,3 +3576,4 @@ function importFile(file){
 R();
 </script>
 </body></html>
+
