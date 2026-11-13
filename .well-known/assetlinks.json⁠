@@ -1,8 +1,8 @@
 [{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "io.github.alexanderkim021_dev.twa",
-    "sha256_cert_fingerprints": ["A3:C3:C2:48:76:85:60:18:04:55:1E:6E:B8:68:4B:BD:90:60:8B:11:43:77:4F:21:38:83:4E:63:92:35:D4:CC"]
-  }
-}]
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "io.github.alexanderkim021_dev.twa",
+        "sha256_cert_fingerprints": ["D1:60:53:15:CF:B8:88:40:82:25:36:DF:76:FB:7C:3B:77:B4:86:BB:27:AA:86:9F:89:18:9F:37:CA:EB:2E:2A"]
+      }
+    }]
