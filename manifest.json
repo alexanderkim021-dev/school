@@ -1,0 +1,15 @@
+{
+  "name": "ប្រព័ន្ធគ្រប់គ្រងពិន្ទុថ្នាក់រៀន",
+  "short_name": "គ្រប់គ្រងពិន្ទុ",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0d6efd",
+  "icons": [
+    {
+      "src": "IMG_2013.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
