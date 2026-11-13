@@ -907,9 +907,7 @@ function getDeviceEnv(){
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredInstallPrompt = e;
-  if (!isAppStandalone() && !installDismissed) {
-    showSmartInstallSheet(true);
-  }
+  R();
 });
 
 window.addEventListener('appinstalled', () => {
@@ -997,12 +995,6 @@ function showSmartInstallSheet(force = false){
 
   overlay.classList.add('show');
 }
-
-window.addEventListener('load', () => {
-  if (!isAppStandalone()) {
-    setTimeout(() => showSmartInstallSheet(false), 600);
-  }
-});
 
 // បញ្ជីស៊ុមក្បាច់ស្រាប់
 const BUILTIN_BORDERS = [
@@ -1266,7 +1258,7 @@ const SUBJ_HIGH_SOCIAL = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 75]]},
   {n:'ភាសាបរទេស', s:[['ភាសា', 50]]},
   {n:'ផែនដីវិទ្យា', s:[['ផែនដី', 50]]},
-  {n:'វិទ្យាសាស្ត្រអនុុវត្ត', s:[['វិទ្យា', 50]]},
+  {n:'វិទ្យាសាស្ត្រអនុវត្ត', s:[['វិទ្យា', 50]]},
   {n:'គេហវិទ្យា/សេដ្ឋកិច្ច', s:[['សេដ្ឋកិច្ច', 50]]},
   {n:'អប់រំកាយ', s:[['កីឡា', 25]]}
 ];
@@ -1895,8 +1887,8 @@ function renderScoreTableHeadHTML(type){
           <th style="width:75px">${type==='exam'?'សរុបប្រឡង':'សរុប'}</th>
           <th style="width:85px;background:#fef3c7">${type==='exam'?'មធ្យមប្រឡង':'មធ្យម'}</th>
           ${type==='exam' ? `
-            <th style="width:65px">ចំ.ថ្នាក់</th>
-            <th style="width:60px">និទ្ទេស</th>
+            <th rowspan="2" style="width:65px">ចំ.ថ្នាក់</th>
+            <th rowspan="2" style="width:60px">និទ្ទេស</th>
           ` : `
             <th style="width:55px">ចំណាត់ថ្នាក់</th>
             <th style="width:55px">និទ្ទេស</th>
