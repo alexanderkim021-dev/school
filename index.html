@@ -52,6 +52,42 @@ main{max-width:1100px;width:100%;margin:0 auto;padding:12px 14px 60px;will-chang
 .update-banner.show{transform:translateX(-50%) translateY(0)}
 .btn-upd{background:var(--ac);color:#fff;border:0;padding:5px 14px;border-radius:999px;font:inherit;font-size:12.5px;cursor:pointer;font-weight:bold}
 
+/* ផ្ទាំង Smart Install Prompt (Android/PC/iOS/Telegram) */
+.install-sheet-overlay{
+  position:fixed;left:0;right:0;bottom:0;z-index:99998;
+  padding:12px 14px calc(16px + env(safe-area-inset-bottom, 0px));
+  background:linear-gradient(180deg, rgba(15,23,42,0) 0%, rgba(15,23,42,0.45) 100%);
+  display:none;justify-content:center;align-items:flex-end;
+  pointer-events:none;
+}
+.install-sheet-overlay.show{display:flex;animation:appFade 0.35s ease forwards}
+.install-sheet-card{
+  pointer-events:auto;
+  width:100%;max-width:460px;background:#ffffff;
+  border:2px solid var(--ac);border-radius:20px;
+  padding:16px 18px;box-shadow:0 16px 40px rgba(15,23,42,0.32);
+  position:relative;text-align:left;
+}
+.install-sheet-head{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.install-sheet-icon{width:52px;height:52px;border-radius:12px;object-fit:cover;border:1px solid var(--bd);flex-shrink:0}
+.install-sheet-title{font-family:var(--title-font);font-size:15px;color:#1e3a8a;line-height:1.4}
+.install-sheet-sub{font-size:12.5px;color:var(--mu);line-height:1.4}
+.install-sheet-close{
+  position:absolute;top:10px;right:10px;background:#f1f5f9;border:0;
+  width:28px;height:28px;border-radius:50%;font-size:14px;font-weight:bold;
+  color:var(--mu);cursor:pointer;line-height:28px;text-align:center;padding:0;
+}
+.install-guide-box{
+  background:#eff6ff;border:1px dashed #93c5fd;border-radius:12px;
+  padding:10px 12px;font-size:13px;color:#1e3a8a;line-height:1.6;margin-top:8px;
+}
+.install-guide-box.warn{background:#fef3c7;border-color:#f59e0b;color:#92400e}
+.ios-share-badge{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:#fff;border:1px solid #cbd5e1;border-radius:6px;
+  padding:1px 7px;font-weight:bold;color:#0284c7;margin:0 2px;
+}
+
 /* Sticky Header សម្រាប់ទំព័រដើម (Home) */
 .moeys-header {
   position: sticky;
@@ -199,7 +235,7 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
   margin-bottom: 12px;
 }
 
-/* ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល (ព្រះរាជាណាចក្រកម្ពុជានៅដដែល ឯខាងឆ្វេងរំកិលចុះក្រោម និងមានឡូហ្គោក្រសួងពីលើចំកណ្តាល) */
+/* ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល */
 .official-header {
   display: flex;
   justify-content: space-between;
@@ -331,7 +367,7 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
   transition: transform 0.15s ease-out;
 }
 
-/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការ (ខ្នាតពិត 1123px x 794px គ្មាន Padding ត្រូវគ្នានឹង Template Photoshop ១០០%) */
+/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការ */
 .cert-page-a4 {
   width: 1123px;
   height: 794px;
@@ -353,7 +389,6 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
   outline-offset: -14px;
 }
 
-/* ចាក់ឈ្មោះសាលា និងទីកន្លែងអូតូ ចំកណ្តាលខាងក្រោមពាក្យ មន្ទីរអប់រំ យុវជន និងកីឡា កៀកគ្នា */
 .cert-header-left-auto {
   position: absolute;
   top: 31.5%;
@@ -367,7 +402,6 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
   white-space: nowrap;
 }
 
-/* ពាក្យនាយក... នៅក្រោមពាក្យប័ណ្ណសរសើរធំក្រហម */
 .cert-director-sub {
   position: absolute;
   top: 37.2%;
@@ -380,7 +414,6 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
   line-height: 1.45;
 }
 
-/* តួសេចក្តីស្វ័យប្រវត្តិ */
 .cert-auto-body {
   position: absolute;
   top: 41.5%;
@@ -393,7 +426,6 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
   color: #1e293b;
 }
 
-/* អក្សរក្រហមចាក់អូតូ Khmer OS Muol Light */
 .cert-red-auto {
   font-family: var(--title-font) !important;
   color: #b91c1c !important;
@@ -414,7 +446,6 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
   margin-top: 3px;
 }
 
-/* កាលបរិច្ឆេទ និងហត្ថលេខាក្រោម */
 .cert-auto-sign {
   position: absolute;
   top: 63.5%;
@@ -451,7 +482,7 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
   font-size: 14.5px;
 }
 
-/* Modal បណ្ណាល័យស៊ុមក្បាច់ (ពង្រីកកម្ពស់ដល់ 78vh ឱ្យវែងបង្ហាញបានច្រើនជួរ) */
+/* Modal បណ្ណាល័យស៊ុមក្បាច់ */
 .modal-overlay {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(15, 23, 42, 0.65);
@@ -669,7 +700,7 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
   font-size: 10.5px;
 }
 
-/* ទម្រង់បោះពុម្ពតារាងកិត្តិយស (Top 5) A4 Portrait 794px (រូបភាពសិស្សទម្រង់ជ្រុង) */
+/* ទម្រង់បោះពុម្ពតារាងកិត្តិយស (Top 5) A4 Portrait 794px */
 .honor-poster-sheet {
   width: 794px;
   min-height: 1123px;
@@ -759,7 +790,7 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
     padding: 0 !important;
     margin: 0 !important;
   }
-  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.hint-note{display:none !important}
+  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.hint-note,.install-sheet-overlay{display:none !important}
   main{max-width:100% !important;padding:0 !important;margin:0 !important}
   .card{box-shadow:none !important;border:none !important;padding:0 !important;margin:0 !important}
   .w{max-height:none !important;border:none !important;overflow:visible !important}
@@ -820,6 +851,11 @@ td select.sex-sel{width:88px;min-width:88px;padding:4px 6px;min-height:34px;font
   <button class="btn-upd" onclick="applyAppUpdate()">ចុចអាប់ដេតឥឡូវ</button>
 </div>
 
+<!-- ផ្ទាំង Smart Install Prompt (Android/PC លោតប៊ូតុង Install និង iOS/Telegram លោតផ្ទាំងណែនាំ) -->
+<div id="smartInstallOverlay" class="install-sheet-overlay">
+  <div class="install-sheet-card" id="smartInstallCard"></div>
+</div>
+
 <main id="app"></main>
 <div id="sv" class="sv"></div>
 <input type="file" id="fimp" accept=".json,application/json" style="display:none" onchange="importFile(this.files[0]);this.value=''">
@@ -833,6 +869,128 @@ const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge
 const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
 const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
+
+// ==========================================
+// ប្រព័ន្ធ SMART INSTALL PROMPT (Android / PC / iOS / Telegram)
+// ==========================================
+let deferredInstallPrompt = null;
+let installDismissed = false;
+
+function isAppStandalone(){
+  return window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+}
+
+function getDeviceEnv(){
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+  const isInApp = /Telegram|FBAN|FBAV|Messenger|Line|Zalo|Instagram/i.test(ua);
+  const isIOS = /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const isAndroid = /Android/i.test(ua);
+  return { isInApp, isIOS, isAndroid };
+}
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  if (!isAppStandalone() && !installDismissed) {
+    showSmartInstallSheet(true);
+  }
+});
+
+window.addEventListener('appinstalled', () => {
+  deferredInstallPrompt = null;
+  hideSmartInstallSheet();
+  setStatus('បានដំឡើង App លើអេក្រង់ជោគជ័យ ✓');
+  R();
+});
+
+async function triggerNativeInstall(){
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    const { outcome } = await deferredInstallPrompt.userChoice;
+    if (outcome === 'accepted') {
+      deferredInstallPrompt = null;
+      hideSmartInstallSheet();
+    }
+  } else {
+    showSmartInstallSheet(true);
+  }
+}
+
+function hideSmartInstallSheet(){
+  installDismissed = true;
+  const el = document.getElementById('smartInstallOverlay');
+  if (el) el.classList.remove('show');
+}
+
+function showSmartInstallSheet(force = false){
+  if (isAppStandalone()) return;
+  if (!force && installDismissed) return;
+
+  const overlay = document.getElementById('smartInstallOverlay');
+  const card = document.getElementById('smartInstallCard');
+  if (!overlay || !card) return;
+
+  const { isInApp, isIOS, isAndroid } = getDeviceEnv();
+  let bodyHtml = '';
+
+  if (isInApp) {
+    bodyHtml = `
+      <div class="install-guide-box warn">
+        ⚠️ <b>អ្នកកំពុងបើកក្នុង Telegram / Messenger!</b><br>
+        ដើម្បីដំឡើងកម្មវិធីដាក់លើអេក្រង់ទូរស័ព្ទ សូមចុចសញ្ញាចុចបី <b>(•••)</b> ឬ <b>(⋮)</b> នៅជ្រុងខាងលើ រួចរើសយក <b>«Open in Safari»</b> (សម្រាប់ iPhone) ឬ <b>«Open in Chrome»</b> (សម្រាប់ Android)។
+      </div>
+    `;
+  } else if (deferredInstallPrompt) {
+    bodyHtml = `
+      <button class="pb gr wide" style="margin:10px 0 4px;cursor:pointer" onclick="triggerNativeInstall()">📲 ចុចទីនេះដើម្បីដំឡើង App (Install)</button>
+      <div class="mu small" style="text-align:center">ដំឡើងរួច កម្មវិធីនឹងលោតលើអេក្រង់ និងប្រើពេលគ្មានអ៊ីនធឺណិតបាន ១០០%</div>
+    `;
+  } else if (isIOS) {
+    bodyHtml = `
+      <div class="install-guide-box">
+        <b>វិធីដំឡើងលើ iPhone / iPad (៣ វិនាទី)៖</b><br>
+        ១. ចុចប៊ូតុង <span class="ios-share-badge">⬆️ Share</span> នៅរបារខាងក្រោមអេក្រង់ Safari<br>
+        ២. អូសឡើងលើ រួចចុចពាក្យ <b>«Add to Home Screen»</b> ➕<br>
+        ៣. ចុចពាក្យ <b>«Add»</b> នៅជ្រុងខាងលើស្តាំជាការស្រេច!
+      </div>
+    `;
+  } else if (isAndroid) {
+    bodyHtml = `
+      <div class="install-guide-box">
+        <b>វិធីដំឡើងលើទូរស័ព្ទ Android៖</b><br>
+        ចុចសញ្ញាចុចបី <b>(⋮)</b> នៅជ្រុងខាងលើស្តាំនៃ Chrome រួចចុចពាក្យ <b>«Install app»</b> ឬ <b>«Add to Home screen»</b>។
+      </div>
+    `;
+  } else {
+    bodyHtml = `
+      <div class="install-guide-box">
+        <b>វិធីដំឡើងលើកុំព្យូទ័រ (PC / Mac)៖</b><br>
+        ចុចលើរូបតំណាង <b>Install (💻⬇️)</b> នៅខាងស្តាំនៃប្រអប់ Link ខាងលើ ដើម្បីដំឡើងកម្មវិធីដាក់លើ Desktop។
+      </div>
+    `;
+  }
+
+  card.innerHTML = `
+    <button class="install-sheet-close" onclick="hideSmartInstallSheet()" title="បិទ">✕</button>
+    <div class="install-sheet-head">
+      <img class="install-sheet-icon" src="IMG_2013.png" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+      <div>
+        <div class="install-sheet-title">ដំឡើងកម្មវិធី «គ្រប់គ្រងថ្នាក់រៀន»</div>
+        <div class="install-sheet-sub">ប្រើបានរហ័សពេញអេក្រង់ និងដំណើរការ Offline ១០០%</div>
+      </div>
+    </div>
+    ${bodyHtml}
+  `;
+
+  overlay.classList.add('show');
+}
+
+// បង្ហាញផ្ទាំងណែនាំ Install ដោយស្វ័យប្រវត្តិក្រោយបើក Link ១.២ វិនាទី (ប្រសិនបើមិនទាន់បាន Install)
+window.addEventListener('load', () => {
+  if (!isAppStandalone()) {
+    setTimeout(() => showSmartInstallSheet(false), 1200);
+  }
+});
 
 // បញ្ជីស៊ុមក្បាច់ស្រាប់ រួមបញ្ចូលទាំងស៊ុមថ្មីទាំង ៦ ដែលបាន Upload លើ GitHub
 const BUILTIN_BORDERS = [
@@ -858,9 +1016,7 @@ function getLogoSrc(){
   return DEFAULT_MOEYS_LOGO;
 }
 
-// មុខងារ Auto-Scale ទ្រទ្រង់ទូរស័ព្ទបញ្ឈរទាំងសន្លឹក A4 Landscape (1123px) និង A4 Portrait (794px)
 function updateAllPreviewsScale(){
-  // ១. ប័ណ្ណសរសើរ (A4 Landscape 1123px x 794px)
   const certStage = document.querySelector('.cert-responsive-stage');
   const certWrappers = document.querySelectorAll('.cert-scaler-wrapper');
   if (certStage && certWrappers.length) {
@@ -872,7 +1028,6 @@ function updateAllPreviewsScale(){
     });
   }
 
-  // ២. លិខិតផ្លូវការ កាតសិស្ស និងតារាងកិត្តិយស (A4 Portrait 794px)
   const portStages = document.querySelectorAll('.a4-portrait-stage');
   portStages.forEach(stage => {
     const wrapper = stage.querySelector('.a4-portrait-wrapper');
@@ -907,8 +1062,8 @@ function setSelectedBorder(url){
 }
 
 let showBorderModal = false;
-let borderModalTab = 'ready'; // 'ready' ឬ 'general'
-let photoActionStudentId = null; // Modal ប្តូរ ឬលុបរូបថតសិស្ស
+let borderModalTab = 'ready';
+let photoActionStudentId = null;
 
 async function sbFetch(path, opts = {}){
   const headers = {
@@ -978,7 +1133,6 @@ const KH_NUMS = ['០','១','២','៣','៤','៥','៦','៧','៨','៩'];
 const toKhNum = n => String(n).split('').map(d => KH_NUMS[d] || d).join('');
 const KH_MONTHS = ['មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា','តុលា','វិច្ឆិកា','ធ្នូ'];
 
-// អនុគមន៍គណនាកាលបរិច្ឆេទខ្មែរ ២ ជួរអូតូ (សម្រាប់គ្រូបន្ទុកថ្នាក់ខាងស្តាំ)
 function getKhmerCurrentDate(){
   const now = new Date();
   const d = now.getDate();
@@ -1003,7 +1157,6 @@ function getKhmerCurrentDate(){
   `;
 }
 
-// កាលបរិច្ឆេទសុរិយគតិ ១ ជួរគត់ (សម្រាប់នាយកសាលាខាងឆ្វេង៖ ថ្ងៃទី... ខែ... ឆ្នាំ...)
 function getDirectorSolarDate(){
   const now = new Date();
   const d = String(now.getDate()).padStart(2, '0');
@@ -1670,7 +1823,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   }
 }
 
-// ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល (ព្រះរាជាណាចក្រកម្ពុជានៅដដែល ឯខាងឆ្វេងរំកិលចុះក្រោម និងមានឡូហ្គោក្រសួងពីលើចំកណ្តាល)
+// ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល
 function renderOfficialHeaderHTML(i){
   const logoSrc = getLogoSrc();
   return `
@@ -1732,7 +1885,7 @@ function renderScoreTableHeadHTML(type){
             <th style="width:60px">និទ្ទេស</th>
           ` : `
             <th style="width:55px">ចំណាត់ថ្នាក់</th>
-            <th rowspan="2" style="width:55px">និទ្ទេស</th>
+            <th style="width:55px">និទ្ទេស</th>
             <th style="width:120px">ចំណាំ</th>
           `}
         </tr>
@@ -1781,6 +1934,7 @@ function deleteBorder(id, e){
 
 const P = {
 login(){
+  const showInstallBtn = !isAppStandalone();
   return `<div class="auth"><div class="card">
   <h2>ចូលប្រព័ន្ធ</h2>
   <div id="amsg" class="msg"></div>
@@ -1794,6 +1948,7 @@ login(){
   </label>
   <button class="pb bl wide ${getTheme().touch}" onclick="doLogin()">ចូលប្រព័ន្ធ (Sync Cloud ☁️)</button>
   <div class="f"><button class="bt g" onclick="showCreate()">បង្កើតគណនីថ្មី</button><button class="bt g" onclick="$('#fimp').click()">📥 នាំចូល Backup</button></div>
+  ${showInstallBtn ? `<button class="bt" style="width:100%;background:var(--ok);margin-top:4px" onclick="triggerNativeInstall()">📲 ដំឡើងកម្មវិធីលើអេក្រង់ (Install App)</button>` : ''}
   </div></div>`;
 },
 
@@ -1831,6 +1986,7 @@ home(){
   const yearList = Object.keys(allYearsData);
   const touchCls = getTheme().touch || 'touch-3d';
   const logoSrc = getLogoSrc();
+  const showInstallBtn = !isAppStandalone();
 
   const btnDefs = {
     info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
@@ -1864,7 +2020,8 @@ home(){
         <span class="t2">ក្រសួងអប់រំ យុវជន និងកីឡា</span>
       </div>
     </div>
-    <div style="flex-shrink:0">
+    <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+      ${showInstallBtn ? `<button class="bt" style="padding:4px 10px;min-height:32px;font-size:12px;background:var(--ok)" onclick="triggerNativeInstall()">📲 Install</button>` : ''}
       <button class="bt g" style="padding:4px 10px;min-height:32px;font-size:12px;color:var(--bad)" onclick="logout()">🚪 ចាកចេញ</button>
     </div>
   </div>
