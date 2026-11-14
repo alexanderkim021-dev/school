@@ -201,7 +201,6 @@ th{background:var(--hd);position:sticky;top:0;z-index:2;font-weight:600;color:#3
 th.sn{z-index:4;background:var(--hd)}
 td input{width:56px;padding:4px;min-height:32px;text-align:center;border-radius:6px;font-size:14px}
 td input.t{width:120px;text-align:start;font-size:14px}
-/* ប្រអប់ភេទក្នុងតារាងសិស្ស ខ្លីល្មមសមរម្យ បង្ហាញពាក្យ ស្រី/ប្រុស ច្បាស់ */
 td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font-size:13.5px;border-radius:6px;text-align:center}
 
 .lg{border:2px dashed var(--bd);border-radius:50%;margin:0 auto 10px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;font-size:12px;color:var(--mu);cursor:pointer;line-height:1.3;background:#f8fafc}
@@ -228,7 +227,6 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
 .cp-box{display:flex;align-items:center;gap:10px;margin-bottom:8px}
 .cp-box input[type="color"]{min-height:40px;width:54px;padding:2px;cursor:pointer;border-radius:8px}
 
-/* ប្រអប់ណែនាំខ្លី 💡 ដូចគំរូប្រវត្តិរូបសិស្ស */
 .hint-note{
   display: block;
   font-size: 13px;
@@ -237,7 +235,6 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   margin-bottom: 12px;
 }
 
-/* ក្បាលលិខិតជាតិស្តង់ដាររដ្ឋបាល (រំកិលមន្ទីរ/សាលាឡើងលើវិញបន្តិចឱ្យសមាមាត្រ) */
 .official-header {
   display: flex;
   justify-content: space-between;
@@ -265,7 +262,6 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   padding-top: 0;
 }
 
-/* ប្រព័ន្ធ Auto-Scale ទ្រទ្រង់សន្លឹក A4 Portrait (794px) លើអេក្រង់ទូរស័ព្ទបញ្ឈរឱ្យស្អាតពេញភ្នែក */
 .a4-portrait-stage {
   width: 100%;
   display: flex;
@@ -283,7 +279,6 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   width: 794px;
 }
 
-/* ទម្រង់បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ & ប្រចាំឆ្នាំ (A4 Portrait 794px) */
 .official-sheet{
   width: 794px;
   min-height: 1123px;
@@ -303,7 +298,6 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
 .official-footer{margin-top:18px;display:flex;justify-content:space-between;align-items:flex-start;font-size:12px;line-height:1.5}
 .official-stats{font-size:12px;line-height:1.6;margin-top:10px}
 
-/* ហត្ថលេខាខាងឆ្វេង (នាយកសាលា) រំកិលចុះក្រោមជាងគ្រូបន្ទុកថ្នាក់តាមស្តង់ដាររដ្ឋបាល */
 .director-sign-box{
   text-align:center;
   min-width:280px;
@@ -316,6 +310,82 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   max-width:320px;
   padding-top: 0;
 }
+
+/* ទម្រង់ផែនការសិក្សារបស់សិស្ស (ILP) A4 Portrait */
+.ilp-sheet {
+  width: 794px;
+  min-height: 1123px;
+  background: #fff;
+  padding: 20px 26px;
+  color: #000;
+  font-family: 'Leelawadee UI', 'Kantumruy Pro', sans-serif;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+  box-sizing: border-box;
+  margin: 0 auto;
+  font-size: 11px;
+  line-height: 1.4;
+}
+.ilp-top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 6px;
+}
+.ilp-photo-box {
+  width: 82px;
+  height: 102px;
+  border: 1px solid #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: #f8fafc;
+  flex-shrink: 0;
+}
+.ilp-photo-box img { width: 100%; height: 100%; object-fit: cover; }
+.ilp-meta-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr 0.8fr;
+  gap: 2px 10px;
+  font-size: 11.5px;
+  margin-bottom: 6px;
+  text-align: left;
+}
+.ilp-scale-note {
+  font-size: 10px;
+  background: #f8fafc;
+  border: 1px solid #94a3b8;
+  padding: 3px 6px;
+  margin-bottom: 6px;
+  line-height: 1.45;
+  text-align: left;
+}
+.ilp-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 7px;
+  font-size: 10px;
+}
+.ilp-table th, .ilp-table td {
+  border: 1px solid #333;
+  padding: 2px 2px;
+  text-align: center;
+  height: 18px;
+}
+.ilp-table th { background: #f1f5f9; font-weight: 700; }
+.ilp-sel-mini {
+  width: 100%;
+  min-height: 22px !important;
+  height: 22px;
+  padding: 0 2px !important;
+  font-size: 11px !important;
+  border: 1px solid #cbd5e1;
+  border-radius: 4px;
+  text-align: center;
+  font-weight: bold;
+}
+.ilp-target-txt { color: #000; font-weight: 700; }
+.ilp-actual-txt { color: #dc2626; font-weight: 800; }
 
 /* ទម្រង់បោះពុម្ពតារាងពិន្ទុ, ឆមាស (A4 Landscape) */
 .exam-print-container {
@@ -338,7 +408,6 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
 }
 .exam-paper-table th { background: #f8fafc; font-weight: bold; }
 
-/* បង្វិលក្បាលតារាងអានពីក្រោមឡើងលើត្រឹមត្រូវ ១០០% */
 .th-rot {
   white-space: nowrap !important;
   height: 115px !important;
@@ -366,7 +435,6 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   background: #f1f5f9;
 }
 
-/* ផ្ទាំង Viewport ទ្រទ្រង់ Auto-Fit Scale បង្ហាញស៊ុមពេញលេញលើទូរស័ព្ទ */
 .cert-responsive-stage {
   width: 100%;
   display: flex;
@@ -383,7 +451,6 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   transition: transform 0.15s ease-out;
 }
 
-/* ទម្រង់បណ្ណសរសើរ A4 Landscape ផ្លូវការ */
 .cert-page-a4 {
   width: 1123px;
   height: 794px;
@@ -452,9 +519,7 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   overflow: visible !important;
 }
 
-.cert-reason-text {
-  margin-top: 3px;
-}
+.cert-reason-text { margin-top: 3px; }
 .cert-bless-text {
   font-size: 0.92em;
   font-weight: 700;
@@ -474,16 +539,8 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   font-weight: 700;
   line-height: 1.45;
 }
-.cert-sign-left {
-  width: 325px;
-  text-align: center;
-  padding-top: 18px;
-}
-.cert-sign-right {
-  width: 325px;
-  text-align: center;
-  padding-top: 0;
-}
+.cert-sign-left { width: 325px; text-align: center; padding-top: 18px; }
+.cert-sign-right { width: 325px; text-align: center; padding-top: 0; }
 .cert-sign-role {
   font-family: var(--title-font);
   font-size: 13.5px;
@@ -492,13 +549,8 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   line-height: 1.75 !important;
   overflow: visible !important;
 }
-.cert-sign-name {
-  margin-top: 34px;
-  font-weight: 800;
-  font-size: 14.5px;
-}
+.cert-sign-name { margin-top: 34px; font-weight: 800; font-size: 14.5px; }
 
-/* Modal បណ្ណាល័យស៊ុមក្បាច់ */
 .modal-overlay {
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   background: rgba(15, 23, 42, 0.65);
@@ -543,7 +595,7 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   font-size: 12px; font-weight: bold; cursor: pointer; line-height: 22px; padding: 0;
 }
 
-/* កាតសម្គាល់ខ្លួនសិស្ស (A6 បញ្ឈរ Print លើ A4 បញ្ឈរ 794px x 1123px ៤ កាត/សន្លឹក) */
+/* កាតសម្គាល់ខ្លួនសិស្ស */
 .idcard-a4-page {
   width: 794px;
   min-height: 1123px;
@@ -590,31 +642,11 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   border-bottom: 2px solid #1e3a8a;
   padding-bottom: 6px;
 }
-.id-card-head-top {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.id-card-logo {
-  width: 46px;
-  height: 46px;
-  object-fit: contain;
-  flex-shrink: 0;
-}
-.id-card-kingdom {
-  flex: 1;
-  text-align: center;
-  line-height: 1.45;
-  color: #0f172a;
-}
-.id-card-kingdom .k1 {
-  font-family: var(--title-font);
-  font-size: 12px;
-}
-.id-card-kingdom .k2 {
-  font-family: var(--title-font);
-  font-size: 11px;
-}
+.id-card-head-top { display: flex; align-items: center; gap: 8px; }
+.id-card-logo { width: 46px; height: 46px; object-fit: contain; flex-shrink: 0; }
+.id-card-kingdom { flex: 1; text-align: center; line-height: 1.45; color: #0f172a; }
+.id-card-kingdom .k1 { font-family: var(--title-font); font-size: 12px; }
+.id-card-kingdom .k2 { font-family: var(--title-font); font-size: 11px; }
 .id-card-dept {
   text-align: center;
   font-family: var(--title-font);
@@ -631,47 +663,14 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   flex-direction: column;
   padding-top: 8px;
 }
-.id-card-title-box {
-  text-align: center;
-  line-height: 1.45;
-  margin-bottom: 8px;
-}
-.id-card-title-box .t-main {
-  font-family: var(--title-font);
-  font-size: 15px;
-  color: #0f172a;
-}
-.id-card-title-box .t-sub {
-  font-family: var(--title-font);
-  font-size: 11.5px;
-  color: #1e293b;
-}
-.id-card-info-rows {
-  text-align: left;
-  font-size: 12px;
-  line-height: 1.85;
-  color: #0f172a;
-}
-.id-card-row {
-  display: flex;
-  align-items: baseline;
-  gap: 4px;
-}
-.id-card-lbl {
-  min-width: 88px;
-  color: #1e293b;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-.id-card-val {
-  font-weight: 700;
-  color: #0f172a;
-}
-.id-card-val.muol {
-  font-family: var(--title-font);
-  font-weight: normal;
-  font-size: 12px;
-}
+.id-card-title-box { text-align: center; line-height: 1.45; margin-bottom: 8px; }
+.id-card-title-box .t-main { font-family: var(--title-font); font-size: 15px; color: #0f172a; }
+.id-card-title-box .t-sub { font-family: var(--title-font); font-size: 11.5px; color: #1e293b; }
+.id-card-info-rows { text-align: left; font-size: 12px; line-height: 1.85; color: #0f172a; }
+.id-card-row { display: flex; align-items: baseline; gap: 4px; }
+.id-card-lbl { min-width: 88px; color: #1e293b; font-weight: 600; flex-shrink: 0; }
+.id-card-val { font-weight: 700; color: #0f172a; }
+.id-card-val.muol { font-family: var(--title-font); font-weight: normal; font-size: 12px; }
 .id-card-bottom {
   position: relative;
   z-index: 1;
@@ -693,30 +692,12 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   align-items: center;
   justify-content: center;
 }
-.id-card-photo-box img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.id-card-sign-box {
-  flex: 1;
-  text-align: center;
-  font-size: 11px;
-  line-height: 1.6;
-  padding-bottom: 16px;
-}
-.id-card-school-line {
-  font-size: 11px;
-  margin-bottom: 2px;
-  text-align: left;
-}
-.id-card-school-line b {
-  font-family: var(--title-font);
-  font-weight: normal;
-  font-size: 10.5px;
-}
+.id-card-photo-box img { width: 100%; height: 100%; object-fit: cover; }
+.id-card-sign-box { flex: 1; text-align: center; font-size: 11px; line-height: 1.6; padding-bottom: 16px; }
+.id-card-school-line { font-size: 11px; margin-bottom: 2px; text-align: left; }
+.id-card-school-line b { font-family: var(--title-font); font-weight: normal; font-size: 10.5px; }
 
-/* ទម្រង់បោះពុម្ពតារាងកិត្តិយស (Top 5) A4 Portrait 794px */
+/* ទម្រង់បោះពុម្ពតារាងកិត្តិយស (Top 5) */
 .honor-poster-sheet {
   width: 794px;
   min-height: 1123px;
@@ -729,23 +710,9 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   box-sizing: border-box;
   margin: 0 auto;
 }
-.honor-poster-sheet .official-header .side-box {
-  text-align: center;
-  padding-top: 34px;
-}
-.honor-top5-stage {
-  margin: 34px auto 24px;
-  max-width: 680px;
-  position: relative;
-  min-height: 540px;
-}
-.honor-circle-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  position: absolute;
-}
+.honor-poster-sheet .official-header .side-box { text-align: center; padding-top: 34px; }
+.honor-top5-stage { margin: 34px auto 24px; max-width: 680px; position: relative; min-height: 540px; }
+.honor-circle-card { display: flex; flex-direction: column; align-items: center; text-align: center; position: absolute; }
 .honor-circle-card .photo-frame {
   border-radius: 8px;
   overflow: hidden;
@@ -777,14 +744,8 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   z-index: 2;
 }
-.honor-name-txt {
-  font-size: 15.5px;
-  font-weight: bold;
-  margin-top: 5px;
-  color: #0f172a;
-}
+.honor-name-txt { font-size: 15.5px; font-weight: bold; margin-top: 5px; color: #0f172a; }
 
-/* Preset Themes Grid */
 .preset-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 10px 0 16px;
 }
@@ -822,7 +783,7 @@ td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font
     height: auto !important;
     width: 100% !important;
   }
-  .official-sheet, .honor-poster-sheet {
+  .official-sheet, .honor-poster-sheet, .ilp-sheet {
     width: 100% !important;
     min-height: auto !important;
     box-shadow: none !important;
@@ -1068,8 +1029,9 @@ function setSelectedBorder(url){
 let showBorderModal = false;
 let borderModalTab = 'ready';
 let photoActionStudentId = null;
-let tempPhotoRawData = null; // រក្សាទុករូបថតដើមសម្រាប់ Crop រំកិលឡើងលើ-ចុះក្រោម
-let tempPhotoOffsetY = 50;   // ទីតាំងបញ្ឈរ 0% (លើ) ដល់ 100% (ក្រោម)
+let tempPhotoRawData = null;
+let tempPhotoOffsetY = 50;
+let ilpStudentId = null;
 
 async function sbFetch(path, opts = {}){
   const headers = {
@@ -1258,7 +1220,7 @@ const SUBJ_HIGH_SOCIAL = [
   {n:'គណិតវិទ្យា', s:[['គណិត', 75]]},
   {n:'ភាសាបរទេស', s:[['ភាសា', 50]]},
   {n:'ផែនដីវិទ្យា', s:[['ផែនដី', 50]]},
-  {n:'វិទ្យាសាស្ត្រអនុវត្ត', s:[['វិទ្យា', 50]]},
+  {n:'វិទ្យាសាស្ត្រអនុុវត្ត', s:[['វិទ្យា', 50]]},
   {n:'គេហវិទ្យា/សេដ្ឋកិច្ច', s:[['សេដ្ឋកិច្ច', 50]]},
   {n:'អប់រំកាយ', s:[['កីឡា', 25]]}
 ];
@@ -1286,15 +1248,18 @@ const USER_RE = /^[a-z0-9_.-]{3,30}$/;
 
 const ACCKEY = 'sms_accounts_v7';
 const THEME_KEY = 'sms_theme_settings_v4';
-const ORDER_KEY = 'sms_btn_order_v14';
+const ORDER_KEY = 'sms_btn_order_v15';
 const LAST_YEAR_KEY = 'sms_last_selected_year_v1';
 
-const DEFAULT_BTNS = ['info','stu','sc','examScore','official','sem','annual','ab','honor','cert','idcard','bk','theme','clean'];
+const DEFAULT_BTNS = ['info','stu','sc','examScore','official','sem','annual','ab','honor','cert','idcard','ilp','bk','theme','clean'];
 
 function getBtnOrder(){
   try {
     const s = localStorage.getItem(ORDER_KEY);
-    return s ? JSON.parse(s) : DEFAULT_BTNS;
+    if (!s) return DEFAULT_BTNS;
+    const parsed = JSON.parse(s);
+    if (!parsed.includes('ilp')) parsed.splice(11, 0, 'ilp');
+    return parsed;
   } catch(e) { return DEFAULT_BTNS; }
 }
 
@@ -1435,8 +1400,8 @@ function emptyLevelData(lbl, yr){
   if (lbl === 'វិទ្យាល័យ') { defDiv = 13; defCls = '១១A'; }
   return {
     v: 30, n: 1,
-    info: {province:'', school:'', teacher:'', cls: defCls, year: yr || currentYear, div: defDiv, stream:'science', logo: null, moeysLogo: null},
-    st: [], sc: {}, ab: {}, rm: {},
+    info: {province:'', school:'', teacher:'', teacherPhone:'', cls: defCls, year: yr || currentYear, div: defDiv, stream:'science', logo: null, moeysLogo: null},
+    st: [], sc: {}, ab: {}, rm: {}, ilp: {},
     semExamScores: {0:{}, 1:{}}
   };
 }
@@ -1448,7 +1413,7 @@ function normalizeLevel(d, lbl, yr){
   return {
     ...e, ...d,
     info: {...e.info, ...(d.info || {})},
-    st, sc: d.sc || {}, ab: d.ab || {}, rm: d.rm || {},
+    st, sc: d.sc || {}, ab: d.ab || {}, rm: d.rm || {}, ilp: d.ilp || {},
     semExamScores: d.semExamScores || {0:{}, 1:{}},
     n: Math.max(d.n || 1, ...st.map(s => (+s.id || 0) + 1), 1)
   };
@@ -1655,7 +1620,7 @@ function togglePw(id, btn){
   btn.textContent = isPw ? '🙈' : '👁️';
 }
 
-const tot = (id, m) => sum(((getS().sc[mo] || {})[id]) || []);
+const tot = (id, m) => sum(((getS().sc[m] || {})[id]) || []);
 const av = (id, m) => {
   const t = tot(id, m);
   const div = getDiv(currentLevel, getS().info.stream);
@@ -1758,6 +1723,119 @@ function addNewYearPrompt(){
     save();
   }
   switchYear(yr);
+}
+
+// ==========================================
+// ប្រព័ន្ធផែនការសិក្សារបស់សិស្ស (ILP - Auto-Sync + Manual)
+// ==========================================
+const ILP_SUBJECTS = [
+  { name: '១. ខ្មែរ', keys: ['ខ្មែរ', 'ភាសាខ្មែរ', 'អក្សរសាស្ត្រខ្មែរ'] },
+  { name: '២. គណិត', keys: ['គណិត', 'គណិតវិទ្យា'] },
+  { name: '៣. អង់គ្លេស', keys: ['អង់គ្លេស', 'ភាសាបរទេស'] },
+  { name: '៤. រូបវិទ្យា', keys: ['រូប', 'រូបវិទ្យា'] },
+  { name: '៥. គីមីវិទ្យា', keys: ['គីមី', 'គីមីវិទ្យា'] },
+  { name: '៦. ជីវវិទ្យា', keys: ['ជីវ', 'ជីវវិទ្យា'] },
+  { name: '៧. ផែនដីវិទ្យា', keys: ['ផែនដី', 'ផែនដីវិទ្យា'] },
+  { name: '៨. ពលរដ្ឋវិជ្ជា', keys: ['ពលរដ្ឋ', 'សីល-ពលរដ្ឋ', 'សីលធម៌-ពលរដ្ឋ'] },
+  { name: '៩. ប្រវត្តិវិទ្យា', keys: ['ប្រវត្តិ', 'ប្រវត្តិវិទ្យា'] },
+  { name: '១០. ភូមិវិទ្យា', keys: ['ភូមិ', 'ភូមិវិទ្យា'] }
+];
+
+// ខែតាមលំដាប់ក្នុងឯកសារ ILP ភ្ជាប់ជាមួយសន្ទស្សន៍ MO (វិច្ឆិកា=1 ដល់ សីហា=10)
+const ILP_MONTHS = [
+  { label: 'វិច្ឆិកា', moIdx: 1 },
+  { label: 'ធ្នូ', moIdx: 2 },
+  { label: 'មករា', moIdx: 3 },
+  { label: 'កុម្ភៈ', moIdx: 4 },
+  { label: 'មីនា', moIdx: 5 },
+  { label: 'មេសា', moIdx: 6 },
+  { label: 'ឧសភា', moIdx: 7 },
+  { label: 'មិថុនា', moIdx: 8 },
+  { label: 'កក្កដា', moIdx: 9 },
+  { label: 'សីហា', moIdx: 10 }
+];
+
+function getStudentIlpRecord(stuId){
+  const S = getS();
+  if (!S.ilp) S.ilp = {};
+  if (!S.ilp[stuId]) {
+    S.ilp[stuId] = {
+      khBase: {}, // key: 'grade_col' -> 'A'..'F'
+      mathBase: {},
+      startGrades: {}, // subjIdx -> 'A'..'F'
+      targets: {}, // 'subjIdx_colKey' -> 'A'..'F'
+      actualOverride: {}
+    };
+  }
+  return S.ilp[stuId];
+}
+
+// ទាញនិទ្ទេសជាក់ស្តែង (ពណ៌ក្រហម) ដោយអូតូ ១០០% ពីតារាងពិន្ទុប្រចាំខែ
+function getAutoSubjectGrade(stuId, subjObj, moIdx){
+  const S = getS();
+  const cols = getCols(currentLevel, S.info.stream);
+  const scArr = ((S.sc[moIdx] || {})[stuId]) || [];
+  let sumVal = 0, maxVal = 0, hasScore = false;
+
+  cols.forEach((c, idx) => {
+    const label = (c.sn || c.n || '');
+    if (subjObj.keys.some(k => label.includes(k))) {
+      maxVal += c.m;
+      if (scArr[idx] !== null && scArr[idx] !== undefined && scArr[idx] !== '') {
+        sumVal += (+scArr[idx] || 0);
+        hasScore = true;
+      }
+    }
+  });
+
+  if (!hasScore || maxVal <= 0) return '';
+  const pct = (sumVal / maxVal) * 100;
+  if (pct >= 90) return 'A';
+  if (pct >= 80) return 'B';
+  if (pct >= 70) return 'C';
+  if (pct >= 60) return 'D';
+  if (pct >= 50) return 'E';
+  return 'F';
+}
+
+function getAutoAnnualSubjectGrade(stuId, subjObj){
+  const grades = ILP_MONTHS.map(m => getAutoSubjectGrade(stuId, subjObj, m.moIdx)).filter(Boolean);
+  if (!grades.length) return '';
+  const mapVal = { A: 95, B: 85, C: 75, D: 65, E: 55, F: 40 };
+  const avgPct = sum(grades.map(g => mapVal[g] || 50)) / grades.length;
+  if (avgPct >= 90) return 'A';
+  if (avgPct >= 80) return 'B';
+  if (avgPct >= 70) return 'C';
+  if (avgPct >= 60) return 'D';
+  if (avgPct >= 50) return 'E';
+  return 'F';
+}
+
+function autoGenerateIlpTargets(stuId){
+  const rec = getStudentIlpRecord(stuId);
+  const ladder = ['F', 'E', 'D', 'C', 'B', 'A'];
+  ILP_SUBJECTS.forEach((sub, sIdx) => {
+    const novActual = getAutoSubjectGrade(stuId, sub, 1);
+    const startG = rec.startGrades[sIdx] || novActual || 'E';
+    rec.startGrades[sIdx] = startG;
+    let curIdx = Math.max(0, ladder.indexOf(startG));
+
+    ILP_MONTHS.forEach((m, mIdx) => {
+      if (mIdx > 0 && mIdx % 3 === 0 && curIdx < ladder.length - 1) curIdx++;
+      rec.targets[`${sIdx}_${m.moIdx}`] = ladder[curIdx];
+    });
+    rec.targets[`${sIdx}_end`] = ladder[Math.min(ladder.length - 1, curIdx + 1)];
+  });
+  save();
+  R();
+  setStatus('បានបង្កើតគោលដៅគ្រោងទុកអូតូ ✓');
+}
+
+function setIlpVal(stuId, group, key, val){
+  const rec = getStudentIlpRecord(stuId);
+  rec[group][key] = val;
+  save();
+  R();
 }
 
 // មុខងារ Print ដោយផ្ទាល់
@@ -2006,6 +2084,7 @@ home(){
     honor: {cls:'pu', txt:'🏅 តារាងកិត្តិយស', act:"go('honor')"},
     cert: {cls:'tl', txt:'📜 បណ្ណសរសើរស្វ័យប្រវត្តិ', act:"go('cert')"},
     idcard: {cls:'bl', txt:'🪪 កាតសម្គាល់ខ្លួនសិស្ស', act:"go('idcard')"},
+    ilp: {cls:'pu', style:'background:#7c3aed', txt:'📋 ផែនការសិក្សាសិស្ស (ILP)', act:"go('ilp')"},
     bk: {cls:'gr', txt:'💾 Backup / Restore', act:"go('bk')"},
     theme: {cls:'bl', style:'background:#6366f1', txt:'🎨 កំណត់ស្ទីល និងពណ៌', act:"go('theme')"},
     clean: {cls:'rd', txt:`🧹 សម្អាតទិន្នន័យ (${levelNames[currentLevel]})`, act:"reset()"}
@@ -2111,7 +2190,7 @@ sc(){
     ${moSel()}
     <button class="bt" onclick="executeStandardPrint('monthlyScorePrintContainer', 'តារាងពិន្ទុប្រចាំខែ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
-  <small class="hint-note">💡 សូមជ្រើសរើស <b>ខែ</b> ខាងលើ រួចវាយបញ្ចូលពិន្ទុតាមមុខវិជ្ជានីមួយៗ។ ប្រព័ន្ធនឹងគណនា <b>ពិន្ទុសរុប មធ្យមភាគ ចំណាត់ថ្នាក់ និងនិទ្ទេស</b> ដោយស្វ័យប្រវត្តិ ព្រមទាំងបញ្ជូនទៅតារាងឆមាស និងប័ណ្ណសរសើរភ្លាមៗ។</small>
+  <small class="hint-note">💡 សូមជ្រើសរើស <b>ខែ</b> ខាងលើ រួចវាយបញ្ចូលពិន្ទុតាមមុខវិជ្ជានីមួយៗ។ ប្រព័ន្ធនឹងគណនា <b>ពិន្ទុសរុប មធ្យមភាគ ចំណាត់ថ្នាក់ និងនិទ្ទេស</b> ដោយស្វ័យប្រវត្តិ ព្រមទាំងបញ្ជូនទៅតារាងឆមាស ប័ណ្ណសរសើរ និងផែនការសិក្សាសិស្ស (ILP) ភ្លាមៗ។</small>
   <div class="w screen-ui"><table>
   ${renderScoreTableHeadHTML('monthly')}
   <tbody>
@@ -2623,8 +2702,8 @@ info(){
     <button class="bt g" onclick="delete getS().info.logo;save();R()">លុបរូបសាលា</button>
   </div>
   <div class="f row-2">${k('ឈ្មោះសាលារៀន','school')}${k('មន្ទីរអប់រំ រាជធានី-ខេត្ត','province')}</div>
-  <div class="f row-2">${k('គ្រូបន្ទុកថ្នាក់','teacher')}${k('ថ្នាក់/កម្រិត','cls')}</div>
-  <div class="f">${k('តួចែកមធ្យមភាគ (ពិន្ទុសរុប ÷ តួនេះ)','div',true)}</div>
+  <div class="f row-2">${k('គ្រូបន្ទុកថ្នាក់','teacher')}${k('លេខទូរស័ព្ទគ្រូ','teacherPhone')}</div>
+  <div class="f row-2">${k('ថ្នាក់/កម្រិត','cls')}${k('តួចែកមធ្យមភាគ (ពិន្ទុសរុប ÷ តួនេះ)','div',true)}</div>
   <p class="mu">ឆ្នាំសិក្សាបច្ចុប្បន្ន៖ <b>${E(currentYear)}</b> (តួចែកមធ្យមភាគបច្ចុប្បន្ន = <b>${S.info.div}</b>)។</p></div>`;
 },
 
@@ -2649,6 +2728,12 @@ stu(){
       <td>
         <input type="text" placeholder="វាយ 06022015 ឬ 06/02/2015" value="${E(s.dob || '')}" onchange="setDobDirect(${s.id}, this.value)" onblur="setDobDirect(${s.id}, this.value)" style="width:145px;text-align:start">
       </td>
+      <td>
+        <select onchange="setStuProp(${s.id}, 'status', this.value)" style="width:155px;min-height:34px;padding:4px;font-size:13px">
+          <option value="មធ្យម" ${(s.status||'មធ្យម')==='មធ្យម'?'selected':''}>មធ្យម</option>
+          <option value="ក្រីក្រ (សិស្សជួបការលំបាក)" ${s.status==='ក្រីក្រ (សិស្សជួបការលំបាក)'?'selected':''}>ក្រីក្រ (ជួបការលំបាក)</option>
+        </select>
+      </td>
       <td><input type="text" placeholder="ឈ្មោះឪពុក" value="${E(s.fa || '')}" onchange="setStuProp(${s.id}, 'fa', this.value)" style="width:110px;text-align:start"></td>
       <td><input type="text" placeholder="ឈ្មោះម្តាយ" value="${E(s.mo || '')}" onchange="setStuProp(${s.id}, 'mo', this.value)" style="width:110px;text-align:start"></td>
       <td><input type="text" placeholder="លេខទូរស័ព្ទ" value="${E(s.phn || '')}" onchange="setStuProp(${s.id}, 'phn', this.value)" style="width:105px;text-align:start"></td>
@@ -2670,7 +2755,11 @@ stu(){
     <input id="nfa" lang="km" placeholder="ឈ្មោះឪពុក">
   </div>
   <div class="f">
-    <input id="nphn" type="tel" placeholder="លេខទូរស័ព្ទ">
+    <select id="nstatus">
+      <option value="មធ្យម">ស្ថានភាពគ្រួសារ៖ មធ្យម</option>
+      <option value="ក្រីក្រ (សិស្សជួបការលំបាក)">ស្ថានភាពគ្រួសារ៖ ក្រីក្រ (សិស្សជួបការលំបាក)</option>
+    </select>
+    <input id="nphn" type="tel" placeholder="លេខទូរស័ព្ទអាណាព្យាបាល">
     <input id="naddr" lang="km" placeholder="អាសយដ្ឋាន (ភូមិ/ឃុំ)">
     <input id="nnote" lang="km" placeholder="ផ្សេងៗ">
     <button class="bt" onclick="addS()">➕ បន្ថែមសិស្ស</button>
@@ -2693,6 +2782,7 @@ stu(){
           <th class="sn">គោត្តនាម-នាម</th>
           <th style="width:72px">ភេទ</th>
           <th style="width:145px">ថ្ងៃខែឆ្នាំកំណើត</th>
+          <th style="width:155px">ស្ថានភាពគ្រួសារ</th>
           <th>ឈ្មោះឪពុក</th>
           <th>ឈ្មោះម្តាយ</th>
           <th>លេខទូរស័ព្ទ</th>
@@ -2702,7 +2792,7 @@ stu(){
         </tr>
       </thead>
       <tbody>
-        ${rows || '<tr><td colspan="11" class="em">មិនទាន់មានសិស្សក្នុងឆ្នាំសិក្សា ' + currentYear + '</td></tr>'}
+        ${rows || '<tr><td colspan="12" class="em">មិនទាន់មានសិស្សក្នុងឆ្នាំសិក្សា ' + currentYear + '</td></tr>'}
       </tbody>
     </table></div>
   </div>
@@ -2728,6 +2818,228 @@ stu(){
     </div>
   ` : ''}
   `;
+},
+
+ilp(){
+  const S = getS();
+  const i = S.info;
+  if (!S.st.length) {
+    return head('ផែនការសិក្សារបស់សិស្ស (ILP)') + `<div class="card"><div class="em">មិនទាន់មានឈ្មោះសិស្សក្នុងបញ្ជី! សូមបញ្ចូលឈ្មោះសិស្សជាមុនសិន។</div></div>`;
+  }
+  if (!ilpStudentId || !S.st.some(x => x.id === ilpStudentId)) ilpStudentId = S.st[0].id;
+  const stu = S.st.find(x => x.id === ilpStudentId);
+  const rec = getStudentIlpRecord(stu.id);
+  const gradesList = ['', 'A', 'B', 'C', 'D', 'E', 'F'];
+
+  const renderGradeSelect = (group, key, currentVal, colorCls = '') => `
+    <select class="ilp-sel-mini ${colorCls}" onchange="setIlpVal(${stu.id}, '${group}', '${key}', this.value)">
+      ${gradesList.map(g => `<option value="${g}" ${currentVal===g?'selected':''}>${g || '-'}</option>`).join('')}
+    </select>
+  `;
+
+  const baseGrades = ['ទី៨', 'ទី៧', 'ទី៦', 'ទី៥', 'ទី៤', 'ទី៣'];
+  const khCols = ['c1', 'c2', 'c3', 'c4', 'c5', 'start', 'q1_b', 'q1_r', 'q2_b', 'q2_r', 'end_b', 'end_r'];
+  const mathCols = ['A', 'B', 'C', 'D', 'E', 'F', 'q1_b', 'q1_r', 'q2_b', 'q2_r', 'end_b', 'end_r'];
+
+  const subjRows = ILP_SUBJECTS.map((sub, sIdx) => {
+    const startG = rec.startGrades[sIdx] || '';
+    const monthCells = ILP_MONTHS.map(m => {
+      const tVal = rec.targets[`${sIdx}_${m.moIdx}`] || '';
+      const autoAct = getAutoSubjectGrade(stu.id, sub, m.moIdx);
+      const actVal = rec.actualOverride[`${sIdx}_${m.moIdx}`] !== undefined ? rec.actualOverride[`${sIdx}_${m.moIdx}`] : autoAct;
+      return `
+        <td style="padding:1px"><span class="screen-ui">${renderGradeSelect('targets', `${sIdx}_${m.moIdx}`, tVal, 'ilp-target-txt')}</span><span class="exam-print-container ilp-target-txt" style="display:none">${tVal || ''}</span></td>
+        <td style="padding:1px;background:#fff5f5"><span class="screen-ui">${renderGradeSelect('actualOverride', `${sIdx}_${m.moIdx}`, actVal, 'ilp-actual-txt')}</span><span class="exam-print-container ilp-actual-txt" style="display:none">${actVal || ''}</span></td>
+      `;
+    }).join('');
+
+    const endTarget = rec.targets[`${sIdx}_end`] || '';
+    const endActual = rec.actualOverride[`${sIdx}_end`] !== undefined ? rec.actualOverride[`${sIdx}_end`] : getAutoAnnualSubjectGrade(stu.id, sub);
+
+    return `
+      <tr>
+        <td style="text-align:start;padding-left:4px;font-weight:600;white-space:nowrap">${sub.name}</td>
+        <td style="padding:1px"><span class="screen-ui">${renderGradeSelect('startGrades', `${sIdx}`, startG, 'ilp-target-txt')}</span><span class="exam-print-container ilp-target-txt" style="display:none">${startG || ''}</span></td>
+        ${monthCells}
+        <td style="padding:1px"><span class="screen-ui">${renderGradeSelect('targets', `${sIdx}_end`, endTarget, 'ilp-target-txt')}</span><span class="exam-print-container ilp-target-txt" style="display:none">${endTarget || ''}</span></td>
+        <td style="padding:1px;background:#fff5f5"><span class="screen-ui">${renderGradeSelect('actualOverride', `${sIdx}_end`, endActual, 'ilp-actual-txt')}</span><span class="exam-print-container ilp-actual-txt" style="display:none">${endActual || ''}</span></td>
+      </tr>
+    `;
+  }).join('');
+
+  const parentName = stu.fa || stu.mo || '....................';
+  const curDateStr = getKhmerCurrentDate();
+
+  return head('ផែនការសិក្សារបស់សិស្ស (ILP)') + `<div class="card">
+  <div class="f">
+    <select onchange="ilpStudentId=+this.value;R()">
+      ${S.st.map((st, idx) => `<option value="${st.id}" ${st.id===stu.id?'selected':''}>${idx + 1}. ${E(st.name)} (${st.sex==='ស'?'ស្រី':'ប្រុស'})</option>`).join('')}
+    </select>
+    <button class="bt" style="background:var(--ok)" onclick="autoGenerateIlpTargets(${stu.id})">⚡ បង្កើតគោលដៅអូតូ</button>
+    <button class="bt" onclick="executeStandardPrint('ilpPrintArea', 'ផែនការសិក្សាសិស្ស_${E(stu.name)}', false)">🖨️ បោះពុម្ពទម្រង់ A4</button>
+  </div>
+  <small class="hint-note">💡 <b>របៀបប្រើ៖</b> ជួរឈរទី២ (ពណ៌ក្រហម) នៃខែនីមួយៗត្រូវបាន <b>ចងអូតូ ១០០%</b> ពីតារាងពិន្ទុប្រចាំខែ។ លោកគ្រូគ្រាន់តែចុច <b>«⚡ បង្កើតគោលដៅអូតូ»</b> សម្រាប់ពណ៌ខ្មៅ រួចចុចបោះពុម្ព A4 បានភ្លាម។</small>
+
+  <div class="a4-portrait-stage">
+    <div class="a4-portrait-wrapper">
+      <div class="ilp-sheet print-page" id="ilpPrintArea">
+        <div class="ilp-top-row">
+          <div class="ilp-photo-box">
+            ${stu.ph ? `<img src="${stu.ph}">` : '<span style="color:#94a3b8;font-size:10px;text-align:center">រូបថត<br>សិស្ស</span>'}
+          </div>
+          <div style="text-align:center;flex:1">
+            <div class="muol-title" style="font-size:14px">ព្រះរាជាណាចក្រកម្ពុជា</div>
+            <div class="muol-title" style="font-size:12.5px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+            <div style="font-weight:bold;font-size:12px;margin-top:4px">ការពិនិត្យឡើងវិញកម្រិតនិទ្ទេសសិស្សម្នាក់ៗ</div>
+            <div class="muol-title" style="font-size:13.5px;margin-top:2px">ផែនការសិក្សារបស់សិស្ស</div>
+            <div style="font-weight:bold;font-size:11.5px">ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
+          </div>
+          <div style="width:82px;text-align:right;font-size:10px;color:#64748b">(១)</div>
+        </div>
+
+        <div class="ilp-meta-grid">
+          <div>ឈ្មោះសិស្ស ៖ <b>${E(stu.name)}</b></div>
+          <div>ភេទ ៖ <b>${stu.sex==='ស'?'ស្រី':'ប្រុស'}</b></div>
+          <div>ថ្នាក់ទី ៖ <b>${E(i.cls || '...')}</b></div>
+          <div style="grid-column:span 3">ស្ថានភាពគ្រួសារ ៖ <b>${E(stu.status || 'មធ្យម')}</b></div>
+          <div style="grid-column:span 2">សាលារៀន ៖ <b>${E(i.school || '....................')}</b></div>
+          <div>ខេត្ត/រាជធានី ៖ <b>${E(i.province || '..........')}</b></div>
+          <div style="grid-column:span 2">ឈ្មោះមាតាបិតា ៖ <b>${E(parentName)}</b></div>
+          <div>លេខទូរស័ព្ទ ៖ <b>${E(stu.phn || '..........')}</b></div>
+          <div style="grid-column:span 2">ឈ្មោះគ្រូបន្ទុកថ្នាក់ ៖ <b>${E(i.teacher || '....................')}</b></div>
+          <div>លេខទូរស័ព្ទ ៖ <b>${E(i.teacherPhone || '..........')}</b></div>
+        </div>
+
+        <div class="ilp-scale-note">
+          <div>• កម្រិតពិន្ទុ (មេគុណ១០០)៖ F ក្រោម 50ពិន្ទុ | E ពី 51-60ពិន្ទុ | D ពី 61-70ពិន្ទុ | C ពី 71-79ពិន្ទុ | B ពី 80-89ពិន្ទុ | A ពី 90-100ពិន្ទុ</div>
+          <div>• កម្រិតពិន្ទុ (មេគុណ៥០)៖ F ក្រោម 25ពិន្ទុ | E ពី 25-29ពិន្ទុ | D ពី 30-34ពិន្ទុ | C ពី 35-39ពិន្ទុ | B ពី 40-44ពិន្ទុ | A ពី 45-50ពិន្ទុ</div>
+        </div>
+
+        <!-- តារាងកម្រិតសិក្សាភាសាខ្មែរ -->
+        <table class="ilp-table">
+          <thead>
+            <tr>
+              <th rowspan="2" style="width:45px">កម្រិត<br>ថ្នាក់</th>
+              <th colspan="6">កម្រិតសិក្សាភាសាខ្មែរ ដើមឆ្នាំសិក្សា(ខ្មៅ) ចុងឆ្នាំសិក្សា(ក្រហម)</th>
+              <th colspan="2">ចុងត្រីមាសទី១</th>
+              <th colspan="2">ចុងត្រីមាសទី២</th>
+              <th colspan="2">កម្រិតសិក្សាចុងឆ្នាំ</th>
+            </tr>
+            <tr>
+              <th>១.ស្គាល់ព្យញ្ជនៈ</th>
+              <th>២.ស្គាល់សំឡេង</th>
+              <th>៣.ស្គាល់ពាក្យ</th>
+              <th>៤.អានស្ទាត់</th>
+              <th>៥.អានយល់</th>
+              <th>ដើមឆ្នាំ</th>
+              <th>ខ្មៅ</th>
+              <th style="color:#dc2626">ក្រហម</th>
+              <th>ខ្មៅ</th>
+              <th style="color:#dc2626">ក្រហម</th>
+              <th>ខ្មៅ</th>
+              <th style="color:#dc2626">ក្រហម</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${baseGrades.map(g => `
+              <tr>
+                <td style="font-weight:bold">${g}</td>
+                ${khCols.map(c => {
+                  const k = `${g}_${c}`;
+                  const v = rec.khBase[k] || '';
+                  const isRed = c.endsWith('_r');
+                  return `<td style="padding:1px;${isRed?'background:#fff5f5':''}"><span class="screen-ui">${renderGradeSelect('khBase', k, v, isRed?'ilp-actual-txt':'ilp-target-txt')}</span><span class="exam-print-container ${isRed?'ilp-actual-txt':'ilp-target-txt'}" style="display:none">${v}</span></td>`;
+                }).join('')}
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+
+        <!-- តារាងកម្រិតសិក្សាគណិតវិទ្យា -->
+        <table class="ilp-table">
+          <thead>
+            <tr>
+              <th rowspan="2" style="width:45px">កម្រិត<br>ថ្នាក់</th>
+              <th colspan="6">កម្រិតសិក្សាគណិតវិទ្យា ដើមឆ្នាំសិក្សា(ខ្មៅ) ចុងឆ្នាំសិក្សា(ក្រហម)</th>
+              <th colspan="2">ចុងត្រីមាសទី១</th>
+              <th colspan="2">ចុងត្រីមាសទី២</th>
+              <th colspan="2">កម្រិតសិក្សាចុងឆ្នាំ</th>
+            </tr>
+            <tr>
+              <th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th>
+              <th>ខ្មៅ</th><th style="color:#dc2626">ក្រហម</th>
+              <th>ខ្មៅ</th><th style="color:#dc2626">ក្រហម</th>
+              <th>ខ្មៅ</th><th style="color:#dc2626">ក្រហម</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${baseGrades.map(g => `
+              <tr>
+                <td style="font-weight:bold">${g}</td>
+                ${mathCols.map(c => {
+                  const k = `${g}_${c}`;
+                  const v = rec.mathBase[k] || '';
+                  const isRed = c.endsWith('_r');
+                  return `<td style="padding:1px;${isRed?'background:#fff5f5':''}"><span class="screen-ui">${renderGradeSelect('mathBase', k, v, isRed?'ilp-actual-txt':'ilp-target-txt')}</span><span class="exam-print-container ${isRed?'ilp-actual-txt':'ilp-target-txt'}" style="display:none">${v}</span></td>`;
+                }).join('')}
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+
+        <!-- តារាងមុខវិជ្ជាប្រចាំខែ -->
+        <table class="ilp-table">
+          <thead>
+            <tr>
+              <th rowspan="2" style="width:76px">មុខវិជ្ជា</th>
+              <th rowspan="2" style="width:32px">ដើម<br>ឆ្នាំ</th>
+              <th colspan="22">កម្រិតពិន្ទុនិងនិទ្ទេសគ្រោងទុក(ខ្មៅ) និងលទ្ធផលជាក់ស្តែង(ក្រហម)</th>
+            </tr>
+            <tr>
+              ${ILP_MONTHS.map(m => `<th colspan="2">${m.label}</th>`).join('')}
+              <th>គ្រោង<br>ចុងឆ្នាំ</th>
+              <th style="color:#dc2626">លទ្ធផល<br>ជាក់ស្តែង</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${subjRows}
+          </tbody>
+        </table>
+
+        <!-- ផ្នែកហត្ថលេខា ៤ ភាគី -->
+        <div style="margin-top:8px;font-size:10.5px">
+          <div style="text-align:right;margin-bottom:4px">${curDateStr}</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center">
+            <div>
+              <div style="font-weight:bold">បានឃើញ និងឯកភាព</div>
+              <div style="font-weight:bold">គ្រូទទួលបន្ទុកថ្នាក់</div>
+              <div style="margin-top:34px;font-weight:bold">${E(i.teacher || '')}</div>
+            </div>
+            <div>
+              <div style="font-weight:bold">ហត្ថលេខា ឬស្នាមមេដៃ</div>
+              <div>មាតាបិតា (ដើមឆ្នាំ)</div>
+              <div style="margin-top:34px;font-weight:bold">${E(parentName)}</div>
+            </div>
+            <div>
+              <div style="font-weight:bold">ហត្ថលេខា ឬស្នាមមេដៃ</div>
+              <div>មាតាបិតា (ចុងឆ្នាំ)</div>
+              <div style="margin-top:34px;font-weight:bold">${E(parentName)}</div>
+            </div>
+            <div>
+              <div style="font-weight:bold">ហត្ថលេខា / ឈ្មោះសិស្ស</div>
+              <div>សាមីខ្លួន</div>
+              <div style="margin-top:34px;font-weight:bold">${E(stu.name)}</div>
+            </div>
+          </div>
+          <div style="text-align:center;margin-top:10px">
+            <div style="font-weight:bold">បានឃើញ និងឯកភាព</div>
+            <div style="font-weight:bold">នាយក / នាយករង</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>`;
 },
 
 ab(){
@@ -3279,7 +3591,7 @@ function R(){
   app.innerHTML = P[pg]();
   if (pg === 'sc') upd();
   if (pg === 'home') initDragAndDrop();
-  if (['cert', 'official', 'annual', 'honor', 'idcard'].includes(pg)) {
+  if (['cert', 'official', 'annual', 'honor', 'idcard', 'ilp'].includes(pg)) {
     setTimeout(updateAllPreviewsScale, 50);
   }
 }
@@ -3473,6 +3785,7 @@ function addS(){
   const rawDob = $('#ndob').value.trim();
   const fa = $('#nfa').value.trim();
   const mo = $('#nmo').value.trim();
+  const status = $('#nstatus') ? $('#nstatus').value : 'មធ្យម';
   const phn = $('#nphn').value.trim();
   const addr = $('#naddr').value.trim();
   const note = ($('#nnote') ? $('#nnote').value : '').trim();
@@ -3482,7 +3795,7 @@ function addS(){
 
   getS().st.push({
     id: getS().n++, name: n, sex: $('#ns').value,
-    dob: dobText, fa, mo, phn, addr, note
+    dob: dobText, status, fa, mo, phn, addr, note
   });
   save(); R();
 }
