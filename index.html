@@ -97,23 +97,24 @@ main{max-width:1100px;width:100%;margin:0 auto;padding:12px 14px 60px;will-chang
   align-items: center;
   justify-content: space-between;
   border-bottom: 1px solid var(--bd);
-  padding: 10px 14px;
+  padding: 10px 12px;
   margin: -18px -14px 16px -14px;
   border-radius: var(--card-radius) var(--card-radius) 0 0;
   text-align: left;
-  gap: 8px;
+  gap: 6px;
 }
-.moeys-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.moeys-brand { display: flex; align-items: center; gap: 8px; min-width: 0; }
+/* Logo ទំព័រ Home ខាងលើ៖ ពង្រីកធំបន្តិច (54px) មិនធំពេក និងរក្សារាងមូលស្អាត */
 .moeys-logo {
-  width: 48px; height: 48px; border-radius: 50%; object-fit: contain; flex-shrink: 0;
+  width: 54px; height: 54px; aspect-ratio: 1 / 1; border-radius: 50%; object-fit: contain; flex-shrink: 0;
   background: #fff; border: 1px solid var(--bd); padding: 2px;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08); cursor: pointer;
   transition: transform 0.15s ease;
 }
 .moeys-logo:active { transform: scale(0.95); }
-.moeys-text { line-height: 1.35; min-width: 0; }
-.moeys-text .t1 { font-family: var(--title-font); font-size: 13px; color: #1e3a8a; display: block; }
-.moeys-text .t2 { font-size: 11.5px; color: var(--mu); font-weight: 600; }
+.moeys-text { line-height: 1.3; min-width: 0; }
+.moeys-text .t1 { font-family: var(--title-font); font-size: 12px; color: #1e3a8a; display: block; white-space: nowrap; }
+.moeys-text .t2 { font-size: 11px; color: var(--mu); font-weight: 600; display: block; white-space: nowrap; }
 
 h1, h2, h3, .muol-title { font-family: var(--title-font) !important; font-weight: normal; }
 .top{
@@ -173,9 +174,6 @@ h1, h2, h3, .muol-title { font-family: var(--title-font) !important; font-weight
 .f{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;align-items:flex-end}
 .f>*{flex:1 1 200px;min-width:0}
 .f.row-2>*{flex:1 1 42%;min-width:130px}
-.f.row-stu3>*:nth-child(1){flex:2 1 130px;min-width:110px}
-.f.row-stu3>*:nth-child(2){flex:2 1 130px;min-width:110px}
-.f.row-stu3>*:nth-child(3){flex:0 0 88px;min-width:88px}
 .f label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;width:100%}
 .f label input, .f label select{width:100%;display:block;box-sizing:border-box}
 input,select,textarea{font:inherit;font-size:16px;color:var(--tx);background:#fff;border:1px solid var(--bd);border-radius:10px;padding:8px 10px;min-height:42px;width:100%;box-sizing:border-box}
@@ -187,7 +185,6 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .bt.r{background:var(--rd)}
 .x{background:none;border:0;color:var(--bad);cursor:pointer;font:inherit;font-weight:600}
 
-/* តារាងលើអេក្រង់ UI (Slide / Horizontal Scroll) */
 .w{overflow:auto;max-height:74vh;border:1px solid var(--bd);border-radius:12px;-webkit-overflow-scrolling:touch}
 table{border-collapse:separate;border-spacing:0;font-size:13px;width:100%}
 th,td{padding:8px 8px;border-bottom:1px solid var(--bd);border-inline-end:1px solid var(--bd);white-space:nowrap;text-align:center;background:var(--cd)}
@@ -198,7 +195,6 @@ td input{width:56px;padding:4px;min-height:32px;text-align:center;border-radius:
 td input.t{width:120px;text-align:start;font-size:14px}
 td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font-size:13.5px;border-radius:6px;text-align:center}
 
-/* ប្រអប់ជ្រើសរើសនិទ្ទេសក្នុងតារាង ILP លើអេក្រង់ (ងាយចុចលើទូរស័ព្ទ) */
 td select.ilp-ui-sel{
   width:56px;min-width:56px;padding:4px 2px;min-height:34px;
   font-size:14.5px;border-radius:8px;text-align:center;font-weight:800;
@@ -239,31 +235,35 @@ td select.ilp-ui-sel.black{color:#0f172a}
   margin-bottom: 12px;
 }
 
+/* រាល់ក្បាលលិខិត៖ រំកិល Logo ចុះឱ្យកៀក មន្ទីរអប់រំ... នៅចំកណ្តាលខាងលើ ហើយទំហំល្មម (height: 46px; width: auto) មិនខូចទ្រង់ទ្រាយពេលចុច Print */
 .official-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-top: 4px;
-  margin-bottom: 14px;
-  line-height: 1.4;
+  margin-top: 2px;
+  margin-bottom: 12px;
+  line-height: 1.35;
   width: 100%;
 }
 .official-header .side-box {
   text-align: center;
-  padding-top: 34px;
+  padding-top: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 230px;
 }
-.official-header .side-box img.hdr-moeys-logo {
-  width: 46px;
-  height: 46px;
-  object-fit: contain;
-  margin-bottom: 3px;
+.official-header .side-box img.hdr-moeys-img {
+  height: 46px !important;
+  width: auto !important;
+  max-width: none !important;
+  display: block;
+  margin: 0 auto 2px auto;
 }
 .official-header .center-box {
   text-align: center;
   padding-top: 0;
+  min-width: 240px;
 }
 
 .a4-portrait-stage {
@@ -332,8 +332,8 @@ td select.ilp-ui-sel.black{color:#0f172a}
   margin-bottom: 6px;
 }
 .ilp-photo-box {
-  width: 82px;
-  height: 102px;
+  width: 86px;
+  height: 108px;
   border: 1px solid #444;
   display: flex;
   align-items: center;
@@ -341,15 +341,16 @@ td select.ilp-ui-sel.black{color:#0f172a}
   overflow: hidden;
   background: #f8fafc;
   flex-shrink: 0;
+  margin-top: 14px;
 }
 .ilp-photo-box img { width: 100%; height: 100%; object-fit: cover; }
 .ilp-meta-grid {
   display: grid;
-  grid-template-columns: 1.4fr 0.8fr 0.8fr;
-  gap: 2px 10px;
-  font-size: 11.5px;
-  margin-bottom: 6px;
-  text-align: left;
+  grid-template-columns: 1.35fr 0.75fr 1.1fr;
+  gap: 3px 8px;
+  font-size: 12.5px;
+  margin-bottom: 8px;
+  width: 100%;
 }
 .ilp-scale-note {
   font-size: 10px;
@@ -461,9 +462,10 @@ td select.ilp-ui-sel.black{color:#0f172a}
   outline-offset: -14px;
 }
 
+/* បណ្ណសរសើរ៖ ដកពាក្យកម្រិតសាលាចេញ និងតម្រឹមស្របស្មើនឹងមន្ទីរអប់រំ */
 .cert-header-left-auto {
   position: absolute;
-  top: 31.5%;
+  top: 30.8%;
   left: 11.2%;
   width: 230px;
   text-align: center;
@@ -481,19 +483,19 @@ td select.ilp-ui-sel.black{color:#0f172a}
   width: 82%;
   text-align: center;
   font-family: var(--title-font);
-  font-size: 18px;
+  font-size: 17px;
   color: #1e3a8a;
   line-height: 1.45;
 }
 
 .cert-auto-body {
   position: absolute;
-  top: 41.5%;
+  top: 41.8%;
   left: 9%;
   width: 82%;
   text-align: center;
-  line-height: 1.8;
-  font-size: 19.5px;
+  line-height: 1.72;
+  font-size: 17px;
   font-weight: 700;
   color: #1e293b;
 }
@@ -504,7 +506,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
   font-weight: normal !important;
   display: inline-block;
   padding: 0 2px;
-  line-height: 1.65 !important;
+  line-height: 1.55 !important;
   overflow: visible !important;
 }
 
@@ -584,6 +586,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
   font-size: 12px; font-weight: bold; cursor: pointer; line-height: 22px; padding: 0;
 }
 
+/* កាតសម្គាល់ខ្លួនសិស្ស (ID Card A6)៖ ពង្រីក Logo Watermark ធំខ្លាំង, Logo លើឆ្វេង, ព្រះរាជា និងព័ត៌មានបំពេញ */
 .idcard-a4-page {
   width: 794px;
   min-height: 1123px;
@@ -614,13 +617,12 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .id-card-watermark {
   position: absolute;
-  top: 56%;
+  top: 58%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 185px;
-  height: 185px;
-  object-fit: contain;
-  opacity: 0.14;
+  height: 265px !important;
+  width: auto !important;
+  opacity: 0.17;
   pointer-events: none;
   z-index: 0;
 }
@@ -631,17 +633,21 @@ td select.ilp-ui-sel.black{color:#0f172a}
   padding-bottom: 6px;
 }
 .id-card-head-top { display: flex; align-items: center; gap: 8px; }
-.id-card-logo { width: 46px; height: 46px; object-fit: contain; flex-shrink: 0; }
-.id-card-kingdom { flex: 1; text-align: center; line-height: 1.45; color: #0f172a; }
-.id-card-kingdom .k1 { font-family: var(--title-font); font-size: 12px; }
-.id-card-kingdom .k2 { font-family: var(--title-font); font-size: 11px; }
+.id-card-logo {
+  height: 58px !important;
+  width: auto !important;
+  flex-shrink: 0;
+}
+.id-card-kingdom { flex: 1; text-align: center; line-height: 1.5; color: #0f172a; }
+.id-card-kingdom .k1 { font-family: var(--title-font); font-size: 14px; }
+.id-card-kingdom .k2 { font-family: var(--title-font); font-size: 13px; }
 .id-card-dept {
   text-align: center;
   font-family: var(--title-font);
-  font-size: 10.5px;
+  font-size: 11px;
   color: #1e3a8a;
   margin-top: 4px;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 .id-card-body {
   position: relative;
@@ -649,16 +655,16 @@ td select.ilp-ui-sel.black{color:#0f172a}
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding-top: 8px;
+  padding-top: 14px;
 }
-.id-card-title-box { text-align: center; line-height: 1.45; margin-bottom: 8px; }
-.id-card-title-box .t-main { font-family: var(--title-font); font-size: 15px; color: #0f172a; }
-.id-card-title-box .t-sub { font-family: var(--title-font); font-size: 11.5px; color: #1e293b; }
-.id-card-info-rows { text-align: left; font-size: 12px; line-height: 1.85; color: #0f172a; }
-.id-card-row { display: flex; align-items: baseline; gap: 4px; }
-.id-card-lbl { min-width: 88px; color: #1e293b; font-weight: 600; flex-shrink: 0; }
+.id-card-title-box { text-align: center; line-height: 1.5; margin-bottom: 14px; }
+.id-card-title-box .t-main { font-family: var(--title-font); font-size: 17px; color: #0f172a; }
+.id-card-title-box .t-sub { font-family: var(--title-font); font-size: 13px; color: #1e293b; margin-top: 3px; }
+.id-card-info-rows { text-align: left; font-size: 13.5px; line-height: 2; color: #0f172a; margin-top: 4px; }
+.id-card-row { display: flex; align-items: baseline; gap: 5px; }
+.id-card-lbl { min-width: 98px; color: #1e293b; font-weight: 600; flex-shrink: 0; }
 .id-card-val { font-weight: 700; color: #0f172a; }
-.id-card-val.muol { font-family: var(--title-font); font-weight: normal; font-size: 12px; }
+.id-card-val.muol { font-family: var(--title-font); font-weight: normal; font-size: 13.5px; }
 .id-card-bottom {
   position: relative;
   z-index: 1;
@@ -670,8 +676,8 @@ td select.ilp-ui-sel.black{color:#0f172a}
   padding-top: 8px;
 }
 .id-card-photo-box {
-  width: 80px;
-  height: 102px;
+  width: 82px;
+  height: 104px;
   border: 1.5px solid #94a3b8;
   background: #f8fafc;
   overflow: hidden;
@@ -681,9 +687,9 @@ td select.ilp-ui-sel.black{color:#0f172a}
   justify-content: center;
 }
 .id-card-photo-box img { width: 100%; height: 100%; object-fit: cover; }
-.id-card-sign-box { flex: 1; text-align: center; font-size: 11px; line-height: 1.6; padding-bottom: 16px; }
-.id-card-school-line { font-size: 11px; margin-bottom: 2px; text-align: left; }
-.id-card-school-line b { font-family: var(--title-font); font-weight: normal; font-size: 10.5px; }
+.id-card-sign-box { flex: 1; text-align: center; font-size: 11.5px; line-height: 1.65; padding-bottom: 14px; }
+.id-card-school-line { font-size: 11.5px; margin-bottom: 2px; text-align: left; }
+.id-card-school-line b { font-family: var(--title-font); font-weight: normal; font-size: 11px; }
 
 .honor-poster-sheet {
   width: 794px;
@@ -697,7 +703,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
   box-sizing: border-box;
   margin: 0 auto;
 }
-.honor-poster-sheet .official-header .side-box { text-align: center; padding-top: 34px; }
+.honor-poster-sheet .official-header .side-box { text-align: center; padding-top: 24px; }
 .honor-top5-stage { margin: 34px auto 24px; max-width: 680px; position: relative; min-height: 540px; }
 .honor-circle-card { display: flex; flex-direction: column; align-items: center; text-align: center; position: absolute; }
 .honor-circle-card .photo-frame {
@@ -1708,7 +1714,7 @@ function addNewYearPrompt(){
 }
 
 // ==========================================
-// ប្រព័ន្ធផែនការសិក្សារបស់សិស្ស (ILP - Standard Auto-Sync + Slide UI)
+// ប្រព័ន្ធផែនការសិក្សារបស់សិស្ស (ILP)
 // ==========================================
 const ILP_SUBJECTS = [
   { name: '១. ខ្មែរ', keys: ['ខ្មែរ', 'ភាសាខ្មែរ', 'អក្សរសាស្ត្រខ្មែរ'] },
@@ -1751,7 +1757,6 @@ function getStudentIlpRecord(stuId){
   return S.ilp[stuId];
 }
 
-// ទាញកម្រិតថ្នាក់បច្ចុប្បន្នពីឈ្មោះថ្នាក់ (ឧ. "៧ក" -> "ទី៧", "8A" -> "ទី៨")
 function detectCurrentGradeRowLabel(clsStr){
   const s = String(clsStr || '');
   if (/[1១][2២]/.test(s)) return 'ទី១២';
@@ -1819,7 +1824,6 @@ function getAutoAnnualSubjectGrade(stuId, subjObj){
   return getAutoTermSubjectGrade(stuId, subjObj, ILP_MONTHS.map(m => m.moIdx));
 }
 
-// ទាញតម្លៃស្វ័យប្រវត្តិសម្រាប់តារាងខ្មែរ/គណិត (ត្រីមាសទី១, ទី២, ចុងឆ្នាំ ត្រង់ជួរថ្នាក់បច្ចុប្បន្ន)
 function getAutoBaseActual(stuId, subjIdx, gradeLabel, colKey){
   const curGrade = detectCurrentGradeRowLabel(getS().info.cls);
   if (gradeLabel !== curGrade) return '';
@@ -1848,7 +1852,6 @@ function autoGenerateIlpTargets(stuId){
     const endG = ladder[Math.min(ladder.length - 1, curIdx + 1)];
     rec.targets[`${sIdx}_end`] = endG;
 
-    // បំពេញគោលដៅខ្មៅក្នុងតារាងទី ១ (ខ្មែរ) និង ទី ២ (គណិត) ត្រង់ជួរថ្នាក់បច្ចុប្បន្ន
     if (sIdx === 0) {
       rec.khBase[`${curGrade}_c4`] = startG;
       rec.khBase[`${curGrade}_c5`] = startG;
@@ -1944,14 +1947,15 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   }
 }
 
+// ក្បាលលិខិតរដ្ឋបាល៖ ប្រើ <img> កំណត់តែ height: 46px; width: auto; ដើម្បីចាក់សោរសមាមាត្រដើម 100% មិនរួមស្គមពេលចុច Print
 function renderOfficialHeaderHTML(i){
   const logoSrc = getLogoSrc();
   return `
     <div class="official-header">
       <div class="side-box">
-        <img class="hdr-moeys-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+        <img class="hdr-moeys-img" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
         <div style="font-size:13px;font-weight:bold;line-height:1.4">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
-        <div style="font-weight:bold;font-size:14px;line-height:1.4;margin-top:2px">${E(i.school || 'សាលារៀន')}</div>
+        <div style="font-weight:bold;font-size:14px;line-height:1.4;margin-top:1px">${E(i.school || 'សាលារៀន')}</div>
       </div>
       <div class="center-box">
         <div class="muol-title" style="font-size:16px;line-height:1.4">ព្រះរាជាណាចក្រកម្ពុជា</div>
@@ -2141,9 +2145,9 @@ home(){
         <span class="t2">ក្រសួងអប់រំ យុវជន និងកីឡា</span>
       </div>
     </div>
-    <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
-      ${showInstallBtn ? `<button class="bt" style="padding:4px 10px;min-height:32px;font-size:12px;background:var(--ok)" onclick="showSmartInstallSheet(true)">📲 ដំឡើង App</button>` : ''}
-      <button class="bt g" style="padding:4px 10px;min-height:32px;font-size:12px;color:var(--bad)" onclick="logout()">🚪 ចាកចេញ</button>
+    <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">
+      ${showInstallBtn ? `<button class="bt" style="padding:4px 9px;min-height:32px;font-size:11.5px;background:var(--ok)" onclick="showSmartInstallSheet(true)">📲 ដំឡើង</button>` : ''}
+      <button class="bt g" style="padding:4px 9px;min-height:32px;font-size:11.5px;color:var(--bad)" onclick="logout()">🚪 ចេញ</button>
     </div>
   </div>
 
@@ -2779,12 +2783,12 @@ stu(){
     </tr>
   `).join('');
 
+  /* ផ្ទាំងប្រវត្តិរូបសិស្ស៖ ដាក់ប្រអប់ ភេទ មុន និង ផ្សេងៗ តាមក្រោយ ក្នុង ១ ជួរស្មើគ្នា (row-2) */
   return head('ប្រវត្តិរូបសិស្ស') + `<div class="card">
   <h2>បញ្ចូលសិស្សថ្មី</h2>
-  <div class="f row-stu3">
+  <div class="f row-2">
     <input id="nn" lang="km" inputmode="text" placeholder="ឈ្មោះសិស្ស">
     <input id="ndob" placeholder="ថ្ងៃខែឆ្នាំកំណើត">
-    <select id="ns"><option value="ស">ស្រី</option><option value="ប">ប្រុស</option></select>
   </div>
   <div class="f row-2">
     <input id="nmo" lang="km" placeholder="ឈ្មោះម្តាយ">
@@ -2797,7 +2801,12 @@ stu(){
     </select>
     <input id="nphn" type="tel" placeholder="លេខទូរស័ព្ទអាណាព្យាបាល">
     <input id="naddr" lang="km" placeholder="អាសយដ្ឋាន (ភូមិ/ឃុំ)">
+  </div>
+  <div class="f row-2">
+    <select id="ns"><option value="ស">ភេទ៖ ស្រី</option><option value="ប">ភេទ៖ ប្រុស</option></select>
     <input id="nnote" lang="km" placeholder="ផ្សេងៗ">
+  </div>
+  <div class="f">
     <button class="bt" onclick="addS()">➕ បន្ថែមសិស្ស</button>
   </div>
   <small class="mu">💡 ត្រង់ថ្ងៃខែឆ្នាំកំណើត គ្រាន់តែវាយលេខជាប់គ្នាដូចជា <b>06022015</b> ឬ <b>06/02/2015</b> វានឹងចេញជា <b>០៦ កុម្ភៈ ២០១៥</b> ភ្លាមៗ (ទាំងប្រអប់លើ និងក្នុងតារាងកែដោយដៃ)។</small>
@@ -2877,7 +2886,6 @@ ilp(){
   const khCols = ['c1', 'c2', 'c3', 'c4', 'c5', 'start', 'q1_b', 'q1_r', 'q2_b', 'q2_r', 'end_b', 'end_r'];
   const mathCols = ['A', 'B', 'C', 'D', 'E', 'F', 'q1_b', 'q1_r', 'q2_b', 'q2_r', 'end_b', 'end_r'];
 
-  // រៀបចំទិន្នន័យតារាងទី ១ (ខ្មែរ) និង ទី ២ (គណិត)
   const khRowsUI = baseGrades.map(g => `
     <tr>
       <td class="sn" style="min-width:55px;text-align:center;font-weight:bold">${g}</td>
@@ -2930,7 +2938,6 @@ ilp(){
     </tr>
   `).join('');
 
-  // រៀបចំទិន្នន័យតារាងទី ៣ (មុខវិជ្ជាទាំង ១០)
   const subjRowsUI = ILP_SUBJECTS.map((sub, sIdx) => {
     const startG = rec.startGrades[sIdx] || '';
     const monthCells = ILP_MONTHS.map(m => {
@@ -2996,7 +3003,6 @@ ilp(){
   </div>
   <small class="hint-note">💡 <b>របៀបប្រើ៖</b> លោកគ្រូអាច <b>អូសរំកិលតារាងឆ្វេង-ស្តាំ (Slide)</b> ដើម្បីពិនិត្យ និងកែប្រែនិទ្ទេសយ៉ាងងាយស្រួល។ ជួរពណ៌ក្រហមត្រូវបាន <b>ចងអូតូ ១០០%</b> ពីតារាងពិន្ទុប្រចាំខែ ហើយទម្រង់ក្រដាស A4 ផ្លូវការនឹងបង្ហាញពេលចុច <b>«🖨️ បោះពុម្ព / PDF»</b>។</small>
 
-  <!-- ផ្នែកទី ១៖ តារាងអូសរំកិល (Slide UI) ងាយស្រួលចុចលើទូរស័ព្ទ -->
   <div class="screen-ui">
     <div style="display:flex;align-items:center;gap:12px;background:#f8fafc;border:1px solid var(--bd);padding:10px 12px;border-radius:12px;margin-bottom:14px">
       <div style="width:48px;height:60px;border-radius:8px;overflow:hidden;border:1px solid #cbd5e1;flex-shrink:0;background:#fff;display:flex;align-items:center;justify-content:center">
@@ -3076,33 +3082,33 @@ ilp(){
     </div>
   </div>
 
-  <!-- ផ្នែកទី ២៖ ទម្រង់សន្លឹក A4 ផ្លូវការ (លាក់លើអេក្រង់ បង្ហាញពេលចុច Print / PDF) -->
+  <!-- ទម្រង់សន្លឹក A4 ផ្លូវការ ILP -->
   <div class="ilp-print-container print-page" id="ilpPrintArea">
     <div class="ilp-top-row">
       <div class="ilp-photo-box">
         ${stu.ph ? `<img src="${stu.ph}">` : '<span style="color:#94a3b8;font-size:10px;text-align:center">រូបថត<br>សិស្ស</span>'}
       </div>
-      <div style="text-align:center;flex:1">
-        <div class="muol-title" style="font-size:14px">ព្រះរាជាណាចក្រកម្ពុជា</div>
-        <div class="muol-title" style="font-size:12.5px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-        <div style="font-weight:bold;font-size:12px;margin-top:4px">ការពិនិត្យឡើងវិញកម្រិតនិទ្ទេសសិស្សម្នាក់ៗ</div>
-        <div class="muol-title" style="font-size:13.5px;margin-top:2px">ផែនការសិក្សារបស់សិស្ស</div>
-        <div style="font-weight:bold;font-size:11.5px">ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
+      <div style="text-align:center;flex:1;padding-top:0">
+        <div class="muol-title" style="font-size:15.5px">ព្រះរាជាណាចក្រកម្ពុជា</div>
+        <div class="muol-title" style="font-size:14px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+        <div style="font-weight:bold;font-size:13.5px;margin-top:20px">ការពិនិត្យឡើងវិញកម្រិតនិទ្ទេសសិស្សម្នាក់ៗ</div>
+        <div class="muol-title" style="font-size:15px;margin-top:3px">ផែនការសិក្សារបស់សិស្ស</div>
+        <div style="font-weight:bold;font-size:13px;margin-top:2px">ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
       </div>
-      <div style="width:82px;text-align:right;font-size:10px;color:#64748b">(១)</div>
+      <div style="width:86px;text-align:right;font-size:10.5px;color:#64748b">(១)</div>
     </div>
 
     <div class="ilp-meta-grid">
-      <div>ឈ្មោះសិស្ស ៖ <b>${E(stu.name)}</b></div>
-      <div>ភេទ ៖ <b>${stu.sex==='ស'?'ស្រី':'ប្រុស'}</b></div>
-      <div>ថ្នាក់ទី ៖ <b>${E(i.cls || '...')}</b></div>
-      <div style="grid-column:span 3">ស្ថានភាពគ្រួសារ ៖ <b>${E(stu.status || 'មធ្យម')}</b></div>
-      <div style="grid-column:span 2">សាលារៀន ៖ <b>${E(i.school || '....................')}</b></div>
-      <div>ខេត្ត/រាជធានី ៖ <b>${E(i.province || '..........')}</b></div>
-      <div style="grid-column:span 2">ឈ្មោះមាតាបិតា ៖ <b>${E(parentName)}</b></div>
-      <div>លេខទូរស័ព្ទ ៖ <b>${E(stu.phn || '..........')}</b></div>
-      <div style="grid-column:span 2">ឈ្មោះគ្រូបន្ទុកថ្នាក់ ៖ <b>${E(i.teacher || '....................')}</b></div>
-      <div>លេខទូរស័ព្ទ ៖ <b>${E(i.teacherPhone || '..........')}</b></div>
+      <div style="text-align:left">ឈ្មោះសិស្ស ៖ <b>${E(stu.name)}</b></div>
+      <div style="text-align:center">ភេទ ៖ <b>${stu.sex==='ស'?'ស្រី':'ប្រុស'}</b></div>
+      <div style="text-align:right">ថ្នាក់ទី ៖ <b>${E(i.cls || '...')}</b></div>
+      <div style="grid-column:span 3;text-align:left">ស្ថានភាពគ្រួសារ ៖ <b>${E(stu.status || 'មធ្យម')}</b></div>
+      <div style="grid-column:span 2;text-align:left">សាលារៀន ៖ <b>${E(i.school || '....................')}</b></div>
+      <div style="text-align:right">ខេត្ត/រាជធានី ៖ <b>${E(i.province || '..........')}</b></div>
+      <div style="grid-column:span 2;text-align:left">ឈ្មោះមាតាបិតា ៖ <b>${E(parentName)}</b></div>
+      <div style="text-align:right">លេខទូរស័ព្ទ ៖ <b>${E(stu.phn || '..........')}</b></div>
+      <div style="grid-column:span 2;text-align:left">ឈ្មោះគ្រូបន្ទុកថ្នាក់ ៖ <b>${E(i.teacher || '....................')}</b></div>
+      <div style="text-align:right">លេខទូរស័ព្ទ ៖ <b>${E(i.teacherPhone || '..........')}</b></div>
     </div>
 
     <div class="ilp-scale-note">
@@ -3296,13 +3302,6 @@ cert(){
   const curDateStr = getKhmerCurrentDate();
   const dirDateStr = getDirectorSolarDate();
 
-  const levelTitles = {
-    primary: 'សាលាបឋមសិក្សា',
-    secondary: 'អនុវិទ្យាល័យ',
-    high: 'វិទ្យាល័យ'
-  };
-  const currentLevelLabel = levelTitles[currentLevel] || 'សាលារៀន';
-
   const schoolVal = (i.school || '').trim();
   const provVal = (i.province || '').trim();
   let schoolDisplay = '';
@@ -3327,11 +3326,11 @@ cert(){
         <div class="cert-page-a4 print-page ${selectedBorder ? '' : 'default-border'}" style="${selectedBorder ? `background-image:url('${encodeURI(selectedBorder)}');` : ''}">
           
           <div class="cert-header-left-auto">
-            ${currentLevelLabel} ${E(schoolDisplay)}
+            ${E(schoolDisplay)}
           </div>
 
           <div class="cert-director-sub">
-            នាយក${currentLevelLabel} ${E(schoolDisplay)}
+            នាយក${E(schoolDisplay)}
           </div>
 
           <div class="cert-auto-body">
@@ -3357,7 +3356,7 @@ cert(){
             <div class="cert-sign-left">
               <div>បានឃើញ និងឯកភាព</div>
               <div style="margin:2px 0">${dirDateStr}</div>
-              <div class="cert-sign-role">នាយក${currentLevelLabel}</div>
+              <div class="cert-sign-role">នាយកសាលា</div>
             </div>
             <div class="cert-sign-right">
               <div>${curDateStr}</div>
@@ -3443,14 +3442,7 @@ idcard(){
   const i = S.info;
   const logoSrc = getLogoSrc();
   const solarDateStr = getKhmerSolarDateLine();
-
-  const levelTitles = {
-    primary: 'សាលាបឋមសិក្សា',
-    secondary: 'អនុវិទ្យាល័យ',
-    high: 'វិទ្យាល័យ'
-  };
-  const currentLevelLabel = levelTitles[currentLevel] || 'សាលារៀន';
-  const schoolNameFull = `${currentLevelLabel} ${i.school || ''}`.trim();
+  const schoolNameFull = (i.school || '').trim() || '....................';
 
   const chunks = [];
   for (let idx = 0; idx < S.st.length; idx += 4) {
@@ -3523,7 +3515,7 @@ idcard(){
                   <div class="id-card-sign-box">
                     <div class="id-card-school-line">ជាសិស្ស <b>${E(schoolNameFull)}</b></div>
                     <div>${solarDateStr}</div>
-                    <div style="font-weight:800;font-size:12px;margin-top:2px">នាយកសាលា</div>
+                    <div style="font-weight:800;font-size:12.5px;margin-top:2px">នាយកសាលា</div>
                   </div>
                 </div>
               </div>
