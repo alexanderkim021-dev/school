@@ -191,6 +191,16 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .bt.r{background:var(--rd)}
 .x{background:none;border:0;color:var(--bad);cursor:pointer;font:inherit;font-weight:600}
 
+.div-inline-box{
+  display:flex;align-items:center;gap:6px;background:#f8fafc;border:1px solid var(--bd);
+  border-radius:10px;padding:0 10px;min-height:42px;flex:0 0 auto !important;
+}
+.div-inline-box span{font-size:13px;font-weight:700;color:var(--mu);white-space:nowrap}
+.div-inline-box input{
+  width:58px !important;min-height:32px !important;padding:2px 4px !important;
+  text-align:center;font-weight:800;color:var(--ac);border-radius:7px;font-size:15px;
+}
+
 .w{overflow:auto;max-height:74vh;border:1px solid var(--bd);border-radius:12px;-webkit-overflow-scrolling:touch}
 table{border-collapse:separate;border-spacing:0;font-size:13px;width:100%}
 th,td{padding:8px 8px;border-bottom:1px solid var(--bd);border-inline-end:1px solid var(--bd);white-space:nowrap;text-align:center;background:var(--cd)}
@@ -471,14 +481,15 @@ td select.ilp-ui-sel.black{color:#0f172a}
   outline-offset: -14px;
 }
 
+/* រំកិលឈ្មោះសាលាត្រង់ប័ណ្ណសរសើរមកខាងស្តាំបន្តិច (left: 9.8%) កុំឱ្យលយទៅឆ្វេងជាន់ស៊ុមក្បាច់ */
 .cert-header-left-auto {
   position: absolute;
   top: 30.8%;
-  left: 8.2%;
+  left: 9.8%;
   width: 240px;
   text-align: center;
   font-family: var(--title-font);
-  font-size: 13px;
+  font-size: 12.5px;
   color: #1e3a8a;
   line-height: 1.45;
   white-space: nowrap;
@@ -700,7 +711,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .id-card-school-line b { font-family: var(--title-font); font-weight: normal; font-size: 11px; }
 
 /* ========================================================
-   តារាងកិត្តិយសទាំង ៨ ម៉ូដ (A4 Portrait) + Khmer OS Muol Light 3D
+   តារាងកិត្តិយសទាំង ៨ ម៉ូដ (A4 Portrait) + 4-Sides Floating HUD
    ======================================================== */
 .honor-template-sheet {
   width: 794px;
@@ -740,7 +751,6 @@ td select.ilp-ui-sel.black{color:#0f172a}
   color: #1e3a8a;
 }
 
-/* ពុម្ពអក្សរ Khmer OS Muol Light ស្ទីល 3D + ជិតគ្នាជាមួយនិទ្ទេស */
 .muol-3d-name {
   font-family: 'Khmer OS Muol Light', 'Khmer OS Muol', 'Moul', serif !important;
   font-weight: normal !important;
@@ -775,11 +785,10 @@ td select.ilp-ui-sel.black{color:#0f172a}
   width: 250px;
 }
 
-/* ប្រអប់រូបថតបញ្ឈរសម្រាប់ម៉ូដទី ៧ (honor_page_7.png) */
 .honor-photo-slot {
   position: absolute;
   transform: translate(-50%, -50%);
-  overflow: hidden;
+  overflow: visible;
   background: #f8fafc;
   display: flex;
   align-items: center;
@@ -809,40 +818,59 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .honor-edit-selected {
   outline: 3px solid #dc2626 !important;
   background: rgba(254, 242, 242, 0.9) !important;
-  z-index: 35 !important;
+  z-index: 40 !important;
 }
 
-/* របារបញ្ជាលើប្រអប់ឈ្មោះ/រូបថតផ្ទាល់ (Floating HUD) */
-.floating-slot-hud {
+/* ព្រួញបញ្ជា ៤ ទិសជុំវិញប្រអប់ផ្ទាល់ (លើ ក្រោម ឆ្វេង ស្តាំ + ពង្រីកបង្រួម) */
+.hud-arrow-btn {
   position: absolute;
-  bottom: calc(100% + 8px);
+  background: #0f172a;
+  color: #fff;
+  border: 1.5px solid #fff;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.45);
+  z-index: 999;
+  padding: 0;
+}
+.hud-arrow-btn:active { background: #dc2626; transform: scale(0.92); }
+.hud-top { top: -40px; left: 50%; transform: translateX(-50%); }
+.hud-bottom { bottom: -40px; left: 50%; transform: translateX(-50%); }
+.hud-left { left: -40px; top: 50%; transform: translateY(-50%); }
+.hud-right { right: -40px; top: 50%; transform: translateY(-50%); }
+
+.hud-size-pill {
+  position: absolute;
+  bottom: -78px;
   left: 50%;
   transform: translateX(-50%);
   background: #0f172a;
   color: #fff;
-  padding: 5px 8px;
-  border-radius: 12px;
+  padding: 3px 8px;
+  border-radius: 999px;
   display: flex;
   align-items: center;
-  gap: 5px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
-  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  gap: 6px;
+  border: 1.5px solid #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.45);
   z-index: 999;
   white-space: nowrap;
-  cursor: default;
 }
-.floating-slot-hud.hud-below {
-  bottom: auto;
-  top: calc(100% + 8px);
-}
-.floating-slot-hud button {
-  background: #1e293b;
+.hud-size-pill button {
+  background: #334155;
   color: #fff;
-  border: 1px solid #475569;
-  border-radius: 7px;
-  width: 30px;
-  height: 30px;
-  font-size: 14px;
+  border: 0;
+  border-radius: 50%;
+  width: 26px;
+  height: 26px;
+  font-size: 16px;
   font-weight: bold;
   cursor: pointer;
   display: inline-flex;
@@ -850,15 +878,13 @@ td select.ilp-ui-sel.black{color:#0f172a}
   justify-content: center;
   padding: 0;
 }
-.floating-slot-hud button:active {
-  background: var(--ac);
-}
-.floating-slot-hud .hud-val {
+.hud-size-pill button:active { background: var(--ac); }
+.hud-size-pill span {
   font-family: 'Leelawadee UI', sans-serif;
   font-size: 13px;
   font-weight: 800;
   color: #38bdf8;
-  min-width: 28px;
+  min-width: 26px;
   text-align: center;
 }
 
@@ -894,7 +920,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
     padding: 0 !important;
     margin: 0 !important;
   }
-  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.hint-note,.install-modal-overlay,.floating-slot-hud{display:none !important}
+  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.hint-note,.install-modal-overlay,.hud-arrow-btn,.hud-size-pill,.div-inline-box{display:none !important}
   .honor-edit-active, .honor-edit-selected { outline: none !important; background: transparent !important; }
   main{max-width:100% !important;padding:0 !important;margin:0 !important}
   .card{box-shadow:none !important;border:none !important;padding:0 !important;margin:0 !important}
@@ -984,7 +1010,7 @@ const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
 const HONOR_LIB_KEY = 'sms_honor_tpls_v1';
 const SELECTED_HONOR_KEY = 'sms_selected_honor_v4';
-const HONOR_CUSTOM_POS_KEY = 'sms_honor_custom_pos_v5';
+const HONOR_CUSTOM_POS_KEY = 'sms_honor_custom_pos_v6';
 const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
 
 let deferredInstallPrompt = null;
@@ -1432,12 +1458,28 @@ function getCols(lvl, stream){
   return SUBJ_PRIMARY.flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
 }
 
-function getDiv(lvl, stream){
+function getBaseDiv(lvl, stream){
   const S = getS();
   if (S && S.info && +S.info.div > 0) return +S.info.div;
   if (lvl === 'high') return stream === 'social' ? 12.5 : 13;
   if (lvl === 'secondary') return 17;
   return 8.5;
+}
+
+function getDiv(lvl, stream, mIdx = null){
+  const S = getS();
+  if (S && mIdx !== null && S.monthDivs && +S.monthDivs[mIdx] > 0) {
+    return +S.monthDivs[mIdx];
+  }
+  return getBaseDiv(lvl, stream);
+}
+
+function getExamDiv(lvl, stream, sIdx){
+  const S = getS();
+  if (S && S.examDivs && +S.examDivs[sIdx] > 0) {
+    return +S.examDivs[sIdx];
+  }
+  return getBaseDiv(lvl, stream);
 }
 
 function getMaxAv(lvl){
@@ -1603,6 +1645,7 @@ function emptyLevelData(lbl, yr){
     v: 30, n: 1,
     info: {province:'', school:'', teacher:'', teacherPhone:'', cls: defCls, year: yr || currentYear, div: defDiv, stream:'science', logo: null, moeysLogo: null},
     st: [], sc: {}, ab: {}, rm: {}, ilp: {},
+    monthDivs: {}, examDivs: {},
     semExamScores: {0:{}, 1:{}}
   };
 }
@@ -1615,6 +1658,7 @@ function normalizeLevel(d, lbl, yr){
     ...e, ...d,
     info: {...e.info, ...(d.info || {})},
     st, sc: d.sc || {}, ab: d.ab || {}, rm: d.rm || {}, ilp: d.ilp || {},
+    monthDivs: d.monthDivs || {}, examDivs: d.examDivs || {},
     semExamScores: d.semExamScores || {0:{}, 1:{}},
     n: Math.max(d.n || 1, ...st.map(s => (+s.id || 0) + 1), 1)
   };
@@ -1824,14 +1868,14 @@ function togglePw(id, btn){
 const tot = (id, m) => sum(((getS().sc[m] || {})[id]) || []);
 const av = (id, m) => {
   const t = tot(id, m);
-  const div = getDiv(currentLevel, getS().info.stream);
+  const div = getDiv(currentLevel, getS().info.stream, m);
   return t ? t / div : 0;
 };
 
 const totSemExam = (id, sIdx) => sum(((getS().semExamScores[sIdx] || {})[id]) || []);
 const avSemExam = (id, sIdx) => {
   const t = totSemExam(id, sIdx);
-  const div = getDiv(currentLevel, getS().info.stream);
+  const div = getExamDiv(currentLevel, getS().info.stream, sIdx);
   return t ? t / div : 0;
 };
 
@@ -1890,11 +1934,31 @@ const moSel = () => `<select onchange="mo=+this.value;R()">${MO.map((m,i) => `<o
 const head = t => `<div class="top"><button class="bt g" onclick="go('home')">🏠 ទំព័រដើម</button><h1>${t}</h1><button class="bt g" style="color:var(--bad)" onclick="logout()">🚪 ចាកចេញ</button></div>`;
 const go = p => { pg = p; R(); scrollTo(0,0); };
 
+function setMonthDiv(mIdx, val){
+  const S = getS();
+  if (!S.monthDivs) S.monthDivs = {};
+  const num = +val;
+  if (num > 0) S.monthDivs[mIdx] = num;
+  else delete S.monthDivs[mIdx];
+  save();
+  R();
+}
+
+function setExamDiv(sIdx, val){
+  const S = getS();
+  if (!S.examDivs) S.examDivs = {};
+  const num = +val;
+  if (num > 0) S.examDivs[sIdx] = num;
+  else delete S.examDivs[sIdx];
+  save();
+  R();
+}
+
 function switchLevel(lvl){
   if (currentLevel === lvl) return;
   currentLevel = lvl;
   localStorage.setItem(LAST_LEVEL_KEY, lvl);
-  getS().info.div = getDiv(currentLevel, getS().info.stream);
+  getS().info.div = getBaseDiv(currentLevel, getS().info.stream);
   save();
   R();
 }
@@ -2302,19 +2366,50 @@ function deleteHonor(id, e){
   R();
 }
 
+/* ========================================================
+   ប្រព័ន្ធសារ៉េតារាងកិត្តិយស Direct DOM (រលូន 100% គ្មានញាក់អេក្រង់)
+   ======================================================== */
+function getCurrentHonorTpl(){
+  const selectedHonor = getSelectedHonor();
+  const customHonors = getHonorLibrary();
+  const allHonors = [...BUILTIN_HONORS, ...customHonors];
+  return allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[0];
+}
+
+function attachHudToElement(el, type, idx, sizeVal){
+  document.querySelectorAll('.hud-arrow-btn, .hud-size-pill').forEach(x => x.remove());
+  document.querySelectorAll('.honor-edit-selected').forEach(x => x.classList.remove('honor-edit-selected'));
+  if (!el) return;
+  el.classList.add('honor-edit-selected');
+
+  const h = `
+    <button type="button" class="hud-arrow-btn hud-top" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" onclick="nudgeHonorSlot(0, -0.4, event)">⬆️</button>
+    <button type="button" class="hud-arrow-btn hud-bottom" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" onclick="nudgeHonorSlot(0, 0.4, event)">⬇️</button>
+    <button type="button" class="hud-arrow-btn hud-left" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" onclick="nudgeHonorSlot(-0.4, 0, event)">⬅️</button>
+    <button type="button" class="hud-arrow-btn hud-right" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()" onclick="nudgeHonorSlot(0.4, 0, event)">➡️</button>
+    <div class="hud-size-pill" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+      <button type="button" onclick="changeHonorSlotSize(-1, event)">−</button>
+      <span id="hudActiveSizeVal">${sizeVal}</span>
+      <button type="button" onclick="changeHonorSlotSize(1, event)">+</button>
+    </div>
+  `;
+  el.insertAdjacentHTML('beforeend', h);
+}
+
 function selectHonorSlot(type, idx, e){
   if (e) e.stopPropagation();
-  if (honorSelectedSlot.type === type && honorSelectedSlot.idx === idx) return;
+  if (!honorEditMode) return;
   honorSelectedSlot = { type, idx };
-  R();
+  const tpl = getCurrentHonorTpl();
+  const cfg = getEffectiveHonorConfig(tpl);
+  const el = document.querySelector(`.honor-draggable[data-stype="${type}"][data-sidx="${idx}"]`);
+  const val = type === 'photo' ? (cfg.photoSize || 112) : cfg.size;
+  attachHudToElement(el, type, idx, val);
 }
 
 function nudgeHonorSlot(dx, dy, e){
   if (e) e.stopPropagation();
-  const selectedHonor = getSelectedHonor();
-  const customHonors = getHonorLibrary();
-  const allHonors = [...BUILTIN_HONORS, ...customHonors];
-  const tpl = allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[0];
+  const tpl = getCurrentHonorTpl();
   const cfg = getEffectiveHonorConfig(tpl);
   const arr = honorSelectedSlot.type === 'photo' ? cfg.photoPos : cfg.pos;
   const item = arr[honorSelectedSlot.idx];
@@ -2324,25 +2419,39 @@ function nudgeHonorSlot(dx, dy, e){
   const savedAll = getHonorCustomPositions();
   savedAll[tpl.url] = cfg;
   saveHonorCustomPositions(savedAll);
-  R();
+
+  const el = document.querySelector(`.honor-draggable[data-stype="${honorSelectedSlot.type}"][data-sidx="${honorSelectedSlot.idx}"]`);
+  if (el) {
+    el.style.left = item.l + '%';
+    el.style.top = item.t + '%';
+  }
 }
 
 function changeHonorSlotSize(delta, e){
   if (e) e.stopPropagation();
-  const selectedHonor = getSelectedHonor();
-  const customHonors = getHonorLibrary();
-  const allHonors = [...BUILTIN_HONORS, ...customHonors];
-  const tpl = allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[0];
+  const tpl = getCurrentHonorTpl();
   const cfg = getEffectiveHonorConfig(tpl);
+  let newVal = 21;
   if (honorSelectedSlot.type === 'photo') {
     cfg.photoSize = Math.max(60, Math.min(200, (cfg.photoSize || 112) + delta * 3));
+    newVal = cfg.photoSize;
+    document.querySelectorAll('.honor-photo-slot').forEach(p => {
+      p.style.width = newVal + 'px';
+      p.style.height = Math.round(newVal * 1.23) + 'px';
+    });
   } else {
     cfg.size = Math.max(11, Math.min(32, (cfg.size || 21) + delta));
+    newVal = cfg.size;
+    document.querySelectorAll('.muol-3d-name').forEach(n => {
+      n.style.fontSize = newVal + 'px';
+    });
   }
   const savedAll = getHonorCustomPositions();
   savedAll[tpl.url] = cfg;
   saveHonorCustomPositions(savedAll);
-  R();
+
+  const lbl = document.getElementById('hudActiveSizeVal');
+  if (lbl) lbl.textContent = newVal;
 }
 
 function resetHonorPositions(){
@@ -2358,17 +2467,20 @@ function initHonorDragSlots(){
   if (!honorEditMode) return;
   const sheet = document.getElementById('honorPrintArea');
   if (!sheet) return;
-  const selectedHonor = getSelectedHonor();
-  const customHonors = getHonorLibrary();
-  const allHonors = [...BUILTIN_HONORS, ...customHonors];
-  const tpl = allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[0];
+  const tpl = getCurrentHonorTpl();
+  const cfg0 = getEffectiveHonorConfig(tpl);
+  const initEl = sheet.querySelector(`.honor-draggable[data-stype="${honorSelectedSlot.type}"][data-sidx="${honorSelectedSlot.idx}"]`);
+  if (initEl) {
+    const val = honorSelectedSlot.type === 'photo' ? (cfg0.photoSize || 112) : cfg0.size;
+    attachHudToElement(initEl, honorSelectedSlot.type, honorSelectedSlot.idx, val);
+  }
 
   sheet.querySelectorAll('.honor-draggable').forEach(el => {
     const type = el.dataset.stype;
     const idx = +el.dataset.sidx;
 
     const startDrag = (clientX, clientY) => {
-      honorSelectedSlot = { type, idx };
+      selectHonorSlot(type, idx);
       const rect = sheet.getBoundingClientRect();
       const cfg = getEffectiveHonorConfig(tpl);
       const arr = type === 'photo' ? cfg.photoPos : cfg.pos;
@@ -2400,7 +2512,6 @@ function initHonorDragSlots(){
           savedAll[tpl.url] = cfg;
           saveHonorCustomPositions(savedAll);
         }
-        R();
       };
 
       document.addEventListener('mousemove', onMouseMove);
@@ -2410,11 +2521,11 @@ function initHonorDragSlots(){
     };
 
     el.addEventListener('mousedown', e => {
-      if (e.target.closest('.floating-slot-hud')) return;
+      if (e.target.closest('.hud-arrow-btn') || e.target.closest('.hud-size-pill')) return;
       e.preventDefault(); e.stopPropagation(); startDrag(e.clientX, e.clientY);
     });
     el.addEventListener('touchstart', e => {
-      if (e.target.closest('.floating-slot-hud')) return;
+      if (e.target.closest('.hud-arrow-btn') || e.target.closest('.hud-size-pill')) return;
       e.stopPropagation(); if (e.touches[0]) startDrag(e.touches[0].clientX, e.touches[0].clientY);
     }, { passive: false });
   });
@@ -2550,7 +2661,7 @@ sc(){
   const S = getS();
   const i = S.info;
   const cols = getCols(currentLevel, S.info.stream);
-  const divVal = getDiv(currentLevel, S.info.stream);
+  const divVal = getDiv(currentLevel, S.info.stream, mo);
   const curDateStr = getKhmerCurrentDate();
   const dirDateStr = getDirectorSolarDate();
 
@@ -2592,11 +2703,17 @@ sc(){
   const femaleStudents = S.st.filter(s => s.sex === 'ស').length;
 
   return head('តារាងពិន្ទុប្រចាំខែ') + `<div class="card">
-  <div class="f">
+  <div class="f row-nowrap">
     ${moSel()}
+    <div class="div-inline-box" title="តួចែកមធ្យមភាគសម្រាប់ខែ${MO[mo]}">
+      <span>តួចែក ÷</span>
+      <input type="number" inputmode="decimal" step="0.5" value="${divVal}" onchange="setMonthDiv(${mo}, this.value)">
+    </div>
+  </div>
+  <div class="f">
     <button class="bt" onclick="executeStandardPrint('monthlyScorePrintContainer', 'តារាងពិន្ទុប្រចាំខែ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
-  <small class="hint-note">💡 សូមជ្រើសរើស <b>ខែ</b> ខាងលើ រួចវាយបញ្ចូលពិន្ទុតាមមុខវិជ្ជានីមួយៗ។ ប្រព័ន្ធនឹងគណនា <b>ពិន្ទុសរុប មធ្យមភាគ ចំណាត់ថ្នាក់ និងនិទ្ទេស</b> ដោយស្វ័យប្រវត្តិ ព្រមទាំងបញ្ជូនទៅតារាងឆមាស ប័ណ្ណសរសើរ និងផែនការសិក្សាសិស្ស (ILP) ភ្លាមៗ។</small>
+  <small class="hint-note">💡 តួចែកលំនាំដើមគឺ <b>${getBaseDiv(currentLevel, S.info.stream)}</b> (អាចកែលេខតួចែកតាមខែនីមួយៗបាន ដោយមិនប៉ះពាល់ខែផ្សេងឡើយ)។</small>
   <div class="w screen-ui"><table>
   ${renderScoreTableHeadHTML('monthly')}
   <tbody>
@@ -2657,7 +2774,7 @@ sc(){
 official(){
   const S = getS();
   const i = S.info;
-  const divVal = getDiv(currentLevel, S.info.stream);
+  const divVal = getDiv(currentLevel, S.info.stream, mo);
   const curDateStr = getKhmerCurrentDate();
   const dirDateStr = getDirectorSolarDate();
   
@@ -2771,7 +2888,7 @@ examScore(){
   const S = getS();
   const i = S.info;
   const cols = getCols(currentLevel, S.info.stream);
-  const divVal = getDiv(currentLevel, S.info.stream);
+  const divVal = getExamDiv(currentLevel, S.info.stream, examSem);
   const curDateStr = getKhmerCurrentDate();
   const dirDateStr = getDirectorSolarDate();
 
@@ -2816,14 +2933,20 @@ examScore(){
   }).join('');
 
   return head('តារាងប្រឡងឆមាស') + `<div class="card">
-  <div class="f">
+  <div class="f row-nowrap">
     <select onchange="examSem=+this.value;R()">
       <option value="0" ${examSem===0?'selected':''}>📝 ប្រឡងឆមាសទី ១</option>
       <option value="1" ${examSem===1?'selected':''}>📝 ប្រឡងឆមាសទី ២</option>
     </select>
+    <div class="div-inline-box" title="តួចែកប្រឡងឆមាសទី ${examSem + 1}">
+      <span>តួចែក ÷</span>
+      <input type="number" inputmode="decimal" step="0.5" value="${divVal}" onchange="setExamDiv(${examSem}, this.value)">
+    </div>
+  </div>
+  <div class="f">
     <button class="bt" onclick="executeStandardPrint('examPrintSheetArea', 'តារាងប្រឡងឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
-  <small class="hint-note">💡 សូមជ្រើសរើស <b>ប្រឡងឆមាសទី ១ ឬ ទី ២</b> រួចវាយបញ្ចូលពិន្ទុប្រឡងតាមមុខវិជ្ជា។ <b>មធ្យមប្រឡង</b> នឹងត្រូវបញ្ជូនទៅបូកជាមួយមធ្យមខែនៅក្នុងផ្ទាំង <b>«សរុបពិន្ទុឆមាស (Auto)»</b> ដោយស្វ័យប្រវត្តិ។</small>
+  <small class="hint-note">💡 សូមជ្រើសរើស <b>ប្រឡងឆមាសទី ១ ឬ ទី ២</b> រួចវាយបញ្ចូលពិន្ទុប្រឡងតាមមុខវិជ្ជា (តួចែកលំនាំដើមគឺ <b>${getBaseDiv(currentLevel, S.info.stream)}</b> ហើយអាចកែតាមឆមាសបាន)។</small>
 
   <div class="w screen-ui"><table>
   ${renderScoreTableHeadHTML('exam')}
@@ -3109,8 +3232,8 @@ info(){
   </div>
   <div class="f row-2">${k('ឈ្មោះសាលារៀន','school')}${k('មន្ទីរអប់រំ រាជធានី-ខេត្ត','province')}</div>
   <div class="f row-2">${k('គ្រូបន្ទុកថ្នាក់','teacher')}${k('លេខទូរស័ព្ទគ្រូ','teacherPhone')}</div>
-  <div class="f row-2">${k('ថ្នាក់/កម្រិត','cls')}${k('តួចែកមធ្យមភាគ (ពិន្ទុសរុប ÷ តួនេះ)','div',true)}</div>
-  <p class="mu">ឆ្នាំសិក្សាបច្ចុប្បន្ន៖ <b>${E(currentYear)}</b> (តួចែកមធ្យមភាគបច្ចុប្បន្ន = <b>${S.info.div}</b>)។</p></div>`;
+  <div class="f row-2">${k('ថ្នាក់/កម្រិត','cls')}${k('តួចែកមធ្យមភាគគោល (ពិន្ទុសរុប ÷ តួនេះ)','div',true)}</div>
+  <p class="mu">ឆ្នាំសិក្សាបច្ចុប្បន្ន៖ <b>${E(currentYear)}</b> (តួចែកមធ្យមភាគគោល = <b>${S.info.div}</b>)។</p></div>`;
 },
 
 stu(){
@@ -3627,21 +3750,6 @@ honor(){
 
   const list = scoredList.filter(s => s.has).sort((a,b) => b.val - a.val).slice(0, 5);
 
-  const renderHud = (type, idx, currentSize, topPct) => {
-    const isBelow = topPct < 36;
-    return `
-      <div class="floating-slot-hud ${isBelow ? 'hud-below' : ''}" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
-        <button onclick="nudgeHonorSlot(0, -0.4, event)" title="ឡើងលើ">⬆️</button>
-        <button onclick="nudgeHonorSlot(0, 0.4, event)" title="ចុះក្រោម">⬇️</button>
-        <button onclick="nudgeHonorSlot(-0.4, 0, event)" title="ឆ្វេង">⬅️</button>
-        <button onclick="nudgeHonorSlot(0.4, 0, event)" title="ស្តាំ">➡️</button>
-        <button onclick="changeHonorSlotSize(-1, event)" title="បង្រួម">−</button>
-        <span class="hud-val">${currentSize}</span>
-        <button onclick="changeHonorSlotSize(1, event)" title="ពង្រីក">+</button>
-      </div>
-    `;
-  };
-
   const renderSlot = idx => {
     const s = list[idx];
     if (!s && !honorEditMode) return '';
@@ -3649,22 +3757,18 @@ honor(){
     const gr = s ? getGradeLetter(s.val, 1) : 'A';
     const scoreTxt = s ? toKhNum(s.val.toFixed(2)) : '៥០.០០';
     const np = cfg.pos[idx] || {t:50, l:50};
-    const isSelName = honorEditMode && honorSelectedSlot.type === 'name' && honorSelectedSlot.idx === idx;
-    const editClsName = honorEditMode ? `honor-draggable honor-edit-active ${isSelName ? 'honor-edit-selected' : ''}` : '';
+    const editClsName = honorEditMode ? 'honor-draggable honor-edit-active' : '';
 
     if (isPhotoTpl) {
       const pp = cfg.photoPos[idx] || {t:40, l:50};
-      const isSelPhoto = honorEditMode && honorSelectedSlot.type === 'photo' && honorSelectedSlot.idx === idx;
-      const editClsPhoto = honorEditMode ? `honor-draggable honor-edit-active ${isSelPhoto ? 'honor-edit-selected' : ''}` : '';
+      const editClsPhoto = honorEditMode ? 'honor-draggable honor-edit-active' : '';
       const pW = cfg.photoSize || 112;
       const pH = Math.round(pW * 1.23);
       return `
         <div class="honor-photo-slot ${editClsPhoto}" data-stype="photo" data-sidx="${idx}" onclick="selectHonorSlot('photo', ${idx}, event)" style="top:${pp.t}%;left:${pp.l}%;width:${pW}px;height:${pH}px">
-          ${isSelPhoto ? renderHud('photo', idx, pW, pp.t) : ''}
           ${s && s.ph ? `<img src="${s.ph}">` : `<span style="color:#94a3b8;font-size:11px">រូបថត<br>៤x៦</span>`}
         </div>
         <div class="honor-label-slot7 ${editClsName}" data-stype="name" data-sidx="${idx}" onclick="selectHonorSlot('name', ${idx}, event)" style="top:${np.t}%;left:${np.l}%">
-          ${isSelName ? renderHud('name', idx, cfg.size, np.t) : ''}
           <div class="muol-3d-name" style="font-size:${cfg.size}px">${E(stuName)}</div>
           <div class="honor-sub-score" style="font-size:11px">មធ្យម ${scoreTxt} | និទ្ទេស ${gr}</div>
         </div>
@@ -3672,7 +3776,6 @@ honor(){
     } else {
       return `
         <div class="honor-slot-box ${editClsName}" data-stype="name" data-sidx="${idx}" onclick="selectHonorSlot('name', ${idx}, event)" style="top:${np.t}%;left:${np.l}%">
-          ${isSelName ? renderHud('name', idx, cfg.size, np.t) : ''}
           <div class="muol-3d-name" style="font-size:${cfg.size}px">${E(stuName)}</div>
           <div class="honor-sub-score">មធ្យម ${scoreTxt} · និទ្ទេស ${gr}</div>
         </div>
@@ -4344,7 +4447,7 @@ function pick(cb){
 }
 
 function setInfo(key, v, num){
-  getS().info[key] = num ? (+v > 0 ? +v : getDiv(currentLevel, getS().info.stream)) : v;
+  getS().info[key] = num ? (+v > 0 ? +v : getBaseDiv(currentLevel, getS().info.stream)) : v;
   save();
 }
 
