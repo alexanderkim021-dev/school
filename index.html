@@ -103,17 +103,21 @@ main{max-width:1100px;width:100%;margin:0 auto;padding:12px 14px 60px;will-chang
   text-align: left;
   gap: 6px;
 }
-.moeys-brand { display: flex; align-items: center; gap: 8px; min-width: 0; }
-/* Logo ទំព័រ Home ខាងលើ៖ ពង្រីកធំបន្តិច (54px) មិនធំពេក និងរក្សារាងមូលស្អាត */
-.moeys-logo {
-  width: 54px; height: 54px; aspect-ratio: 1 / 1; border-radius: 50%; object-fit: contain; flex-shrink: 0;
-  background: #fff; border: 1px solid var(--bd); padding: 2px;
+.moeys-brand { display: flex; align-items: center; gap: 9px; min-width: 0; }
+.moeys-logo-wrap {
+  width: 60px; height: 60px; aspect-ratio: 1 / 1; border-radius: 50%; overflow: hidden; flex-shrink: 0;
+  background: #fff; border: 1.5px solid var(--bd);
+  display: flex; align-items: center; justify-content: center;
   box-shadow: 0 3px 8px rgba(0,0,0,0.08); cursor: pointer;
   transition: transform 0.15s ease;
 }
-.moeys-logo:active { transform: scale(0.95); }
+.moeys-logo-wrap:active { transform: scale(0.95); }
+.moeys-logo {
+  width: 100%; height: 100%; object-fit: contain;
+  transform: scale(1.22);
+}
 .moeys-text { line-height: 1.3; min-width: 0; }
-.moeys-text .t1 { font-family: var(--title-font); font-size: 12px; color: #1e3a8a; display: block; white-space: nowrap; }
+.moeys-text .t1 { font-family: var(--title-font); font-size: 12.5px; color: #1e3a8a; display: block; white-space: nowrap; }
 .moeys-text .t2 { font-size: 11px; color: var(--mu); font-weight: 600; display: block; white-space: nowrap; }
 
 h1, h2, h3, .muol-title { font-family: var(--title-font) !important; font-weight: normal; }
@@ -235,26 +239,25 @@ td select.ilp-ui-sel.black{color:#0f172a}
   margin-bottom: 12px;
 }
 
-/* រាល់ក្បាលលិខិត៖ រំកិល Logo ចុះឱ្យកៀក មន្ទីរអប់រំ... នៅចំកណ្តាលខាងលើ ហើយទំហំល្មម (height: 46px; width: auto) មិនខូចទ្រង់ទ្រាយពេលចុច Print */
 .official-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-top: 2px;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   line-height: 1.35;
   width: 100%;
 }
 .official-header .side-box {
   text-align: center;
-  padding-top: 24px;
+  padding-top: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  min-width: 230px;
+  min-width: 220px;
 }
 .official-header .side-box img.hdr-moeys-img {
-  height: 46px !important;
+  height: 44px !important;
   width: auto !important;
   max-width: none !important;
   display: block;
@@ -263,7 +266,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .official-header .center-box {
   text-align: center;
   padding-top: 0;
-  min-width: 240px;
+  min-width: 230px;
 }
 
 .a4-portrait-stage {
@@ -304,22 +307,22 @@ td select.ilp-ui-sel.black{color:#0f172a}
 
 .director-sign-box{
   text-align:center;
-  min-width:280px;
-  max-width:320px;
-  padding-top: 24px;
+  min-width:260px;
+  max-width:300px;
+  padding-top: 22px;
 }
 .teacher-sign-box{
   text-align:center;
-  min-width:280px;
-  max-width:320px;
+  min-width:260px;
+  max-width:300px;
   padding-top: 0;
 }
 
-/* ទម្រង់ផែនការសិក្សារបស់សិស្ស (ILP) A4 Portrait សម្រាប់ Print */
+/* ទម្រង់ផែនការសិក្សារបស់សិស្ស (ILP) A4 Portrait */
 .ilp-print-container {
   display: none;
   background: #fff;
-  padding: 12px 22px;
+  padding: 10px 20px;
   color: #000;
   font-family: 'Leelawadee UI', 'Kantumruy Pro', sans-serif;
   font-size: 11px;
@@ -329,11 +332,11 @@ td select.ilp-ui-sel.black{color:#0f172a}
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 .ilp-photo-box {
-  width: 86px;
-  height: 108px;
+  width: 88px;
+  height: 110px;
   border: 1px solid #444;
   display: flex;
   align-items: center;
@@ -341,7 +344,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
   overflow: hidden;
   background: #f8fafc;
   flex-shrink: 0;
-  margin-top: 14px;
+  margin-top: 24px;
 }
 .ilp-photo-box img { width: 100%; height: 100%; object-fit: cover; }
 .ilp-meta-grid {
@@ -349,7 +352,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
   grid-template-columns: 1.35fr 0.75fr 1.1fr;
   gap: 3px 8px;
   font-size: 12.5px;
-  margin-bottom: 8px;
+  margin-bottom: 7px;
   width: 100%;
 }
 .ilp-scale-note {
@@ -364,64 +367,72 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .ilp-table {
   width: 100%;
   border-collapse: collapse;
-  margin-bottom: 7px;
+  margin-bottom: 6px;
   font-size: 10px;
 }
 .ilp-table th, .ilp-table td {
   border: 1px solid #333;
   padding: 2px 2px;
   text-align: center;
-  height: 19px;
+  height: 18.5px;
 }
 .ilp-table th { background: #f1f5f9; font-weight: 700; }
 .ilp-target-txt { color: #000; font-weight: 700; }
 .ilp-actual-txt { color: #dc2626; font-weight: 800; }
 
-/* ទម្រង់បោះពុម្ពតារាងពិន្ទុ, ឆមាស (A4 Landscape) */
+/* តារាងបោះពុម្ពពិន្ទុ និងប្រឡងឆមាស (A4 Landscape) */
 .exam-print-container {
   display: none;
   background: #fff;
-  padding: 10px 24px;
+  padding: 4px 10px;
   color:#000;
   font-family: 'Leelawadee UI', 'Kantumruy Pro', sans-serif;
+  width: 100%;
+  box-sizing: border-box;
 }
 .exam-paper-table {
   border: 1px solid #000;
   width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
 }
 .exam-paper-table th, .exam-paper-table td {
   border: 1px solid #000;
-  padding: 4px 1px;
+  padding: 3px 1px;
   text-align: center;
-  font-size: 11px;
+  font-size: 10px;
+  overflow: hidden;
+  word-wrap: break-word;
 }
 .exam-paper-table th { background: #f8fafc; font-weight: bold; }
 
 .th-rot {
-  white-space: nowrap !important;
-  height: 115px !important;
-  min-width: 25px !important;
-  max-width: 28px !important;
-  vertical-align: bottom !important;
+  height: 105px !important;
+  vertical-align: middle !important;
   padding: 0 !important;
+  position: relative !important;
+  overflow: visible !important;
 }
 .th-rot-txt {
-  writing-mode: vertical-rl !important;
-  -webkit-writing-mode: vertical-rl !important;
-  transform: rotate(180deg) !important;
-  -webkit-transform: rotate(180deg) !important;
-  display: inline-block !important;
+  display: block !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  width: 100px !important;
+  text-align: left !important;
   white-space: nowrap !important;
-  padding: 6px 2px !important;
-  font-size: 11px !important;
-  line-height: 1.1 !important;
+  font-size: 9.5px !important;
+  line-height: 1.2 !important;
+  transform: translate(-50%, -50%) rotate(-90deg) !important;
+  -webkit-transform: translate(-50%, -50%) rotate(-90deg) !important;
+  transform-origin: center center !important;
+  -webkit-transform-origin: center center !important;
 }
 .th-rot-sub {
-  font-size: 10px;
+  font-size: 9px;
   color: #333;
   font-weight: bold;
-  padding: 3px 1px !important;
+  padding: 2px 0 !important;
   background: #f1f5f9;
 }
 
@@ -462,12 +473,11 @@ td select.ilp-ui-sel.black{color:#0f172a}
   outline-offset: -14px;
 }
 
-/* បណ្ណសរសើរ៖ ដកពាក្យកម្រិតសាលាចេញ និងតម្រឹមស្របស្មើនឹងមន្ទីរអប់រំ */
 .cert-header-left-auto {
   position: absolute;
   top: 30.8%;
-  left: 11.2%;
-  width: 230px;
+  left: 8.2%;
+  width: 240px;
   text-align: center;
   font-family: var(--title-font);
   font-size: 13px;
@@ -478,24 +488,24 @@ td select.ilp-ui-sel.black{color:#0f172a}
 
 .cert-director-sub {
   position: absolute;
-  top: 37.2%;
+  top: 36.8%;
   left: 9%;
   width: 82%;
   text-align: center;
   font-family: var(--title-font);
-  font-size: 17px;
+  font-size: 17.5px;
   color: #1e3a8a;
   line-height: 1.45;
 }
 
 .cert-auto-body {
   position: absolute;
-  top: 41.8%;
-  left: 9%;
-  width: 82%;
+  top: 41.5%;
+  left: 8.5%;
+  width: 83%;
   text-align: center;
-  line-height: 1.72;
-  font-size: 17px;
+  line-height: 1.75;
+  font-size: 18.2px;
   font-weight: 700;
   color: #1e293b;
 }
@@ -520,7 +530,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
 
 .cert-auto-sign {
   position: absolute;
-  top: 63.5%;
+  top: 63.8%;
   left: 12%;
   width: 76%;
   display: flex;
@@ -586,7 +596,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
   font-size: 12px; font-weight: bold; cursor: pointer; line-height: 22px; padding: 0;
 }
 
-/* កាតសម្គាល់ខ្លួនសិស្ស (ID Card A6)៖ ពង្រីក Logo Watermark ធំខ្លាំង, Logo លើឆ្វេង, ព្រះរាជា និងព័ត៌មានបំពេញ */
+/* កាតសម្គាល់ខ្លួនសិស្ស (ID Card A6) */
 .idcard-a4-page {
   width: 794px;
   min-height: 1123px;
@@ -691,53 +701,125 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .id-card-school-line { font-size: 11.5px; margin-bottom: 2px; text-align: left; }
 .id-card-school-line b { font-family: var(--title-font); font-weight: normal; font-size: 11px; }
 
-.honor-poster-sheet {
+/* ========================================================
+   តារាងកិត្តិយសទាំង ៨ ម៉ូដ (A4 Portrait) + Khmer OS Muol Light 3D
+   ======================================================== */
+.honor-template-sheet {
   width: 794px;
-  min-height: 1123px;
-  background: #fff;
-  padding: 28px 34px 24px;
-  color: #000;
-  font-family: 'Leelawadee UI', 'Kantumruy Pro', sans-serif;
-  text-align: center;
+  height: 1123px;
+  background-color: #fff;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
   box-shadow: 0 6px 24px rgba(0,0,0,0.15);
   box-sizing: border-box;
   margin: 0 auto;
+  position: relative;
+  color: #0f172a;
 }
-.honor-poster-sheet .official-header .side-box { text-align: center; padding-top: 24px; }
-.honor-top5-stage { margin: 34px auto 24px; max-width: 680px; position: relative; min-height: 540px; }
-.honor-circle-card { display: flex; flex-direction: column; align-items: center; text-align: center; position: absolute; }
-.honor-circle-card .photo-frame {
-  border-radius: 8px;
-  overflow: hidden;
-  border: 4px solid #f59e0b;
-  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.25);
-  background: #f8fafc;
+.honor-tpl-school-box {
+  position: absolute;
+  top: 9.2%;
+  left: 6.5%;
+  width: 245px;
+  text-align: center;
+  line-height: 1.35;
 }
-.honor-circle-card.rank-1 { top: 0; left: 50%; transform: translateX(-50%); }
-.honor-circle-card.rank-1 .photo-frame { width: 120px; height: 150px; border-width: 5px; border-color: #d97706; }
-.honor-circle-card.rank-2 { top: 185px; left: 10%; }
-.honor-circle-card.rank-2 .photo-frame { width: 96px; height: 120px; border-color: #0284c7; }
-.honor-circle-card.rank-3 { top: 185px; right: 10%; }
-.honor-circle-card.rank-3 .photo-frame { width: 96px; height: 120px; border-color: #d97706; }
-.honor-circle-card.rank-4 { top: 375px; left: 18%; }
-.honor-circle-card.rank-4 .photo-frame { width: 92px; height: 115px; border-color: #10b981; }
-.honor-circle-card.rank-5 { top: 375px; right: 18%; }
-.honor-circle-card.rank-5 .photo-frame { width: 92px; height: 115px; border-color: #f43f5e; }
+.honor-tpl-school-box img {
+  height: 40px !important;
+  width: auto !important;
+  display: block;
+  margin: 0 auto 2px;
+}
+.honor-tpl-subhead {
+  position: absolute;
+  top: 25.6%;
+  left: 10%;
+  width: 80%;
+  text-align: center;
+  font-family: var(--title-font);
+  font-size: 14px;
+  color: #1e3a8a;
+}
 
-.honor-badge {
-  display: inline-flex;
+/* ពុម្ពអក្សរ Khmer OS Muol Light ស្ទីល 3D */
+.muol-3d-name {
+  font-family: 'Khmer OS Muol Light', 'Khmer OS Muol', 'Moul', serif !important;
+  font-weight: normal !important;
+  color: #b91c1c;
+  text-shadow:
+    1px 1px 0px #ffffff,
+    -1px -1px 0px #ffffff,
+    1px -1px 0px #ffffff,
+    -1px 1px 0px #ffffff,
+    0px 2px 3px rgba(15, 23, 42, 0.35);
+  line-height: 1.45;
+}
+.honor-sub-score {
+  font-family: 'Leelawadee UI', 'Kantumruy Pro', sans-serif;
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #1e3a8a;
+  margin-top: 1px;
+}
+
+.honor-slot-box {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: -12px;
-  padding: 3px 14px;
-  border-radius: 6px;
-  color: #fff;
-  font-weight: bold;
-  font-size: 13px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  z-index: 2;
+  text-align: center;
+  transform: translate(-50%, -50%);
 }
-.honor-name-txt { font-size: 15.5px; font-weight: bold; margin-top: 5px; color: #0f172a; }
+.honor-slot-box.r1 { top: 41.2%; left: 50.0%; width: 230px; }
+.honor-slot-box.r2 { top: 55.6%; left: 26.8%; width: 230px; }
+.honor-slot-box.r3 { top: 55.6%; left: 73.2%; width: 230px; }
+.honor-slot-box.r4 { top: 72.4%; left: 26.8%; width: 230px; }
+.honor-slot-box.r5 { top: 72.4%; left: 73.2%; width: 230px; }
+
+/* ទីតាំងពិសេសសម្រាប់ម៉ូដទី ៦ (honor_page_6.png៖ ស៊ុមរូបថតបញ្ឈរខាងលើ + ស្លាកឈ្មោះខាងក្រោម) */
+.honor-photo-slot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 112px;
+  height: 138px;
+  overflow: hidden;
+  background: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.honor-photo-slot img { width: 100%; height: 100%; object-fit: cover; }
+.honor-photo-slot.p1 { top: 37.3%; left: 50.0%; }
+.honor-photo-slot.p2 { top: 46.1%; left: 21.0%; }
+.honor-photo-slot.p3 { top: 46.1%; left: 78.8%; }
+.honor-photo-slot.p4 { top: 67.3%; left: 21.0%; }
+.honor-photo-slot.p5 { top: 67.3%; left: 78.8%; }
+
+.honor-label-slot6 {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 175px;
+  text-align: center;
+}
+.honor-label-slot6.l1 { top: 47.0%; left: 51.8%; }
+.honor-label-slot6.l2 { top: 55.7%; left: 19.3%; }
+.honor-label-slot6.l3 { top: 55.7%; left: 80.5%; }
+.honor-label-slot6.l4 { top: 76.9%; left: 19.3%; }
+.honor-label-slot6.l5 { top: 76.9%; left: 80.5%; }
+
+.honor-tpl-footer {
+  position: absolute;
+  bottom: 7.5%;
+  left: 8%;
+  width: 84%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  font-size: 12.5px;
+  line-height: 1.45;
+}
 
 .preset-grid {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 10px 0 16px;
@@ -749,7 +831,6 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .preset-btn:active { transform: scale(0.96); }
 
-/* @media print ស្ដង់ដារទម្រង់រដ្ឋបាល */
 @media print{
   *, *::before, *::after {
     -webkit-print-color-adjust: exact !important;
@@ -776,11 +857,20 @@ td select.ilp-ui-sel.black{color:#0f172a}
     height: auto !important;
     width: 100% !important;
   }
-  .official-sheet, .honor-poster-sheet {
+  .official-sheet {
     width: 100% !important;
     min-height: auto !important;
     box-shadow: none !important;
     padding: 0 !important;
+  }
+  .honor-template-sheet {
+    width: 210mm !important;
+    height: 297mm !important;
+    min-height: 297mm !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    page-break-after: always;
+    page-break-inside: avoid;
   }
   .cert-page-a4 {
     width: 297mm !important;
@@ -808,7 +898,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
     box-shadow: none !important;
     max-width: none !important;
   }
-  .cert-red-auto, .inst-title, .role-title, .p1, .p2, .id-card-kingdom .k1, .id-card-kingdom .k2, .id-card-dept, .id-card-title-box .t-main {
+  .cert-red-auto, .muol-3d-name, .inst-title, .role-title, .p1, .p2, .id-card-kingdom .k1, .id-card-kingdom .k2, .id-card-dept, .id-card-title-box .t-main {
     line-height: 1.7 !important;
     overflow: visible !important;
   }
@@ -829,6 +919,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
 <div id="sv" class="sv"></div>
 <input type="file" id="fimp" accept=".json,application/json" style="display:none" onchange="importFile(this.files[0]);this.value=''">
 <input type="file" id="fBorderUpload" accept="image/png,image/jpeg,image/webp" style="display:none" onchange="uploadCustomBorder(this.files[0]);this.value=''">
+<input type="file" id="fHonorUpload" accept="image/png,image/jpeg,image/webp" style="display:none" onchange="uploadCustomHonor(this.files[0]);this.value=''">
 
 <script>
 const SUPABASE_URL = 'https://sobhopuuvwctrdhlgttw.supabase.co';
@@ -837,6 +928,8 @@ const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';
 const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
+const HONOR_LIB_KEY = 'sms_honor_tpls_v1';
+const SELECTED_HONOR_KEY = 'sms_selected_honor_v1';
 const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
 
 let deferredInstallPrompt = null;
@@ -963,6 +1056,17 @@ const BUILTIN_BORDERS = [
   { id: 'b7', name: 'ក្បាច់ក្រហមបន្ទាត់ភ្លោះ', url: 'borders/1609314252894.jpg' }
 ];
 
+const BUILTIN_HONORS = [
+  { id: 'h1', name: 'ម៉ូដទី ១ (បូបៃតង)', url: 'honor/honor_page_1.png', hasPhoto: false },
+  { id: 'h2', name: 'ម៉ូដទី ២ (សិស្សកាន់ខ្មៅដៃ)', url: 'honor/honor_page_2.jpeg', hasPhoto: false },
+  { id: 'h3', name: 'ម៉ូដទី ៣ (ក្បាច់ពណ៌ចម្រុះ)', url: 'honor/honor_page_3.png', hasPhoto: false },
+  { id: 'h4', name: 'ម៉ូដទី ៤ (ក្បាច់មាសបុរាណ)', url: 'honor/honor_page_4.png', hasPhoto: false },
+  { id: 'h5', name: 'ម៉ូដទី ៥ (ស្លាបមាសបូក្រហម)', url: 'honor/honor_page_5.png', hasPhoto: false },
+  { id: 'h6', name: 'ម៉ូដទី ៦ (មានរូបថត + ឈ្មោះ)', url: 'honor/honor_page_6.png', hasPhoto: true },
+  { id: 'h7', name: 'ម៉ូដទី ៧ (ស៊ុមមាសស្លឹកបៃតង)', url: 'honor/honor_page_7.png', hasPhoto: false },
+  { id: 'h8', name: 'ម៉ូដទី ៨ (សត្វឆ្មាគួរឱ្យស្រឡាញ់)', url: 'honor/honor_page_8.png', hasPhoto: false }
+];
+
 function getLogoSrc(){
   const S = getS();
   if (S && S.info && S.info.moeysLogo) return S.info.moeysLogo;
@@ -1014,8 +1118,27 @@ function setSelectedBorder(url){
   localStorage.setItem(SELECTED_BORDER_KEY, url);
 }
 
+function getHonorLibrary(){
+  try {
+    const raw = localStorage.getItem(HONOR_LIB_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch(e){ return []; }
+}
+function saveHonorLibrary(lib){
+  localStorage.setItem(HONOR_LIB_KEY, JSON.stringify(lib));
+}
+function getSelectedHonor(){
+  const s = localStorage.getItem(SELECTED_HONOR_KEY);
+  if (s !== null) return s;
+  return BUILTIN_HONORS[5].url;
+}
+function setSelectedHonor(url){
+  localStorage.setItem(SELECTED_HONOR_KEY, url);
+}
+
 let showBorderModal = false;
 let borderModalTab = 'ready';
+let showHonorModal = false;
 let photoActionStudentId = null;
 let tempPhotoRawData = null;
 let tempPhotoOffsetY = 50;
@@ -1158,7 +1281,7 @@ function smartKhmerDate(val){
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
-  {n:'សិក្សាសង្គម', s:[['ចំណេះដឹង',5],['អនុវត្ត',5]]},
+  {n:'សិក្សាសង្គម', s:[['ចំណេះដឹង',5],['អនុុវត្ត',5]]},
   {n:'វិទ្យាសាស្ត្រ', s:[['ទ្រឹស្តី',5],['ពិសោធ',5]]},
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
@@ -1888,7 +2011,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   if (isStandalone && typeof html2pdf !== 'undefined') {
     setStatus('កំពុងបង្កើត PDF A4...');
     
-    const printTarget = element.querySelector('.cert-page-a4') || element;
+    const printTarget = element.querySelector('.cert-page-a4') || element.querySelector('.honor-template-sheet') || element;
     const wrappers = document.querySelectorAll('.cert-scaler-wrapper, .a4-portrait-wrapper');
     const savedStyles = [];
     wrappers.forEach(w => {
@@ -1942,24 +2065,23 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       styleSheet.id = 'dynamicPrintStyle';
       document.head.appendChild(styleSheet);
     }
-    styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: ${isLandscape ? '0mm' : '8mm 12mm'} !important; } }`;
+    styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: ${isLandscape ? '3mm' : '8mm 12mm'} !important; } }`;
     setTimeout(() => window.print(), 100);
   }
 }
 
-// ក្បាលលិខិតរដ្ឋបាល៖ ប្រើ <img> កំណត់តែ height: 46px; width: auto; ដើម្បីចាក់សោរសមាមាត្រដើម 100% មិនរួមស្គមពេលចុច Print
 function renderOfficialHeaderHTML(i){
   const logoSrc = getLogoSrc();
   return `
     <div class="official-header">
       <div class="side-box">
         <img class="hdr-moeys-img" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
-        <div style="font-size:13px;font-weight:bold;line-height:1.4">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
-        <div style="font-weight:bold;font-size:14px;line-height:1.4;margin-top:1px">${E(i.school || 'សាលារៀន')}</div>
+        <div style="font-size:12.5px;font-weight:bold;line-height:1.4">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+        <div style="font-weight:bold;font-size:13.5px;line-height:1.4;margin-top:1px">${E(i.school || 'សាលារៀន')}</div>
       </div>
       <div class="center-box">
-        <div class="muol-title" style="font-size:16px;line-height:1.4">ព្រះរាជាណាចក្រកម្ពុជា</div>
-        <div class="muol-title" style="font-size:14px;line-height:1.4">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+        <div class="muol-title" style="font-size:15.5px;line-height:1.4">ព្រះរាជាណាចក្រកម្ពុជា</div>
+        <div class="muol-title" style="font-size:13.5px;line-height:1.4">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
         <div style="font-size:12px;letter-spacing:4px;margin-top:2px">- 0 , -</div>
       </div>
     </div>
@@ -2025,10 +2147,8 @@ function uploadCustomBorder(file){
     const im = new Image();
     im.onload = () => {
       const c = document.createElement('canvas');
-      const maxW = 2480;
-      const maxH = 1754;
-      c.width = maxW;
-      c.height = maxH;
+      c.width = 2480;
+      c.height = 1754;
       const ctx = c.getContext('2d');
       ctx.drawImage(im, 0, 0, c.width, c.height);
       const dataUrl = c.toDataURL('image/png', 0.92);
@@ -2053,6 +2173,42 @@ function deleteBorder(id, e){
   lib = lib.filter(b => b.id !== id);
   saveBorderLibrary(lib);
   if (target && getSelectedBorder() === target.url) setSelectedBorder(BUILTIN_BORDERS[0].url);
+  R();
+}
+
+function uploadCustomHonor(file){
+  if (!file) return;
+  const r = new FileReader();
+  r.onload = () => {
+    const im = new Image();
+    im.onload = () => {
+      const c = document.createElement('canvas');
+      c.width = 1754;
+      c.height = 2480;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(im, 0, 0, c.width, c.height);
+      const dataUrl = c.toDataURL('image/png', 0.92);
+      
+      const lib = getHonorLibrary();
+      lib.push({ id: Date.now(), name: file.name.replace(/\.[^/.]+$/, ''), url: dataUrl, hasPhoto: false });
+      saveHonorLibrary(lib);
+      setSelectedHonor(dataUrl);
+      R();
+      setStatus('បានបន្ថែមម៉ូដតារាងកិត្តិយសថ្មី ✓');
+    };
+    im.src = r.result;
+  };
+  r.readAsDataURL(file);
+}
+
+function deleteHonor(id, e){
+  if (e) e.stopPropagation();
+  if (!confirm('លុបម៉ូដតារាងកិត្តិយសនេះចេញពីឃ្លាំង?')) return;
+  let lib = getHonorLibrary();
+  const target = lib.find(b => b.id === id);
+  lib = lib.filter(b => b.id !== id);
+  saveHonorLibrary(lib);
+  if (target && getSelectedHonor() === target.url) setSelectedHonor(BUILTIN_HONORS[5].url);
   R();
 }
 
@@ -2139,7 +2295,9 @@ home(){
   return `<div class="home">
   <div class="moeys-header">
     <div class="moeys-brand">
-      <img class="moeys-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
+      <div class="moeys-logo-wrap" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
+        <img class="moeys-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+      </div>
       <div class="moeys-text">
         <span class="t1">ព្រះរាជាណាចក្រកម្ពុជា</span>
         <span class="t2">ក្រសួងអប់រំ យុវជន និងកីឡា</span>
@@ -2211,9 +2369,9 @@ sc(){
     const rk = t > 0 ? (1 + S.st.filter(x => tot(x.id, mo) > t).length) : '-';
     return `<tr>
       <td>${k+1}</td>
-      <td style="text-align:start;padding-left:6px;font-weight:bold;width:110px">${E(s.name)}</td>
+      <td style="text-align:start;padding-left:4px;font-weight:bold">${E(s.name)}</td>
       <td>${s.sex==='ស'?'ស':'ប'}</td>
-      <td style="font-size:10px">${E(s.dob || '-')}</td>
+      <td style="font-size:9px">${E(s.dob || '-')}</td>
       ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
       <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
@@ -2242,20 +2400,31 @@ sc(){
     ${renderOfficialHeaderHTML(i)}
 
     <div style="text-align:center;margin:2px 0 4px">
-      <div class="muol-title" style="font-size:16px">តារាងស្រង់ពិន្ទុប្រចាំ ខែ${MO[mo]}</div>
-      <div style="font-size:13px;font-weight:bold;margin-top:2px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
-      <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមភាគ = ពិន្ទុសរុប ÷ ${divVal} )</div>
+      <div class="muol-title" style="font-size:15.5px">តារាងស្រង់ពិន្ទុប្រចាំ ខែ${MO[mo]}</div>
+      <div style="font-size:12.5px;font-weight:bold;margin-top:2px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-size:11px;color:#475569;margin-top:1px">( រូបមន្ត៖ មធ្យមភាគ = ពិន្ទុសរុប ÷ ${divVal} )</div>
     </div>
 
-    <div style="font-size:11.5px;text-align:end;margin-bottom:4px">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
+    <div style="font-size:11px;text-align:end;margin-bottom:3px">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
 
     <table class="exam-paper-table">
+      <colgroup>
+        <col style="width:24px">
+        <col style="width:92px">
+        <col style="width:24px">
+        <col style="width:68px">
+        ${cols.map(() => `<col>`).join('')}
+        <col style="width:30px">
+        <col style="width:34px">
+        <col style="width:28px">
+        <col style="width:26px">
+      </colgroup>
       <thead>
         <tr>
-          <th rowspan="2" style="width:34px">ល.រ</th>
-          <th rowspan="2" style="width:110px">គោត្តនាម និងនាម</th>
-          <th rowspan="2" style="width:36px">ភេទ</th>
-          <th rowspan="2" style="width:85px">ថ្ងៃខែឆ្នាំកំណើត</th>
+          <th rowspan="2">ល.រ</th>
+          <th rowspan="2">គោត្តនាម និងនាម</th>
+          <th rowspan="2">ភេទ</th>
+          <th rowspan="2">ថ្ងៃខែឆ្នាំកំណើត</th>
           ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</span></th>`).join('')}
           <th rowspan="2" class="th-rot" style="background:#f1f5f9"><span class="th-rot-txt">សរុប</span></th>
           <th rowspan="2" class="th-rot" style="background:#fef3c7"><span class="th-rot-txt">មធ្យម</span></th>
@@ -2271,7 +2440,7 @@ sc(){
       </tbody>
     </table>
 
-    <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:flex-start;font-size:12px">
+    <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:flex-start;font-size:11.5px">
       <div class="director-sign-box">
         <div>បានឃើញ និងឯកភាព</div>
         <div style="margin:2px 0">${dirDateStr}</div>
@@ -2280,7 +2449,7 @@ sc(){
       <div class="teacher-sign-box">
         <div>${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
-        <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
+        <div style="margin-top:36px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
     </div>
   </div>
@@ -2438,9 +2607,9 @@ examScore(){
     const rk = t > 0 ? (1 + S.st.filter(x => totSemExam(x.id, examSem) > t).length) : '-';
     return `<tr>
       <td>${k+1}</td>
-      <td style="text-align:start;padding-left:6px;font-weight:bold;width:110px">${E(s.name)}</td>
+      <td style="text-align:start;padding-left:4px;font-weight:bold">${E(s.name)}</td>
       <td>${s.sex==='ស'?'ស':'ប'}</td>
-      <td style="font-size:10px">${E(s.dob || '-')}</td>
+      <td style="font-size:9px">${E(s.dob || '-')}</td>
       ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
       <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
@@ -2470,20 +2639,31 @@ examScore(){
     ${renderOfficialHeaderHTML(i)}
 
     <div style="text-align:center;margin:2px 0 4px">
-      <div class="muol-title" style="font-size:16px">តារាងស្រង់ពិន្ទុប្រឡងឆមាសទី ${examSem + 1}</div>
-      <div style="font-size:13px;font-weight:bold;margin-top:2px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
-      <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមប្រឡង = សរុបប្រឡង ÷ ${divVal} )</div>
+      <div class="muol-title" style="font-size:15.5px">តារាងស្រង់ពិន្ទុប្រឡងឆមាសទី ${examSem + 1}</div>
+      <div style="font-size:12.5px;font-weight:bold;margin-top:2px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-size:11px;color:#475569;margin-top:1px">( រូបមន្ត៖ មធ្យមប្រឡង = សរុបប្រឡង ÷ ${divVal} )</div>
     </div>
 
-    <div style="font-size:11.5px;text-align:end;margin-bottom:4px">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
+    <div style="font-size:11px;text-align:end;margin-bottom:3px">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
 
     <table class="exam-paper-table">
+      <colgroup>
+        <col style="width:24px">
+        <col style="width:92px">
+        <col style="width:24px">
+        <col style="width:68px">
+        ${cols.map(() => `<col>`).join('')}
+        <col style="width:30px">
+        <col style="width:34px">
+        <col style="width:28px">
+        <col style="width:26px">
+      </colgroup>
       <thead>
         <tr>
-          <th rowspan="2" style="width:34px">ល.រ</th>
-          <th rowspan="2" style="width:110px">គោត្តនាម និងនាម</th>
-          <th rowspan="2" style="width:36px">ភេទ</th>
-          <th rowspan="2" style="width:85px">ថ្ងៃខែឆ្នាំកំណើត</th>
+          <th rowspan="2">ល.រ</th>
+          <th rowspan="2">គោត្តនាម និងនាម</th>
+          <th rowspan="2">ភេទ</th>
+          <th rowspan="2">ថ្ងៃខែឆ្នាំកំណើត</th>
           ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</span></th>`).join('')}
           <th rowspan="2" class="th-rot" style="background:#f1f5f9"><span class="th-rot-txt">សរុបប្រឡង</span></th>
           <th rowspan="2" class="th-rot" style="background:#fef3c7"><span class="th-rot-txt">មធ្យមប្រឡង</span></th>
@@ -2499,7 +2679,7 @@ examScore(){
       </tbody>
     </table>
 
-    <div style="margin-top:14px;display:flex;justify-content:space-between;align-items:flex-start;font-size:12px">
+    <div style="margin-top:12px;display:flex;justify-content:space-between;align-items:flex-start;font-size:11.5px">
       <div class="director-sign-box">
         <div>បានឃើញ និងឯកភាព</div>
         <div style="margin:2px 0">${dirDateStr}</div>
@@ -2508,7 +2688,7 @@ examScore(){
       <div class="teacher-sign-box">
         <div>${curDateStr}</div>
         <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
-        <div style="margin-top:40px;font-weight:bold">${E(i.teacher || '')}</div>
+        <div style="margin-top:36px;font-weight:bold">${E(i.teacher || '')}</div>
       </div>
     </div>
   </div>
@@ -2589,7 +2769,7 @@ sem(){
   <tbody>${rows || '<tr><td colspan="14" class="em">មិនមានសិស្ស</td></tr>'}</tbody>
   </table></div>
 
-  <div id="semScorePrintContainer" class="exam-print-container print-page" style="padding: 12px 28px !important">
+  <div id="semScorePrintContainer" class="exam-print-container print-page" style="padding: 12px 24px !important">
     ${renderOfficialHeaderHTML(i)}
 
     <div style="text-align:center;margin:2px 0 4px">
@@ -2598,7 +2778,7 @@ sem(){
       <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមឆមាសរួម = [មធ្យមខែ + មធ្យមប្រឡង] ÷ ២ )</div>
     </div>
 
-    <table class="exam-paper-table">
+    <table class="exam-paper-table" style="table-layout:auto">
       <thead>
         <tr>
           <th>ល.រ</th>
@@ -2783,7 +2963,6 @@ stu(){
     </tr>
   `).join('');
 
-  /* ផ្ទាំងប្រវត្តិរូបសិស្ស៖ ដាក់ប្រអប់ ភេទ មុន និង ផ្សេងៗ តាមក្រោយ ក្នុង ១ ជួរស្មើគ្នា (row-2) */
   return head('ប្រវត្តិរូបសិស្ស') + `<div class="card">
   <h2>បញ្ចូលសិស្សថ្មី</h2>
   <div class="f row-2">
@@ -3082,7 +3261,6 @@ ilp(){
     </div>
   </div>
 
-  <!-- ទម្រង់សន្លឹក A4 ផ្លូវការ ILP -->
   <div class="ilp-print-container print-page" id="ilpPrintArea">
     <div class="ilp-top-row">
       <div class="ilp-photo-box">
@@ -3091,11 +3269,11 @@ ilp(){
       <div style="text-align:center;flex:1;padding-top:0">
         <div class="muol-title" style="font-size:15.5px">ព្រះរាជាណាចក្រកម្ពុជា</div>
         <div class="muol-title" style="font-size:14px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-        <div style="font-weight:bold;font-size:13.5px;margin-top:20px">ការពិនិត្យឡើងវិញកម្រិតនិទ្ទេសសិស្សម្នាក់ៗ</div>
-        <div class="muol-title" style="font-size:15px;margin-top:3px">ផែនការសិក្សារបស់សិស្ស</div>
-        <div style="font-weight:bold;font-size:13px;margin-top:2px">ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
+        <div style="font-weight:bold;font-size:14.5px;margin-top:34px">ការពិនិត្យឡើងវិញកម្រិតនិទ្ទេសសិស្សម្នាក់ៗ</div>
+        <div class="muol-title" style="font-size:16.5px;margin-top:4px">ផែនការសិក្សារបស់សិស្ស</div>
+        <div style="font-weight:bold;font-size:14px;margin-top:3px">ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
       </div>
-      <div style="width:86px;text-align:right;font-size:10.5px;color:#64748b">(១)</div>
+      <div style="width:88px;text-align:right;font-size:10.5px;color:#64748b">(១)</div>
     </div>
 
     <div class="ilp-meta-grid">
@@ -3229,69 +3407,118 @@ ab(){
 honor(){
   const S = getS();
   const i = S.info;
+  const logoSrc = getLogoSrc();
   const curDateStr = getKhmerCurrentDate();
   const dirDateStr = getDirectorSolarDate();
+  const selectedHonor = getSelectedHonor();
+  const customHonors = getHonorLibrary();
+  const allHonors = [...BUILTIN_HONORS, ...customHonors];
+  const currentTpl = allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[5];
+  const isPhotoTpl = !!currentTpl.hasPhoto;
+
   const list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
     .filter(s => s.tot > 0)
     .sort((a,b) => b.av - a.av)
     .slice(0, 5);
 
-  const getSAt = idx => list[idx] || null;
-  const renderCard = (s, rk) => {
+  const renderSlot = idx => {
+    const s = list[idx];
     if (!s) return '';
-    const badgeColors = { 1: '#d97706', 2: '#0284c7', 3: '#d97706', 4: '#10b981', 5: '#f43f5e' };
-    return `
-      <div class="honor-circle-card rank-${rk}">
-        <div class="photo-frame">
-          ${s.ph ? `<img src="${s.ph}" style="width:100%;height:100%;object-fit:cover">` : `<div style="line-height:${rk===1?'150px':'120px'};color:#aaa;font-size:24px">+</div>`}
+    const rNum = idx + 1;
+    const gr = getGradeLetter(s.av, s.tot);
+
+    if (isPhotoTpl) {
+      return `
+        <div class="honor-photo-slot p${rNum}">
+          ${s.ph ? `<img src="${s.ph}">` : `<span style="color:#94a3b8;font-size:11px">រូបថត<br>៤x៦</span>`}
         </div>
-        <div class="honor-badge" style="background:${badgeColors[rk]}">លេខ ${toKhNum(rk)}</div>
-        <div class="honor-name-txt">${E(s.name)}</div>
-        <div style="font-size:12px;color:var(--mu);font-weight:bold">មធ្យម ${toKhNum(s.av.toFixed(2))} | និទ្ទេស ${getGradeLetter(s.av, s.tot)}</div>
-      </div>
-    `;
+        <div class="honor-label-slot6 l${rNum}">
+          <div class="muol-3d-name" style="font-size:13.5px">${E(s.name)}</div>
+          <div class="honor-sub-score">មធ្យម ${toKhNum(s.av.toFixed(2))} | និទ្ទេស ${gr}</div>
+        </div>
+      `;
+    } else {
+      return `
+        <div class="honor-slot-box r${rNum}">
+          <div class="muol-3d-name" style="font-size:16.5px">${E(s.name)}</div>
+          <div class="honor-sub-score">មធ្យម ${toKhNum(s.av.toFixed(2))} · និទ្ទេស ${gr}</div>
+        </div>
+      `;
+    }
   };
 
   return head('តារាងកិត្តិយស (Top 5)') + `<div class="card">
   <div class="f">
     ${moSel()}
+    <button class="bt g" onclick="showHonorModal=true;R()">📂 រើសម៉ូដតារាងកិត្តិយស (៨ ម៉ូដ)</button>
     <button class="bt" onclick="executeStandardPrint('honorPrintArea', 'តារាងកិត្តិយស_Top5', false)">🖨️ បោះពុម្ពតារាងកិត្តិយសផ្លូវការ (A4 Portrait)</button>
   </div>
+  <small class="hint-note">💡 លោកគ្រូអាចចុច <b>«📂 រើសម៉ូដតារាងកិត្តិយស»</b> ដើម្បីប្តូររចនាប័ទ្មទាំង ៨ ម៉ូដ (ម៉ូដទី ៦ មានទាំងរូបថត និងឈ្មោះ ឯម៉ូដផ្សេងទៀតបង្ហាញឈ្មោះអក្សរឆ្លាក់ 3D យ៉ាងស្រស់ស្អាត)។</small>
 
   <div class="a4-portrait-stage">
     <div class="a4-portrait-wrapper">
-      <div class="honor-poster-sheet print-page" id="honorPrintArea">
-        ${renderOfficialHeaderHTML(i)}
-
-        <div style="text-align:center;margin:10px 0 14px">
-          <div class="muol-title" style="font-size:21px;color:#1e3a8a">តារាងកិត្តិយសប្រចាំ ខែ${MO[mo]}</div>
-          <div style="font-size:16px;font-weight:bold;margin-top:4px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div class="honor-template-sheet print-page" id="honorPrintArea" style="background-image:url('${encodeURI(selectedHonor)}');">
+        
+        <div class="honor-tpl-school-box">
+          <img src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+          <div style="font-size:11.5px;font-weight:bold;color:#1e3a8a">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+          <div style="font-size:12.5px;font-weight:bold;color:#0f172a">${E(i.school || 'សាលារៀន')}</div>
         </div>
 
-        <div class="honor-top5-stage">
-          ${renderCard(getSAt(0), 1)}
-          ${renderCard(getSAt(1), 2)}
-          ${renderCard(getSAt(2), 3)}
-          ${renderCard(getSAt(3), 4)}
-          ${renderCard(getSAt(4), 5)}
+        <div class="honor-tpl-subhead">
+          ប្រចាំ ខែ${MO[mo]} · ថ្នាក់ទី ${E(i.cls || '...')} · ឆ្នាំសិក្សា ${toKhNum(currentYear)}
         </div>
 
-        <div style="margin-top:20px;display:flex;justify-content:space-between;align-items:flex-start;font-size:13px;padding:0 20px">
-          <div class="director-sign-box">
-            <div>បានឃើញ និងឯកភាព</div>
+        ${renderSlot(0)}
+        ${renderSlot(1)}
+        ${renderSlot(2)}
+        ${renderSlot(3)}
+        ${renderSlot(4)}
+
+        <div class="honor-tpl-footer">
+          <div style="text-align:center;width:270px;padding-top:18px">
+            <div style="font-weight:bold">បានឃើញ និងឯកភាព</div>
             <div style="margin:2px 0">${dirDateStr}</div>
-            <div style="font-weight:bold">នាយកសាលា</div>
+            <div style="font-family:var(--title-font);font-size:13px">នាយកសាលា</div>
           </div>
-          <div class="teacher-sign-box">
+          <div style="text-align:center;width:290px">
             <div>${curDateStr}</div>
-            <div style="font-weight:bold;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
-            <div style="margin-top:55px;font-weight:bold">${E(i.teacher || '')}</div>
+            <div style="font-family:var(--title-font);font-size:13px;margin-top:2px">គ្រូបន្ទុកថ្នាក់</div>
+            <div style="margin-top:44px;font-weight:bold;font-size:13.5px">${E(i.teacher || '')}</div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
-  </div>`;
+  </div>
+
+  ${showHonorModal ? `
+    <div class="modal-overlay" onclick="showHonorModal=false;R()">
+      <div class="modal-box" onclick="event.stopPropagation()">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <h2 style="margin:0;font-size:16px;color:var(--ac)">📂 ជ្រើសរើសម៉ូដតារាងកិត្តិយស (៨ ម៉ូដ)</h2>
+          <button class="bt g" style="padding:2px 8px;min-height:28px" onclick="showHonorModal=false;R()">✕</button>
+        </div>
+
+        <div style="margin-bottom:8px;display:flex;gap:8px;align-items:center">
+          <button class="bt" style="background:var(--ok);padding:5px 12px;font-size:12.5px" onclick="$('#fHonorUpload').click()">➕ Upload ម៉ូដថ្មី (PNG/JPG)</button>
+          <small class="mu">ម៉ូដទី ៦ មានទាំងរូបថត + ឈ្មោះ ឯម៉ូដផ្សេងទៀតបង្ហាញឈ្មោះ 3D</small>
+        </div>
+
+        <div class="border-grid-thumb">
+          ${allHonors.map(h => `
+            <div class="border-thumb-item ${selectedHonor===h.url ? 'active' : ''}" onclick="setSelectedHonor('${h.url}');showHonorModal=false;R()">
+              ${typeof h.id === 'number' ? `<button class="thumb-del" onclick="deleteHonor(${h.id}, event)" title="លុបម៉ូដ">✕</button>` : ''}
+              <img src="${encodeURI(h.url)}" style="height:120px" onerror="this.onerror=null;this.src='honor/honor_page_1.png';">
+              <div style="font-size:11px;margin-top:4px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${E(h.name)}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  ` : ''}
+  `;
 },
 
 cert(){
