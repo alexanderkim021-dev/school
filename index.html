@@ -380,11 +380,11 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .ilp-target-txt { color: #000; font-weight: 700; }
 .ilp-actual-txt { color: #dc2626; font-weight: 800; }
 
-/* តារាងបោះពុម្ពពិន្ទុ និងប្រឡងឆមាស (A4 Landscape) */
+/* តារាងបោះពុម្ពពិន្ទុ និងប្រឡងឆមាស (A4 Landscape)៖ ដោះស្រាយបាត់មុខវិជ្ជា និងអក្សរបែកជួរ 100% */
 .exam-print-container {
   display: none;
   background: #fff;
-  padding: 4px 10px;
+  padding: 4px 8px;
   color:#000;
   font-family: 'Leelawadee UI', 'Kantumruy Pro', sans-serif;
   width: 100%;
@@ -393,38 +393,34 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .exam-paper-table {
   border: 1px solid #000;
   width: 100%;
-  table-layout: fixed;
   border-collapse: collapse;
 }
 .exam-paper-table th, .exam-paper-table td {
   border: 1px solid #000;
-  padding: 3px 1px;
+  padding: 3px 2px;
   text-align: center;
   font-size: 10px;
-  overflow: hidden;
-  word-wrap: break-word;
+  white-space: nowrap;
 }
 .exam-paper-table th { background: #f8fafc; font-weight: bold; }
 
 .th-rot {
-  height: 105px !important;
-  vertical-align: middle !important;
-  padding: 0 !important;
-  position: relative !important;
+  height: 108px !important;
+  width: 24px !important;
+  max-width: 24px !important;
+  vertical-align: bottom !important;
+  padding: 0 0 6px 0 !important;
+  text-align: center !important;
   overflow: visible !important;
 }
 .th-rot-txt {
-  display: block !important;
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  width: 100px !important;
-  text-align: left !important;
+  display: inline-block !important;
+  width: 16px !important;
   white-space: nowrap !important;
   font-size: 9.5px !important;
   line-height: 1.2 !important;
-  transform: translate(-50%, -50%) rotate(-90deg) !important;
-  -webkit-transform: translate(-50%, -50%) rotate(-90deg) !important;
+  transform: rotate(-90deg) !important;
+  -webkit-transform: rotate(-90deg) !important;
   transform-origin: center center !important;
   -webkit-transform-origin: center center !important;
 }
@@ -432,7 +428,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
   font-size: 9px;
   color: #333;
   font-weight: bold;
-  padding: 2px 0 !important;
+  padding: 2px 1px !important;
   background: #f1f5f9;
 }
 
@@ -719,7 +715,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .honor-tpl-school-box {
   position: absolute;
-  top: 9.2%;
+  top: 9.0%;
   left: 6.5%;
   width: 245px;
   text-align: center;
@@ -733,7 +729,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .honor-tpl-subhead {
   position: absolute;
-  top: 25.6%;
+  top: 26.8%;
   left: 10%;
   width: 80%;
   text-align: center;
@@ -742,25 +738,26 @@ td select.ilp-ui-sel.black{color:#0f172a}
   color: #1e3a8a;
 }
 
-/* ពុម្ពអក្សរ Khmer OS Muol Light ស្ទីល 3D */
+/* ពុម្ពអក្សរ Khmer OS Muol Light ស្ទីល 3D ធំច្បាស់ */
 .muol-3d-name {
   font-family: 'Khmer OS Muol Light', 'Khmer OS Muol', 'Moul', serif !important;
   font-weight: normal !important;
   color: #b91c1c;
   text-shadow:
-    1px 1px 0px #ffffff,
-    -1px -1px 0px #ffffff,
-    1px -1px 0px #ffffff,
-    -1px 1px 0px #ffffff,
-    0px 2px 3px rgba(15, 23, 42, 0.35);
+    1.5px 1.5px 0px #ffffff,
+    -1.5px -1.5px 0px #ffffff,
+    1.5px -1.5px 0px #ffffff,
+    -1.5px 1.5px 0px #ffffff,
+    0px 2px 4px rgba(15, 23, 42, 0.35);
   line-height: 1.45;
+  white-space: nowrap;
 }
 .honor-sub-score {
   font-family: 'Leelawadee UI', 'Kantumruy Pro', sans-serif;
-  font-size: 11.5px;
+  font-size: 12.5px;
   font-weight: 800;
   color: #1e3a8a;
-  margin-top: 1px;
+  margin-top: 2px;
 }
 
 .honor-slot-box {
@@ -771,14 +768,10 @@ td select.ilp-ui-sel.black{color:#0f172a}
   justify-content: center;
   text-align: center;
   transform: translate(-50%, -50%);
+  width: 250px;
 }
-.honor-slot-box.r1 { top: 41.2%; left: 50.0%; width: 230px; }
-.honor-slot-box.r2 { top: 55.6%; left: 26.8%; width: 230px; }
-.honor-slot-box.r3 { top: 55.6%; left: 73.2%; width: 230px; }
-.honor-slot-box.r4 { top: 72.4%; left: 26.8%; width: 230px; }
-.honor-slot-box.r5 { top: 72.4%; left: 73.2%; width: 230px; }
 
-/* ទីតាំងពិសេសសម្រាប់ម៉ូដទី ៦ (honor_page_6.png៖ ស៊ុមរូបថតបញ្ឈរខាងលើ + ស្លាកឈ្មោះខាងក្រោម) */
+/* ទីតាំងពិសេសសម្រាប់ម៉ូដទី ៣ (honor_page_3.png៖ ស៊ុមរូបថតបញ្ឈរខាងលើ + ស្លាកឈ្មោះខាងក្រោម) */
 .honor-photo-slot {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -797,17 +790,17 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .honor-photo-slot.p4 { top: 67.3%; left: 21.0%; }
 .honor-photo-slot.p5 { top: 67.3%; left: 78.8%; }
 
-.honor-label-slot6 {
+.honor-label-slot3 {
   position: absolute;
   transform: translate(-50%, -50%);
-  width: 175px;
+  width: 178px;
   text-align: center;
 }
-.honor-label-slot6.l1 { top: 47.0%; left: 51.8%; }
-.honor-label-slot6.l2 { top: 55.7%; left: 19.3%; }
-.honor-label-slot6.l3 { top: 55.7%; left: 80.5%; }
-.honor-label-slot6.l4 { top: 76.9%; left: 19.3%; }
-.honor-label-slot6.l5 { top: 76.9%; left: 80.5%; }
+.honor-label-slot3.l1 { top: 47.0%; left: 52.4%; }
+.honor-label-slot3.l2 { top: 55.7%; left: 18.8%; }
+.honor-label-slot3.l3 { top: 55.7%; left: 81.2%; }
+.honor-label-slot3.l4 { top: 76.9%; left: 18.8%; }
+.honor-label-slot3.l5 { top: 76.9%; left: 81.2%; }
 
 .honor-tpl-footer {
   position: absolute;
@@ -929,7 +922,7 @@ const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge
 const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
 const HONOR_LIB_KEY = 'sms_honor_tpls_v1';
-const SELECTED_HONOR_KEY = 'sms_selected_honor_v1';
+const SELECTED_HONOR_KEY = 'sms_selected_honor_v2';
 const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
 
 let deferredInstallPrompt = null;
@@ -1056,15 +1049,23 @@ const BUILTIN_BORDERS = [
   { id: 'b7', name: 'ក្បាច់ក្រហមបន្ទាត់ភ្លោះ', url: 'borders/1609314252894.jpg' }
 ];
 
+/* កំណត់ទីតាំងជាក់លាក់សម្រាប់ម៉ូដនីមួយៗ (ម៉ូដទី 3 = honor_page_3.png មានទាំងរូបថត + ឈ្មោះ) */
 const BUILTIN_HONORS = [
-  { id: 'h1', name: 'ម៉ូដទី ១ (បូបៃតង)', url: 'honor/honor_page_1.png', hasPhoto: false },
-  { id: 'h2', name: 'ម៉ូដទី ២ (សិស្សកាន់ខ្មៅដៃ)', url: 'honor/honor_page_2.jpeg', hasPhoto: false },
-  { id: 'h3', name: 'ម៉ូដទី ៣ (ក្បាច់ពណ៌ចម្រុះ)', url: 'honor/honor_page_3.png', hasPhoto: false },
-  { id: 'h4', name: 'ម៉ូដទី ៤ (ក្បាច់មាសបុរាណ)', url: 'honor/honor_page_4.png', hasPhoto: false },
-  { id: 'h5', name: 'ម៉ូដទី ៥ (ស្លាបមាសបូក្រហម)', url: 'honor/honor_page_5.png', hasPhoto: false },
-  { id: 'h6', name: 'ម៉ូដទី ៦ (មានរូបថត + ឈ្មោះ)', url: 'honor/honor_page_6.png', hasPhoto: true },
-  { id: 'h7', name: 'ម៉ូដទី ៧ (ស៊ុមមាសស្លឹកបៃតង)', url: 'honor/honor_page_7.png', hasPhoto: false },
-  { id: 'h8', name: 'ម៉ូដទី ៨ (សត្វឆ្មាគួរឱ្យស្រឡាញ់)', url: 'honor/honor_page_8.png', hasPhoto: false }
+  { id: 'h1', name: 'ម៉ូដទី ១ (បូបៃតង)', url: 'honor/honor_page_1.png', hasPhoto: false,
+    pos: [{t:41.5,l:47.5},{t:55.8,l:24.5},{t:55.8,l:71.0},{t:72.6,l:24.5},{t:72.6,l:71.0}] },
+  { id: 'h2', name: 'ម៉ូដទី ២ (សិស្សកាន់ខ្មៅដៃ)', url: 'honor/honor_page_2.jpeg', hasPhoto: false,
+    pos: [{t:44.0,l:48.0},{t:58.2,l:29.5},{t:58.2,l:70.5},{t:77.2,l:29.5},{t:77.2,l:70.5}] },
+  { id: 'h3', name: 'ម៉ូដទី ៣ (មានរូបថត + ឈ្មោះ)', url: 'honor/honor_page_3.png', hasPhoto: true },
+  { id: 'h4', name: 'ម៉ូដទី ៤ (ក្បាច់មាសបុរាណ)', url: 'honor/honor_page_4.png', hasPhoto: false,
+    pos: [{t:41.5,l:50.0},{t:58.5,l:27.0},{t:58.5,l:73.0},{t:76.5,l:27.0},{t:76.5,l:73.0}] },
+  { id: 'h5', name: 'ម៉ូដទី ៥ (ស្លាបមាសបូក្រហម)', url: 'honor/honor_page_5.png', hasPhoto: false,
+    pos: [{t:42.5,l:50.0},{t:56.8,l:25.8},{t:56.8,l:74.2},{t:73.8,l:25.8},{t:73.8,l:74.2}] },
+  { id: 'h6', name: 'ម៉ូដទី ៦ (ក្បាច់ពណ៌ចម្រុះ)', url: 'honor/honor_page_6.png', hasPhoto: false,
+    pos: [{t:39.8,l:49.5},{t:54.2,l:24.0},{t:54.2,l:75.5},{t:71.2,l:24.0},{t:71.2,l:75.5}] },
+  { id: 'h7', name: 'ម៉ូដទី ៧ (ស៊ុមមាសស្លឹកបៃតង)', url: 'honor/honor_page_7.png', hasPhoto: false,
+    pos: [{t:41.5,l:50.0},{t:54.0,l:23.0},{t:54.0,l:77.0},{t:73.5,l:23.0},{t:73.5,l:77.0}] },
+  { id: 'h8', name: 'ម៉ូដទី ៨ (សត្វឆ្មាគួរឱ្យស្រឡាញ់)', url: 'honor/honor_page_8.png', hasPhoto: false,
+    pos: [{t:43.2,l:50.2},{t:58.5,l:21.8},{t:58.5,l:78.2},{t:74.2,l:21.8},{t:74.2,l:78.2}] }
 ];
 
 function getLogoSrc(){
@@ -1130,7 +1131,7 @@ function saveHonorLibrary(lib){
 function getSelectedHonor(){
   const s = localStorage.getItem(SELECTED_HONOR_KEY);
   if (s !== null) return s;
-  return BUILTIN_HONORS[5].url;
+  return BUILTIN_HONORS[2].url;
 }
 function setSelectedHonor(url){
   localStorage.setItem(SELECTED_HONOR_KEY, url);
@@ -1139,6 +1140,7 @@ function setSelectedHonor(url){
 let showBorderModal = false;
 let borderModalTab = 'ready';
 let showHonorModal = false;
+let honorPeriod = 'monthly';
 let photoActionStudentId = null;
 let tempPhotoRawData = null;
 let tempPhotoOffsetY = 50;
@@ -2208,7 +2210,7 @@ function deleteHonor(id, e){
   const target = lib.find(b => b.id === id);
   lib = lib.filter(b => b.id !== id);
   saveHonorLibrary(lib);
-  if (target && getSelectedHonor() === target.url) setSelectedHonor(BUILTIN_HONORS[5].url);
+  if (target && getSelectedHonor() === target.url) setSelectedHonor(BUILTIN_HONORS[2].url);
   R();
 }
 
@@ -2369,9 +2371,9 @@ sc(){
     const rk = t > 0 ? (1 + S.st.filter(x => tot(x.id, mo) > t).length) : '-';
     return `<tr>
       <td>${k+1}</td>
-      <td style="text-align:start;padding-left:4px;font-weight:bold">${E(s.name)}</td>
+      <td style="text-align:start;padding-left:5px;font-weight:bold">${E(s.name)}</td>
       <td>${s.sex==='ស'?'ស':'ប'}</td>
-      <td style="font-size:9px">${E(s.dob || '-')}</td>
+      <td style="font-size:9.5px">${E(s.dob || '-')}</td>
       ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
       <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
@@ -2408,17 +2410,6 @@ sc(){
     <div style="font-size:11px;text-align:end;margin-bottom:3px">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
 
     <table class="exam-paper-table">
-      <colgroup>
-        <col style="width:24px">
-        <col style="width:92px">
-        <col style="width:24px">
-        <col style="width:68px">
-        ${cols.map(() => `<col>`).join('')}
-        <col style="width:30px">
-        <col style="width:34px">
-        <col style="width:28px">
-        <col style="width:26px">
-      </colgroup>
       <thead>
         <tr>
           <th rowspan="2">ល.រ</th>
@@ -2607,9 +2598,9 @@ examScore(){
     const rk = t > 0 ? (1 + S.st.filter(x => totSemExam(x.id, examSem) > t).length) : '-';
     return `<tr>
       <td>${k+1}</td>
-      <td style="text-align:start;padding-left:4px;font-weight:bold">${E(s.name)}</td>
+      <td style="text-align:start;padding-left:5px;font-weight:bold">${E(s.name)}</td>
       <td>${s.sex==='ស'?'ស':'ប'}</td>
-      <td style="font-size:9px">${E(s.dob || '-')}</td>
+      <td style="font-size:9.5px">${E(s.dob || '-')}</td>
       ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
       <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
@@ -2647,17 +2638,6 @@ examScore(){
     <div style="font-size:11px;text-align:end;margin-bottom:3px">- បញ្ចប់បញ្ជីត្រឹមចំនួនសិស្ស ${totalStudents} នាក់ ស្រី ${femaleStudents} នាក់</div>
 
     <table class="exam-paper-table">
-      <colgroup>
-        <col style="width:24px">
-        <col style="width:92px">
-        <col style="width:24px">
-        <col style="width:68px">
-        ${cols.map(() => `<col>`).join('')}
-        <col style="width:30px">
-        <col style="width:34px">
-        <col style="width:28px">
-        <col style="width:26px">
-      </colgroup>
       <thead>
         <tr>
           <th rowspan="2">ល.រ</th>
@@ -2778,7 +2758,7 @@ sem(){
       <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមឆមាសរួម = [មធ្យមខែ + មធ្យមប្រឡង] ÷ ២ )</div>
     </div>
 
-    <table class="exam-paper-table" style="table-layout:auto">
+    <table class="exam-paper-table">
       <thead>
         <tr>
           <th>ល.រ</th>
@@ -3413,35 +3393,56 @@ honor(){
   const selectedHonor = getSelectedHonor();
   const customHonors = getHonorLibrary();
   const allHonors = [...BUILTIN_HONORS, ...customHonors];
-  const currentTpl = allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[5];
+  const currentTpl = allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[2];
   const isPhotoTpl = !!currentTpl.hasPhoto;
+  const customPos = currentTpl.pos || [{t:41.5,l:50},{t:56,l:25},{t:56,l:75},{t:73,l:25},{t:73,l:75}];
 
-  const list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
-    .filter(s => s.tot > 0)
-    .sort((a,b) => b.av - a.av)
-    .slice(0, 5);
+  let scoredList = [];
+  let periodSubTitle = '';
+  if (honorPeriod === 'monthly') {
+    scoredList = S.st.map(s => ({...s, val: av(s.id, mo), has: tot(s.id, mo) > 0}));
+    periodSubTitle = `ប្រចាំ ខែ${MO[mo]}`;
+  } else if (honorPeriod === 'exam1') {
+    scoredList = S.st.map(s => ({...s, val: avSemExam(s.id, 0), has: totSemExam(s.id, 0) > 0}));
+    periodSubTitle = `ប្រឡងឆមាសទី ១`;
+  } else if (honorPeriod === 'exam2') {
+    scoredList = S.st.map(s => ({...s, val: avSemExam(s.id, 1), has: totSemExam(s.id, 1) > 0}));
+    periodSubTitle = `ប្រឡងឆមាសទី ២`;
+  } else if (honorPeriod === 'sem1') {
+    scoredList = S.st.map(s => ({...s, val: semFinalAv(s.id, 0), has: semFinalAv(s.id, 0) > 0}));
+    periodSubTitle = `ប្រចាំ ឆមាសទី ១`;
+  } else if (honorPeriod === 'sem2') {
+    scoredList = S.st.map(s => ({...s, val: semFinalAv(s.id, 1), has: semFinalAv(s.id, 1) > 0}));
+    periodSubTitle = `ប្រចាំ ឆមាសទី ២`;
+  } else if (honorPeriod === 'annual') {
+    scoredList = S.st.map(s => ({...s, val: annualAv(s.id), has: annualAv(s.id) > 0}));
+    periodSubTitle = `ប្រចាំ ឆ្នាំសិក្សា`;
+  }
+
+  const list = scoredList.filter(s => s.has).sort((a,b) => b.val - a.val).slice(0, 5);
 
   const renderSlot = idx => {
     const s = list[idx];
     if (!s) return '';
     const rNum = idx + 1;
-    const gr = getGradeLetter(s.av, s.tot);
+    const gr = getGradeLetter(s.val, 1);
 
     if (isPhotoTpl) {
       return `
         <div class="honor-photo-slot p${rNum}">
           ${s.ph ? `<img src="${s.ph}">` : `<span style="color:#94a3b8;font-size:11px">រូបថត<br>៤x៦</span>`}
         </div>
-        <div class="honor-label-slot6 l${rNum}">
-          <div class="muol-3d-name" style="font-size:13.5px">${E(s.name)}</div>
-          <div class="honor-sub-score">មធ្យម ${toKhNum(s.av.toFixed(2))} | និទ្ទេស ${gr}</div>
+        <div class="honor-label-slot3 l${rNum}">
+          <div class="muol-3d-name" style="font-size:15px">${E(s.name)}</div>
+          <div class="honor-sub-score" style="font-size:11px">មធ្យម ${toKhNum(s.val.toFixed(2))} | និទ្ទេស ${gr}</div>
         </div>
       `;
     } else {
+      const p = customPos[idx] || {t:50, l:50};
       return `
-        <div class="honor-slot-box r${rNum}">
-          <div class="muol-3d-name" style="font-size:16.5px">${E(s.name)}</div>
-          <div class="honor-sub-score">មធ្យម ${toKhNum(s.av.toFixed(2))} · និទ្ទេស ${gr}</div>
+        <div class="honor-slot-box" style="top:${p.t}%;left:${p.l}%">
+          <div class="muol-3d-name" style="font-size:21px">${E(s.name)}</div>
+          <div class="honor-sub-score">មធ្យម ${toKhNum(s.val.toFixed(2))} · និទ្ទេស ${gr}</div>
         </div>
       `;
     }
@@ -3449,11 +3450,19 @@ honor(){
 
   return head('តារាងកិត្តិយស (Top 5)') + `<div class="card">
   <div class="f">
-    ${moSel()}
+    <select onchange="honorPeriod=this.value;R()">
+      <option value="monthly" ${honorPeriod==='monthly'?'selected':''}>📅 ប្រចាំខែ</option>
+      <option value="exam1" ${honorPeriod==='exam1'?'selected':''}>📝 ប្រឡងឆមាសទី ១</option>
+      <option value="sem1" ${honorPeriod==='sem1'?'selected':''}>🥇 សរុបឆមាសទី ១</option>
+      <option value="exam2" ${honorPeriod==='exam2'?'selected':''}>📝 ប្រឡងឆមាសទី ២</option>
+      <option value="sem2" ${honorPeriod==='sem2'?'selected':''}>🥈 សរុបឆមាសទី ២</option>
+      <option value="annual" ${honorPeriod==='annual'?'selected':''}>🏆 សរុបប្រចាំឆ្នាំ</option>
+    </select>
+    ${honorPeriod === 'monthly' ? moSel() : ''}
     <button class="bt g" onclick="showHonorModal=true;R()">📂 រើសម៉ូដតារាងកិត្តិយស (៨ ម៉ូដ)</button>
     <button class="bt" onclick="executeStandardPrint('honorPrintArea', 'តារាងកិត្តិយស_Top5', false)">🖨️ បោះពុម្ពតារាងកិត្តិយសផ្លូវការ (A4 Portrait)</button>
   </div>
-  <small class="hint-note">💡 លោកគ្រូអាចចុច <b>«📂 រើសម៉ូដតារាងកិត្តិយស»</b> ដើម្បីប្តូររចនាប័ទ្មទាំង ៨ ម៉ូដ (ម៉ូដទី ៦ មានទាំងរូបថត និងឈ្មោះ ឯម៉ូដផ្សេងទៀតបង្ហាញឈ្មោះអក្សរឆ្លាក់ 3D យ៉ាងស្រស់ស្អាត)។</small>
+  <small class="hint-note">💡 លោកគ្រូអាចរើសប្រភេទ <b>ប្រចាំខែ ប្រឡងឆមាស ឬប្រចាំឆ្នាំ</b> និងចុច <b>«📂 រើសម៉ូដតារាងកិត្តិយស»</b> ដើម្បីប្តូរម៉ូដទាំង ៨ (ម៉ូដទី ៣ មានទាំងរូបថត + ឈ្មោះ ឯម៉ូដផ្សេងទៀតបង្ហាញឈ្មោះអក្សរឆ្លាក់ 3D ធំច្បាស់)។</small>
 
   <div class="a4-portrait-stage">
     <div class="a4-portrait-wrapper">
@@ -3466,7 +3475,7 @@ honor(){
         </div>
 
         <div class="honor-tpl-subhead">
-          ប្រចាំ ខែ${MO[mo]} · ថ្នាក់ទី ${E(i.cls || '...')} · ឆ្នាំសិក្សា ${toKhNum(currentYear)}
+          ${periodSubTitle} · ថ្នាក់ទី ${E(i.cls || '...')} · ឆ្នាំសិក្សា ${toKhNum(currentYear)}
         </div>
 
         ${renderSlot(0)}
@@ -3503,7 +3512,7 @@ honor(){
 
         <div style="margin-bottom:8px;display:flex;gap:8px;align-items:center">
           <button class="bt" style="background:var(--ok);padding:5px 12px;font-size:12.5px" onclick="$('#fHonorUpload').click()">➕ Upload ម៉ូដថ្មី (PNG/JPG)</button>
-          <small class="mu">ម៉ូដទី ៦ មានទាំងរូបថត + ឈ្មោះ ឯម៉ូដផ្សេងទៀតបង្ហាញឈ្មោះ 3D</small>
+          <small class="mu">ម៉ូដទី ៣ មានទាំងរូបថត + ឈ្មោះ ឯម៉ូដផ្សេងទៀតបង្ហាញឈ្មោះ 3D</small>
         </div>
 
         <div class="border-grid-thumb">
