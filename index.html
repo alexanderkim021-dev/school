@@ -178,12 +178,14 @@ h1, h2, h3, .muol-title { font-family: var(--title-font) !important; font-weight
 .f{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px;align-items:flex-end}
 .f>*{flex:1 1 200px;min-width:0}
 .f.row-2>*{flex:1 1 42%;min-width:130px}
+.f.row-nowrap{flex-wrap:nowrap !important}
+.f.row-nowrap>*{flex:1 1 0 !important;min-width:0 !important}
 .f label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;width:100%}
 .f label input, .f label select{width:100%;display:block;box-sizing:border-box}
 input,select,textarea{font:inherit;font-size:16px;color:var(--tx);background:#fff;border:1px solid var(--bd);border-radius:10px;padding:8px 10px;min-height:42px;width:100%;box-sizing:border-box}
 textarea{width:100%;min-height:90px}
 input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
-.bt{background:var(--ac);color:var(--ak);border:0;border-radius:10px;padding:8px 16px;min-height:42px;font:inherit;font-weight:600;cursor:pointer;transition:0.15s}
+.bt{background:var(--ac);color:var(--ak);border:0;border-radius:10px;padding:8px 12px;min-height:42px;font:inherit;font-weight:600;cursor:pointer;transition:0.15s;white-space:nowrap}
 .bt:active{transform:scale(0.98)}
 .bt.g{background:var(--cd);color:var(--tx);border:1px solid var(--bd);flex:0 0 auto}
 .bt.r{background:var(--rd)}
@@ -380,7 +382,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .ilp-target-txt { color: #000; font-weight: 700; }
 .ilp-actual-txt { color: #dc2626; font-weight: 800; }
 
-/* តារាងបោះពុម្ពពិន្ទុ និងប្រឡងឆមាស (A4 Landscape)៖ ពាក្យមុខវិជ្ជាឈរចំកណ្តាលប្រអប់ */
+/* តារាងបោះពុម្ពពិន្ទុ និងប្រឡងឆមាស (A4 Landscape) */
 .exam-print-container {
   display: none;
   background: #fff;
@@ -738,7 +740,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
   color: #1e3a8a;
 }
 
-/* ពុម្ពអក្សរ Khmer OS Muol Light ស្ទីល 3D ធំច្បាស់ */
+/* ពុម្ពអក្សរ Khmer OS Muol Light ស្ទីល 3D + ជិតគ្នាជាមួយនិទ្ទេស */
 .muol-3d-name {
   font-family: 'Khmer OS Muol Light', 'Khmer OS Muol', 'Moul', serif !important;
   font-weight: normal !important;
@@ -749,15 +751,17 @@ td select.ilp-ui-sel.black{color:#0f172a}
     1.5px -1.5px 0px #ffffff,
     -1.5px 1.5px 0px #ffffff,
     0px 2px 4px rgba(15, 23, 42, 0.35);
-  line-height: 1.45;
+  line-height: 1.25;
   white-space: nowrap;
+  margin: 0;
 }
 .honor-sub-score {
   font-family: 'Leelawadee UI', 'Kantumruy Pro', sans-serif;
   font-size: 12.5px;
   font-weight: 800;
   color: #1e3a8a;
-  margin-top: 2px;
+  line-height: 1.2;
+  margin-top: -2px;
 }
 
 .honor-slot-box {
@@ -775,8 +779,6 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .honor-photo-slot {
   position: absolute;
   transform: translate(-50%, -50%);
-  width: 112px;
-  height: 138px;
   overflow: hidden;
   background: #f8fafc;
   display: flex;
@@ -787,6 +789,10 @@ td select.ilp-ui-sel.black{color:#0f172a}
 
 .honor-label-slot7 {
   position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   transform: translate(-50%, -50%);
   width: 178px;
   text-align: center;
@@ -802,25 +808,58 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .honor-edit-selected {
   outline: 3px solid #dc2626 !important;
-  background: rgba(254, 242, 242, 0.88) !important;
+  background: rgba(254, 242, 242, 0.9) !important;
+  z-index: 35 !important;
 }
 
-.honor-tune-panel {
-  background: #eff6ff;
-  border: 1.5px solid #93c5fd;
+/* របារបញ្ជាលើប្រអប់ឈ្មោះ/រូបថតផ្ទាល់ (Floating HUD) */
+.floating-slot-hud {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #0f172a;
+  color: #fff;
+  padding: 5px 8px;
   border-radius: 12px;
-  padding: 10px 12px;
-  margin-bottom: 12px;
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+  align-items: center;
+  gap: 5px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  z-index: 999;
+  white-space: nowrap;
+  cursor: default;
+}
+.floating-slot-hud.hud-below {
+  bottom: auto;
+  top: calc(100% + 8px);
+}
+.floating-slot-hud button {
+  background: #1e293b;
+  color: #fff;
+  border: 1px solid #475569;
+  border-radius: 7px;
+  width: 30px;
+  height: 30px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
 }
-.honor-tune-panel button {
-  min-height: 36px;
-  padding: 4px 12px;
-  font-size: 13.5px;
+.floating-slot-hud button:active {
+  background: var(--ac);
+}
+.floating-slot-hud .hud-val {
+  font-family: 'Leelawadee UI', sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: #38bdf8;
+  min-width: 28px;
+  text-align: center;
 }
 
 .honor-tpl-footer {
@@ -855,7 +894,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
     padding: 0 !important;
     margin: 0 !important;
   }
-  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.hint-note,.install-modal-overlay,.honor-tune-panel{display:none !important}
+  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.hint-note,.install-modal-overlay,.floating-slot-hud{display:none !important}
   .honor-edit-active, .honor-edit-selected { outline: none !important; background: transparent !important; }
   main{max-width:100% !important;padding:0 !important;margin:0 !important}
   .card{box-shadow:none !important;border:none !important;padding:0 !important;margin:0 !important}
@@ -914,7 +953,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
     max-width: none !important;
   }
   .cert-red-auto, .muol-3d-name, .inst-title, .role-title, .p1, .p2, .id-card-kingdom .k1, .id-card-kingdom .k2, .id-card-dept, .id-card-title-box .t-main {
-    line-height: 1.7 !important;
+    line-height: 1.55 !important;
     overflow: visible !important;
   }
   .print-page{page-break-after:always}
@@ -945,7 +984,7 @@ const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
 const HONOR_LIB_KEY = 'sms_honor_tpls_v1';
 const SELECTED_HONOR_KEY = 'sms_selected_honor_v4';
-const HONOR_CUSTOM_POS_KEY = 'sms_honor_custom_pos_v4';
+const HONOR_CUSTOM_POS_KEY = 'sms_honor_custom_pos_v5';
 const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
 
 let deferredInstallPrompt = null;
@@ -1072,7 +1111,6 @@ const BUILTIN_BORDERS = [
   { id: 'b7', name: 'ក្បាច់ក្រហមបន្ទាត់ភ្លោះ', url: 'borders/1609314252894.jpg' }
 ];
 
-/* កូអរដោនេស្តង់ដារត្រូវតាមលំដាប់រូបពិតទាំង ៨ សន្លឹកក្នុង Folder honor/ របស់គីម */
 const BUILTIN_HONORS = [
   { id: 'h1', name: 'ម៉ូដទី ១', url: 'honor/honor_page_1.png', hasPhoto: false, size: 21,
     pos: [{t:43.2,l:50.2},{t:58.5,l:21.8},{t:58.5,l:78.2},{t:74.2,l:21.8},{t:74.2,l:78.2}] },
@@ -1086,7 +1124,7 @@ const BUILTIN_HONORS = [
     pos: [{t:41.5,l:50.0},{t:58.5,l:27.0},{t:58.5,l:73.0},{t:76.5,l:27.0},{t:76.5,l:73.0}] },
   { id: 'h6', name: 'ម៉ូដទី ៦', url: 'honor/honor_page_6.png', hasPhoto: false, size: 21,
     pos: [{t:42.5,l:50.0},{t:56.8,l:25.8},{t:56.8,l:74.2},{t:73.8,l:25.8},{t:73.8,l:74.2}] },
-  { id: 'h7', name: 'ម៉ូដទី ៧', url: 'honor/honor_page_7.png', hasPhoto: true, size: 15,
+  { id: 'h7', name: 'ម៉ូដទី ៧', url: 'honor/honor_page_7.png', hasPhoto: true, size: 15, photoSize: 112,
     photoPos: [{t:37.3,l:50.0},{t:46.1,l:21.0},{t:46.1,l:78.8},{t:67.3,l:21.0},{t:67.3,l:78.8}],
     pos: [{t:47.0,l:52.4},{t:55.7,l:18.8},{t:55.7,l:81.2},{t:76.9,l:18.8},{t:76.9,l:81.2}] },
   { id: 'h8', name: 'ម៉ូដទី ៨', url: 'honor/honor_page_8.png', hasPhoto: false, size: 21,
@@ -1180,7 +1218,8 @@ function getEffectiveHonorConfig(tpl){
   return {
     pos: custom && custom.pos ? custom.pos.map(x => ({...x})) : defaultPos.map(x => ({...x})),
     photoPos: custom && custom.photoPos ? custom.photoPos.map(x => ({...x})) : defaultPhotoPos.map(x => ({...x})),
-    size: custom && custom.size ? custom.size : (tpl.size || 21)
+    size: custom && custom.size ? custom.size : (tpl.size || 21),
+    photoSize: custom && custom.photoSize ? custom.photoSize : (tpl.photoSize || 112)
   };
 }
 
@@ -2263,7 +2302,15 @@ function deleteHonor(id, e){
   R();
 }
 
-function nudgeHonorSlot(dx, dy){
+function selectHonorSlot(type, idx, e){
+  if (e) e.stopPropagation();
+  if (honorSelectedSlot.type === type && honorSelectedSlot.idx === idx) return;
+  honorSelectedSlot = { type, idx };
+  R();
+}
+
+function nudgeHonorSlot(dx, dy, e){
+  if (e) e.stopPropagation();
   const selectedHonor = getSelectedHonor();
   const customHonors = getHonorLibrary();
   const allHonors = [...BUILTIN_HONORS, ...customHonors];
@@ -2280,13 +2327,18 @@ function nudgeHonorSlot(dx, dy){
   R();
 }
 
-function changeHonorFontSize(delta){
+function changeHonorSlotSize(delta, e){
+  if (e) e.stopPropagation();
   const selectedHonor = getSelectedHonor();
   const customHonors = getHonorLibrary();
   const allHonors = [...BUILTIN_HONORS, ...customHonors];
   const tpl = allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[0];
   const cfg = getEffectiveHonorConfig(tpl);
-  cfg.size = Math.max(11, Math.min(30, (cfg.size || 21) + delta));
+  if (honorSelectedSlot.type === 'photo') {
+    cfg.photoSize = Math.max(60, Math.min(200, (cfg.photoSize || 112) + delta * 3));
+  } else {
+    cfg.size = Math.max(11, Math.min(32, (cfg.size || 21) + delta));
+  }
   const savedAll = getHonorCustomPositions();
   savedAll[tpl.url] = cfg;
   saveHonorCustomPositions(savedAll);
@@ -2322,8 +2374,10 @@ function initHonorDragSlots(){
       const arr = type === 'photo' ? cfg.photoPos : cfg.pos;
       const startL = arr[idx].l;
       const startT = arr[idx].t;
+      let moved = false;
 
       const onMove = (cx, cy) => {
+        if (Math.abs(cx - clientX) > 2 || Math.abs(cy - clientY) > 2) moved = true;
         const dxPct = ((cx - clientX) / rect.width) * 100;
         const dyPct = ((cy - clientY) / rect.height) * 100;
         const nl = Math.max(5, Math.min(95, +(startL + dxPct).toFixed(2)));
@@ -2341,9 +2395,11 @@ function initHonorDragSlots(){
         document.removeEventListener('mouseup', endDrag);
         document.removeEventListener('touchmove', onTouchMove);
         document.removeEventListener('touchend', endDrag);
-        const savedAll = getHonorCustomPositions();
-        savedAll[tpl.url] = cfg;
-        saveHonorCustomPositions(savedAll);
+        if (moved) {
+          const savedAll = getHonorCustomPositions();
+          savedAll[tpl.url] = cfg;
+          saveHonorCustomPositions(savedAll);
+        }
         R();
       };
 
@@ -2353,8 +2409,14 @@ function initHonorDragSlots(){
       document.addEventListener('touchend', endDrag);
     };
 
-    el.addEventListener('mousedown', e => { e.preventDefault(); e.stopPropagation(); startDrag(e.clientX, e.clientY); });
-    el.addEventListener('touchstart', e => { e.stopPropagation(); if (e.touches[0]) startDrag(e.touches[0].clientX, e.touches[0].clientY); }, { passive: false });
+    el.addEventListener('mousedown', e => {
+      if (e.target.closest('.floating-slot-hud')) return;
+      e.preventDefault(); e.stopPropagation(); startDrag(e.clientX, e.clientY);
+    });
+    el.addEventListener('touchstart', e => {
+      if (e.target.closest('.floating-slot-hud')) return;
+      e.stopPropagation(); if (e.touches[0]) startDrag(e.touches[0].clientX, e.touches[0].clientY);
+    }, { passive: false });
   });
 }
 
@@ -3565,6 +3627,21 @@ honor(){
 
   const list = scoredList.filter(s => s.has).sort((a,b) => b.val - a.val).slice(0, 5);
 
+  const renderHud = (type, idx, currentSize, topPct) => {
+    const isBelow = topPct < 36;
+    return `
+      <div class="floating-slot-hud ${isBelow ? 'hud-below' : ''}" onmousedown="event.stopPropagation()" ontouchstart="event.stopPropagation()">
+        <button onclick="nudgeHonorSlot(0, -0.4, event)" title="ឡើងលើ">⬆️</button>
+        <button onclick="nudgeHonorSlot(0, 0.4, event)" title="ចុះក្រោម">⬇️</button>
+        <button onclick="nudgeHonorSlot(-0.4, 0, event)" title="ឆ្វេង">⬅️</button>
+        <button onclick="nudgeHonorSlot(0.4, 0, event)" title="ស្តាំ">➡️</button>
+        <button onclick="changeHonorSlotSize(-1, event)" title="បង្រួម">−</button>
+        <span class="hud-val">${currentSize}</span>
+        <button onclick="changeHonorSlotSize(1, event)" title="ពង្រីក">+</button>
+      </div>
+    `;
+  };
+
   const renderSlot = idx => {
     const s = list[idx];
     if (!s && !honorEditMode) return '';
@@ -3579,18 +3656,23 @@ honor(){
       const pp = cfg.photoPos[idx] || {t:40, l:50};
       const isSelPhoto = honorEditMode && honorSelectedSlot.type === 'photo' && honorSelectedSlot.idx === idx;
       const editClsPhoto = honorEditMode ? `honor-draggable honor-edit-active ${isSelPhoto ? 'honor-edit-selected' : ''}` : '';
+      const pW = cfg.photoSize || 112;
+      const pH = Math.round(pW * 1.23);
       return `
-        <div class="honor-photo-slot ${editClsPhoto}" data-stype="photo" data-sidx="${idx}" style="top:${pp.t}%;left:${pp.l}%">
+        <div class="honor-photo-slot ${editClsPhoto}" data-stype="photo" data-sidx="${idx}" onclick="selectHonorSlot('photo', ${idx}, event)" style="top:${pp.t}%;left:${pp.l}%;width:${pW}px;height:${pH}px">
+          ${isSelPhoto ? renderHud('photo', idx, pW, pp.t) : ''}
           ${s && s.ph ? `<img src="${s.ph}">` : `<span style="color:#94a3b8;font-size:11px">រូបថត<br>៤x៦</span>`}
         </div>
-        <div class="honor-label-slot7 ${editClsName}" data-stype="name" data-sidx="${idx}" style="top:${np.t}%;left:${np.l}%">
+        <div class="honor-label-slot7 ${editClsName}" data-stype="name" data-sidx="${idx}" onclick="selectHonorSlot('name', ${idx}, event)" style="top:${np.t}%;left:${np.l}%">
+          ${isSelName ? renderHud('name', idx, cfg.size, np.t) : ''}
           <div class="muol-3d-name" style="font-size:${cfg.size}px">${E(stuName)}</div>
           <div class="honor-sub-score" style="font-size:11px">មធ្យម ${scoreTxt} | និទ្ទេស ${gr}</div>
         </div>
       `;
     } else {
       return `
-        <div class="honor-slot-box ${editClsName}" data-stype="name" data-sidx="${idx}" style="top:${np.t}%;left:${np.l}%">
+        <div class="honor-slot-box ${editClsName}" data-stype="name" data-sidx="${idx}" onclick="selectHonorSlot('name', ${idx}, event)" style="top:${np.t}%;left:${np.l}%">
+          ${isSelName ? renderHud('name', idx, cfg.size, np.t) : ''}
           <div class="muol-3d-name" style="font-size:${cfg.size}px">${E(stuName)}</div>
           <div class="honor-sub-score">មធ្យម ${scoreTxt} · និទ្ទេស ${gr}</div>
         </div>
@@ -3599,7 +3681,7 @@ honor(){
   };
 
   return head('តារាងកិត្តិយស (Top 5)') + `<div class="card">
-  <div class="f row-2">
+  <div class="f row-nowrap">
     <select onchange="honorPeriod=this.value;R()">
       <option value="monthly" ${honorPeriod==='monthly'?'selected':''}>📅 ប្រចាំខែ</option>
       <option value="exam1" ${honorPeriod==='exam1'?'selected':''}>📝 ប្រឡងឆមាសទី ១</option>
@@ -3608,30 +3690,18 @@ honor(){
       <option value="sem2" ${honorPeriod==='sem2'?'selected':''}>🥈 សរុបឆមាសទី ២</option>
       <option value="annual" ${honorPeriod==='annual'?'selected':''}>🏆 សរុបប្រចាំឆ្នាំ</option>
     </select>
-    ${honorPeriod === 'monthly' ? moSel() : `<div></div>`}
+    ${honorPeriod === 'monthly' ? moSel() : ''}
   </div>
-  <div class="f row-2">
-    <button class="bt g" style="width:100%" onclick="showHonorModal=true;R()">📂 រើសម៉ូដ</button>
-    <button class="bt" style="width:100%" onclick="honorEditMode=false;executeStandardPrint('honorPrintArea', 'តារាងកិត្តិយស', false)">🖨️ បោះពុម្ពតារាងកិត្តិយស</button>
+  <div class="f row-nowrap">
+    <button class="bt g" onclick="showHonorModal=true;R()">📂 រើសម៉ូដ</button>
+    <button class="bt" onclick="honorEditMode=false;executeStandardPrint('honorPrintArea', 'តារាងកិត្តិយស', false)">🖨️ បោះពុម្ពតារាងកិត្តិយស</button>
   </div>
-  <div style="text-align:right;margin-bottom:8px">
-    <button class="bt g" style="padding:4px 12px;min-height:32px;font-size:12.5px;${honorEditMode?'background:#dbeafe;border-color:#2563eb;color:#1e3a8a':''}" onclick="honorEditMode=!honorEditMode;R()">
-      ${honorEditMode ? '💾 រក្សាទុកទីតាំង (បិទការសារ៉េ)' : '✋ សារ៉េទីតាំង (បើចង់កែបន្ថែម)'}
+  <div class="f row-nowrap" style="margin-bottom:8px">
+    <button class="bt g" style="font-size:13px;${honorEditMode?'background:#dbeafe;border-color:#2563eb;color:#1e3a8a':''}" onclick="honorEditMode=!honorEditMode;R()">
+      ${honorEditMode ? '💾 រក្សាទុកទីតាំង' : '✋ ចុចដើម្បីរំកិលឈ្មោះ និងរូបថត'}
     </button>
+    ${honorEditMode ? `<button class="bt g" style="flex:0 0 auto !important;color:var(--bad);font-size:13px" onclick="resetHonorPositions()">🔄 ទីតាំងដើម</button>` : ''}
   </div>
-
-  ${honorEditMode ? `
-    <div class="honor-tune-panel">
-      <span style="font-size:12.5px;font-weight:700;color:#1e3a8a;width:100%;text-align:center">ចាប់អូសផ្ទាល់លើក្រដាស ឬចុចប៊ូតុងខាងក្រោម៖</span>
-      <button class="bt g" onclick="nudgeHonorSlot(0, -0.4)">⬆️</button>
-      <button class="bt g" onclick="nudgeHonorSlot(0, 0.4)">⬇️</button>
-      <button class="bt g" onclick="nudgeHonorSlot(-0.4, 0)">⬅️</button>
-      <button class="bt g" onclick="nudgeHonorSlot(0.4, 0)">➡️</button>
-      <button class="bt g" onclick="changeHonorFontSize(1)">A+</button>
-      <button class="bt g" onclick="changeHonorFontSize(-1)">A-</button>
-      <button class="bt g" style="color:var(--bad)" onclick="resetHonorPositions()">🔄 ទីតាំងដើម</button>
-    </div>
-  ` : ''}
 
   <div class="a4-portrait-stage">
     <div class="a4-portrait-wrapper">
