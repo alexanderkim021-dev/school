@@ -380,7 +380,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .ilp-target-txt { color: #000; font-weight: 700; }
 .ilp-actual-txt { color: #dc2626; font-weight: 800; }
 
-/* តារាងបោះពុម្ពពិន្ទុ និងប្រឡងឆមាស (A4 Landscape)៖ ដោះស្រាយបាត់មុខវិជ្ជា និងអក្សរបែកជួរ 100% */
+/* តារាងបោះពុម្ពពិន្ទុ និងប្រឡងឆមាស (A4 Landscape)៖ រំកិលពាក្យមុខវិជ្ជាមកខាងឆ្វេងឱ្យចំកណ្តាលប្រអប់ */
 .exam-print-container {
   display: none;
   background: #fff;
@@ -419,8 +419,8 @@ td select.ilp-ui-sel.black{color:#0f172a}
   white-space: nowrap !important;
   font-size: 9.5px !important;
   line-height: 1.2 !important;
-  transform: rotate(-90deg) !important;
-  -webkit-transform: rotate(-90deg) !important;
+  transform: translateX(-6px) rotate(-90deg) !important;
+  -webkit-transform: translateX(-6px) rotate(-90deg) !important;
   transform-origin: center center !important;
   -webkit-transform-origin: center center !important;
 }
@@ -727,9 +727,10 @@ td select.ilp-ui-sel.black{color:#0f172a}
   display: block;
   margin: 0 auto 2px;
 }
+/* រំកិលពាក្យក្រោមតារាងកិត្តិយសធំចុះមកក្រោមបន្តិច (top: 28.0%) */
 .honor-tpl-subhead {
   position: absolute;
-  top: 26.8%;
+  top: 28.0%;
   left: 10%;
   width: 80%;
   text-align: center;
@@ -922,7 +923,7 @@ const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge
 const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
 const HONOR_LIB_KEY = 'sms_honor_tpls_v1';
-const SELECTED_HONOR_KEY = 'sms_selected_honor_v2';
+const SELECTED_HONOR_KEY = 'sms_selected_honor_v3';
 const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
 
 let deferredInstallPrompt = null;
@@ -1049,22 +1050,21 @@ const BUILTIN_BORDERS = [
   { id: 'b7', name: 'ក្បាច់ក្រហមបន្ទាត់ភ្លោះ', url: 'borders/1609314252894.jpg' }
 ];
 
-/* កំណត់ទីតាំងជាក់លាក់សម្រាប់ម៉ូដនីមួយៗ (ម៉ូដទី 3 = honor_page_3.png មានទាំងរូបថត + ឈ្មោះ) */
 const BUILTIN_HONORS = [
-  { id: 'h1', name: 'ម៉ូដទី ១ (បូបៃតង)', url: 'honor/honor_page_1.png', hasPhoto: false,
+  { id: 'h1', name: 'ម៉ូដទី ១', url: 'honor/honor_page_1.png', hasPhoto: false,
     pos: [{t:41.5,l:47.5},{t:55.8,l:24.5},{t:55.8,l:71.0},{t:72.6,l:24.5},{t:72.6,l:71.0}] },
-  { id: 'h2', name: 'ម៉ូដទី ២ (សិស្សកាន់ខ្មៅដៃ)', url: 'honor/honor_page_2.jpeg', hasPhoto: false,
+  { id: 'h2', name: 'ម៉ូដទី ២', url: 'honor/honor_page_2.jpeg', hasPhoto: false,
     pos: [{t:44.0,l:48.0},{t:58.2,l:29.5},{t:58.2,l:70.5},{t:77.2,l:29.5},{t:77.2,l:70.5}] },
-  { id: 'h3', name: 'ម៉ូដទី ៣ (មានរូបថត + ឈ្មោះ)', url: 'honor/honor_page_3.png', hasPhoto: true },
-  { id: 'h4', name: 'ម៉ូដទី ៤ (ក្បាច់មាសបុរាណ)', url: 'honor/honor_page_4.png', hasPhoto: false,
+  { id: 'h3', name: 'ម៉ូដទី ៣', url: 'honor/honor_page_3.png', hasPhoto: true },
+  { id: 'h4', name: 'ម៉ូដទី ៤', url: 'honor/honor_page_4.png', hasPhoto: false,
     pos: [{t:41.5,l:50.0},{t:58.5,l:27.0},{t:58.5,l:73.0},{t:76.5,l:27.0},{t:76.5,l:73.0}] },
-  { id: 'h5', name: 'ម៉ូដទី ៥ (ស្លាបមាសបូក្រហម)', url: 'honor/honor_page_5.png', hasPhoto: false,
+  { id: 'h5', name: 'ម៉ូដទី ៥', url: 'honor/honor_page_5.png', hasPhoto: false,
     pos: [{t:42.5,l:50.0},{t:56.8,l:25.8},{t:56.8,l:74.2},{t:73.8,l:25.8},{t:73.8,l:74.2}] },
-  { id: 'h6', name: 'ម៉ូដទី ៦ (ក្បាច់ពណ៌ចម្រុះ)', url: 'honor/honor_page_6.png', hasPhoto: false,
+  { id: 'h6', name: 'ម៉ូដទី ៦', url: 'honor/honor_page_6.png', hasPhoto: false,
     pos: [{t:39.8,l:49.5},{t:54.2,l:24.0},{t:54.2,l:75.5},{t:71.2,l:24.0},{t:71.2,l:75.5}] },
-  { id: 'h7', name: 'ម៉ូដទី ៧ (ស៊ុមមាសស្លឹកបៃតង)', url: 'honor/honor_page_7.png', hasPhoto: false,
+  { id: 'h7', name: 'ម៉ូដទី ៧', url: 'honor/honor_page_7.png', hasPhoto: false,
     pos: [{t:41.5,l:50.0},{t:54.0,l:23.0},{t:54.0,l:77.0},{t:73.5,l:23.0},{t:73.5,l:77.0}] },
-  { id: 'h8', name: 'ម៉ូដទី ៨ (សត្វឆ្មាគួរឱ្យស្រឡាញ់)', url: 'honor/honor_page_8.png', hasPhoto: false,
+  { id: 'h8', name: 'ម៉ូដទី ៨', url: 'honor/honor_page_8.png', hasPhoto: false,
     pos: [{t:43.2,l:50.2},{t:58.5,l:21.8},{t:58.5,l:78.2},{t:74.2,l:21.8},{t:74.2,l:78.2}] }
 ];
 
@@ -1131,7 +1131,7 @@ function saveHonorLibrary(lib){
 function getSelectedHonor(){
   const s = localStorage.getItem(SELECTED_HONOR_KEY);
   if (s !== null) return s;
-  return BUILTIN_HONORS[2].url;
+  return BUILTIN_HONORS[0].url;
 }
 function setSelectedHonor(url){
   localStorage.setItem(SELECTED_HONOR_KEY, url);
@@ -2210,7 +2210,7 @@ function deleteHonor(id, e){
   const target = lib.find(b => b.id === id);
   lib = lib.filter(b => b.id !== id);
   saveHonorLibrary(lib);
-  if (target && getSelectedHonor() === target.url) setSelectedHonor(BUILTIN_HONORS[2].url);
+  if (target && getSelectedHonor() === target.url) setSelectedHonor(BUILTIN_HONORS[0].url);
   R();
 }
 
@@ -3393,7 +3393,7 @@ honor(){
   const selectedHonor = getSelectedHonor();
   const customHonors = getHonorLibrary();
   const allHonors = [...BUILTIN_HONORS, ...customHonors];
-  const currentTpl = allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[2];
+  const currentTpl = allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[0];
   const isPhotoTpl = !!currentTpl.hasPhoto;
   const customPos = currentTpl.pos || [{t:41.5,l:50},{t:56,l:25},{t:56,l:75},{t:73,l:25},{t:73,l:75}];
 
@@ -3449,7 +3449,7 @@ honor(){
   };
 
   return head('តារាងកិត្តិយស (Top 5)') + `<div class="card">
-  <div class="f">
+  <div class="f row-2">
     <select onchange="honorPeriod=this.value;R()">
       <option value="monthly" ${honorPeriod==='monthly'?'selected':''}>📅 ប្រចាំខែ</option>
       <option value="exam1" ${honorPeriod==='exam1'?'selected':''}>📝 ប្រឡងឆមាសទី ១</option>
@@ -3458,11 +3458,12 @@ honor(){
       <option value="sem2" ${honorPeriod==='sem2'?'selected':''}>🥈 សរុបឆមាសទី ២</option>
       <option value="annual" ${honorPeriod==='annual'?'selected':''}>🏆 សរុបប្រចាំឆ្នាំ</option>
     </select>
-    ${honorPeriod === 'monthly' ? moSel() : ''}
-    <button class="bt g" onclick="showHonorModal=true;R()">📂 រើសម៉ូដតារាងកិត្តិយស (៨ ម៉ូដ)</button>
-    <button class="bt" onclick="executeStandardPrint('honorPrintArea', 'តារាងកិត្តិយស_Top5', false)">🖨️ បោះពុម្ពតារាងកិត្តិយសផ្លូវការ (A4 Portrait)</button>
+    ${honorPeriod === 'monthly' ? moSel() : `<div></div>`}
   </div>
-  <small class="hint-note">💡 លោកគ្រូអាចរើសប្រភេទ <b>ប្រចាំខែ ប្រឡងឆមាស ឬប្រចាំឆ្នាំ</b> និងចុច <b>«📂 រើសម៉ូដតារាងកិត្តិយស»</b> ដើម្បីប្តូរម៉ូដទាំង ៨ (ម៉ូដទី ៣ មានទាំងរូបថត + ឈ្មោះ ឯម៉ូដផ្សេងទៀតបង្ហាញឈ្មោះអក្សរឆ្លាក់ 3D ធំច្បាស់)។</small>
+  <div class="f row-2">
+    <button class="bt g" style="width:100%" onclick="showHonorModal=true;R()">📂 រើសម៉ូដ</button>
+    <button class="bt" style="width:100%" onclick="executeStandardPrint('honorPrintArea', 'តារាងកិត្តិយស', false)">🖨️ បោះពុម្ពតារាងកិត្តិយស</button>
+  </div>
 
   <div class="a4-portrait-stage">
     <div class="a4-portrait-wrapper">
@@ -3506,13 +3507,12 @@ honor(){
     <div class="modal-overlay" onclick="showHonorModal=false;R()">
       <div class="modal-box" onclick="event.stopPropagation()">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-          <h2 style="margin:0;font-size:16px;color:var(--ac)">📂 ជ្រើសរើសម៉ូដតារាងកិត្តិយស (៨ ម៉ូដ)</h2>
+          <h2 style="margin:0;font-size:16px;color:var(--ac)">📂 ជ្រើសរើសម៉ូដតារាងកិត្តិយស</h2>
           <button class="bt g" style="padding:2px 8px;min-height:28px" onclick="showHonorModal=false;R()">✕</button>
         </div>
 
         <div style="margin-bottom:8px;display:flex;gap:8px;align-items:center">
           <button class="bt" style="background:var(--ok);padding:5px 12px;font-size:12.5px" onclick="$('#fHonorUpload').click()">➕ Upload ម៉ូដថ្មី (PNG/JPG)</button>
-          <small class="mu">ម៉ូដទី ៣ មានទាំងរូបថត + ឈ្មោះ ឯម៉ូដផ្សេងទៀតបង្ហាញឈ្មោះ 3D</small>
         </div>
 
         <div class="border-grid-thumb">
@@ -3520,7 +3520,7 @@ honor(){
             <div class="border-thumb-item ${selectedHonor===h.url ? 'active' : ''}" onclick="setSelectedHonor('${h.url}');showHonorModal=false;R()">
               ${typeof h.id === 'number' ? `<button class="thumb-del" onclick="deleteHonor(${h.id}, event)" title="លុបម៉ូដ">✕</button>` : ''}
               <img src="${encodeURI(h.url)}" style="height:120px" onerror="this.onerror=null;this.src='honor/honor_page_1.png';">
-              <div style="font-size:11px;margin-top:4px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${E(h.name)}</div>
+              <div style="font-size:12px;margin-top:4px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${E(h.name)}</div>
             </div>
           `).join('')}
         </div>
