@@ -380,7 +380,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .ilp-target-txt { color: #000; font-weight: 700; }
 .ilp-actual-txt { color: #dc2626; font-weight: 800; }
 
-/* តារាងបោះពុម្ពពិន្ទុ និងប្រឡងឆមាស (A4 Landscape)៖ រំកិលពាក្យមុខវិជ្ជាមកខាងឆ្វេងឱ្យចំកណ្តាលប្រអប់ */
+/* តារាងបោះពុម្ពពិន្ទុ និងប្រឡងឆមាស (A4 Landscape)៖ ពាក្យមុខវិជ្ជាឈរចំកណ្តាលប្រអប់ */
 .exam-print-container {
   display: none;
   background: #fff;
@@ -419,8 +419,8 @@ td select.ilp-ui-sel.black{color:#0f172a}
   white-space: nowrap !important;
   font-size: 9.5px !important;
   line-height: 1.2 !important;
-  transform: translateX(-6px) rotate(-90deg) !important;
-  -webkit-transform: translateX(-6px) rotate(-90deg) !important;
+  transform: translateX(-2px) rotate(-90deg) !important;
+  -webkit-transform: translateX(-2px) rotate(-90deg) !important;
   transform-origin: center center !important;
   -webkit-transform-origin: center center !important;
 }
@@ -727,7 +727,6 @@ td select.ilp-ui-sel.black{color:#0f172a}
   display: block;
   margin: 0 auto 2px;
 }
-/* រំកិលពាក្យក្រោមតារាងកិត្តិយសធំចុះមកក្រោមបន្តិច (top: 28.0%) */
 .honor-tpl-subhead {
   position: absolute;
   top: 28.0%;
@@ -772,7 +771,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
   width: 250px;
 }
 
-/* ទីតាំងពិសេសសម្រាប់ម៉ូដទី ៣ (honor_page_3.png៖ ស៊ុមរូបថតបញ្ឈរខាងលើ + ស្លាកឈ្មោះខាងក្រោម) */
+/* ប្រអប់រូបថតបញ្ឈរសម្រាប់ម៉ូដទី ៧ (honor_page_7.png) */
 .honor-photo-slot {
   position: absolute;
   transform: translate(-50%, -50%);
@@ -785,23 +784,44 @@ td select.ilp-ui-sel.black{color:#0f172a}
   justify-content: center;
 }
 .honor-photo-slot img { width: 100%; height: 100%; object-fit: cover; }
-.honor-photo-slot.p1 { top: 37.3%; left: 50.0%; }
-.honor-photo-slot.p2 { top: 46.1%; left: 21.0%; }
-.honor-photo-slot.p3 { top: 46.1%; left: 78.8%; }
-.honor-photo-slot.p4 { top: 67.3%; left: 21.0%; }
-.honor-photo-slot.p5 { top: 67.3%; left: 78.8%; }
 
-.honor-label-slot3 {
+.honor-label-slot7 {
   position: absolute;
   transform: translate(-50%, -50%);
   width: 178px;
   text-align: center;
 }
-.honor-label-slot3.l1 { top: 47.0%; left: 52.4%; }
-.honor-label-slot3.l2 { top: 55.7%; left: 18.8%; }
-.honor-label-slot3.l3 { top: 55.7%; left: 81.2%; }
-.honor-label-slot3.l4 { top: 76.9%; left: 18.8%; }
-.honor-label-slot3.l5 { top: 76.9%; left: 81.2%; }
+
+.honor-edit-active {
+  outline: 2.5px dashed #2563eb !important;
+  background: rgba(255, 255, 255, 0.72) !important;
+  border-radius: 8px;
+  cursor: move !important;
+  touch-action: none !important;
+  z-index: 25 !important;
+}
+.honor-edit-selected {
+  outline: 3px solid #dc2626 !important;
+  background: rgba(254, 242, 242, 0.88) !important;
+}
+
+.honor-tune-panel {
+  background: #eff6ff;
+  border: 1.5px solid #93c5fd;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+.honor-tune-panel button {
+  min-height: 36px;
+  padding: 4px 12px;
+  font-size: 13.5px;
+}
 
 .honor-tpl-footer {
   position: absolute;
@@ -835,7 +855,8 @@ td select.ilp-ui-sel.black{color:#0f172a}
     padding: 0 !important;
     margin: 0 !important;
   }
-  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.hint-note,.install-modal-overlay{display:none !important}
+  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.hint-note,.install-modal-overlay,.honor-tune-panel{display:none !important}
+  .honor-edit-active, .honor-edit-selected { outline: none !important; background: transparent !important; }
   main{max-width:100% !important;padding:0 !important;margin:0 !important}
   .card{box-shadow:none !important;border:none !important;padding:0 !important;margin:0 !important}
   .w{max-height:none !important;border:none !important;overflow:visible !important}
@@ -923,7 +944,8 @@ const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge
 const BORDER_LIB_KEY = 'sms_cert_borders_v2';
 const SELECTED_BORDER_KEY = 'sms_selected_border_v2';
 const HONOR_LIB_KEY = 'sms_honor_tpls_v1';
-const SELECTED_HONOR_KEY = 'sms_selected_honor_v3';
+const SELECTED_HONOR_KEY = 'sms_selected_honor_v4';
+const HONOR_CUSTOM_POS_KEY = 'sms_honor_custom_pos_v4';
 const LAST_LEVEL_KEY = 'sms_last_selected_level_v1';
 
 let deferredInstallPrompt = null;
@@ -1050,22 +1072,25 @@ const BUILTIN_BORDERS = [
   { id: 'b7', name: 'ក្បាច់ក្រហមបន្ទាត់ភ្លោះ', url: 'borders/1609314252894.jpg' }
 ];
 
+/* កូអរដោនេស្តង់ដារត្រូវតាមលំដាប់រូបពិតទាំង ៨ សន្លឹកក្នុង Folder honor/ របស់គីម */
 const BUILTIN_HONORS = [
-  { id: 'h1', name: 'ម៉ូដទី ១', url: 'honor/honor_page_1.png', hasPhoto: false,
-    pos: [{t:41.5,l:47.5},{t:55.8,l:24.5},{t:55.8,l:71.0},{t:72.6,l:24.5},{t:72.6,l:71.0}] },
-  { id: 'h2', name: 'ម៉ូដទី ២', url: 'honor/honor_page_2.jpeg', hasPhoto: false,
-    pos: [{t:44.0,l:48.0},{t:58.2,l:29.5},{t:58.2,l:70.5},{t:77.2,l:29.5},{t:77.2,l:70.5}] },
-  { id: 'h3', name: 'ម៉ូដទី ៣', url: 'honor/honor_page_3.png', hasPhoto: true },
-  { id: 'h4', name: 'ម៉ូដទី ៤', url: 'honor/honor_page_4.png', hasPhoto: false,
-    pos: [{t:41.5,l:50.0},{t:58.5,l:27.0},{t:58.5,l:73.0},{t:76.5,l:27.0},{t:76.5,l:73.0}] },
-  { id: 'h5', name: 'ម៉ូដទី ៥', url: 'honor/honor_page_5.png', hasPhoto: false,
-    pos: [{t:42.5,l:50.0},{t:56.8,l:25.8},{t:56.8,l:74.2},{t:73.8,l:25.8},{t:73.8,l:74.2}] },
-  { id: 'h6', name: 'ម៉ូដទី ៦', url: 'honor/honor_page_6.png', hasPhoto: false,
+  { id: 'h1', name: 'ម៉ូដទី ១', url: 'honor/honor_page_1.png', hasPhoto: false, size: 21,
+    pos: [{t:43.2,l:50.2},{t:58.5,l:21.8},{t:58.5,l:78.2},{t:74.2,l:21.8},{t:74.2,l:78.2}] },
+  { id: 'h2', name: 'ម៉ូដទី ២', url: 'honor/honor_page_2.jpeg', hasPhoto: false, size: 21,
     pos: [{t:39.8,l:49.5},{t:54.2,l:24.0},{t:54.2,l:75.5},{t:71.2,l:24.0},{t:71.2,l:75.5}] },
-  { id: 'h7', name: 'ម៉ូដទី ៧', url: 'honor/honor_page_7.png', hasPhoto: false,
-    pos: [{t:41.5,l:50.0},{t:54.0,l:23.0},{t:54.0,l:77.0},{t:73.5,l:23.0},{t:73.5,l:77.0}] },
-  { id: 'h8', name: 'ម៉ូដទី ៨', url: 'honor/honor_page_8.png', hasPhoto: false,
-    pos: [{t:43.2,l:50.2},{t:58.5,l:21.8},{t:58.5,l:78.2},{t:74.2,l:21.8},{t:74.2,l:78.2}] }
+  { id: 'h3', name: 'ម៉ូដទី ៣', url: 'honor/honor_page_3.png', hasPhoto: false, size: 21,
+    pos: [{t:41.5,l:47.5},{t:55.8,l:24.5},{t:55.8,l:71.0},{t:72.6,l:24.5},{t:72.6,l:71.0}] },
+  { id: 'h4', name: 'ម៉ូដទី ៤', url: 'honor/honor_page_4.png', hasPhoto: false, size: 21,
+    pos: [{t:44.0,l:48.0},{t:58.2,l:29.5},{t:58.2,l:70.5},{t:77.2,l:29.5},{t:77.2,l:70.5}] },
+  { id: 'h5', name: 'ម៉ូដទី ៥', url: 'honor/honor_page_5.png', hasPhoto: false, size: 21,
+    pos: [{t:41.5,l:50.0},{t:58.5,l:27.0},{t:58.5,l:73.0},{t:76.5,l:27.0},{t:76.5,l:73.0}] },
+  { id: 'h6', name: 'ម៉ូដទី ៦', url: 'honor/honor_page_6.png', hasPhoto: false, size: 21,
+    pos: [{t:42.5,l:50.0},{t:56.8,l:25.8},{t:56.8,l:74.2},{t:73.8,l:25.8},{t:73.8,l:74.2}] },
+  { id: 'h7', name: 'ម៉ូដទី ៧', url: 'honor/honor_page_7.png', hasPhoto: true, size: 15,
+    photoPos: [{t:37.3,l:50.0},{t:46.1,l:21.0},{t:46.1,l:78.8},{t:67.3,l:21.0},{t:67.3,l:78.8}],
+    pos: [{t:47.0,l:52.4},{t:55.7,l:18.8},{t:55.7,l:81.2},{t:76.9,l:18.8},{t:76.9,l:81.2}] },
+  { id: 'h8', name: 'ម៉ូដទី ៨', url: 'honor/honor_page_8.png', hasPhoto: false, size: 21,
+    pos: [{t:41.5,l:50.0},{t:54.0,l:23.0},{t:54.0,l:77.0},{t:73.5,l:23.0},{t:73.5,l:77.0}] }
 ];
 
 function getLogoSrc(){
@@ -1137,10 +1162,34 @@ function setSelectedHonor(url){
   localStorage.setItem(SELECTED_HONOR_KEY, url);
 }
 
+function getHonorCustomPositions(){
+  try {
+    const raw = localStorage.getItem(HONOR_CUSTOM_POS_KEY);
+    return raw ? JSON.parse(raw) : {};
+  } catch(e){ return {}; }
+}
+function saveHonorCustomPositions(obj){
+  localStorage.setItem(HONOR_CUSTOM_POS_KEY, JSON.stringify(obj));
+}
+
+function getEffectiveHonorConfig(tpl){
+  const savedAll = getHonorCustomPositions();
+  const custom = savedAll[tpl.url];
+  const defaultPos = tpl.pos || [{t:41.5,l:50},{t:56,l:25},{t:56,l:75},{t:73,l:25},{t:73,l:75}];
+  const defaultPhotoPos = tpl.photoPos || [{t:37.3,l:50},{t:46.1,l:21},{t:46.1,l:78.8},{t:67.3,l:21},{t:67.3,l:78.8}];
+  return {
+    pos: custom && custom.pos ? custom.pos.map(x => ({...x})) : defaultPos.map(x => ({...x})),
+    photoPos: custom && custom.photoPos ? custom.photoPos.map(x => ({...x})) : defaultPhotoPos.map(x => ({...x})),
+    size: custom && custom.size ? custom.size : (tpl.size || 21)
+  };
+}
+
 let showBorderModal = false;
 let borderModalTab = 'ready';
 let showHonorModal = false;
 let honorPeriod = 'monthly';
+let honorEditMode = false;
+let honorSelectedSlot = { type: 'name', idx: 0 };
 let photoActionStudentId = null;
 let tempPhotoRawData = null;
 let tempPhotoOffsetY = 50;
@@ -2212,6 +2261,101 @@ function deleteHonor(id, e){
   saveHonorLibrary(lib);
   if (target && getSelectedHonor() === target.url) setSelectedHonor(BUILTIN_HONORS[0].url);
   R();
+}
+
+function nudgeHonorSlot(dx, dy){
+  const selectedHonor = getSelectedHonor();
+  const customHonors = getHonorLibrary();
+  const allHonors = [...BUILTIN_HONORS, ...customHonors];
+  const tpl = allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[0];
+  const cfg = getEffectiveHonorConfig(tpl);
+  const arr = honorSelectedSlot.type === 'photo' ? cfg.photoPos : cfg.pos;
+  const item = arr[honorSelectedSlot.idx];
+  if (!item) return;
+  item.l = Math.max(5, Math.min(95, +(item.l + dx).toFixed(2)));
+  item.t = Math.max(10, Math.min(92, +(item.t + dy).toFixed(2)));
+  const savedAll = getHonorCustomPositions();
+  savedAll[tpl.url] = cfg;
+  saveHonorCustomPositions(savedAll);
+  R();
+}
+
+function changeHonorFontSize(delta){
+  const selectedHonor = getSelectedHonor();
+  const customHonors = getHonorLibrary();
+  const allHonors = [...BUILTIN_HONORS, ...customHonors];
+  const tpl = allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[0];
+  const cfg = getEffectiveHonorConfig(tpl);
+  cfg.size = Math.max(11, Math.min(30, (cfg.size || 21) + delta));
+  const savedAll = getHonorCustomPositions();
+  savedAll[tpl.url] = cfg;
+  saveHonorCustomPositions(savedAll);
+  R();
+}
+
+function resetHonorPositions(){
+  const selectedHonor = getSelectedHonor();
+  const savedAll = getHonorCustomPositions();
+  delete savedAll[selectedHonor];
+  saveHonorCustomPositions(savedAll);
+  R();
+  setStatus('បានត្រឡប់មកទីតាំងស្តង់ដារដើម ✓');
+}
+
+function initHonorDragSlots(){
+  if (!honorEditMode) return;
+  const sheet = document.getElementById('honorPrintArea');
+  if (!sheet) return;
+  const selectedHonor = getSelectedHonor();
+  const customHonors = getHonorLibrary();
+  const allHonors = [...BUILTIN_HONORS, ...customHonors];
+  const tpl = allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[0];
+
+  sheet.querySelectorAll('.honor-draggable').forEach(el => {
+    const type = el.dataset.stype;
+    const idx = +el.dataset.sidx;
+
+    const startDrag = (clientX, clientY) => {
+      honorSelectedSlot = { type, idx };
+      const rect = sheet.getBoundingClientRect();
+      const cfg = getEffectiveHonorConfig(tpl);
+      const arr = type === 'photo' ? cfg.photoPos : cfg.pos;
+      const startL = arr[idx].l;
+      const startT = arr[idx].t;
+
+      const onMove = (cx, cy) => {
+        const dxPct = ((cx - clientX) / rect.width) * 100;
+        const dyPct = ((cy - clientY) / rect.height) * 100;
+        const nl = Math.max(5, Math.min(95, +(startL + dxPct).toFixed(2)));
+        const nt = Math.max(10, Math.min(92, +(startT + dyPct).toFixed(2)));
+        el.style.left = nl + '%';
+        el.style.top = nt + '%';
+        arr[idx].l = nl;
+        arr[idx].t = nt;
+      };
+
+      const onMouseMove = ev => { ev.preventDefault(); onMove(ev.clientX, ev.clientY); };
+      const onTouchMove = ev => { ev.preventDefault(); if (ev.touches[0]) onMove(ev.touches[0].clientX, ev.touches[0].clientY); };
+      const endDrag = () => {
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', endDrag);
+        document.removeEventListener('touchmove', onTouchMove);
+        document.removeEventListener('touchend', endDrag);
+        const savedAll = getHonorCustomPositions();
+        savedAll[tpl.url] = cfg;
+        saveHonorCustomPositions(savedAll);
+        R();
+      };
+
+      document.addEventListener('mousemove', onMouseMove);
+      document.addEventListener('mouseup', endDrag);
+      document.addEventListener('touchmove', onTouchMove, { passive: false });
+      document.addEventListener('touchend', endDrag);
+    };
+
+    el.addEventListener('mousedown', e => { e.preventDefault(); e.stopPropagation(); startDrag(e.clientX, e.clientY); });
+    el.addEventListener('touchstart', e => { e.stopPropagation(); if (e.touches[0]) startDrag(e.touches[0].clientX, e.touches[0].clientY); }, { passive: false });
+  });
 }
 
 const P = {
@@ -3395,7 +3539,7 @@ honor(){
   const allHonors = [...BUILTIN_HONORS, ...customHonors];
   const currentTpl = allHonors.find(h => h.url === selectedHonor) || BUILTIN_HONORS[0];
   const isPhotoTpl = !!currentTpl.hasPhoto;
-  const customPos = currentTpl.pos || [{t:41.5,l:50},{t:56,l:25},{t:56,l:75},{t:73,l:25},{t:73,l:75}];
+  const cfg = getEffectiveHonorConfig(currentTpl);
 
   let scoredList = [];
   let periodSubTitle = '';
@@ -3423,26 +3567,32 @@ honor(){
 
   const renderSlot = idx => {
     const s = list[idx];
-    if (!s) return '';
-    const rNum = idx + 1;
-    const gr = getGradeLetter(s.val, 1);
+    if (!s && !honorEditMode) return '';
+    const stuName = s ? s.name : `សិស្សទី ${toKhNum(idx + 1)}`;
+    const gr = s ? getGradeLetter(s.val, 1) : 'A';
+    const scoreTxt = s ? toKhNum(s.val.toFixed(2)) : '៥០.០០';
+    const np = cfg.pos[idx] || {t:50, l:50};
+    const isSelName = honorEditMode && honorSelectedSlot.type === 'name' && honorSelectedSlot.idx === idx;
+    const editClsName = honorEditMode ? `honor-draggable honor-edit-active ${isSelName ? 'honor-edit-selected' : ''}` : '';
 
     if (isPhotoTpl) {
+      const pp = cfg.photoPos[idx] || {t:40, l:50};
+      const isSelPhoto = honorEditMode && honorSelectedSlot.type === 'photo' && honorSelectedSlot.idx === idx;
+      const editClsPhoto = honorEditMode ? `honor-draggable honor-edit-active ${isSelPhoto ? 'honor-edit-selected' : ''}` : '';
       return `
-        <div class="honor-photo-slot p${rNum}">
-          ${s.ph ? `<img src="${s.ph}">` : `<span style="color:#94a3b8;font-size:11px">រូបថត<br>៤x៦</span>`}
+        <div class="honor-photo-slot ${editClsPhoto}" data-stype="photo" data-sidx="${idx}" style="top:${pp.t}%;left:${pp.l}%">
+          ${s && s.ph ? `<img src="${s.ph}">` : `<span style="color:#94a3b8;font-size:11px">រូបថត<br>៤x៦</span>`}
         </div>
-        <div class="honor-label-slot3 l${rNum}">
-          <div class="muol-3d-name" style="font-size:15px">${E(s.name)}</div>
-          <div class="honor-sub-score" style="font-size:11px">មធ្យម ${toKhNum(s.val.toFixed(2))} | និទ្ទេស ${gr}</div>
+        <div class="honor-label-slot7 ${editClsName}" data-stype="name" data-sidx="${idx}" style="top:${np.t}%;left:${np.l}%">
+          <div class="muol-3d-name" style="font-size:${cfg.size}px">${E(stuName)}</div>
+          <div class="honor-sub-score" style="font-size:11px">មធ្យម ${scoreTxt} | និទ្ទេស ${gr}</div>
         </div>
       `;
     } else {
-      const p = customPos[idx] || {t:50, l:50};
       return `
-        <div class="honor-slot-box" style="top:${p.t}%;left:${p.l}%">
-          <div class="muol-3d-name" style="font-size:21px">${E(s.name)}</div>
-          <div class="honor-sub-score">មធ្យម ${toKhNum(s.val.toFixed(2))} · និទ្ទេស ${gr}</div>
+        <div class="honor-slot-box ${editClsName}" data-stype="name" data-sidx="${idx}" style="top:${np.t}%;left:${np.l}%">
+          <div class="muol-3d-name" style="font-size:${cfg.size}px">${E(stuName)}</div>
+          <div class="honor-sub-score">មធ្យម ${scoreTxt} · និទ្ទេស ${gr}</div>
         </div>
       `;
     }
@@ -3462,8 +3612,26 @@ honor(){
   </div>
   <div class="f row-2">
     <button class="bt g" style="width:100%" onclick="showHonorModal=true;R()">📂 រើសម៉ូដ</button>
-    <button class="bt" style="width:100%" onclick="executeStandardPrint('honorPrintArea', 'តារាងកិត្តិយស', false)">🖨️ បោះពុម្ពតារាងកិត្តិយស</button>
+    <button class="bt" style="width:100%" onclick="honorEditMode=false;executeStandardPrint('honorPrintArea', 'តារាងកិត្តិយស', false)">🖨️ បោះពុម្ពតារាងកិត្តិយស</button>
   </div>
+  <div style="text-align:right;margin-bottom:8px">
+    <button class="bt g" style="padding:4px 12px;min-height:32px;font-size:12.5px;${honorEditMode?'background:#dbeafe;border-color:#2563eb;color:#1e3a8a':''}" onclick="honorEditMode=!honorEditMode;R()">
+      ${honorEditMode ? '💾 រក្សាទុកទីតាំង (បិទការសារ៉េ)' : '✋ សារ៉េទីតាំង (បើចង់កែបន្ថែម)'}
+    </button>
+  </div>
+
+  ${honorEditMode ? `
+    <div class="honor-tune-panel">
+      <span style="font-size:12.5px;font-weight:700;color:#1e3a8a;width:100%;text-align:center">ចាប់អូសផ្ទាល់លើក្រដាស ឬចុចប៊ូតុងខាងក្រោម៖</span>
+      <button class="bt g" onclick="nudgeHonorSlot(0, -0.4)">⬆️</button>
+      <button class="bt g" onclick="nudgeHonorSlot(0, 0.4)">⬇️</button>
+      <button class="bt g" onclick="nudgeHonorSlot(-0.4, 0)">⬅️</button>
+      <button class="bt g" onclick="nudgeHonorSlot(0.4, 0)">➡️</button>
+      <button class="bt g" onclick="changeHonorFontSize(1)">A+</button>
+      <button class="bt g" onclick="changeHonorFontSize(-1)">A-</button>
+      <button class="bt g" style="color:var(--bad)" onclick="resetHonorPositions()">🔄 ទីតាំងដើម</button>
+    </div>
+  ` : ''}
 
   <div class="a4-portrait-stage">
     <div class="a4-portrait-wrapper">
@@ -3982,6 +4150,7 @@ function R(){
   app.innerHTML = P[pg]();
   if (pg === 'sc') upd();
   if (pg === 'home') initDragAndDrop();
+  if (pg === 'honor') initHonorDragSlots();
   if (['cert', 'official', 'annual', 'honor', 'idcard'].includes(pg)) {
     setTimeout(updateAllPreviewsScale, 50);
   }
