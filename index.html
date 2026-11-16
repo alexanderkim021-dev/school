@@ -53,10 +53,10 @@ main{max-width:1100px;width:100%;margin:0 auto;padding:12px 14px 60px;will-chang
 
 /* License & KHQR Paywall Styles */
 .license-bar{
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;flex-wrap:wrap;gap:8px;
   background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1.5px solid #93c5fd;
-  border-radius:14px;padding:8px 14px;margin:0 auto 14px;font-size:13px;color:#1e3a8a;
-  box-shadow:0 2px 8px rgba(37,99,235,0.08);text-align:left;
+  border-radius:14px;padding:10px 14px;margin:0 auto 14px;max-width:520px;font-size:13px;color:#1e3a8a;
+  box-shadow:0 2px 8px rgba(37,99,235,0.08);text-align:center;
 }
 .license-bar.vip{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b;color:#78350f}
 .license-bar.paid{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-color:#6ee7b7;color:#065f46}
@@ -467,11 +467,15 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .exam-paper-table th, .exam-paper-table td {
   border: 1px solid #000;
-  padding: 3px 2px;
+  padding: 2px 2px;
   text-align: center;
-  font-size: 10px;
+  font-size: 9.5px;
   white-space: nowrap;
 }
+.exam-paper-table th.col-no, .exam-paper-table td.col-no { width: 22px; min-width: 22px; max-width: 22px; }
+.exam-paper-table th.col-name, .exam-paper-table td.col-name { width: 112px; min-width: 112px; max-width: 120px; text-align: start; padding-left: 4px; overflow: hidden; text-overflow: ellipsis; }
+.exam-paper-table th.col-sex, .exam-paper-table td.col-sex { width: 22px; min-width: 22px; max-width: 22px; }
+.exam-paper-table th.col-dob, .exam-paper-table td.col-dob { width: 68px; min-width: 68px; max-width: 72px; font-size: 9px; }
 .exam-paper-table th { background: #f8fafc; font-weight: bold; }
 
 .th-rot {
@@ -542,8 +546,8 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .cert-header-left-auto {
   position: absolute;
   top: 30.8%;
-  left: 9.8%;
-  width: 240px;
+  left: 14.5%;
+  width: 245px;
   text-align: center;
   font-family: var(--title-font);
   font-size: 12.5px;
@@ -555,8 +559,8 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .cert-director-sub {
   position: absolute;
   top: 36.8%;
-  left: 9%;
-  width: 82%;
+  left: 11%;
+  width: 78%;
   text-align: center;
   font-family: var(--title-font);
   font-size: 17.5px;
@@ -567,11 +571,11 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .cert-auto-body {
   position: absolute;
   top: 41.5%;
-  left: 8.5%;
-  width: 83%;
+  left: 11%;
+  width: 78%;
   text-align: center;
   line-height: 1.75;
-  font-size: 18.2px;
+  font-size: 19.6px;
   font-weight: 700;
   color: #1e293b;
 }
@@ -2136,6 +2140,7 @@ async function logout(){
   showKhqrModal = false;
   SESSION = null; allYearsData = null;
   clearTimeout(idleT);
+  homeScrollY = 0;
   pg = 'login';
   R();
 }
@@ -2267,7 +2272,17 @@ function getAnnualDecision(a){
 const rank = (f, id) => 1 + getS().st.filter(s => f(s.id) > f(id)).length;
 const moSel = () => `<select onchange="mo=+this.value;R()">${MO.map((m,i) => `<option value="${i}" ${i===mo?'selected':''}>ខែ${m}</option>`).join('')}</select>`;
 const head = t => `<div class="top"><button class="bt g" onclick="go('home')">🏠 ទំព័រដើម</button><h1>${t}</h1><button class="bt g" style="color:var(--bad)" onclick="logout()">🚪 ចាកចេញ</button></div>`;
-const go = p => { pg = p; R(); scrollTo(0,0); };
+let homeScrollY = 0;
+const go = p => {
+  if (pg === 'home' && p !== 'home') homeScrollY = window.scrollY || window.pageYOffset || 0;
+  pg = p;
+  R();
+  if (p === 'home') {
+    setTimeout(() => window.scrollTo(0, homeScrollY), 20);
+  } else {
+    window.scrollTo(0, 0);
+  }
+};
 
 function setMonthDiv(mIdx, val){
   const S = getS();
@@ -2497,7 +2512,8 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
 
   const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
 
-  if (isStandalone && typeof html2pdf !== 'undefined') {
+  const isMobileOrTablet = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  if (isStandalone && isMobileOrTablet && typeof html2pdf !== 'undefined') {
     setStatus('កំពុងបង្កើត PDF A4...');
     
     const printTarget = element.querySelector('.cert-page-a4') || element.querySelector('.honor-template-sheet') || element;
@@ -3027,10 +3043,10 @@ sc(){
     const gr = getGradeLetter(avVal, t);
     const rk = t > 0 ? (1 + S.st.filter(x => tot(x.id, mo) > t).length) : '-';
     return `<tr>
-      <td>${k+1}</td>
-      <td style="text-align:start;padding-left:5px;font-weight:bold">${E(s.name)}</td>
-      <td>${s.sex==='ស'?'ស':'ប'}</td>
-      <td style="font-size:9.5px">${E(s.dob || '-')}</td>
+      <td class="col-no">${k+1}</td>
+      <td class="col-name" style="font-weight:bold">${E(s.name)}</td>
+      <td class="col-sex">${s.sex==='ស'?'ស':'ប'}</td>
+      <td class="col-dob">${E(s.dob || '-')}</td>
       ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
       <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
@@ -3075,10 +3091,10 @@ sc(){
     <table class="exam-paper-table">
       <thead>
         <tr>
-          <th rowspan="2">ល.រ</th>
-          <th rowspan="2">គោត្តនាម និងនាម</th>
-          <th rowspan="2">ភេទ</th>
-          <th rowspan="2">ថ្ងៃខែឆ្នាំកំណើត</th>
+          <th rowspan="2" class="col-no">ល.រ</th>
+          <th rowspan="2" class="col-name">គោត្តនាម និងនាម</th>
+          <th rowspan="2" class="col-sex">ភេទ</th>
+          <th rowspan="2" class="col-dob">ថ្ងៃខែឆ្នាំកំណើត</th>
           ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</span></th>`).join('')}
           <th rowspan="2" class="th-rot" style="background:#f1f5f9"><span class="th-rot-txt">សរុប</span></th>
           <th rowspan="2" class="th-rot" style="background:#fef3c7"><span class="th-rot-txt">មធ្យម</span></th>
@@ -3260,10 +3276,10 @@ examScore(){
     const gr = getGradeLetter(avVal, t);
     const rk = t > 0 ? (1 + S.st.filter(x => totSemExam(x.id, examSem) > t).length) : '-';
     return `<tr>
-      <td>${k+1}</td>
-      <td style="text-align:start;padding-left:5px;font-weight:bold">${E(s.name)}</td>
-      <td>${s.sex==='ស'?'ស':'ប'}</td>
-      <td style="font-size:9.5px">${E(s.dob || '-')}</td>
+      <td class="col-no">${k+1}</td>
+      <td class="col-name" style="font-weight:bold">${E(s.name)}</td>
+      <td class="col-sex">${s.sex==='ស'?'ស':'ប'}</td>
+      <td class="col-dob">${E(s.dob || '-')}</td>
       ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
       <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
@@ -3309,10 +3325,10 @@ examScore(){
     <table class="exam-paper-table">
       <thead>
         <tr>
-          <th rowspan="2">ល.រ</th>
-          <th rowspan="2">គោត្តនាម និងនាម</th>
-          <th rowspan="2">ភេទ</th>
-          <th rowspan="2">ថ្ងៃខែឆ្នាំកំណើត</th>
+          <th rowspan="2" class="col-no">ល.រ</th>
+          <th rowspan="2" class="col-name">គោត្តនាម និងនាម</th>
+          <th rowspan="2" class="col-sex">ភេទ</th>
+          <th rowspan="2" class="col-dob">ថ្ងៃខែឆ្នាំកំណើត</th>
           ${cols.map(c => `<th class="th-rot"><span class="th-rot-txt">${currentLevel === 'primary' ? (c.sn + ' - ' + c.n) : (c.sn || c.n)}</span></th>`).join('')}
           <th rowspan="2" class="th-rot" style="background:#f1f5f9"><span class="th-rot-txt">សរុបប្រឡង</span></th>
           <th rowspan="2" class="th-rot" style="background:#fef3c7"><span class="th-rot-txt">មធ្យមប្រឡង</span></th>
@@ -3379,10 +3395,10 @@ sem(){
 
   const rowsPrint = list.map((s,k) => `
     <tr>
-      <td>${k+1}</td>
-      <td style="text-align:start;padding-left:6px;font-weight:bold;width:110px">${E(s.name)}</td>
-      <td>${s.sex==='ស'?'ស':'ប'}</td>
-      <td style="font-size:10px">${E(s.dob || '-')}</td>
+      <td class="col-no">${k+1}</td>
+      <td class="col-name" style="font-weight:bold">${E(s.name)}</td>
+      <td class="col-sex">${s.sex==='ស'?'ស':'ប'}</td>
+      <td class="col-dob">${E(s.dob || '-')}</td>
       ${ms.map(m => `<td>${tot(s.id,m) > 0 ? av(s.id,m).toFixed(2) : '-'}</td>`).join('')}
       <td style="font-weight:bold">${s.mAv > 0 ? s.mAv.toFixed(2) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${s.examAv > 0 ? s.examAv.toFixed(2) : '-'}</td>
@@ -3430,10 +3446,10 @@ sem(){
     <table class="exam-paper-table">
       <thead>
         <tr>
-          <th>ល.រ</th>
-          <th style="width:110px">គោត្តនាម-នាម</th>
-          <th>ភេទ</th>
-          <th style="width:85px">ថ្ងៃខែឆ្នាំកំណើត</th>
+          <th class="col-no">ល.រ</th>
+          <th class="col-name">គោត្តនាម-នាម</th>
+          <th class="col-sex">ភេទ</th>
+          <th class="col-dob">ថ្ងៃខែឆ្នាំកំណើត</th>
           ${ms.map(m => `<th>ខែ${MO[m]}</th>`).join('')}
           <th>មធ្យមខែ</th>
           <th style="background:#fef3c7">ប្រឡងឆមាស</th>
