@@ -10,6 +10,7 @@
 <title>ប្រព័ន្ធគ្រប់គ្រងពិន្ទុ និងទិន្នន័យថ្នាក់រៀន (Cloud Sync)</title>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700;800&family=Moul&display=swap');
@@ -49,6 +50,61 @@ main{max-width:1100px;width:100%;margin:0 auto;padding:12px 14px 60px;will-chang
 }
 .update-banner.show{transform:translateX(-50%) translateY(0)}
 .btn-upd{background:var(--ac);color:#fff;border:0;padding:5px 14px;border-radius:999px;font:inherit;font-size:12.5px;cursor:pointer;font-weight:bold}
+
+/* License & KHQR Paywall Styles */
+.license-bar{
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;
+  background:linear-gradient(135deg,#eff6ff,#dbeafe);border:1.5px solid #93c5fd;
+  border-radius:14px;padding:8px 14px;margin:0 auto 14px;font-size:13px;color:#1e3a8a;
+  box-shadow:0 2px 8px rgba(37,99,235,0.08);text-align:left;
+}
+.license-bar.vip{background:linear-gradient(135deg,#fef3c7,#fde68a);border-color:#f59e0b;color:#78350f}
+.license-bar.paid{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border-color:#6ee7b7;color:#065f46}
+.license-bar.warn{background:linear-gradient(135deg,#fef2f2,#fee2e2);border-color:#fca5a5;color:#991b1b}
+.btn-upgrade-mini{
+  background:#005783;color:#fff;border:0;border-radius:999px;padding:5px 13px;
+  font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;
+  box-shadow:0 3px 8px rgba(0,87,131,0.28);
+}
+.btn-upgrade-mini:active{transform:scale(0.96)}
+
+.paywall-overlay{
+  position:fixed;inset:0;z-index:99997;background:rgba(15,23,42,0.82);
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  display:flex;align-items:center;justify-content:center;padding:14px;overflow-y:auto;
+}
+.paywall-card{
+  width:100%;max-width:410px;background:#fff;border-radius:24px;overflow:hidden;
+  box-shadow:0 25px 60px rgba(0,0,0,0.45);border:2px solid #005783;text-align:center;
+  animation:appFade 0.25s ease forwards;
+}
+.khqr-head{
+  background:#e1232e;color:#fff;padding:12px 16px;font-weight:800;font-size:18px;
+  letter-spacing:1.5px;position:relative;display:flex;align-items:center;justify-content:center;
+}
+.khqr-body{padding:18px 20px 20px;background:#fff}
+.khqr-merchant{font-size:13.5px;font-weight:700;color:#334155;text-transform:uppercase}
+.khqr-amount{font-size:28px;font-weight:800;color:#0f172a;margin:2px 0 12px}
+.khqr-amount span{font-size:15px;font-weight:600;color:#64748b}
+.khqr-box{
+  width:224px;height:224px;margin:0 auto 12px;padding:12px;background:#fff;
+  border:2px dashed #cbd5e1;border-radius:18px;display:flex;align-items:center;justify-content:center;
+  position:relative;box-shadow:0 6px 20px rgba(0,0,0,0.06);
+}
+.khqr-center-badge{
+  position:absolute;width:38px;height:38px;border-radius:50%;background:#005783;color:#fff;
+  border:3px solid #fff;font-weight:800;font-size:11px;display:flex;align-items:center;
+  justify-content:center;box-shadow:0 2px 6px rgba(0,0,0,0.25);pointer-events:none;
+}
+.khqr-status-pill{
+  display:inline-flex;align-items:center;gap:8px;background:#f1f5f9;color:#334155;
+  padding:6px 14px;border-radius:999px;font-size:12.5px;font-weight:700;margin-bottom:12px;
+}
+.pulse-dot{
+  width:9px;height:9px;border-radius:50%;background:#16a34a;
+  animation:pulseAnim 1.3s infinite;
+}
+@keyframes pulseAnim{0%{transform:scale(0.9);opacity:1}50%{transform:scale(1.35);opacity:0.45}100%{transform:scale(0.9);opacity:1}}
 
 .install-modal-overlay{
   position:fixed;top:0;left:0;right:0;bottom:0;z-index:99998;
@@ -481,7 +537,6 @@ td select.ilp-ui-sel.black{color:#0f172a}
   outline-offset: -14px;
 }
 
-/* រំកិលឈ្មោះសាលាត្រង់ប័ណ្ណសរសើរមកខាងស្តាំបន្តិច (left: 9.8%) កុំឱ្យលយទៅឆ្វេងជាន់ស៊ុមក្បាច់ */
 .cert-header-left-auto {
   position: absolute;
   top: 30.8%;
@@ -710,9 +765,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .id-card-school-line { font-size: 11.5px; margin-bottom: 2px; text-align: left; }
 .id-card-school-line b { font-family: var(--title-font); font-weight: normal; font-size: 11px; }
 
-/* ========================================================
-   តារាងកិត្តិយសទាំង ៨ ម៉ូដ (A4 Portrait) + 4-Sides Floating HUD
-   ======================================================== */
+/* តារាងកិត្តិយសទាំង ៨ ម៉ូដ (A4 Portrait) + 4-Sides Floating HUD */
 .honor-template-sheet {
   width: 794px;
   height: 1123px;
@@ -821,7 +874,6 @@ td select.ilp-ui-sel.black{color:#0f172a}
   z-index: 40 !important;
 }
 
-/* ព្រួញបញ្ជា ៤ ទិសជុំវិញប្រអប់ផ្ទាល់ (លើ ក្រោម ឆ្វេង ស្តាំ + ពង្រីកបង្រួម) */
 .hud-arrow-btn {
   position: absolute;
   background: #0f172a;
@@ -920,7 +972,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
     padding: 0 !important;
     margin: 0 !important;
   }
-  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.hint-note,.install-modal-overlay,.hud-arrow-btn,.hud-size-pill,.div-inline-box{display:none !important}
+  .top,.sv,button,.bt,.level-tabs-wrap,.stream-tabs-wrap,.mu,.year-bar,.update-banner,.moeys-header,.f,.screen-ui,.modal-overlay,.hint-note,.install-modal-overlay,.hud-arrow-btn,.hud-size-pill,.div-inline-box,.license-bar,.paywall-overlay{display:none !important}
   .honor-edit-active, .honor-edit-selected { outline: none !important; background: transparent !important; }
   main{max-width:100% !important;padding:0 !important;margin:0 !important}
   .card{box-shadow:none !important;border:none !important;padding:0 !important;margin:0 !important}
@@ -1004,6 +1056,282 @@ td select.ilp-ui-sel.black{color:#0f172a}
 <script>
 const SUPABASE_URL = 'https://sobhopuuvwctrdhlgttw.supabase.co';
 const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvYmhvcHV1dndjdHJkaGxndHR3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQwMDU2ODMsImV4cCI6MjEwOTU4MTY4M30.mKQx4lLq-AufDQiLYocmMVnnwVFGfI_-xklNoGkW_wA';
+
+// ========================================================
+// ប្រព័ន្ធគ្រប់គ្រងអាជ្ញាប័ណ្ណ (60 ថ្ងៃ Free Trial + ABA KHQR $7/ឆ្នាំ)
+// ========================================================
+const VIP_OWNERS = ['sokhim', 'alexanderkim021', 'alexanderkim021@gmail.com', 'admin'];
+const LICENSE_CACHE_KEY = 'sms_license_cache_v1';
+let LICENSE_STATE = {
+  loading: false,
+  isVip: false,
+  isPaid: false,
+  expired: false,
+  daysLeft: 60,
+  expiresAt: null
+};
+let showKhqrModal = false;
+let khqrOrder = null;
+let khqrPollTimer = null;
+
+function isVipAccount(u){
+  if (!u) return false;
+  const clean = String(u).trim().toLowerCase();
+  return VIP_OWNERS.includes(clean);
+}
+
+function getLocalCachedLicense(u){
+  try {
+    const all = JSON.parse(localStorage.getItem(LICENSE_CACHE_KEY) || '{}');
+    return all[u] || null;
+  } catch(e){ return null; }
+}
+
+function saveLocalCachedLicense(u, lic){
+  try {
+    const all = JSON.parse(localStorage.getItem(LICENSE_CACHE_KEY) || '{}');
+    all[u] = lic;
+    localStorage.setItem(LICENSE_CACHE_KEY, JSON.stringify(all));
+  } catch(e){}
+}
+
+function computeLicenseState(u, expiresAtIso, isPaid){
+  if (isVipAccount(u)) {
+    return { loading: false, isVip: true, isPaid: true, expired: false, daysLeft: 9999, expiresAt: null };
+  }
+  const expMs = expiresAtIso ? new Date(expiresAtIso).getTime() : (Date.now() + 60 * 86400000);
+  const diffDays = Math.ceil((expMs - Date.now()) / 86400000);
+  return {
+    loading: false,
+    isVip: false,
+    isPaid: !!isPaid,
+    expired: diffDays <= 0,
+    daysLeft: Math.max(0, diffDays),
+    expiresAt: expiresAtIso
+  };
+}
+
+async function syncUserLicense(u){
+  if (!u) return;
+  if (isVipAccount(u)) {
+    LICENSE_STATE = computeLicenseState(u, null, true);
+    R();
+    return;
+  }
+
+  // បង្ហាញទិន្នន័យ Cache ភ្លាមៗពេល Offline ឬកំពុងភ្ជាប់ Cloud
+  const acc = accounts[u];
+  const cached = getLocalCachedLicense(u);
+  if (cached && cached.expiresAt) {
+    LICENSE_STATE = computeLicenseState(u, cached.expiresAt, cached.isPaid);
+  } else {
+    const baseCreated = (acc && acc.created) ? acc.created : Date.now();
+    const fallbackExp = new Date(baseCreated + 60 * 86400000).toISOString();
+    LICENSE_STATE = computeLicenseState(u, fallbackExp, false);
+  }
+  R();
+
+  if (!navigator.onLine) return;
+
+  try {
+    const res = await sbFetch('/user_licenses?username=eq.' + encodeURIComponent(u) + '&select=*');
+    if (res.ok) {
+      const list = await res.json();
+      if (list && list.length > 0) {
+        const row = list[0];
+        LICENSE_STATE = computeLicenseState(u, row.expires_at, row.is_paid);
+        saveLocalCachedLicense(u, { expiresAt: row.expires_at, isPaid: row.is_paid });
+        R();
+      } else {
+        // បង្កើតកំណត់ត្រា 60 ថ្ងៃ Free Trial លើ Cloud ជាលើកដំបូង
+        const baseCreated = (acc && acc.created) ? acc.created : Date.now();
+        const expIso = new Date(baseCreated + 60 * 86400000).toISOString();
+        await sbFetch('/user_licenses', {
+          method: 'POST',
+          headers: { 'Prefer': 'resolution=merge-duplicates' },
+          body: JSON.stringify({
+            username: u,
+            trial_started_at: new Date(baseCreated).toISOString(),
+            expires_at: expIso,
+            is_paid: false,
+            updated_at: new Date().toISOString()
+          })
+        });
+        LICENSE_STATE = computeLicenseState(u, expIso, false);
+        saveLocalCachedLicense(u, { expiresAt: expIso, isPaid: false });
+        R();
+      }
+    }
+  } catch(e){}
+}
+
+function stopKhqrPolling(){
+  if (khqrPollTimer) {
+    clearInterval(khqrPollTimer);
+    khqrPollTimer = null;
+  }
+}
+
+function closeKhqrModal(){
+  if (LICENSE_STATE.expired) return; // បើផុតកំណត់ 60 ថ្ងៃហើយ មិនអាចបិទផ្ទាំងចាក់សោបានទេ
+  showKhqrModal = false;
+  stopKhqrPolling();
+  R();
+}
+
+async function openKhqrCheckout(){
+  if (!SESSION || !SESSION.username) return;
+  showKhqrModal = true;
+  khqrOrder = { loading: true, error: null, qrString: '', md5: '', amount: 7.00, statusText: 'កំពុងបង្កើត ABA KHQR...' };
+  R();
+
+  try {
+    const res = await fetch(SUPABASE_URL + '/functions/v1/bakong-khqr', {
+      method: 'POST',
+      headers: {
+        'apikey': SUPABASE_ANON,
+        'Authorization': 'Bearer ' + SUPABASE_ANON,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ action: 'create', username: SESSION.username })
+    });
+    const data = await res.json();
+    if (!res.ok || data.error) throw new Error(data.error || 'មិនអាចបង្កើត KHQR បានទេ');
+
+    khqrOrder = {
+      loading: false,
+      error: null,
+      qrString: data.qrString,
+      md5: data.md5,
+      amount: Number(data.amount || 7.00).toFixed(2),
+      statusText: 'កំពុងរង់ចាំការស្កេនបង់ប្រាក់...'
+    };
+    R();
+
+    setTimeout(() => {
+      const box = document.getElementById('khqrCanvasBox');
+      if (box && typeof QRCode !== 'undefined') {
+        box.innerHTML = '';
+        new QRCode(box, {
+          text: khqrOrder.qrString,
+          width: 196,
+          height: 196,
+          colorDark: '#0f172a',
+          colorLight: '#ffffff',
+          correctLevel: QRCode.CorrectLevel.M
+        });
+      }
+    }, 60);
+
+    startKhqrPolling(data.md5);
+  } catch(err) {
+    khqrOrder = { loading: false, error: err.message, qrString: '', md5: '', amount: '7.00', statusText: '' };
+    R();
+  }
+}
+
+function startKhqrPolling(md5){
+  stopKhqrPolling();
+  khqrPollTimer = setInterval(async () => {
+    if (!showKhqrModal || !md5 || !SESSION) { stopKhqrPolling(); return; }
+    try {
+      const res = await fetch(SUPABASE_URL + '/functions/v1/bakong-khqr', {
+        method: 'POST',
+        headers: {
+          'apikey': SUPABASE_ANON,
+          'Authorization': 'Bearer ' + SUPABASE_ANON,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action: 'verify', md5, username: SESSION.username })
+      });
+      const data = await res.json();
+      if (data.paid) {
+        stopKhqrPolling();
+        showKhqrModal = false;
+        await syncUserLicense(SESSION.username);
+        alert('🎉 បង់ប្រាក់ជោគជ័យ! គណនីរបស់លោកគ្រូ/អ្នកគ្រូត្រូវបានបើកសោប្រើប្រាស់ពេញ ១ ឆ្នាំ (៣៦៥ ថ្ងៃ) ដោយស្វ័យប្រវត្តិហើយ!');
+        R();
+      }
+    } catch(e){}
+  }, 4000);
+}
+
+function renderLicenseBannerHTML(){
+  if (!SESSION) return '';
+  if (LICENSE_STATE.isVip) {
+    return `<div class="license-bar vip">
+      <div>👑 <b>គណនី VIP ម្ចាស់កម្មវិធី (Lifetime)</b> · ប្រើប្រាស់បានមួយជីវិតដោយគ្មានដែនកំណត់</div>
+    </div>`;
+  }
+  if (LICENSE_STATE.isPaid && !LICENSE_STATE.expired) {
+    return `<div class="license-bar paid">
+      <div>✅ <b>អាជ្ញាប័ណ្ណផ្លូវការ (Pro)</b> · នៅសល់សុពលភាព <b>${toKhNum(LICENSE_STATE.daysLeft)} ថ្ងៃ</b>ទៀត</div>
+      <button class="btn-upgrade-mini" onclick="openKhqrCheckout()">🔄 បន្តសុពលភាព ($7/ឆ្នាំ)</button>
+    </div>`;
+  }
+  const isLow = LICENSE_STATE.daysLeft <= 10;
+  return `<div class="license-bar ${isLow ? 'warn' : ''}">
+    <div>🎁 <b>សាកល្បងឥតគិតថ្លៃ (Free Trial)៖</b> នៅសល់ <b>${toKhNum(LICENSE_STATE.daysLeft)} ថ្ងៃ</b>ទៀត</div>
+    <button class="btn-upgrade-mini" onclick="openKhqrCheckout()">💳 ទិញអាជ្ញាប័ណ្ណ ($7.00/ឆ្នាំ)</button>
+  </div>`;
+}
+
+function renderPaywallAndKhqrModal(){
+  if (!SESSION || LICENSE_STATE.isVip) return '';
+  const isLocked = LICENSE_STATE.expired;
+  if (!isLocked && !showKhqrModal) return '';
+
+  const showQrStep = showKhqrModal && khqrOrder;
+  return `
+    <div class="paywall-overlay" onclick="${isLocked ? '' : 'closeKhqrModal()'}">
+      <div class="paywall-card" onclick="event.stopPropagation()">
+        <div class="khqr-head">
+          <span>KHQR · ABA PAY</span>
+          ${!isLocked ? `<button onclick="closeKhqrModal()" style="position:absolute;right:12px;background:rgba(255,255,255,0.2);border:0;color:#fff;width:28px;height:28px;border-radius:50%;font-weight:bold;cursor:pointer">✕</button>` : ''}
+        </div>
+        <div class="khqr-body">
+          ${!showQrStep ? `
+            <div style="font-size:42px;margin-bottom:6px">🔒</div>
+            <div class="muol-title" style="font-size:17px;color:#0f172a;margin-bottom:6px">ផុតកំណត់សាកល្បង ៦០ ថ្ងៃហើយ</div>
+            <p style="font-size:13.5px;color:#475569;line-height:1.6;margin:0 0 14px">
+              រយៈពេលប្រើប្រាស់ឥតគិតថ្លៃ ៦០ ថ្ងៃរបស់គណនី <b>${E(SESSION.username)}</b> បានបញ្ចប់ហើយ។<br>
+              សូមបន្តសុពលភាព <b>$7.00 / ១ ឆ្នាំ (៣៦៥ ថ្ងៃ)</b> ដើម្បីបន្តប្រើប្រាស់ និងរក្សាទុកទិន្នន័យសិស្សទាំងអស់។
+            </p>
+            <button class="pb bl wide" style="background:#005783;cursor:pointer;font-size:15.5px" onclick="openKhqrCheckout()">
+              💳 បង់ប្រាក់តាម ABA KHQR ($7.00)
+            </button>
+            <button class="btn-skip-install" style="margin-top:8px" onclick="logout()">🚪 ចាកចេញពីគណនី</button>
+          ` : `
+            <div class="khqr-merchant">SOKHIM KHOM (ABA USD)</div>
+            <div class="khqr-amount">$${khqrOrder.amount} <span>USD / ១ ឆ្នាំ</span></div>
+            ${khqrOrder.loading ? `
+              <div style="padding:40px 0;color:#64748b;font-weight:600">⏳ កំពុងបង្កើត QR Code ធនាគារ...</div>
+            ` : khqrOrder.error ? `
+              <div style="background:#fef2f2;border:1px solid #fca5a5;color:#b91c1c;padding:12px;border-radius:12px;font-size:13px;margin-bottom:12px">
+                ⚠️ ${E(khqrOrder.error)}
+              </div>
+              <button class="bt" onclick="openKhqrCheckout()">🔄 សាកល្បងម្តងទៀត</button>
+            ` : `
+              <div class="khqr-box">
+                <div id="khqrCanvasBox"></div>
+                <div class="khqr-center-badge">USD</div>
+              </div>
+              <div class="khqr-status-pill">
+                <span class="pulse-dot"></span>
+                <span>${E(khqrOrder.statusText)}</span>
+              </div>
+              <div style="font-size:12px;color:#64748b;line-height:1.55">
+                សូមបើក <b>ABA Mobile</b> ឬ <b>ធនាគារណាមួយ (KHQR)</b> រួចស្កេន QR ខាងលើ។<br>
+                ប្រព័ន្ធនឹងបើកសោជូនភ្លាមៗដោយស្វ័យប្រវត្តិក្រោយពេលផ្ទេរប្រាក់រួច!
+              </div>
+            `}
+            ${isLocked ? `<div style="margin-top:10px"><button class="btn-skip-install" onclick="logout()">🚪 ចាកចេញពីគណនី</button></div>` : ''}
+          `}
+        </div>
+      </div>
+    </div>
+  `;
+}
 
 const DEFAULT_MOEYS_LOGO = '3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';
 const BORDER_LIB_KEY = 'sms_cert_borders_v2';
@@ -1320,7 +1648,7 @@ function applyAppUpdate(){
 }
 
 const $ = s => document.querySelector(s);
-const E = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&','<':'<','>':'>','"':'"'}[c]));
+const E = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
 const MO = ['តុលា','វិច្ឆិកា','ធ្នូ','មករា','កុម្ភៈ','មីនា','មេសា','ឧសភា','មិថុនា','កក្កដា','សីហា','កញ្ញា'];
@@ -1397,7 +1725,7 @@ function smartKhmerDate(val){
 const SUBJ_PRIMARY = [
   {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
   {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
-  {n:'សិក្សាសង្គម', s:[['ចំណេះដឹង',5],['អនុុវត្ត',5]]},
+  {n:'សិក្សាសង្គម', s:[['ចំណេះដឹង',5],['អនុវត្ត',5]]},
   {n:'វិទ្យាសាស្ត្រ', s:[['ទ្រឹស្តី',5],['ពិសោធ',5]]},
   {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
 ];
@@ -1574,7 +1902,8 @@ async function createAccount(u, pw, fullname){
   const salt = crypto.getRandomValues(new Uint8Array(16));
   const key = await deriveKey(pw, salt);
   const chk = await seal(key, 'ok');
-  accounts[u] = {fullname, salt: b64(salt), check: chk, data: null, status: 'active', created: Date.now(), backupAt: 0};
+  const now = Date.now();
+  accounts[u] = {fullname, salt: b64(salt), check: chk, data: null, status: 'active', created: now, backupAt: 0};
   saveAccounts();
   sbPushUser({ username: u, fullname: fullname, salt: b64(salt), check: chk, data: null, status: 'active', updated_at: new Date().toISOString() }).catch(()=>{});
   return key;
@@ -1778,6 +2107,7 @@ async function openSession(u, key){
   SESSION = {username: u, key, fullname: acc.fullname};
   resetMobileZoom();
   pg = 'home';
+  syncUserLicense(u);
   R();
   resetIdle();
 
@@ -1800,6 +2130,8 @@ async function openSession(u, key){
 
 async function logout(){
   await saveChain;
+  stopKhqrPolling();
+  showKhqrModal = false;
   SESSION = null; allYearsData = null;
   clearTimeout(idleT);
   pg = 'login';
@@ -1851,6 +2183,7 @@ async function doCreate(){
   currentYear = '២០២៥ - ២០២៦';
   localStorage.setItem(LAST_YEAR_KEY, currentYear);
   save();
+  syncUserLicense(u);
   resetMobileZoom();
   pg = 'home';
   R();
@@ -2546,7 +2879,7 @@ login(){
     </div>
   </label>
   <button class="pb bl wide ${getTheme().touch}" onclick="doLogin()">ចូលប្រព័ន្ធ (Sync Cloud ☁️)</button>
-  <div class="f"><button class="bt g" onclick="showCreate()">បង្កើតគណនីថ្មី</button><button class="bt g" onclick="$('#fimp').click()">📥 នាំចូល Backup</button></div>
+  <div class="f"><button class="bt g" onclick="showCreate()">បង្កើតគណនីថ្មី (Free ៦០ ថ្ងៃ)</button><button class="bt g" onclick="$('#fimp').click()">📥 នាំចូល Backup</button></div>
   ${showInstallBtn ? `<button class="bt" style="width:100%;background:var(--ok);margin-top:4px" onclick="triggerNativeInstall()">📲 ដំឡើងកម្មវិធីលើអេក្រង់ (Install App)</button>` : ''}
   </div></div>`;
 },
@@ -2554,6 +2887,9 @@ login(){
 create(){
   return `<div class="auth"><div class="card">
   <h2>បង្កើតគណនីថ្មី</h2>
+  <div style="background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;font-size:12.5px;padding:8px 10px;border-radius:10px;margin-bottom:12px;text-align:center">
+    🎁 ទទួលបានការប្រើប្រាស់ <b>ឥតគិតថ្លៃ ៦០ ថ្ងៃពេញ</b> ភ្លាមៗ!
+  </div>
   <div id="amsg" class="msg"></div>
   <label>ឈ្មោះគ្រូ<input id="cn" lang="km" inputmode="text" autocomplete="name"></label>
   <label>ឈ្មោះគណនី<input id="cu" autocomplete="off" autocapitalize="off"></label>
@@ -2627,6 +2963,8 @@ home(){
       <button class="bt g" style="padding:4px 9px;min-height:32px;font-size:11.5px;color:var(--bad)" onclick="logout()">🚪 ចេញ</button>
     </div>
   </div>
+
+  ${renderLicenseBannerHTML()}
 
   ${logo(84)}
   <h1>ប្រព័ន្ធគ្រប់គ្រងទិន្នន័យថ្នាក់រៀន</h1>
@@ -4320,7 +4658,7 @@ function R(){
 
   if (pg === 'login' || pg === 'create') { app.innerHTML = P[pg](); return; }
   if (!SESSION || !allYearsData) { pg = 'login'; app.innerHTML = P.login(); return; }
-  app.innerHTML = P[pg]();
+  app.innerHTML = P[pg]() + renderPaywallAndKhqrModal();
   if (pg === 'sc') upd();
   if (pg === 'home') initDragAndDrop();
   if (pg === 'honor') initHonorDragSlots();
