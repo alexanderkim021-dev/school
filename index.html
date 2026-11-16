@@ -1042,6 +1042,52 @@ td select.ilp-ui-sel.black{color:#0f172a}
   }
   .print-page{page-break-after:always}
 }
+
+/* Teacher Portfolio & Planning 4-Tabs Hub */
+.plan-subtabs{
+  display:flex;gap:6px;flex-wrap:wrap;background:#e2e8f0;padding:5px;border-radius:14px;margin-bottom:14px;
+}
+.plan-stab{
+  flex:1 1 140px;border:0;background:transparent;padding:9px 10px;border-radius:10px;
+  font:inherit;font-size:13px;font-weight:700;color:#475569;cursor:pointer;text-align:center;
+  transition:all 0.15s ease;
+}
+.plan-stab.active{
+  background:#fff;color:var(--ac);box-shadow:0 2px 8px rgba(0,0,0,0.12);
+}
+.plan-num-inp{
+  width:46px !important;min-height:30px !important;padding:2px 4px !important;
+  text-align:center;font-weight:700;font-size:13.5px;border-radius:6px;border:1px solid #cbd5e1;
+}
+.plan-pct-badge{
+  display:inline-block;font-size:11.5px;font-weight:700;color:#0369a1;background:#e0f2fe;
+  padding:2px 6px;border-radius:6px;min-width:42px;
+}
+.plan-sum-ok{color:#16a34a;font-weight:800}
+.plan-sum-err{color:#dc2626;font-weight:800;background:#fee2e2;padding:2px 6px;border-radius:6px}
+
+.doc-book-sheet{
+  width:794px;background:#fff;padding:28px 36px;color:#000;
+  font-family:'Leelawadee UI', 'Kantumruy Pro', sans-serif;font-size:12.5px;line-height:1.55;
+  box-shadow:0 6px 24px rgba(0,0,0,0.15);box-sizing:border-box;margin:0 auto;text-align:left;
+}
+.doc-book-table{
+  width:100%;border-collapse:collapse;margin:8px 0 12px;font-size:11.5px;
+}
+.doc-book-table th, .doc-book-table td{
+  border:1px solid #222;padding:4px 5px;text-align:center;
+}
+.doc-book-table th{background:#f1f5f9;font-weight:700}
+.doc-section-bar{
+  background:#e2e8f0;font-weight:700;padding:5px 10px;border-left:4px solid #1e3a8a;
+  margin:12px 0 6px;font-size:13px;color:#0f172a;
+}
+.doc-page-break{page-break-before:always;margin-top:24px;padding-top:18px;border-top:2px dashed #cbd5e1}
+@media print{
+  .doc-book-sheet{width:100% !important;box-shadow:none !important;padding:0 !important}
+  .doc-page-break{margin-top:0 !important;padding-top:0 !important;border-top:none !important}
+}
+
 </style></head><body>
 
 <div id="updBanner" class="update-banner">
@@ -1980,6 +2026,34 @@ function emptyLevelData(lbl, yr){
     v: 30, n: 1,
     info: {province:'', school:'', teacher:'', teacherPhone:'', cls: defCls, year: yr || currentYear, div: defDiv, stream:'science', logo: null, moeysLogo: null},
     st: [], sc: {}, ab: {}, rm: {}, ilp: {},
+    teacherPlan: {
+      meta: {
+        rank: 'ខ.៣.៤',
+        roleTitle: 'គ្រូបង្រៀនកម្រិតបឋមភូមិ',
+        directorName: '',
+        deputyTechName: '',
+        deputyTechPhone: '',
+        committeeChairName: '',
+        village: '',
+        commune: '',
+        district: '',
+        subjectsTaught: 'ភាសាខ្មែរ, គណិតវិទ្យា',
+        classesTaught: ''
+      },
+      subjPlans: {},
+      agreeExtra: {
+        grammarStart: [1, 5, 8, 4, 1],
+        grammarGoal: [0, 3, 10, 4, 2],
+        grammarDone: [0, 3, 10, 4, 2],
+        meetGoal: 3, meetDone: 2,
+        ilpPlanGoal: 8, ilpPlanDone: 8,
+        incomeGoal: 0, incomeDone: 0,
+        projectGoal: 0, projectDone: 0,
+        compQ: [1, 1, 1, 1],
+        absOver4: 0, teacherNoSub: 1, classClosed: 0, violenceCount: 0, savingCount: 0,
+        peerTrainCount: 14, peerTrainFemale: 6
+      }
+    },
     monthDivs: {}, examDivs: {},
     semExamScores: {0:{}, 1:{}}
   };
@@ -1993,6 +2067,11 @@ function normalizeLevel(d, lbl, yr){
     ...e, ...d,
     info: {...e.info, ...(d.info || {})},
     st, sc: d.sc || {}, ab: d.ab || {}, rm: d.rm || {}, ilp: d.ilp || {},
+    teacherPlan: {
+      meta: { ...e.teacherPlan.meta, ...((d.teacherPlan && d.teacherPlan.meta) || {}) },
+      subjPlans: (d.teacherPlan && d.teacherPlan.subjPlans) || {},
+      agreeExtra: { ...e.teacherPlan.agreeExtra, ...((d.teacherPlan && d.teacherPlan.agreeExtra) || {}) }
+    },
     monthDivs: d.monthDivs || {}, examDivs: d.examDivs || {},
     semExamScores: d.semExamScores || {0:{}, 1:{}},
     n: Math.max(d.n || 1, ...st.map(s => (+s.id || 0) + 1), 1)
@@ -2341,6 +2420,168 @@ function addNewYearPrompt(){
 }
 
 // ==========================================
+
+// ==========================================
+// ប្រព័ន្ធផែនការគ្រូបង្រៀន (៣ឆ្នាំ ១ឆ្នាំ ៣ខែ) សៀវភៅផែនការ និងកិច្ចព្រមព្រៀងប្រចាំឆ្នាំ
+// ==========================================
+let planSubTab = 'ilp'; // 'ilp' | 'plan3y' | 'book' | 'agree'
+let planSubjIdx = 0;
+
+function getTeacherPlanState(){
+  const S = getS();
+  if (!S.teacherPlan) {
+    S.teacherPlan = normalizeLevel(null, '', currentYear).teacherPlan;
+  }
+  return S.teacherPlan;
+}
+
+function getDistinctSubjectsList(){
+  const cols = getCols(currentLevel, getS().info.stream);
+  const seen = [];
+  cols.forEach(c => {
+    const name = c.sn || c.n;
+    if (!seen.some(x => x.name === name)) {
+      seen.push({ name, keys: [name] });
+    }
+  });
+  return seen.length ? seen : [{ name: 'ភាសាខ្មែរ', keys: ['ខ្មែរ'] }];
+}
+
+function countGradesForSubjectMonth(subjObj, moIdx){
+  const S = getS();
+  const counts = { A:0, B:0, C:0, D:0, E:0, F:0 };
+  let scored = 0;
+  S.st.forEach(stu => {
+    const g = getAutoSubjectGrade(stu.id, subjObj, moIdx);
+    if (g && counts[g] !== undefined) {
+      counts[g]++;
+      scored++;
+    }
+  });
+  return { counts, scored };
+}
+
+function countGradesForSubjectMonthsAvg(subjObj, moList){
+  const S = getS();
+  const counts = { A:0, B:0, C:0, D:0, E:0, F:0 };
+  let scored = 0;
+  S.st.forEach(stu => {
+    const g = getAutoTermSubjectGrade(stu.id, subjObj, moList);
+    if (g && counts[g] !== undefined) {
+      counts[g]++;
+      scored++;
+    }
+  });
+  return { counts, scored };
+}
+
+function getSubjectPlanRecord(subjName){
+  const tp = getTeacherPlanState();
+  const S = getS();
+  const totalStu = S.st.length;
+  const subjs = getDistinctSubjectsList();
+  const subjObj = subjs.find(x => x.name === subjName) || { name: subjName, keys: [subjName] };
+
+  // Auto-detect baseline from earliest month with scores (e.g., Oct/Nov)
+  let baseCounts = { A:0, B:0, C:0, D:0, E:0, F:0 };
+  for (const m of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) {
+    const res = countGradesForSubjectMonth(subjObj, m);
+    if (res.scored > 0) {
+      baseCounts = res.counts;
+      break;
+    }
+  }
+  const sumBase = Object.values(baseCounts).reduce((a,b)=>a+b, 0);
+  if (sumBase === 0 && totalStu > 0) {
+    baseCounts.E = Math.ceil(totalStu * 0.5);
+    baseCounts.F = totalStu - baseCounts.E;
+  }
+
+  if (!tp.subjPlans[subjName]) {
+    const y1 = { ...baseCounts };
+    const y2 = { ...baseCounts };
+    const y3 = { ...baseCounts };
+    const q1 = { ...baseCounts };
+    const q2 = { ...baseCounts };
+    const q3 = { ...baseCounts };
+    const q4 = { ...baseCounts };
+    tp.subjPlans[subjName] = { base: { ...baseCounts }, y1, y2, y3, q1, q2, q3, q4 };
+  }
+  return tp.subjPlans[subjName];
+}
+
+function autoFillSubjectPlanTargets(subjName){
+  const rec = getSubjectPlanRecord(subjName);
+  const total = getS().st.length;
+  if (!total) return alert('សូមបញ្ចូលឈ្មោះសិស្សក្នុងបញ្ជីជាមុនសិន!');
+
+  const subjs = getDistinctSubjectsList();
+  const subjObj = subjs.find(x => x.name === subjName) || { name: subjName, keys: [subjName] };
+  for (const m of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]) {
+    const res = countGradesForSubjectMonth(subjObj, m);
+    if (res.scored > 0) {
+      rec.base = { ...res.counts };
+      break;
+    }
+  }
+
+  const shiftUp = (src, step) => {
+    const out = { ...src };
+    for (let s = 0; s < step; s++) {
+      if (out.F > 0) { out.F--; out.E++; }
+      if (out.E > 1) { out.E--; out.D++; }
+      if (out.D > 1) { out.D--; out.C++; }
+      if (out.C > 1) { out.C--; out.B++; }
+      if (out.B > 1 && s % 2 === 1) { out.B--; out.A++; }
+    }
+    return out;
+  };
+
+  rec.q1 = shiftUp(rec.base, 1);
+  rec.q2 = shiftUp(rec.base, 2);
+  rec.q3 = shiftUp(rec.base, 3);
+  rec.q4 = shiftUp(rec.base, 4);
+  rec.y1 = { ...rec.q4 };
+  rec.y2 = shiftUp(rec.y1, 2);
+  rec.y3 = shiftUp(rec.y2, 2);
+  save();
+  R();
+  setStatus('បានគណនាគោលដៅ និងភាគរយអូតូ ✓');
+}
+
+function setPlanMeta(key, val){
+  const tp = getTeacherPlanState();
+  tp.meta[key] = val.trim();
+  save();
+}
+
+function setPlanCellVal(subjName, bucket, grade, val){
+  const rec = getSubjectPlanRecord(subjName);
+  rec[bucket][grade] = Math.max(0, parseInt(val, 10) || 0);
+  save();
+  R();
+}
+
+function setAgreeExtraVal(key, val, idx = null){
+  const tp = getTeacherPlanState();
+  if (idx !== null && Array.isArray(tp.agreeExtra[key])) {
+    tp.agreeExtra[key][idx] = Math.max(0, parseInt(val, 10) || 0);
+  } else {
+    tp.agreeExtra[key] = Math.max(0, parseInt(val, 10) || 0);
+  }
+  save();
+  R();
+}
+
+function fmtPct(cnt, total){
+  if (!total || total <= 0) return '0%';
+  return Math.round((cnt / total) * 100) + '%';
+}
+
+function sumGradesObj(obj){
+  return ['A','B','C','D','E','F'].reduce((acc, g) => acc + (+obj[g] || 0), 0);
+}
+
 // ប្រព័ន្ធផែនការសិក្សារបស់សិស្ស (ILP)
 // ==========================================
 const ILP_SUBJECTS = [
@@ -2953,7 +3194,7 @@ home(){
     honor: {cls:'pu', txt:'🏅 តារាងកិត្តិយស', act:"go('honor')"},
     cert: {cls:'tl', txt:'📜 បណ្ណសរសើរស្វ័យប្រវត្តិ', act:"go('cert')"},
     idcard: {cls:'bl', txt:'🪪 កាតសម្គាល់ខ្លួនសិស្ស', act:"go('idcard')"},
-    ilp: {cls:'pu', style:'background:#7c3aed', txt:'📋 ផែនការសិក្សាសិស្ស (ILP)', act:"go('ilp')"},
+    ilp: {cls:'pu', style:'background:#7c3aed', txt:'📋 ផែនការ និងកិច្ចព្រមព្រៀង', act:"go('ilp')"},
     bk: {cls:'gr', txt:'💾 Backup / Restore', act:"go('bk')"},
     theme: {cls:'bl', style:'background:#6366f1', txt:'🎨 កំណត់ស្ទីល និងពណ៌', act:"go('theme')"},
     clean: {cls:'rd', txt:`🧹 សម្អាតទិន្នន័យ (${levelNames[currentLevel]})`, act:"reset()"}
@@ -3712,6 +3953,35 @@ stu(){
 ilp(){
   const S = getS();
   const i = S.info;
+  const tp = getTeacherPlanState();
+  const meta = tp.meta;
+  const subjs = getDistinctSubjectsList();
+  if (planSubjIdx >= subjs.length) planSubjIdx = 0;
+  const curSubj = subjs[planSubjIdx];
+  const pRec = getSubjectPlanRecord(curSubj.name);
+  const totalStu = S.st.length;
+  const femaleStu = S.st.filter(s => s.sex === 'ស').length;
+  const grades = ['A','B','C','D','E','F'];
+
+  const yearParts = String(currentYear).match(/[0-9០-៩]{4}/g) || ['២០២៥', '២០២៦'];
+  const yStartStr = yearParts[0] || '២០២៥';
+  const yEndStr = yearParts[1] || '២០២៦';
+
+  const tabsNav = `
+    <div class="plan-subtabs screen-ui">
+      <button class="plan-stab ${planSubTab==='ilp'?'active':''}" onclick="planSubTab='ilp';R()">១. ផែនការសិស្ស (ILP)</button>
+      <button class="plan-stab ${planSubTab==='plan3y'?'active':''}" onclick="planSubTab='plan3y';R()">២. ផែនការ ៣ឆ្នាំ·១ឆ្នាំ·៣ខែ</button>
+      <button class="plan-stab ${planSubTab==='book'?'active':''}" onclick="planSubTab='book';R()">៣. សៀវភៅផែនការគ្រូ</button>
+      <button class="plan-stab ${planSubTab==='agree'?'active':''}" onclick="planSubTab='agree';R()">៤. កិច្ចព្រមព្រៀងប្រចាំឆ្នាំ</button>
+    </div>
+  `;
+
+  // TAB 1: Original ILP (100% preserved)
+  if (planSubTab === 'ilp') {
+    const origHtml = (function(){
+      
+  const S = getS();
+  const i = S.info;
   if (!S.st.length) {
     return head('ផែនការសិក្សារបស់សិស្ស (ILP)') + `<div class="card"><div class="em">មិនទាន់មានឈ្មោះសិស្សក្នុងបញ្ជី! សូមបញ្ចូលឈ្មោះសិស្សជាមុនសិន។</div></div>`;
   }
@@ -4051,6 +4321,591 @@ ilp(){
       </div>
     </div>
   </div>
+  </div>`;
+
+    })();
+    return origHtml.replace('<div class="card">', '<div class="card">' + tabsNav);
+  }
+
+  // Real actual counts from monthly scores for current subject
+  const q1Actual = countGradesForSubjectMonthsAvg(curSubj, [0,1,2]).counts;
+  const q2Actual = countGradesForSubjectMonthsAvg(curSubj, [3,4,5]).counts;
+  const q3Actual = countGradesForSubjectMonthsAvg(curSubj, [6,7,8]).counts;
+  const q4Actual = countGradesForSubjectMonthsAvg(curSubj, [9,10,11]).counts;
+  const annActual = countGradesForSubjectMonthsAvg(curSubj, [0,1,2,3,4,5,6,7,8,9,10,11]).counts;
+
+  const renderNumInp = (bucket, g) => `
+    <input type="number" inputmode="numeric" min="0" max="${totalStu}" class="plan-num-inp"
+      value="${pRec[bucket][g] ?? 0}" onchange="setPlanCellVal('${E(curSubj.name)}', '${bucket}', '${g}', this.value)">
+  `;
+
+  const sumCheckCell = (obj) => {
+    const s = sumGradesObj(obj);
+    if (!totalStu) return `<b>${s}</b>`;
+    return s === totalStu
+      ? `<span class="plan-sum-ok">${s} នាក់ ✓</span>`
+      : `<span class="plan-sum-err">${s}/${totalStu} នាក់!</span>`;
+  };
+
+  // TAB 2: 3-Year, 1-Year, 3-Month Plan (Auto %)
+  if (planSubTab === 'plan3y') {
+    return head('ផែនការ ៣ឆ្នាំ · ១ឆ្នាំ · ៣ខែ (Auto %)') + `<div class="card">
+      ${tabsNav}
+      <div class="f">
+        <select onchange="planSubjIdx=+this.value;R()">
+          ${subjs.map((sb, idx) => `<option value="${idx}" ${idx===planSubjIdx?'selected':''}>📘 មុខវិជ្ជា៖ ${E(sb.name)}</option>`).join('')}
+        </select>
+        <button class="bt" style="background:var(--ok)" onclick="autoFillSubjectPlanTargets('${E(curSubj.name)}')">⚡ គណនាគោលដៅ និង % អូតូ</button>
+        <button class="bt" onclick="executeStandardPrint('plan3yPrintArea', 'ផែនការ៣ឆ្នាំ_${E(curSubj.name)}', false)">🖨️ បោះពុម្ពតារាង (A4)</button>
+      </div>
+      <small class="hint-note">💡 <b>ងាយស្រួលបំផុត៖</b> ប្រព័ន្ធទាញចំនួនសិស្សសរុប (<b>${totalStu} នាក់ ស្រី ${femaleStu} នាក់</b>) និងលទ្ធផលជាក់ស្តែងពីតារាងពិន្ទុប្រចាំខែដោយអូតូ។ លោកគ្រូគ្រាន់តែវាយចំនួនសិស្សគ្រោងទុក នោះ <b>ភាគរយ (%) និងផលបូកសរុប</b> នឹងគណនាភ្លាមៗ!</small>
+
+      <div class="screen-ui">
+        <h2 style="font-size:15px;margin:10px 0 6px">១. ផែនការបង្រៀន ៣ ឆ្នាំ និង ១ ឆ្នាំ (${E(curSubj.name)} · ថ្នាក់ទី ${E(i.cls || '')})</h2>
+        <div class="w" style="margin-bottom:16px">
+          <table>
+            <thead>
+              <tr>
+                <th rowspan="2">កម្រិត<br>និទ្ទេស</th>
+                <th colspan="2">ទិន្នន័យដើមឆ្នាំ</th>
+                <th colspan="2" style="background:#eff6ff">ឆ្នាំទី ១ (${yEndStr})<br><small>គ្រោង ១ ឆ្នាំ</small></th>
+                <th colspan="2" style="background:#f0fdf4">ឆ្នាំទី ២</th>
+                <th colspan="2" style="background:#fefce8">ឆ្នាំទី ៣</th>
+              </tr>
+              <tr>
+                <th>ចំនួន</th><th>ភាគរយ</th>
+                <th>ចំនួន</th><th>ភាគរយ</th>
+                <th>ចំនួន</th><th>ភាគរយ</th>
+                <th>ចំនួន</th><th>ភាគរយ</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${grades.map(g => `
+                <tr>
+                  <td><b>${g}</b></td>
+                  <td>${renderNumInp('base', g)}</td>
+                  <td><span class="plan-pct-badge">${fmtPct(pRec.base[g], totalStu)}</span></td>
+                  <td>${renderNumInp('y1', g)}</td>
+                  <td><span class="plan-pct-badge">${fmtPct(pRec.y1[g], totalStu)}</span></td>
+                  <td>${renderNumInp('y2', g)}</td>
+                  <td><span class="plan-pct-badge">${fmtPct(pRec.y2[g], totalStu)}</span></td>
+                  <td>${renderNumInp('y3', g)}</td>
+                  <td><span class="plan-pct-badge">${fmtPct(pRec.y3[g], totalStu)}</span></td>
+                </tr>
+              `).join('')}
+              <tr style="background:#f8fafc">
+                <td><b>សរុប</b></td>
+                <td colspan="2">${sumCheckCell(pRec.base)}</td>
+                <td colspan="2">${sumCheckCell(pRec.y1)}</td>
+                <td colspan="2">${sumCheckCell(pRec.y2)}</td>
+                <td colspan="2">${sumCheckCell(pRec.y3)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 style="font-size:15px;margin:10px 0 6px">២. ផែនការ និងរបាយការណ៍បង្រៀន ៣ ខែ (ត្រីមាសទី ១ ដល់ ទី ៤)</h2>
+        <div class="w">
+          <table>
+            <thead>
+              <tr>
+                <th rowspan="2">និទ្ទេស</th>
+                <th rowspan="2">ដើមឆ្នាំ</th>
+                <th colspan="2">ត្រីមាសទី ១<br><small>(តុលា-ធ្នូ)</small></th>
+                <th colspan="2">ត្រីមាសទី ២<br><small>(មករា-មីនា)</small></th>
+                <th colspan="2">ត្រីមាសទី ៣<br><small>(មេសា-មិថុនា)</small></th>
+                <th colspan="2">ត្រីមាសទី ៤<br><small>(កក្កដា-កញ្ញា)</small></th>
+              </tr>
+              <tr>
+                <th>គ្រោង</th><th style="color:#dc2626">ជាក់ស្តែង<br>(Auto)</th>
+                <th>គ្រោង</th><th style="color:#dc2626">ជាក់ស្តែង<br>(Auto)</th>
+                <th>គ្រោង</th><th style="color:#dc2626">ជាក់ស្តែង<br>(Auto)</th>
+                <th>គ្រោង</th><th style="color:#dc2626">ជាក់ស្តែង<br>(Auto)</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${grades.map(g => `
+                <tr>
+                  <td><b>${g}</b></td>
+                  <td><b>${pRec.base[g] || 0}</b></td>
+                  <td>${renderNumInp('q1', g)}</td>
+                  <td style="color:#dc2626;font-weight:700;background:#fff5f5">${q1Actual[g]} (${fmtPct(q1Actual[g], totalStu)})</td>
+                  <td>${renderNumInp('q2', g)}</td>
+                  <td style="color:#dc2626;font-weight:700;background:#fff5f5">${q2Actual[g]} (${fmtPct(q2Actual[g], totalStu)})</td>
+                  <td>${renderNumInp('q3', g)}</td>
+                  <td style="color:#dc2626;font-weight:700;background:#fff5f5">${q3Actual[g]} (${fmtPct(q3Actual[g], totalStu)})</td>
+                  <td>${renderNumInp('q4', g)}</td>
+                  <td style="color:#dc2626;font-weight:700;background:#fff5f5">${q4Actual[g]} (${fmtPct(q4Actual[g], totalStu)})</td>
+                </tr>
+              `).join('')}
+              <tr style="background:#f8fafc">
+                <td><b>សរុប</b></td>
+                <td><b>${sumGradesObj(pRec.base)}</b></td>
+                <td>${sumCheckCell(pRec.q1)}</td><td style="color:#dc2626;font-weight:700">${sumGradesObj(q1Actual)}</td>
+                <td>${sumCheckCell(pRec.q2)}</td><td style="color:#dc2626;font-weight:700">${sumGradesObj(q2Actual)}</td>
+                <td>${sumCheckCell(pRec.q3)}</td><td style="color:#dc2626;font-weight:700">${sumGradesObj(q3Actual)}</td>
+                <td>${sumCheckCell(pRec.q4)}</td><td style="color:#dc2626;font-weight:700">${sumGradesObj(q4Actual)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="plan3yPrintArea" class="ilp-print-container print-page">
+        ${renderOfficialHeaderHTML(i)}
+        <div style="text-align:center;margin:4px 0 8px">
+          <div class="muol-title" style="font-size:15.5px">ផែនការ និងរបាយការណ៍បង្រៀន ៣ឆ្នាំ · ១ឆ្នាំ និង ៣ខែ</div>
+          <div style="font-weight:bold;font-size:13px">មុខវិជ្ជា៖ ${E(curSubj.name)} · ថ្នាក់ទី ${E(i.cls || '')} · ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
+          <div style="font-size:12px">ចំនួនសិស្សសរុប៖ ${toKhNum(totalStu)} នាក់ (ស្រី ${toKhNum(femaleStu)} នាក់) · គ្រូបង្រៀន៖ ${E(i.teacher || '')}</div>
+        </div>
+
+        <div style="font-weight:bold;font-size:12.5px;margin:6px 0 3px">១. ផែនការបង្រៀន ៣ ឆ្នាំ និង ១ ឆ្នាំ</div>
+        <table class="doc-book-table">
+          <thead>
+            <tr>
+              <th rowspan="2">កម្រិត</th>
+              <th colspan="2">ទិន្នន័យដើមគ្រា</th>
+              <th colspan="2">ឆ្នាំទី ១ (ផែនការ ១ ឆ្នាំ)</th>
+              <th colspan="2">ឆ្នាំទី ២</th>
+              <th colspan="2">ឆ្នាំទី ៣</th>
+            </tr>
+            <tr>
+              <th>ចំនួន</th><th>ភាគរយ</th>
+              <th>ចំនួន</th><th>ភាគរយ</th>
+              <th>ចំនួន</th><th>ភាគរយ</th>
+              <th>ចំនួន</th><th>ភាគរយ</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${grades.map(g => `
+              <tr>
+                <td><b>${g}</b></td>
+                <td>${toKhNum(pRec.base[g]||0)} នាក់</td><td>${toKhNum(fmtPct(pRec.base[g], totalStu))}</td>
+                <td>${toKhNum(pRec.y1[g]||0)} នាក់</td><td>${toKhNum(fmtPct(pRec.y1[g], totalStu))}</td>
+                <td>${toKhNum(pRec.y2[g]||0)} នាក់</td><td>${toKhNum(fmtPct(pRec.y2[g], totalStu))}</td>
+                <td>${toKhNum(pRec.y3[g]||0)} នាក់</td><td>${toKhNum(fmtPct(pRec.y3[g], totalStu))}</td>
+              </tr>
+            `).join('')}
+            <tr style="font-weight:bold;background:#f8fafc">
+              <td>សរុប</td>
+              <td>${toKhNum(sumGradesObj(pRec.base))}</td><td>១០០%</td>
+              <td>${toKhNum(sumGradesObj(pRec.y1))}</td><td>១០០%</td>
+              <td>${toKhNum(sumGradesObj(pRec.y2))}</td><td>១០០%</td>
+              <td>${toKhNum(sumGradesObj(pRec.y3))}</td><td>១០០%</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style="font-weight:bold;font-size:12.5px;margin:8px 0 3px">២. ផែនការ និងរបាយការណ៍បង្រៀន ៣ ខែ (ប្រចាំត្រីមាស)</div>
+        <table class="doc-book-table">
+          <thead>
+            <tr>
+              <th rowspan="2">និទ្ទេស</th>
+              <th rowspan="2">ដើមឆ្នាំ</th>
+              <th colspan="2">ត្រីមាសទី ១</th>
+              <th colspan="2">ត្រីមាសទី ២</th>
+              <th colspan="2">ត្រីមាសទី ៣</th>
+              <th colspan="2">ត្រីមាសទី ៤</th>
+            </tr>
+            <tr>
+              <th>គ្រោង</th><th>សម្រេច</th>
+              <th>គ្រោង</th><th>សម្រេច</th>
+              <th>គ្រោង</th><th>សម្រេច</th>
+              <th>គ្រោង</th><th>សម្រេច</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${grades.map(g => `
+              <tr>
+                <td><b>${g}</b></td>
+                <td>${toKhNum(pRec.base[g]||0)}</td>
+                <td>${toKhNum(pRec.q1[g]||0)}</td><td style="color:#b91c1c;font-weight:bold">${toKhNum(q1Actual[g])} (${toKhNum(fmtPct(q1Actual[g], totalStu))})</td>
+                <td>${toKhNum(pRec.q2[g]||0)}</td><td style="color:#b91c1c;font-weight:bold">${toKhNum(q2Actual[g])} (${toKhNum(fmtPct(q2Actual[g], totalStu))})</td>
+                <td>${toKhNum(pRec.q3[g]||0)}</td><td style="color:#b91c1c;font-weight:bold">${toKhNum(q3Actual[g])} (${toKhNum(fmtPct(q3Actual[g], totalStu))})</td>
+                <td>${toKhNum(pRec.q4[g]||0)}</td><td style="color:#b91c1c;font-weight:bold">${toKhNum(q4Actual[g])} (${toKhNum(fmtPct(q4Actual[g], totalStu))})</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+
+        <div style="margin-top:14px;display:flex;justify-content:space-between;font-size:12px">
+          <div class="director-sign-box">
+            <div>បានឃើញ និងឯកភាព</div>
+            <div style="margin:2px 0">${getDirectorSolarDate()}</div>
+            <div style="font-weight:bold">នាយក / នាយករងបច្ចេកទេស</div>
+            <div style="margin-top:42px;font-weight:bold">${E(meta.deputyTechName || meta.directorName || '')}</div>
+          </div>
+          <div class="teacher-sign-box">
+            <div>${getKhmerCurrentDate()}</div>
+            <div style="font-weight:bold;margin-top:2px">គ្រូបង្រៀន</div>
+            <div style="margin-top:42px;font-weight:bold">${E(i.teacher || '')}</div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // Reusable shared administrative fields bar for Tab 3 & Tab 4
+  const sharedMetaFormHTML = `
+    <div style="background:#f8fafc;border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px">
+      <div style="font-weight:700;font-size:13.5px;color:#1e3a8a;margin-bottom:8px">⚙️ ព័ត៌មានរដ្ឋបាលបន្ថែម (បំពេញតែម្តង ប្រើបានទាំងសៀវភៅផែនការ និងកិច្ចព្រមព្រៀង)</div>
+      <div class="f row-2">
+        <label>ឋានៈមន្ត្រីរាជការ<input value="${E(meta.rank)}" placeholder="ឧ. ខ.៣.៤" onchange="setPlanMeta('rank', this.value)"></label>
+        <label>ឋានៈវិជ្ជាជីវៈ<input value="${E(meta.roleTitle)}" placeholder="ឧ. គ្រូបង្រៀនកម្រិតបឋមភូមិ" onchange="setPlanMeta('roleTitle', this.value)"></label>
+      </div>
+      <div class="f row-2">
+        <label>ឈ្មោះនាយកសាលា<input value="${E(meta.directorName)}" placeholder="ឧ. លោក នេត សុខា" onchange="setPlanMeta('directorName', this.value)"></label>
+        <label>ប្រធានគណៈកម្មការគ្រប់គ្រងសាលា<input value="${E(meta.committeeChairName)}" placeholder="ឧ. លោក ចាប វន" onchange="setPlanMeta('committeeChairName', this.value)"></label>
+      </div>
+      <div class="f row-2">
+        <label>នាយករងបច្ចេកទេស<input value="${E(meta.deputyTechName)}" placeholder="ឧ. ជ័យ សុខធី" onchange="setPlanMeta('deputyTechName', this.value)"></label>
+        <label>មុខវិជ្ជា និងថ្នាក់បង្រៀន<input value="${E(meta.subjectsTaught)}" placeholder="ឧ. ភាសាខ្មែរ, ភូមិវិទ្យា (ថ្នាក់ទី ៧-៨)" onchange="setPlanMeta('subjectsTaught', this.value)"></label>
+      </div>
+      <div class="f row-2" style="margin-bottom:0">
+        <label>ភូមិ / ឃុំ-សង្កាត់<input value="${E(meta.commune)}" placeholder="ឧ. ភូមិព្រែកខ្សាច់ ឃុំព្រែកខ្សាច់" onchange="setPlanMeta('commune', this.value)"></label>
+        <label>ក្រុង / ស្រុក / ខណ្ឌ<input value="${E(meta.district)}" placeholder="ឧ. ស្រុកគិរីសាគរ" onchange="setPlanMeta('district', this.value)"></label>
+      </div>
+    </div>
+  `;
+
+  // TAB 3: សៀវភៅផែនការគ្រូបង្រៀន (Teacher Plan Book)
+  if (planSubTab === 'book') {
+    return head('សៀវភៅផែនការគ្រូបង្រៀន') + `<div class="card">
+      ${tabsNav}
+      ${sharedMetaFormHTML}
+      <div class="f">
+        <select onchange="planSubjIdx=+this.value;R()">
+          ${subjs.map((sb, idx) => `<option value="${idx}" ${idx===planSubjIdx?'selected':''}>📘 មុខវិជ្ជាក្នុងតារាង៖ ${E(sb.name)}</option>`).join('')}
+        </select>
+        <button class="bt" onclick="executeStandardPrint('teacherBookPrintArea', 'សៀវភៅផែនការគ្រូបង្រៀន', false)">🖨️ បោះពុម្ពសៀវភៅផែនការគ្រូ (A4)</button>
+      </div>
+      <small class="hint-note">💡 ប្រព័ន្ធបានរៀបចំ <b>ក្របសៀវភៅ + វត្ថុបំណង + ការពិពណ៌នាតួនាទី (Job Description) + តារាងផែនការ ៣ឆ្នាំ ១ឆ្នាំ ៣ខែ</b> រួចជាស្រេច។ ចុចប៊ូតុងព្រីនដើម្បីបោះពុម្ពជាសៀវភៅ A4 ភ្លាមៗ!</small>
+
+      <div class="a4-portrait-stage">
+        <div class="a4-portrait-wrapper">
+          <div class="doc-book-sheet print-page" id="teacherBookPrintArea">
+            <!-- ទំព័រទី ១៖ ក្របសៀវភៅ និងការពិពណ៌នាតួនាទី -->
+            ${renderOfficialHeaderHTML(i)}
+            <div style="text-align:center;margin:14px 0 18px;padding:18px;border:2px double #1e3a8a;border-radius:12px;background:#f8fafc">
+              <div class="muol-title" style="font-size:22px;color:#1e3a8a;line-height:1.6">សៀវភៅផែនការគ្រូបង្រៀន</div>
+              <div style="font-size:15px;font-weight:bold;margin-top:6px">ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
+              <div style="margin-top:12px;font-size:14px;line-height:1.8">
+                <div>ឈ្មោះគ្រូបង្រៀន៖ <b>${E(i.teacher || '....................')}</b> (ឋានៈ៖ ${E(meta.rank || '...')})</div>
+                <div>មុខវិជ្ជាបង្រៀន៖ <b>${E(meta.subjectsTaught || curSubj.name)}</b> · ថ្នាក់ទី <b>${E(i.cls || '...')}</b></div>
+                <div>លេខទូរស័ព្ទ៖ <b>${E(i.teacherPhone || '....................')}</b></div>
+              </div>
+            </div>
+
+            <div class="doc-section-bar">១. វត្ថុបំណង និងសារៈសំខាន់</div>
+            <p style="margin:4px 0 8px;text-align:justify">
+              វត្ថុបំណងនៃការរៀបចំសៀវភៅនេះ គឺសម្រាប់បង្ហាញដល់ប្រធានក្រុមបច្ចេកទេស និងគណៈនាយកក្នុងការអនុវត្តកិច្ចការតាមតួនាទី និងមុខតំណែង ដើម្បីជួយសិស្សឱ្យរៀនចេះលើមុខវិជ្ជាដែលខ្លួនបង្រៀនតាមផែនការ និងរបាយការណ៍បង្រៀន <b>៣ឆ្នាំ ១ឆ្នាំ និង ៣ខែ</b> ព្រមទាំងភ្ជាប់ទៅនឹងកិច្ចព្រមព្រៀងលទ្ធផលការងារប្រចាំឆ្នាំរបស់គ្រូបង្រៀន។
+            </p>
+
+            <div class="doc-section-bar">២. ការពិពណ៌នាអំពីតួនាទី និងមុខតំណែង (Job Description)</div>
+            <div style="margin-bottom:6px">
+              <b>ឈ្មោះគ្រូ៖</b> ${E(i.teacher || '............')} · <b>រាយការណ៍ទៅ៖</b> ${E(meta.deputyTechName || 'នាយករងបច្ចេកទេស')}
+            </div>
+            <table class="doc-book-table">
+              <thead>
+                <tr>
+                  <th style="width:42%">ផលសម្រេច (Output)</th>
+                  <th>សូចនាករនៃការបំពេញការងារ (KPIs)</th>
+                </tr>
+              </thead>
+              <tbody style="text-align:left">
+                <tr>
+                  <td style="text-align:left">ក. ធ្វើបំណែងចែកកម្មវិធីសិក្សាប្រចាំសប្តាហ៍</td>
+                  <td style="text-align:left">១. មានបំណែងចែកកម្មវិធីសិក្សាប្រចាំសប្តាហ៍តាមខែ<br>២. បានផ្សព្វផ្សាយទៅសិស្ស និងមាតាបិតាសិស្ស</td>
+                </tr>
+                <tr>
+                  <td style="text-align:left">ខ. ធ្វើផែនការ និងរបាយការណ៍បង្រៀន ៣ឆ្នាំ និង ១ឆ្នាំ</td>
+                  <td style="text-align:left">១. មានផែនការបង្រៀន ៣ឆ្នាំ និង ១ឆ្នាំ ផ្អែកលើលទ្ធផលដើមឆ្នាំ<br>២. មានរបាយការណ៍បូកសរុបចុងឆ្នាំ</td>
+                </tr>
+                <tr>
+                  <td style="text-align:left">គ. ធ្វើផែនការ និងរបាយការណ៍បង្រៀនរៀងរាល់ ៣ខែ</td>
+                  <td style="text-align:left">១. មានផែនការ និងរបាយការណ៍ប្រចាំត្រីមាសទី ១ ដល់ទី ៤</td>
+                </tr>
+                <tr>
+                  <td style="text-align:left">ឃ. រៀបចំគម្រោងបង្រៀនមួយមេរៀនមានច្រើនម៉ោង</td>
+                  <td style="text-align:left">១. មានកិច្ចតែងការបង្រៀនគ្រប់មេរៀនតាមកម្មវិធីសិក្សាលម្អិត</td>
+                </tr>
+                <tr>
+                  <td style="text-align:left">ង. រៀបចំគម្រោងបង្រៀនចម្រុះមុខវិជ្ជា (បំណិនជីវិត)</td>
+                  <td style="text-align:left">១. មានកិច្ចការគម្រោងផ្សារភ្ជាប់បំណិនរកចំណូល និងស្រាវជ្រាវសិស្ស</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- ទំព័រទី ២៖ តារាងផែនការ ៣ឆ្នាំ ១ឆ្នាំ ៣ខែ -->
+            <div class="doc-page-break">
+              <div style="text-align:center;margin-bottom:6px">
+                <div class="muol-title" style="font-size:15px">ផែនការ និងរបាយការណ៍បង្រៀន ៣ឆ្នាំ · ១ឆ្នាំ និង ៣ខែ</div>
+                <div style="font-size:12px">សាលា៖ <b>${E(i.school || '')}</b> (${E(meta.commune || '')} ${E(meta.district || '')} ${E(i.province || '')})</div>
+                <div style="font-size:12px">ថ្នាក់ទី៖ <b>${E(i.cls || '')}</b> · មុខវិជ្ជា៖ <b>${E(curSubj.name)}</b> · សិស្សសរុប៖ <b>${toKhNum(totalStu)} នាក់</b> (ស្រី <b>${toKhNum(femaleStu)} នាក់</b>)</div>
+              </div>
+
+              <div class="doc-section-bar">ក. ផែនការបង្រៀន ៣ ឆ្នាំ និង ១ ឆ្នាំ</div>
+              <table class="doc-book-table">
+                <thead>
+                  <tr>
+                    <th rowspan="2">កម្រិត</th>
+                    <th colspan="2">ទិន្នន័យដើមឆ្នាំ</th>
+                    <th colspan="2">ឆ្នាំទី ១ (១ ឆ្នាំ)</th>
+                    <th colspan="2">ឆ្នាំទី ២</th>
+                    <th colspan="2">ឆ្នាំទី ៣</th>
+                  </tr>
+                  <tr>
+                    <th>ចំនួន</th><th>%</th>
+                    <th>ចំនួន</th><th>%</th>
+                    <th>ចំនួន</th><th>%</th>
+                    <th>ចំនួន</th><th>%</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${grades.map(g => `
+                    <tr>
+                      <td><b>${g}</b></td>
+                      <td>${toKhNum(pRec.base[g]||0)}</td><td>${toKhNum(fmtPct(pRec.base[g], totalStu))}</td>
+                      <td>${toKhNum(pRec.y1[g]||0)}</td><td>${toKhNum(fmtPct(pRec.y1[g], totalStu))}</td>
+                      <td>${toKhNum(pRec.y2[g]||0)}</td><td>${toKhNum(fmtPct(pRec.y2[g], totalStu))}</td>
+                      <td>${toKhNum(pRec.y3[g]||0)}</td><td>${toKhNum(fmtPct(pRec.y3[g], totalStu))}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+
+              <div class="doc-section-bar">ខ. ផែនការ និងរបាយការណ៍បង្រៀន ៣ ខែ (ត្រីមាសទី ១ - ៤)</div>
+              <table class="doc-book-table">
+                <thead>
+                  <tr>
+                    <th rowspan="2">និទ្ទេស</th>
+                    <th rowspan="2">ដើមឆ្នាំ</th>
+                    <th colspan="2">ត្រីមាសទី ១</th>
+                    <th colspan="2">ត្រីមាសទី ២</th>
+                    <th colspan="2">ត្រីមាសទី ៣</th>
+                    <th colspan="2">ត្រីមាសទី ៤</th>
+                  </tr>
+                  <tr>
+                    <th>គ្រោង</th><th>សម្រេច</th>
+                    <th>គ្រោង</th><th>សម្រេច</th>
+                    <th>គ្រោង</th><th>សម្រេច</th>
+                    <th>គ្រោង</th><th>សម្រេច</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${grades.map(g => `
+                    <tr>
+                      <td><b>${g}</b></td>
+                      <td>${toKhNum(pRec.base[g]||0)}</td>
+                      <td>${toKhNum(pRec.q1[g]||0)}</td><td><b>${toKhNum(q1Actual[g])}</b></td>
+                      <td>${toKhNum(pRec.q2[g]||0)}</td><td><b>${toKhNum(q2Actual[g])}</b></td>
+                      <td>${toKhNum(pRec.q3[g]||0)}</td><td><b>${toKhNum(q3Actual[g])}</b></td>
+                      <td>${toKhNum(pRec.q4[g]||0)}</td><td><b>${toKhNum(q4Actual[g])}</b></td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+
+              <div style="margin-top:16px;display:flex;justify-content:space-between;font-size:12px">
+                <div class="director-sign-box">
+                  <div>បានឃើញ និងឯកភាព</div>
+                  <div style="margin:2px 0">${getDirectorSolarDate()}</div>
+                  <div style="font-weight:bold">នាយករងបច្ចេកទេស / នាយកសាលា</div>
+                  <div style="margin-top:44px;font-weight:bold">${E(meta.deputyTechName || meta.directorName || '')}</div>
+                </div>
+                <div class="teacher-sign-box">
+                  <div>${getKhmerCurrentDate()}</div>
+                  <div style="font-weight:bold;margin-top:2px">គ្រូបង្រៀន</div>
+                  <div style="margin-top:44px;font-weight:bold">${E(i.teacher || '')}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // TAB 4: កិច្ចព្រមព្រៀងលទ្ធផលការងារប្រចាំឆ្នាំ (Annual Performance Agreement)
+  const ae = tp.agreeExtra;
+  const grLabels = ['មិនទាន់ចេះអាន', '២០ពាក្យ/១០នាទី', '២០ពាក្យ/១៥នាទី', '២០ពាក្យ/២០នាទី', '២០ពាក្យ/៣០នាទី+'];
+
+  return head('កិច្ចព្រមព្រៀងលទ្ធផលការងារប្រចាំឆ្នាំ') + `<div class="card">
+    ${tabsNav}
+    ${sharedMetaFormHTML}
+
+    <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;padding:12px;margin-bottom:12px">
+      <div style="font-weight:700;font-size:13.5px;color:#92400e;margin-bottom:8px">📝 កែសម្រួលតួលេខវត្ថុបំណងទី ២ ដល់ ទី ៤ (តួលេខ A-F វត្ថុបំណងទី ១ ទាញអូតូពី Tab ២ រួចហើយ!)</div>
+      <div class="w" style="margin-bottom:10px">
+        <table>
+          <thead>
+            <tr>
+              <th>សមត្ថភាពអានវេយ្យាករណ៍</th>
+              ${grLabels.map(l => `<th>${l}</th>`).join('')}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><b>ដើមឆ្នាំ</b></td>
+              ${[0,1,2,3,4].map(idx => `<td><input type="number" class="plan-num-inp" value="${ae.grammarStart[idx]}" onchange="setAgreeExtraVal('grammarStart', this.value, ${idx})"></td>`).join('')}
+            </tr>
+            <tr>
+              <td><b>គ្រោងចុងឆ្នាំ</b></td>
+              ${[0,1,2,3,4].map(idx => `<td><input type="number" class="plan-num-inp" value="${ae.grammarGoal[idx]}" onchange="setAgreeExtraVal('grammarGoal', this.value, ${idx})"></td>`).join('')}
+            </tr>
+            <tr>
+              <td><b>សម្រេចចុងឆ្នាំ</b></td>
+              ${[0,1,2,3,4].map(idx => `<td><input type="number" class="plan-num-inp" value="${ae.grammarDone[idx]}" onchange="setAgreeExtraVal('grammarDone', this.value, ${idx})"></td>`).join('')}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="f row-2" style="margin-bottom:0">
+        <label>ប្រជុំប្រចាំខែ (គ្រោង / សម្រេច)
+          <div style="display:flex;gap:6px">
+            <input type="number" value="${ae.meetGoal}" onchange="setAgreeExtraVal('meetGoal', this.value)">
+            <input type="number" value="${ae.meetDone}" onchange="setAgreeExtraVal('meetDone', this.value)">
+          </div>
+        </label>
+        <label>សិស្សមាន ILP (គ្រោង / សម្រេច)
+          <div style="display:flex;gap:6px">
+            <input type="number" value="${ae.ilpPlanGoal}" onchange="setAgreeExtraVal('ilpPlanGoal', this.value)">
+            <input type="number" value="${ae.ilpPlanDone}" onchange="setAgreeExtraVal('ilpPlanDone', this.value)">
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="f">
+      <select onchange="planSubjIdx=+this.value;R()">
+        ${subjs.map((sb, idx) => `<option value="${idx}" ${idx===planSubjIdx?'selected':''}>📘 មុខវិជ្ជាគោល៖ ${E(sb.name)}</option>`).join('')}
+      </select>
+      <button class="bt" onclick="executeStandardPrint('agreementPrintArea', 'កិច្ចព្រមព្រៀងការងារប្រចាំឆ្នាំ', false)">🖨️ បោះពុម្ពកិច្ចព្រមព្រៀង (A4)</button>
+    </div>
+
+    <div class="a4-portrait-stage">
+      <div class="a4-portrait-wrapper">
+        <div class="doc-book-sheet print-page" id="agreementPrintArea">
+          <div style="text-align:center;margin-bottom:10px">
+            <div class="muol-title" style="font-size:16px">កិច្ចព្រមព្រៀងលទ្ធផលការងារ និងការអភិវឌ្ឍវិជ្ជាជីវៈប្រចាំឆ្នាំរបស់គ្រូបង្រៀន</div>
+            <div style="font-weight:bold;font-size:13px">ពីខែ វិច្ឆិកា ឆ្នាំ${yStartStr} ដល់ខែ សីហា ឆ្នាំ${yEndStr}</div>
+            <div style="font-size:12px">ការកំណត់វត្ថុបំណង និងលក្ខណៈវិនិច្ឆ័យបំពេញការងារសម្រាប់ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
+          </div>
+
+          <table class="doc-book-table" style="text-align:left">
+            <tbody>
+              <tr>
+                <td style="text-align:left;width:50%"><b>ឈ្មោះគ្រូ៖</b> ${E(i.teacher || '....................')}</td>
+                <td style="text-align:left"><b>ឋានៈមន្ត្រីរាជការ៖</b> ${E(meta.rank || '.........')} · <b>ឋានៈវិជ្ជាជីវៈ៖</b> ${E(meta.roleTitle || 'គ្រូបង្រៀន')}</td>
+              </tr>
+              <tr>
+                <td style="text-align:left"><b>អ្នកគ្រប់គ្រង (ប្រធានគណៈកម្មការ)៖</b> ${E(meta.committeeChairName || '....................')}</td>
+                <td style="text-align:left"><b>អ្នកគ្រប់គ្រងរង (នាយកសាលា)៖</b> ${E(meta.directorName || '....................')}</td>
+              </tr>
+              <tr>
+                <td style="text-align:left"><b>សាលារៀន៖</b> ${E(i.school || '....................')}</td>
+                <td style="text-align:left"><b>ទីតាំង៖</b> ${E(meta.commune || '')} ${E(meta.district || '')} ${E(i.province || '')}</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="doc-section-bar">ស្តង់ដាទី ១៖ សាលារៀនមានដំណើរការសម្រេចផលការសិក្សារបស់សិស្ស (៤០ សប្តាហ៍)</div>
+          <div style="font-weight:bold;margin:4px 0">វត្ថុបំណងទី ១៖ លទ្ធផលសិក្សារបស់សិស្សមុខវិជ្ជា «${E(curSubj.name)}» ថ្នាក់ទី ${E(i.cls || '')} (សរុប ${toKhNum(totalStu)} នាក់ ស្រី ${toKhNum(femaleStu)} នាក់)</div>
+          <table class="doc-book-table">
+            <thead>
+              <tr>
+                <th>និទ្ទេស</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>សរុប</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>ដើមឆ្នាំ</b></td>
+                ${grades.map(g => `<td>${toKhNum(pRec.base[g]||0)}</td>`).join('')}
+                <td><b>${toKhNum(sumGradesObj(pRec.base))}</b></td>
+              </tr>
+              <tr>
+                <td><b>គ្រោងចុងឆ្នាំ</b></td>
+                ${grades.map(g => `<td>${toKhNum(pRec.y1[g]||0)}</td>`).join('')}
+                <td><b>${toKhNum(sumGradesObj(pRec.y1))}</b></td>
+              </tr>
+              <tr>
+                <td><b>សម្រេចចុងឆ្នាំ</b></td>
+                ${grades.map(g => `<td><b>${toKhNum(annActual[g]||0)}</b></td>`).join('')}
+                <td><b>${toKhNum(sumGradesObj(annActual))}</b></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div style="font-weight:bold;margin:6px 0 3px">វត្ថុបំណងទី ២៖ សមត្ថភាពអាន និងវេយ្យាករណ៍ ថ្នាក់ទី ${E(i.cls || '')}</div>
+          <table class="doc-book-table">
+            <thead>
+              <tr>
+                <th>កម្រិតសមត្ថភាព</th>
+                ${grLabels.map(l => `<th>${l}</th>`).join('')}
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><b>ដើមឆ្នាំ</b></td>${ae.grammarStart.map(v => `<td>${toKhNum(v)}</td>`).join('')}</tr>
+              <tr><td><b>គ្រោងចុងឆ្នាំ</b></td>${ae.grammarGoal.map(v => `<td>${toKhNum(v)}</td>`).join('')}</tr>
+              <tr><td><b>សម្រេចចុងឆ្នាំ</b></td>${ae.grammarDone.map(v => `<td>${toKhNum(v)}</td>`).join('')}</tr>
+            </tbody>
+          </table>
+
+          <div class="doc-section-bar">ស្តង់ដាទី ២៖ ថ្នាក់រៀនដំណើរការសម្រាប់ការបង្រៀន និងការសិក្សារបស់សិស្សម្នាក់ៗ</div>
+          <table class="doc-book-table">
+            <thead>
+              <tr>
+                <th>សូចនាករ</th>
+                <th>ប្រជុំប្រចាំខែជាមួយមាតាបិតា</th>
+                <th>សិស្សមានផែនការសិក្សា (ILP)</th>
+                <th>ប្រកួតប្រជែងសមត្ថភាព (៤ត្រីមាស)</th>
+                <th>សិស្សអវត្តមានលើស ៤ដង</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><b>គ្រោងក្នុងឆ្នាំ</b></td>
+                <td>${toKhNum(ae.meetGoal)} ដង</td>
+                <td>${toKhNum(ae.ilpPlanGoal)} នាក់</td>
+                <td>${toKhNum(ae.compQ.reduce((a,b)=>a+b,0))} ដង</td>
+                <td>${toKhNum(ae.absOver4)} នាក់</td>
+              </tr>
+              <tr>
+                <td><b>សម្រេចចុងឆ្នាំ</b></td>
+                <td>${toKhNum(ae.meetDone)} ដង</td>
+                <td>${toKhNum(ae.ilpPlanDone)} នាក់</td>
+                <td>${toKhNum(ae.compQ.reduce((a,b)=>a+b,0))} ដង</td>
+                <td>${toKhNum(ae.absOver4)} នាក់</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div class="doc-section-bar">វត្ថុបំណងអភិវឌ្ឍវិជ្ជាជីវៈប្រចាំឆ្នាំ</div>
+          <p style="margin:4px 0 10px">
+            ១) សិក្សា និងអនុវត្តការធ្វើតេស្តស្តង់ដាវាយតម្លៃសមត្ថភាពសិស្ស និងប្រើប្រាស់បច្ចេកវិទ្យាឌីជីថលតាមដានផែនការសិក្សាសិស្សម្នាក់ៗ (ILP)។<br>
+            ២) ចូលរួមចែករំលែកបំណិនឌីជីថល និងការរៀបចំផែនការបង្រៀនដល់គ្រូក្នុងសាលាចំនួន <b>${toKhNum(ae.peerTrainCount)} នាក់</b> (ស្រី <b>${toKhNum(ae.peerTrainFemale)} នាក់</b>)។
+          </p>
+
+          <div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;font-size:11.5px">
+            <div>
+              <div style="font-weight:bold">បានឯកភាព</div>
+              <div>ប្រធានគណៈកម្មការគ្រប់គ្រងសាលា</div>
+              <div style="margin-top:44px;font-weight:bold">${E(meta.committeeChairName || '')}</div>
+            </div>
+            <div>
+              <div style="font-weight:bold">បានឃើញ និងអនុម័ត</div>
+              <div>នាយកសាលារៀន</div>
+              <div style="margin-top:44px;font-weight:bold">${E(meta.directorName || '')}</div>
+            </div>
+            <div>
+              <div>${getKhmerSolarDateLine()}</div>
+              <div style="font-weight:bold">ហត្ថលេខាគ្រូបង្រៀន</div>
+              <div style="margin-top:44px;font-weight:bold">${E(i.teacher || '')}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>`;
 },
 
