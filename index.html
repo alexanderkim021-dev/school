@@ -546,7 +546,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .cert-header-left-auto {
   position: absolute;
   top: 30.8%;
-  left: 14.5%;
+  left: 11.2%;
   width: 245px;
   text-align: center;
   font-family: var(--title-font);
@@ -559,8 +559,8 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .cert-director-sub {
   position: absolute;
   top: 36.8%;
-  left: 11%;
-  width: 78%;
+  left: 9%;
+  width: 82%;
   text-align: center;
   font-family: var(--title-font);
   font-size: 17.5px;
@@ -571,11 +571,11 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .cert-auto-body {
   position: absolute;
   top: 41.5%;
-  left: 11%;
-  width: 78%;
+  left: 9%;
+  width: 82%;
   text-align: center;
   line-height: 1.75;
-  font-size: 19.6px;
+  font-size: 19px;
   font-weight: 700;
   color: #1e293b;
 }
@@ -1022,19 +1022,28 @@ td select.ilp-ui-sel.black{color:#0f172a}
     box-sizing: border-box !important;
   }
   .idcard-a4-page {
-    width: 210mm !important;
-    height: 297mm !important;
-    min-height: 297mm !important;
-    padding: 8mm !important;
-    gap: 8mm !important;
+    width: 100% !important;
+    height: 290mm !important;
+    min-height: 290mm !important;
+    max-height: 290mm !important;
+    padding: 6mm !important;
+    gap: 6mm !important;
     box-shadow: none !important;
     page-break-after: always;
     page-break-inside: avoid;
+    box-sizing: border-box !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    grid-template-rows: repeat(2, 1fr) !important;
   }
   .id-card-a6 {
     border: 2.5px solid #1e3a8a !important;
     box-shadow: none !important;
-    max-width: none !important;
+    width: 100% !important;
+    height: 100% !important;
+    aspect-ratio: 105 / 148 !important;
+    padding: 10px 12px 12px !important;
+    margin: 0 !important;
   }
   .cert-red-auto, .muol-3d-name, .inst-title, .role-title, .p1, .p2, .id-card-kingdom .k1, .id-card-kingdom .k2, .id-card-dept, .id-card-title-box .t-main {
     line-height: 1.55 !important;
@@ -1084,8 +1093,11 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .doc-page-break{page-break-before:always;margin-top:24px;padding-top:18px;border-top:2px dashed #cbd5e1}
 @media print{
-  .doc-book-sheet{width:100% !important;box-shadow:none !important;padding:0 !important}
-  .doc-page-break{margin-top:0 !important;padding-top:0 !important;border-top:none !important}
+  .doc-book-sheet{width:100% !important;box-shadow:none !important;padding:0 !important;font-size:10.2px !important;line-height:1.3 !important}
+  .doc-book-table{margin:3px 0 4px !important;font-size:10px !important}
+  .doc-book-table th, .doc-book-table td{padding:2px 3px !important}
+  .doc-section-bar{padding:2px 6px !important;margin:5px 0 3px !important;font-size:11px !important}
+  .doc-page-break{display:block !important;page-break-before:always !important;break-before:page !important;margin-top:0 !important;padding-top:0 !important;border-top:none !important}
 }
 
 </style></head><body>
@@ -4547,7 +4559,7 @@ ilp(){
 
   // Reusable shared administrative fields bar for Tab 3 & Tab 4
   const sharedMetaFormHTML = `
-    <div style="background:#f8fafc;border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px">
+    <div class="screen-ui" style="background:#f8fafc;border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px">
       <div style="font-weight:700;font-size:13.5px;color:#1e3a8a;margin-bottom:8px">⚙️ ព័ត៌មានរដ្ឋបាលបន្ថែម (បំពេញតែម្តង ប្រើបានទាំងសៀវភៅផែនការ និងកិច្ចព្រមព្រៀង)</div>
       <div class="f row-2">
         <label>ឋានៈមន្ត្រីរាជការ<input value="${E(meta.rank)}" placeholder="ឧ. ខ.៣.៤" onchange="setPlanMeta('rank', this.value)"></label>
@@ -4583,7 +4595,7 @@ ilp(){
 
       <div class="a4-portrait-stage">
         <div class="a4-portrait-wrapper">
-          <div class="doc-book-sheet print-page" id="teacherBookPrintArea">
+          <div class="doc-book-sheet" id="teacherBookPrintArea">
             <!-- ទំព័រទី ១៖ ក្របសៀវភៅ និងការពិពណ៌នាតួនាទី -->
             ${renderOfficialHeaderHTML(i)}
             <div style="text-align:center;margin:14px 0 18px;padding:18px;border:2px double #1e3a8a;border-radius:12px;background:#f8fafc">
@@ -4734,7 +4746,7 @@ ilp(){
     ${tabsNav}
     ${sharedMetaFormHTML}
 
-    <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;padding:12px;margin-bottom:12px">
+    <div class="screen-ui" style="background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;padding:12px;margin-bottom:12px">
       <div style="font-weight:700;font-size:13.5px;color:#92400e;margin-bottom:8px">📝 កែសម្រួលតួលេខវត្ថុបំណងទី ២ ដល់ ទី ៤ (តួលេខ A-F វត្ថុបំណងទី ១ ទាញអូតូពី Tab ២ រួចហើយ!)</div>
       <div class="w" style="margin-bottom:10px">
         <table>
@@ -4785,7 +4797,7 @@ ilp(){
 
     <div class="a4-portrait-stage">
       <div class="a4-portrait-wrapper">
-        <div class="doc-book-sheet print-page" id="agreementPrintArea">
+        <div class="doc-book-sheet" id="agreementPrintArea">
           <div style="text-align:center;margin-bottom:10px">
             <div class="muol-title" style="font-size:16px">កិច្ចព្រមព្រៀងលទ្ធផលការងារ និងការអភិវឌ្ឍវិជ្ជាជីវៈប្រចាំឆ្នាំរបស់គ្រូបង្រៀន</div>
             <div style="font-weight:bold;font-size:13px">ពីខែ វិច្ឆិកា ឆ្នាំ${yStartStr} ដល់ខែ សីហា ឆ្នាំ${yEndStr}</div>
@@ -4886,21 +4898,21 @@ ilp(){
             ២) ចូលរួមចែករំលែកបំណិនឌីជីថល និងការរៀបចំផែនការបង្រៀនដល់គ្រូក្នុងសាលាចំនួន <b>${toKhNum(ae.peerTrainCount)} នាក់</b> (ស្រី <b>${toKhNum(ae.peerTrainFemale)} នាក់</b>)។
           </p>
 
-          <div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;font-size:11.5px">
+          <div style="margin-top:8px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center;font-size:11px;line-height:1.35">
             <div>
               <div style="font-weight:bold">បានឯកភាព</div>
               <div>ប្រធានគណៈកម្មការគ្រប់គ្រងសាលា</div>
-              <div style="margin-top:44px;font-weight:bold">${E(meta.committeeChairName || '')}</div>
+              <div style="margin-top:30px;font-weight:bold">${E(meta.committeeChairName || '')}</div>
             </div>
             <div>
               <div style="font-weight:bold">បានឃើញ និងអនុម័ត</div>
               <div>នាយកសាលារៀន</div>
-              <div style="margin-top:44px;font-weight:bold">${E(meta.directorName || '')}</div>
+              <div style="margin-top:30px;font-weight:bold">${E(meta.directorName || '')}</div>
             </div>
             <div>
               <div>${getKhmerSolarDateLine()}</div>
               <div style="font-weight:bold">ហត្ថលេខាគ្រូបង្រៀន</div>
-              <div style="margin-top:44px;font-weight:bold">${E(i.teacher || '')}</div>
+              <div style="margin-top:30px;font-weight:bold">${E(i.teacher || '')}</div>
             </div>
           </div>
         </div>
