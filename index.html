@@ -669,11 +669,15 @@ td select.ilp-ui-sel.black{color:#0f172a}
 /* កាតសម្គាល់ខ្លួនសិស្ស (ID Card A6) */
 .idcard-a4-page {
   width: 794px;
+  height: 1123px;
   min-height: 1123px;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  padding: 20px;
+  grid-template-columns: repeat(2, 348px);
+  grid-template-rows: repeat(2, 490px);
+  justify-content: center;
+  align-content: center;
+  gap: 24px;
+  padding: 36px;
   background: #fff;
   box-shadow: 0 6px 24px rgba(0,0,0,0.15);
   box-sizing: border-box;
@@ -841,7 +845,10 @@ td select.ilp-ui-sel.black{color:#0f172a}
   justify-content: center;
   text-align: center;
   transform: translate(-50%, -50%);
-  width: 250px;
+  width: max-content;
+  min-width: 135px;
+  max-width: 240px;
+  padding: 4px 10px;
 }
 
 .honor-photo-slot {
@@ -1023,26 +1030,29 @@ td select.ilp-ui-sel.black{color:#0f172a}
   }
   .idcard-a4-page {
     width: 100% !important;
-    height: 290mm !important;
-    min-height: 290mm !important;
-    max-height: 290mm !important;
-    padding: 6mm !important;
-    gap: 6mm !important;
+    height: 276mm !important;
+    min-height: 276mm !important;
+    max-height: 276mm !important;
+    padding: 8mm !important;
+    gap: 7mm !important;
     box-shadow: none !important;
     page-break-after: always;
     page-break-inside: avoid;
     box-sizing: border-box !important;
     display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    grid-template-rows: repeat(2, 1fr) !important;
+    grid-template-columns: repeat(2, 88mm) !important;
+    grid-template-rows: repeat(2, 124mm) !important;
+    justify-content: center !important;
+    align-content: center !important;
+    margin: 0 auto !important;
   }
   .id-card-a6 {
     border: 2.5px solid #1e3a8a !important;
     box-shadow: none !important;
-    width: 100% !important;
-    height: 100% !important;
-    aspect-ratio: 105 / 148 !important;
-    padding: 10px 12px 12px !important;
+    width: 88mm !important;
+    height: 124mm !important;
+    aspect-ratio: auto !important;
+    padding: 9px 11px 11px !important;
     margin: 0 !important;
   }
   .cert-red-auto, .muol-3d-name, .inst-title, .role-title, .p1, .p2, .id-card-kingdom .k1, .id-card-kingdom .k2, .id-card-dept, .id-card-title-box .t-main {
@@ -1054,15 +1064,21 @@ td select.ilp-ui-sel.black{color:#0f172a}
 
 /* Teacher Portfolio & Planning 4-Tabs Hub */
 .plan-subtabs{
-  display:flex;gap:6px;flex-wrap:wrap;background:#e2e8f0;padding:5px;border-radius:14px;margin-bottom:14px;
+  display:grid;grid-template-columns:repeat(2, 1fr);gap:8px;
+  background:#f1f5f9;padding:8px;border-radius:16px;border:1.5px solid #cbd5e1;
+  margin-bottom:14px;box-shadow:inset 0 1px 3px rgba(0,0,0,0.05);
 }
+@media(min-width:680px){ .plan-subtabs{grid-template-columns:repeat(4, 1fr)} }
 .plan-stab{
-  flex:1 1 140px;border:0;background:transparent;padding:9px 10px;border-radius:10px;
-  font:inherit;font-size:13px;font-weight:700;color:#475569;cursor:pointer;text-align:center;
-  transition:all 0.15s ease;
+  border:1.5px solid #cbd5e1;background:#ffffff;padding:10px 8px;border-radius:12px;
+  font:inherit;font-size:12.5px;font-weight:700;color:#334155;cursor:pointer;text-align:center;
+  box-shadow:0 3px 0 #cbd5e1, 0 4px 8px rgba(0,0,0,0.06);
+  transition:all 0.14s ease;
 }
+.plan-stab:active{transform:translateY(2px);box-shadow:0 1px 0 #cbd5e1}
 .plan-stab.active{
-  background:#fff;color:var(--ac);box-shadow:0 2px 8px rgba(0,0,0,0.12);
+  background:var(--ac);color:#ffffff;border-color:var(--ac);
+  box-shadow:0 3px 0 rgba(15,23,42,0.28), 0 6px 14px rgba(37,99,235,0.28);
 }
 .plan-num-inp{
   width:46px !important;min-height:30px !important;padding:2px 4px !important;
@@ -1886,7 +1902,7 @@ const THEME_KEY = 'sms_theme_settings_v4';
 const ORDER_KEY = 'sms_btn_order_v15';
 const LAST_YEAR_KEY = 'sms_last_selected_year_v1';
 
-const DEFAULT_BTNS = ['info','stu','sc','examScore','official','sem','annual','ab','honor','cert','idcard','ilp','bk','theme','clean'];
+const DEFAULT_BTNS = ['info','stu','sc','examScore','official','sem','annual','charts','ab','honor','cert','idcard','ilp','bk','theme','clean'];
 
 function getBtnOrder(){
   try {
@@ -1894,6 +1910,7 @@ function getBtnOrder(){
     if (!s) return DEFAULT_BTNS;
     const parsed = JSON.parse(s);
     if (!parsed.includes('ilp')) parsed.splice(11, 0, 'ilp');
+    if (!parsed.includes('charts')) parsed.splice(7, 0, 'charts');
     return parsed;
   } catch(e) { return DEFAULT_BTNS; }
 }
@@ -3085,6 +3102,13 @@ function initHonorDragSlots(){
 
     const startDrag = (clientX, clientY) => {
       selectHonorSlot(type, idx);
+      // Lock all other slots so dragging one never touches or moves another
+      sheet.querySelectorAll('.honor-draggable').forEach(other => {
+        if (other !== el) {
+          other.style.pointerEvents = 'none';
+          other.style.opacity = '0.55';
+        }
+      });
       const rect = sheet.getBoundingClientRect();
       const cfg = getEffectiveHonorConfig(tpl);
       const arr = type === 'photo' ? cfg.photoPos : cfg.pos;
@@ -3107,6 +3131,10 @@ function initHonorDragSlots(){
       const onMouseMove = ev => { ev.preventDefault(); onMove(ev.clientX, ev.clientY); };
       const onTouchMove = ev => { ev.preventDefault(); if (ev.touches[0]) onMove(ev.touches[0].clientX, ev.touches[0].clientY); };
       const endDrag = () => {
+        sheet.querySelectorAll('.honor-draggable').forEach(other => {
+          other.style.pointerEvents = '';
+          other.style.opacity = '';
+        });
         document.removeEventListener('mousemove', onMouseMove);
         document.removeEventListener('mouseup', endDrag);
         document.removeEventListener('touchmove', onTouchMove);
@@ -3202,6 +3230,7 @@ home(){
     official: {cls:'in', txt:'🖨️ បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ', act:"go('official')"},
     sem: {cls:'gd', txt:'🥇🥈 សរុបពិន្ទុឆមាស (Auto)', act:"go('sem')"},
     annual: {cls:'ro', txt:'🏆 សរុបលទ្ធផលប្រចាំឆ្នាំ', act:"go('annual')"},
+    charts: {cls:'in', style:'background:#0ea5e9', txt:'📈 ក្រាហ្វិកវិភាគលទ្ធផលសិស្ស', act:"go('charts')"},
     ab: {cls:'bk', txt:'📅 តារាងអវត្តមាន', act:"go('ab')"},
     honor: {cls:'pu', txt:'🏅 តារាងកិត្តិយស', act:"go('honor')"},
     cert: {cls:'tl', txt:'📜 បណ្ណសរសើរស្វ័យប្រវត្តិ', act:"go('cert')"},
@@ -4558,24 +4587,24 @@ ilp(){
   }
 
   // Reusable shared administrative fields bar for Tab 3 & Tab 4
+  const fullLocationStr = [meta.commune, meta.district].filter(Boolean).join(' ');
   const sharedMetaFormHTML = `
     <div class="screen-ui" style="background:#f8fafc;border:1px solid var(--bd);border-radius:12px;padding:12px;margin-bottom:12px">
       <div style="font-weight:700;font-size:13.5px;color:#1e3a8a;margin-bottom:8px">⚙️ ព័ត៌មានរដ្ឋបាលបន្ថែម (បំពេញតែម្តង ប្រើបានទាំងសៀវភៅផែនការ និងកិច្ចព្រមព្រៀង)</div>
       <div class="f row-2">
-        <label>ឋានៈមន្ត្រីរាជការ<input value="${E(meta.rank)}" placeholder="ឧ. ខ.៣.៤" onchange="setPlanMeta('rank', this.value)"></label>
-        <label>ឋានៈវិជ្ជាជីវៈ<input value="${E(meta.roleTitle)}" placeholder="ឧ. គ្រូបង្រៀនកម្រិតបឋមភូមិ" onchange="setPlanMeta('roleTitle', this.value)"></label>
+        <label>ឋានៈមន្ត្រីរាជការ<input value="${E(meta.rank)}" onchange="setPlanMeta('rank', this.value)"></label>
+        <label>ឋានៈវិជ្ជាជីវៈ<input value="${E(meta.roleTitle)}" onchange="setPlanMeta('roleTitle', this.value)"></label>
       </div>
       <div class="f row-2">
-        <label>ឈ្មោះនាយកសាលា<input value="${E(meta.directorName)}" placeholder="ឧ. លោក នេត សុខា" onchange="setPlanMeta('directorName', this.value)"></label>
-        <label>ប្រធានគណៈកម្មការគ្រប់គ្រងសាលា<input value="${E(meta.committeeChairName)}" placeholder="ឧ. លោក ចាប វន" onchange="setPlanMeta('committeeChairName', this.value)"></label>
+        <label>ឈ្មោះនាយកសាលា<input value="${E(meta.directorName)}" onchange="setPlanMeta('directorName', this.value)"></label>
+        <label>ប្រធានគណៈកម្មការគ្រប់គ្រងសាលា<input value="${E(meta.committeeChairName)}" onchange="setPlanMeta('committeeChairName', this.value)"></label>
       </div>
       <div class="f row-2">
-        <label>នាយករងបច្ចេកទេស<input value="${E(meta.deputyTechName)}" placeholder="ឧ. ជ័យ សុខធី" onchange="setPlanMeta('deputyTechName', this.value)"></label>
-        <label>មុខវិជ្ជា និងថ្នាក់បង្រៀន<input value="${E(meta.subjectsTaught)}" placeholder="ឧ. ភាសាខ្មែរ, ភូមិវិទ្យា (ថ្នាក់ទី ៧-៨)" onchange="setPlanMeta('subjectsTaught', this.value)"></label>
+        <label>នាយករងបច្ចេកទេស<input value="${E(meta.deputyTechName)}" onchange="setPlanMeta('deputyTechName', this.value)"></label>
+        <label>មុខវិជ្ជា និងថ្នាក់បង្រៀន<input value="${E(meta.subjectsTaught)}" onchange="setPlanMeta('subjectsTaught', this.value)"></label>
       </div>
-      <div class="f row-2" style="margin-bottom:0">
-        <label>ភូមិ / ឃុំ-សង្កាត់<input value="${E(meta.commune)}" placeholder="ឧ. ភូមិព្រែកខ្សាច់ ឃុំព្រែកខ្សាច់" onchange="setPlanMeta('commune', this.value)"></label>
-        <label>ក្រុង / ស្រុក / ខណ្ឌ<input value="${E(meta.district)}" placeholder="ឧ. ស្រុកគិរីសាគរ" onchange="setPlanMeta('district', this.value)"></label>
+      <div class="f" style="margin-bottom:0">
+        <label>អាសយដ្ឋានសាលារៀន (ភូមិ ឃុំ/សង្កាត់ ក្រុង/ស្រុក/ខណ្ឌ)<input value="${E(fullLocationStr)}" onchange="setPlanMeta('commune', this.value);setPlanMeta('district', '')"></label>
       </div>
     </div>
   `;
@@ -4917,6 +4946,154 @@ ilp(){
           </div>
         </div>
       </div>
+    </div>
+  </div>`;
+},
+
+charts(){
+  const S = getS();
+  const i = S.info;
+  if (!window.chartPeriod) window.chartPeriod = 'monthly';
+  const period = window.chartPeriod;
+
+  let records = [];
+  let titleLbl = '';
+  if (period === 'monthly') {
+    records = S.st.map(s => ({ ...s, val: av(s.id, mo), has: tot(s.id, mo) > 0 }));
+    titleLbl = `ប្រចាំ ខែ${MO[mo]}`;
+  } else if (period === 'sem1') {
+    records = S.st.map(s => ({ ...s, val: semFinalAv(s.id, 0), has: semFinalAv(s.id, 0) > 0 }));
+    titleLbl = 'ឆមាសទី ១';
+  } else if (period === 'sem2') {
+    records = S.st.map(s => ({ ...s, val: semFinalAv(s.id, 1), has: semFinalAv(s.id, 1) > 0 }));
+    titleLbl = 'ឆមាសទី ២';
+  } else {
+    records = S.st.map(s => ({ ...s, val: annualAv(s.id), has: annualAv(s.id) > 0 }));
+    titleLbl = 'ប្រចាំឆ្នាំសិក្សា';
+  }
+
+  const scored = records.filter(r => r.has);
+  const totalStu = S.st.length;
+  const maxAv = getMaxAv(currentLevel);
+
+  const gCounts = { A:0, B:0, C:0, D:0, E:0, F:0 };
+  let passCnt = 0, failCnt = 0, passFemale = 0;
+  scored.forEach(r => {
+    const g = getGradeLetter(r.val, 1);
+    if (gCounts[g] !== undefined) gCounts[g]++;
+    if ((r.val / maxAv) * 100 >= 50) {
+      passCnt++;
+      if (r.sex === 'ស') passFemale++;
+    } else {
+      failCnt++;
+    }
+  });
+
+  const gColors = { A:'#16a34a', B:'#2563eb', C:'#0ea5e9', D:'#eab308', E:'#f97316', F:'#dc2626' };
+  const maxBar = Math.max(...Object.values(gCounts), 1);
+
+  const barChartHTML = ['A','B','C','D','E','F'].map(g => {
+    const cnt = gCounts[g];
+    const pct = scored.length ? Math.round((cnt / scored.length) * 100) : 0;
+    const hPct = Math.round((cnt / maxBar) * 100);
+    return `
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:4px">
+        <div style="font-size:11.5px;font-weight:800;color:${gColors[g]}">${toKhNum(cnt)} (${toKhNum(pct)}%)</div>
+        <div style="width:100%;max-width:44px;height:130px;background:#f1f5f9;border-radius:10px;display:flex;align-items:flex-end;overflow:hidden;border:1px solid #e2e8f0">
+          <div style="width:100%;height:${hPct}%;background:${gColors[g]};border-radius:8px 8px 0 0;transition:height 0.4s ease"></div>
+        </div>
+        <div style="font-weight:800;font-size:14px;color:#0f172a">${g}</div>
+      </div>
+    `;
+  }).join('');
+
+  const passPct = scored.length ? Math.round((passCnt / scored.length) * 100) : 0;
+  const failPct = scored.length ? (100 - passPct) : 0;
+
+  // Monthly average trend line (Oct - Sep)
+  const monthAvgs = MO.map((mName, mIdx) => {
+    const valid = S.st.filter(s => tot(s.id, mIdx) > 0).map(s => av(s.id, mIdx));
+    const avgVal = valid.length ? (sum(valid) / valid.length) : null;
+    return { mName, avgVal };
+  });
+
+  const trendBarsHTML = monthAvgs.map(item => {
+    const h = item.avgVal !== null ? Math.min(100, Math.round((item.avgVal / maxAv) * 100)) : 0;
+    return `
+      <div style="flex:1;min-width:24px;display:flex;flex-direction:column;align-items:center;gap:3px">
+        <div style="font-size:10px;font-weight:700;color:#0369a1">${item.avgVal !== null ? item.avgVal.toFixed(1) : '-'}</div>
+        <div style="width:100%;max-width:22px;height:95px;background:#f1f5f9;border-radius:6px;display:flex;align-items:flex-end;overflow:hidden">
+          <div style="width:100%;height:${h}%;background:linear-gradient(180deg,#0284c7,#38bdf8);border-radius:5px 5px 0 0"></div>
+        </div>
+        <div style="font-size:10px;font-weight:600;color:#475569">${item.mName}</div>
+      </div>
+    `;
+  }).join('');
+
+  const weakStudents = scored
+    .filter(r => ['E','F'].includes(getGradeLetter(r.val, 1)))
+    .sort((a,b) => a.val - b.val);
+
+  return head('ក្រាហ្វិកវិភាគលទ្ធផលសិស្ស') + `<div class="card">
+    <div class="f row-nowrap">
+      <select onchange="window.chartPeriod=this.value;R()">
+        <option value="monthly" ${period==='monthly'?'selected':''}>📅 វិភាគប្រចាំខែ</option>
+        <option value="sem1" ${period==='sem1'?'selected':''}>🥇 វិភាគឆមាសទី ១</option>
+        <option value="sem2" ${period==='sem2'?'selected':''}>🥈 វិភាគឆមាសទី ២</option>
+        <option value="annual" ${period==='annual'?'selected':''}>🏆 វិភាគប្រចាំឆ្នាំ</option>
+      </select>
+      ${period === 'monthly' ? moSel() : ''}
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:16px">
+      <div style="background:#eff6ff;border:1px solid #bfdbfe;padding:12px;border-radius:14px;text-align:center">
+        <div style="font-size:12px;color:#1e40af;font-weight:600">សិស្សបានវាយតម្លៃ</div>
+        <div style="font-size:20px;font-weight:800;color:#1e3a8a">${toKhNum(scored.length)} / ${toKhNum(totalStu)} នាក់</div>
+      </div>
+      <div style="background:#ecfdf5;border:1px solid #a7f3d0;padding:12px;border-radius:14px;text-align:center">
+        <div style="font-size:12px;color:#065f46;font-weight:600">អត្រាសិស្សជាប់ (≥50%)</div>
+        <div style="font-size:20px;font-weight:800;color:#16a34a">${toKhNum(passCnt)} នាក់ (${toKhNum(passPct)}%)</div>
+      </div>
+      <div style="background:#fef2f2;border:1px solid #fecaca;padding:12px;border-radius:14px;text-align:center">
+        <div style="font-size:12px;color:#991b1b;font-weight:600">ត្រូវបំប៉នបន្ថែម (ធ្លាក់)</div>
+        <div style="font-size:20px;font-weight:800;color:#dc2626">${toKhNum(failCnt)} នាក់ (${toKhNum(failPct)}%)</div>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:14px">
+      <div style="font-weight:700;font-size:14.5px;color:#0f172a;margin-bottom:12px">📊 ក្រាហ្វិកបែងចែកនិទ្ទេស A – F (${titleLbl} · ថ្នាក់ទី ${E(i.cls || '')})</div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:8px;padding:6px 4px">
+        ${barChartHTML}
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid var(--bd);border-radius:16px;padding:14px;margin-bottom:14px">
+      <div style="font-weight:700;font-size:14.5px;color:#0f172a;margin-bottom:10px">📈 និន្នាការមធ្យមភាគរួមរបស់ថ្នាក់ប្រចាំខែ (តុលា - កញ្ញា)</div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:4px;overflow-x:auto;padding-bottom:4px">
+        ${trendBarsHTML}
+      </div>
+    </div>
+
+    <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:16px;padding:14px">
+      <div style="font-weight:700;font-size:14px;color:#92400e;margin-bottom:8px">⚠️ បញ្ជីសិស្សនិទ្ទេស E និង F ដែលត្រូវយកចិត្តទុកដាក់បំប៉ន (${toKhNum(weakStudents.length)} នាក់)</div>
+      ${weakStudents.length ? `
+        <div class="w">
+          <table>
+            <thead><tr><th>ល.រ</th><th class="sn">គោត្តនាម-នាម</th><th>ភេទ</th><th>មធ្យមភាគ</th><th>និទ្ទេស</th></tr></thead>
+            <tbody>
+              ${weakStudents.map((st, idx) => `
+                <tr>
+                  <td>${idx + 1}</td>
+                  <td class="sn"><b>${E(st.name)}</b></td>
+                  <td>${st.sex === 'ស' ? 'ស្រី' : 'ប្រុស'}</td>
+                  <td style="font-weight:700;color:#dc2626">${st.val.toFixed(2)}</td>
+                  <td><b style="color:#dc2626">${getGradeLetter(st.val, 1)}</b></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      ` : '<div style="color:#16a34a;font-weight:600;font-size:13.5px">🎉 ល្អប្រសើរណាស់! មិនមានសិស្សជាប់និទ្ទេស E ឬ F ទេ។</div>'}
     </div>
   </div>`;
 },
@@ -5365,6 +5542,20 @@ theme(){
         btnShadow: '0 8px 22px rgba(99, 102, 241, 0.35), 0 2px 6px rgba(0,0,0,0.2)',
         btnGradOverlay: 'linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.02) 100%)'
       });
+    } else if (type === 'cyan_sunset') {
+      thUpdateMultiple({
+        ac: '#082f49', gd: '#ea580c', ok: '#0284c7', bk: '#0f172a', rd: '#e11d48', bg: '#f8fafc',
+        radius: '18px',
+        btnShadow: '0 8px 20px rgba(8, 47, 73, 0.28), 0 2px 6px rgba(0,0,0,0.12)',
+        btnGradOverlay: 'linear-gradient(135deg, rgba(56,189,248,0.28) 0%, rgba(255,255,255,0.02) 100%)'
+      });
+    } else if (type === 'teal_gold') {
+      thUpdateMultiple({
+        ac: '#113841', gd: '#d97706', ok: '#0d9488', bk: '#091e24', rd: '#be123c', bg: '#f1f5f4',
+        radius: '999px',
+        btnShadow: '0 8px 22px rgba(17, 56, 65, 0.35), 0 0 0 1.5px rgba(217, 119, 6, 0.45)',
+        btnGradOverlay: 'linear-gradient(180deg, rgba(253,224,71,0.22) 0%, rgba(255,255,255,0.02) 100%)'
+      });
     }
   };
 
@@ -5375,6 +5566,8 @@ theme(){
     <div class="preset-btn" style="background:linear-gradient(135deg, #0284c7, #2563eb)" onclick="applyThemePreset('ocean')">🌊 Ocean Luxury</div>
     <div class="preset-btn" style="background:linear-gradient(135deg, #059669, #10b981)" onclick="applyThemePreset('emerald')">💎 Emerald Glass</div>
     <div class="preset-btn" style="background:linear-gradient(135deg, #0f172a, #6366f1)" onclick="applyThemePreset('midnight')">🌌 Midnight Dark</div>
+    <div class="preset-btn" style="background:linear-gradient(135deg, #082f49, #0284c7 65%, #ea580c)" onclick="applyThemePreset('cyan_sunset')">🚀 Cyan & Sunset</div>
+    <div class="preset-btn" style="background:linear-gradient(135deg, #091e24, #113841 65%, #d97706);border:1.5px solid #fbbf24" onclick="applyThemePreset('teal_gold')">⚜️ Teal & Gold VIP</div>
   </div>
 
   <h2>ជ្រើសរើសចលនា និងការចុច (Animation & Touch UX)</h2>
@@ -5425,12 +5618,12 @@ theme(){
   
   <h2 style="margin-top:16px">ជ្រើសរើសពណ៌ប៊ូតុង និងផ្ទាំងក្រោយ</h2>
   <div class="f">
-    <div class="cp-box"><input type="color" value="${th.ac}" onchange="thUpdate('ac', this.value)"><span>ប៊ូតុងខៀវ</span></div>
-    <div class="cp-box"><input type="color" value="${th.gd}" onchange="thUpdate('gd', this.value)"><span>ប៊ូតុងលឿង</span></div>
-    <div class="cp-box"><input type="color" value="${th.ok}" onchange="thUpdate('ok', this.value)"><span>ប៊ូតុងបៃតង</span></div>
-    <div class="cp-box"><input type="color" value="${th.bk}" onchange="thUpdate('bk', this.value)"><span>ប៊ូតុងខ្មៅ</span></div>
-    <div class="cp-box"><input type="color" value="${th.rd}" onchange="thUpdate('rd', this.value)"><span>ប៊ូតុងក្រហម</span></div>
-    <div class="cp-box"><input type="color" value="${th.bg}" onchange="thUpdate('bg', this.value)"><span>ផ្ទៃខាងក្រោយ App</span></div>
+    <div class="cp-box"><input type="color" value="${th.ac}" oninput="thUpdateLive('ac', this.value)" onchange="thUpdateSaveOnly('ac', this.value)"><span>ប៊ូតុងខៀវ</span></div>
+    <div class="cp-box"><input type="color" value="${th.gd}" oninput="thUpdateLive('gd', this.value)" onchange="thUpdateSaveOnly('gd', this.value)"><span>ប៊ូតុងលឿង</span></div>
+    <div class="cp-box"><input type="color" value="${th.ok}" oninput="thUpdateLive('ok', this.value)" onchange="thUpdateSaveOnly('ok', this.value)"><span>ប៊ូតុងបៃតង</span></div>
+    <div class="cp-box"><input type="color" value="${th.bk}" oninput="thUpdateLive('bk', this.value)" onchange="thUpdateSaveOnly('bk', this.value)"><span>ប៊ូតុងខ្មៅ</span></div>
+    <div class="cp-box"><input type="color" value="${th.rd}" oninput="thUpdateLive('rd', this.value)" onchange="thUpdateSaveOnly('rd', this.value)"><span>ប៊ូតុងក្រហម</span></div>
+    <div class="cp-box"><input type="color" value="${th.bg}" oninput="thUpdateLive('bg', this.value)" onchange="thUpdateSaveOnly('bg', this.value)"><span>ផ្ទៃខាងក្រោយ App</span></div>
   </div>
 
   <div style="margin-top:20px" class="f">
@@ -5451,6 +5644,18 @@ bk(){
   </div>`;
 }
 };
+
+function thUpdateLive(key, val){
+  const th = getTheme();
+  th[key] = val;
+  applyTheme(th);
+}
+
+function thUpdateSaveOnly(key, val){
+  const th = getTheme();
+  th[key] = val;
+  saveTheme(th);
+}
 
 function thUpdate(key, val){
   const th = getTheme();
@@ -5547,7 +5752,7 @@ function R(){
   if (pg === 'sc') upd();
   if (pg === 'home') initDragAndDrop();
   if (pg === 'honor') initHonorDragSlots();
-  if (['cert', 'official', 'annual', 'honor', 'idcard'].includes(pg)) {
+  if (['cert', 'official', 'annual', 'honor', 'idcard', 'ilp'].includes(pg)) {
     setTimeout(updateAllPreviewsScale, 50);
   }
 }
