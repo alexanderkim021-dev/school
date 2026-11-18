@@ -737,19 +737,27 @@ td select.ilp-ui-sel.black{color:#0f172a}
   border-bottom: 2px solid #1e3a8a;
   padding-bottom: 6px;
 }
-.id-card-head-top { display: flex; align-items: center; gap: 8px; }
-.id-card-logo {
-  height: 58px !important;
-  width: auto !important;
-  flex-shrink: 0;
+.id-card-head-top {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 64px;
 }
-.id-card-kingdom { flex: 1; text-align: center; line-height: 1.5; color: #0f172a; }
-.id-card-kingdom .k1 { font-family: var(--title-font); font-size: 14px; }
-.id-card-kingdom .k2 { font-family: var(--title-font); font-size: 13px; }
+.id-card-logo {
+  position: absolute;
+  left: -2px;
+  top: 0;
+  height: 64px !important;
+  width: auto !important;
+}
+.id-card-kingdom { text-align: center; line-height: 1.5; color: #0f172a; padding-left: 22px; }
+.id-card-kingdom .k1 { font-family: var(--title-font); font-size: 14.5px; }
+.id-card-kingdom .k2 { font-family: var(--title-font); font-size: 13.5px; }
 .id-card-dept {
   text-align: center;
   font-family: var(--title-font);
-  font-size: 11px;
+  font-size: 12.5px;
   color: #1e3a8a;
   margin-top: 4px;
   line-height: 1.4;
@@ -760,12 +768,12 @@ td select.ilp-ui-sel.black{color:#0f172a}
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding-top: 14px;
+  padding-top: 10px;
 }
-.id-card-title-box { text-align: center; line-height: 1.5; margin-bottom: 14px; }
-.id-card-title-box .t-main { font-family: var(--title-font); font-size: 17px; color: #0f172a; }
-.id-card-title-box .t-sub { font-family: var(--title-font); font-size: 13px; color: #1e293b; margin-top: 3px; }
-.id-card-info-rows { text-align: left; font-size: 13.5px; line-height: 2; color: #0f172a; margin-top: 4px; }
+.id-card-title-box { text-align: center; line-height: 1.45; margin-bottom: 10px; }
+.id-card-title-box .t-main { font-family: var(--title-font); font-size: 18.5px; color: #0f172a; }
+.id-card-title-box .t-sub { font-family: var(--title-font); font-size: 14px; color: #1e293b; margin-top: 3px; }
+.id-card-info-rows { text-align: left; font-size: 13.5px; line-height: 1.95; color: #0f172a; margin-top: 2px; }
 .id-card-row { display: flex; align-items: baseline; gap: 5px; }
 .id-card-lbl { min-width: 98px; color: #1e293b; font-weight: 600; flex-shrink: 0; }
 .id-card-val { font-weight: 700; color: #0f172a; }
@@ -776,13 +784,13 @@ td select.ilp-ui-sel.black{color:#0f172a}
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 10px;
+  gap: 14px;
   margin-top: auto;
-  padding-top: 8px;
+  padding-top: 6px;
 }
 .id-card-photo-box {
-  width: 82px;
-  height: 104px;
+  width: 80px;
+  height: 102px;
   border: 1.5px solid #94a3b8;
   background: #f8fafc;
   overflow: hidden;
@@ -792,9 +800,10 @@ td select.ilp-ui-sel.black{color:#0f172a}
   justify-content: center;
 }
 .id-card-photo-box img { width: 100%; height: 100%; object-fit: cover; }
-.id-card-sign-box { flex: 1; text-align: center; font-size: 11.5px; line-height: 1.65; padding-bottom: 14px; }
-.id-card-school-line { font-size: 11.5px; margin-bottom: 2px; text-align: left; }
-.id-card-school-line b { font-family: var(--title-font); font-weight: normal; font-size: 11px; }
+.id-card-sign-box { flex: 1; text-align: right; font-size: 11.5px; line-height: 1.65; padding-bottom: 12px; padding-left: 8px; }
+.id-card-school-line { font-size: 11.5px; margin-bottom: 2px; text-align: right; }
+.id-card-school-line b { font-family: var(--title-font); font-weight: normal; font-size: 11.5px; }
+.id-card-sign-inner { display: inline-block; text-align: center; }
 
 /* តារាងកិត្តិយសទាំង ៨ ម៉ូដ (A4 Portrait) + 4-Sides Floating HUD */
 .honor-template-sheet {
@@ -1139,16 +1148,15 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .track-mini-table {
   width: 100%;
-  flex: 1;
-  height: 100%;
   border-collapse: collapse;
-  font-size: 10.5px;
-  margin: 3px 0 6px;
+  font-size: 11.2px;
+  margin: 2px 0 4px;
 }
 .track-mini-table th, .track-mini-table td {
   border: 1px solid #1e293b;
-  padding: 2px 4px;
+  padding: 2.2px 4px;
   text-align: center;
+  line-height: 1.3;
 }
 .track-mini-table th { background: #f1f5f9; font-weight: 700; }
 .booklet-pdf-mode .cert-responsive-stage {
@@ -1238,6 +1246,35 @@ td select.ilp-ui-sel.black{color:#0f172a}
   margin:12px 0 6px;font-size:13px;color:#0f172a;
 }
 .doc-page-break{page-break-before:always;margin-top:24px;padding-top:18px;border-top:2px dashed #cbd5e1}
+.docbook-pdf-mode {
+  width: 730px !important;
+  max-width: 730px !important;
+  padding: 0 !important;
+  margin: 0 auto !important;
+  box-shadow: none !important;
+  font-size: 11px !important;
+  line-height: 1.42 !important;
+}
+.docbook-pdf-mode .doc-book-table {
+  font-size: 10px !important;
+  margin: 5px 0 8px !important;
+}
+.docbook-pdf-mode .doc-book-table th,
+.docbook-pdf-mode .doc-book-table td {
+  padding: 3px 4px !important;
+}
+.docbook-pdf-mode .doc-section-bar {
+  font-size: 11.5px !important;
+  padding: 4px 8px !important;
+  margin: 8px 0 5px !important;
+}
+.docbook-pdf-mode .doc-page-break {
+  border-top: none !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  page-break-before: always !important;
+}
+
 @media print{
   .doc-book-sheet{width:100% !important;box-shadow:none !important;padding:0 !important;font-size:10.2px !important;line-height:1.3 !important}
   .doc-book-table{margin:3px 0 4px !important;font-size:10px !important}
@@ -2962,6 +2999,8 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
     const printTarget = element.querySelector('.cert-page-a4') || element.querySelector('.honor-template-sheet') || element;
     if (elementId === 'idCardPrintArea') element.classList.add('idcard-pdf-mode');
     if (elementId === 'trackingBookPrintArea') element.classList.add('booklet-pdf-mode');
+    const isDocBook = ['agreementPrintArea', 'teacherBookPrintArea', 'plan3yPrintArea'].includes(elementId);
+    if (isDocBook) element.classList.add('docbook-pdf-mode');
     const wrappers = document.querySelectorAll('.cert-scaler-wrapper, .a4-portrait-wrapper');
     const savedStyles = [];
     wrappers.forEach(w => {
@@ -2974,7 +3013,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
     element.style.display = 'block';
 
     const opt = {
-      margin: 0,
+      margin: isDocBook ? [8, 8, 8, 8] : 0,
       filename: `${reportName || 'ឯកសារសាលា'}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: { 
@@ -2984,12 +3023,13 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
         scrollY: 0,
         scrollX: 0
       },
+      pagebreak: { mode: ['css', 'legacy'] },
       jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait', compress: true }
     };
     try {
       const pdfBlob = await html2pdf().set(opt).from(printTarget).outputPdf('blob');
       element.style.display = prevDisplay;
-      element.classList.remove('idcard-pdf-mode', 'booklet-pdf-mode');
+      element.classList.remove('idcard-pdf-mode', 'booklet-pdf-mode', 'docbook-pdf-mode');
       savedStyles.forEach(s => { s.el.style.transform = s.transform; s.el.style.height = s.height; });
 
       const file = new File([pdfBlob], opt.filename, { type: 'application/pdf' });
@@ -3006,7 +3046,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       }
     } catch (e) {
       element.style.display = prevDisplay;
-      element.classList.remove('idcard-pdf-mode', 'booklet-pdf-mode');
+      element.classList.remove('idcard-pdf-mode', 'booklet-pdf-mode', 'docbook-pdf-mode');
       savedStyles.forEach(s => { s.el.style.transform = s.transform; s.el.style.height = s.height; });
       window.print();
     }
@@ -4652,10 +4692,10 @@ ilp(){
               <tr>
                 <th rowspan="2">និទ្ទេស</th>
                 <th rowspan="2">ដើមឆ្នាំ</th>
-                <th colspan="2" style="background:#eff6ff">ត្រីមាសទី ១<br><small>(តុលា-ធ្នូ)</small></th>
-                <th colspan="2" style="background:#f0fdf4">ត្រីមាសទី ២<br><small>(មករា-មីនា)</small></th>
-                <th colspan="2" style="background:#fefce8">ត្រីមាសទី ៣<br><small>(មេសា-មិថុនា)</small></th>
-                <th colspan="2" style="background:#fdf2f8">ត្រីមាសទី ៤<br><small>(កក្កដា-កញ្ញា)</small></th>
+                <th colspan="2" style="background:#eff6ff">ត្រីមាសទី ១<br><small>(វិច្ឆិកា-មករា)</small></th>
+                <th colspan="2" style="background:#f0fdf4">ត្រីមាសទី ២<br><small>(កុម្ភៈ-មេសា)</small></th>
+                <th colspan="2" style="background:#fefce8">ត្រីមាសទី ៣<br><small>(ឧសភា-កក្កដា)</small></th>
+                <th colspan="2" style="background:#fdf2f8">ត្រីមាសទី ៤<br><small>(សីហា-តុលា)</small></th>
               </tr>
               <tr>
                 <th>គ្រោង</th><th>ភាគរយ</th>
@@ -4769,10 +4809,10 @@ ilp(){
               <tr>
                 <th rowspan="2">និទ្ទេស</th>
                 <th rowspan="2">ដើមឆ្នាំ</th>
-                <th colspan="2">ត្រីមាសទី ១ (តុលា-ធ្នូ)</th>
-                <th colspan="2">ត្រីមាសទី ២ (មករា-មីនា)</th>
-                <th colspan="2">ត្រីមាសទី ៣ (មេសា-មិថុនា)</th>
-                <th colspan="2">ត្រីមាសទី ៤ (កក្កដា-កញ្ញា)</th>
+                <th colspan="2">ត្រីមាសទី ១ (វិច្ឆិកា-មករា)</th>
+                <th colspan="2">ត្រីមាសទី ២ (កុម្ភៈ-មេសា)</th>
+                <th colspan="2">ត្រីមាសទី ៣ (ឧសភា-កក្កដា)</th>
+                <th colspan="2">ត្រីមាសទី ៤ (សីហា-តុលា)</th>
               </tr>
               <tr>
                 <th>គ្រោង</th><th>ភាគរយ</th>
@@ -4893,9 +4933,9 @@ ilp(){
               <tr>
                 <td><b>${g}</b></td>
                 <td>${toKhNum(sbRec.base[g]||0)}</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>${toKhNum(qd.qGoal[g]||0)}</td>
+                <td>${toKhNum(qd.qGoal[g]||0)}</td>
+                <td>${toKhNum(qd.qGoal[g]||0)}</td>
                 <td><b>${toKhNum(qd.qGoal[g]||0)} នាក់ (${toKhNum(fmtPct(qd.qGoal[g], totalStu))})</b></td>
                 <td></td>
               </tr>
@@ -4903,9 +4943,9 @@ ilp(){
             <tr style="background:#f8fafc;font-weight:bold">
               <td>សរុប</td>
               <td>${toKhNum(sumGradesObj(sbRec.base))}</td>
-              <td></td>
-              <td></td>
-              <td></td>
+              <td>${toKhNum(sumGradesObj(qd.qGoal))}</td>
+              <td>${toKhNum(sumGradesObj(qd.qGoal))}</td>
+              <td>${toKhNum(sumGradesObj(qd.qGoal))}</td>
               <td>${toKhNum(sumGradesObj(qd.qGoal))}</td>
               <td></td>
             </tr>
@@ -5026,25 +5066,25 @@ ilp(){
         <div class="a4-portrait-wrapper">
           <div class="doc-book-sheet" id="teacherBookPrintArea">
             <!-- ទំព័រទី ១៖ ក្របសៀវភៅផែនការគ្រូបង្រៀន (ពេញ ១ សន្លឹក A4 ស្តង់ដារស្អាត) -->
-            <div style="min-height:1030px;border:4px double #15803d;outline:1.5px solid #16a34a;outline-offset:-8px;padding:38px 42px;display:flex;flex-direction:column;justify-content:space-between;text-align:center;position:relative;box-sizing:border-box;background:#fff">
-              <div style="padding-top:8px">
-                <div class="muol-title" style="font-size:19px;color:#0f172a;line-height:1.6">ព្រះរាជាណាចក្រកម្ពុជា</div>
-                <div class="muol-title" style="font-size:16.5px;color:#0f172a;line-height:1.6">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-                <div style="font-size:14px;letter-spacing:5px;color:#15803d;margin-top:4px">*** ❖ ***</div>
-                <img src="${getLogoSrc()}" style="height:102px;width:auto;margin:20px auto 10px;display:block" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
-                <div class="muol-title" style="font-size:17.5px;color:#1e3a8a;line-height:1.6">ក្រសួងអប់រំ យុវជន និងកីឡា</div>
-                <div style="font-size:16px;font-weight:bold;margin-top:6px;color:#1e293b">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : '')}</div>
-                <div class="muol-title" style="font-size:18px;color:#0f172a;margin-top:6px">${E(i.school || 'សាលារៀន')}</div>
+            <div style="min-height:1030px;border:4px double #15803d;outline:1.5px solid #16a34a;outline-offset:-8px;padding:36px 40px;display:flex;flex-direction:column;justify-content:space-between;text-align:center;position:relative;box-sizing:border-box;background:#fff">
+              <div style="padding-top:6px">
+                <div class="muol-title" style="font-size:21px;color:#0f172a;line-height:1.6">ព្រះរាជាណាចក្រកម្ពុជា</div>
+                <div class="muol-title" style="font-size:18.5px;color:#0f172a;line-height:1.6">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+                <div style="font-size:15px;letter-spacing:5px;color:#15803d;margin-top:4px">*** ❖ ***</div>
+                <img src="${getLogoSrc()}" style="height:122px;width:auto;margin:18px auto 10px;display:block" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+                <div class="muol-title" style="font-size:19.5px;color:#1e3a8a;line-height:1.6">ក្រសួងអប់រំ យុវជន និងកីឡា</div>
+                <div style="font-size:18px;font-weight:bold;margin-top:6px;color:#1e293b">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : '')}</div>
+                <div class="muol-title" style="font-size:20px;color:#0f172a;margin-top:6px">${E(i.school || 'សាលារៀន')}</div>
               </div>
 
-              <div style="margin:28px 0">
-                <div class="muol-title" style="font-size:36px;color:#15803d;line-height:1.65">សៀវភៅ</div>
-                <div class="muol-title" style="font-size:36px;color:#15803d;line-height:1.65">ផែនការគ្រូបង្រៀន</div>
-                <div style="font-size:19px;font-weight:bold;color:#1e3a8a;margin-top:16px">សម្រាប់ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
+              <div style="margin:24px 0">
+                <div class="muol-title" style="font-size:40px;color:#15803d;line-height:1.65">សៀវភៅ</div>
+                <div class="muol-title" style="font-size:40px;color:#15803d;line-height:1.65">ផែនការគ្រូបង្រៀន</div>
+                <div style="font-size:21px;font-weight:bold;color:#1e3a8a;margin-top:16px">សម្រាប់ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
               </div>
 
-              <div style="background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:14px;padding:22px 28px;text-align:left;font-size:16px;line-height:2.25">
-                <div>ឈ្មោះគ្រូបង្រៀន៖ <span class="muol-title" style="font-size:16px;color:#0f172a">${E(i.teacher || '........................................')}</span> (ឋានៈ៖ ${E(meta.rank || '...')})</div>
+              <div style="background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:14px;padding:24px 30px;text-align:left;font-size:17.5px;line-height:2.3">
+                <div>ឈ្មោះគ្រូបង្រៀន៖ <span class="muol-title" style="font-size:17.5px;color:#0f172a">${E(i.teacher || '........................................')}</span> (ឋានៈ៖ ${E(meta.rank || '...')})</div>
                 <div>មុខវិជ្ជាបង្រៀន៖ <b>${E(meta.subjectsTaught || curSubj.name)}</b></div>
                 <div>បង្រៀនថ្នាក់ទី៖ <b>${E(i.cls || '....................')}</b></div>
                 <div>លេខទូរស័ព្ទ៖ <b>${E(i.teacherPhone || '....................')}</b></div>
@@ -6015,23 +6055,23 @@ tracking(){
 
             <!-- ក្របមុខ (ស្តាំ)៖ ស្តង់ដារអនុវិទ្យាល័យ និង វិទ្យាល័យ -->
             <div class="track-half-page">
-              <div class="track-cover-box" style="border-color:#1e3a8a;outline-color:#2563eb;padding:24px 24px">
+              <div class="track-cover-box" style="border-color:#1e3a8a;outline-color:#2563eb;padding:20px 22px">
                 <div>
-                  <div class="muol-title" style="font-size:16px;color:#0f172a;line-height:1.6">ព្រះរាជាណាចក្រកម្ពុជា</div>
-                  <div class="muol-title" style="font-size:14.5px;color:#0f172a;line-height:1.6">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-                  <div style="font-size:12px;letter-spacing:3px;color:#1e3a8a;margin:2px 0">*** ❖ ***</div>
-                  <div class="muol-title" style="font-size:15px;color:#1e3a8a;margin-top:4px">ក្រសួងអប់រំ យុវជន និងកីឡា</div>
-                  <div style="font-weight:bold;font-size:14px;margin-top:4px">ខេត្ត~ក្រុង <b>${E(i.province || '........................................')}</b></div>
-                  <div class="muol-title" style="font-size:16px;color:#0f172a;margin-top:6px">${E(i.school || (currentLevel === 'high' ? 'វិទ្យាល័យ' : 'អនុវិទ្យាល័យ'))}</div>
-                  <div style="font-size:13.5px;font-weight:bold;margin-top:6px">ទូរស័ព្ទសាលា <b>${E(i.teacherPhone || '........................................')}</b></div>
+                  <div class="muol-title" style="font-size:17px;color:#0f172a;line-height:1.55">ព្រះរាជាណាចក្រកម្ពុជា</div>
+                  <div class="muol-title" style="font-size:15.5px;color:#0f172a;line-height:1.55">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+                  <img src="${logoSrc}" style="height:74px;width:auto;margin:8px auto 4px;display:block" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+                  <div class="muol-title" style="font-size:16px;color:#1e3a8a;margin-top:2px">ក្រសួងអប់រំ យុវជន និងកីឡា</div>
+                  <div class="muol-title" style="font-size:17px;color:#0f172a;margin-top:4px">${E(i.school || (currentLevel === 'high' ? 'វិទ្យាល័យ' : 'អនុវិទ្យាល័យ'))}</div>
+                  <div style="font-weight:bold;font-size:15px;margin-top:4px">ខេត្ត~ក្រុង <b>${E(i.province || '........................................')}</b></div>
+                  <div style="font-size:14px;font-weight:bold;margin-top:4px">ទូរស័ព្ទសាលា <b>${E(i.teacherPhone || '........................................')}</b></div>
                 </div>
 
-                <div style="margin:12px 0">
-                  <div class="muol-title" style="font-size:25px;color:#1e3a8a;line-height:1.6">សៀវភៅតាមដានការសិក្សា</div>
+                <div style="margin:8px 0">
+                  <div class="muol-title" style="font-size:27px;color:#1e3a8a;line-height:1.55">សៀវភៅតាមដានការសិក្សា</div>
                 </div>
 
-                <div style="text-align:left;font-size:13.5px;line-height:2.15;padding:6px 8px">
-                  <div>ឈ្មោះសិស្ស ៖ <span class="muol-title" style="font-size:14px;color:#b91c1c">${E(stu.name)}</span> &nbsp;&nbsp; ថ្នាក់ទី ៖ <b>« ${E(i.cls || '...')} »</b></div>
+                <div style="text-align:left;font-size:14.5px;line-height:2.05;padding:4px 8px">
+                  <div>ឈ្មោះសិស្ស ៖ <span class="muol-title" style="font-size:15px;color:#b91c1c">${E(stu.name)}</span> &nbsp;&nbsp; ថ្នាក់ទី ៖ <b>« ${E(i.cls || '...')} »</b></div>
                   <div>អត្តលេខ &nbsp;&nbsp;&nbsp; ៖ <b>${stdCode}</b> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ឆ្នាំសិក្សា ៖ <b>${toKhNum(currentYear)}</b></div>
                   <div>ថ្ងៃខែឆ្នាំកំណើត ៖ <b>${E(stu.dob || '........................................')}</b></div>
                   <div>ទីកន្លែងកំណើត ៖ <b>${E(stu.addr || '........................................')}</b></div>
@@ -6550,9 +6590,11 @@ idcard(){
                   </div>
 
                   <div class="id-card-sign-box">
-                    <div class="id-card-school-line">ជាសិស្ស <b>${E(schoolNameFull)}</b></div>
-                    <div>${solarDateStr}</div>
-                    <div style="font-weight:800;font-size:12.5px;margin-top:2px">នាយកសាលា</div>
+                    <div class="id-card-sign-inner">
+                      <div class="id-card-school-line">ជាសិស្ស <b>${E(schoolNameFull)}</b></div>
+                      <div>${solarDateStr}</div>
+                      <div style="font-weight:800;font-size:12.5px;margin-top:2px">នាយកសាលា</div>
+                    </div>
                   </div>
                 </div>
               </div>
