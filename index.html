@@ -1149,14 +1149,14 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .track-mini-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: 11.5px;
+  font-size: 11.8px;
   margin: 2px 0 6px;
 }
 .track-mini-table th, .track-mini-table td {
   border: 1px solid #1e293b;
-  padding: 2.2px 5px;
+  padding: 2.5px 5px;
   text-align: center;
-  line-height: 1.32;
+  line-height: 1.35;
 }
 .track-mini-table th { background: #f1f5f9; font-weight: 700; }
 .booklet-pdf-mode .cert-responsive-stage {
@@ -1246,6 +1246,53 @@ td select.ilp-ui-sel.black{color:#0f172a}
   margin:12px 0 6px;font-size:13px;color:#0f172a;
 }
 .doc-page-break{page-break-before:always;margin-top:24px;padding-top:18px;border-top:2px dashed #cbd5e1}
+
+.docbook-clean-pdf {
+  width: 100% !important;
+  max-width: 100% !important;
+  font-size: 10.5px !important;
+  line-height: 1.55 !important;
+}
+.docbook-clean-pdf * {
+  line-height: 1.55 !important;
+  overflow: visible !important;
+}
+.docbook-clean-pdf .official-header {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+.docbook-clean-pdf .official-header .side-box,
+.docbook-clean-pdf .official-header .center-box,
+.docbook-clean-pdf .director-sign-box,
+.docbook-clean-pdf .teacher-sign-box {
+  min-width: 0 !important;
+  max-width: 48% !important;
+}
+.docbook-clean-pdf .doc-book-table {
+  width: 100% !important;
+  table-layout: auto !important;
+  font-size: 9.8px !important;
+  margin: 4px 0 8px !important;
+}
+.docbook-clean-pdf .doc-book-table th,
+.docbook-clean-pdf .doc-book-table td {
+  padding: 3px 4px !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+}
+.docbook-clean-pdf .doc-section-bar {
+  font-size: 11px !important;
+  padding: 4px 8px !important;
+  margin: 8px 0 5px !important;
+}
+.docbook-clean-pdf .plan-cover-frame { min-height: 920px !important; padding: 24px 28px !important; }
+.docbook-clean-pdf .doc-page-break {
+  border-top: none !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+  page-break-before: always !important;
+}
+
 .docbook-pdf-mode {
   width: 750px !important;
   max-width: 750px !important;
@@ -3012,78 +3059,78 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   if (isStandalone && isMobileOrTablet && typeof html2pdf !== 'undefined') {
     setStatus('កំពុងបង្កើត PDF A4...');
 
-    const isDocBook = ['agreementPrintArea', 'teacherBookPrintArea', 'plan3yPrintArea'].includes(elementId);
-    const targetW = isLandscape ? 1122 : (isDocBook ? 750 : 794);
+    const isFixedSheet = ['certPrintArea', 'honorPrintArea', 'idCardPrintArea', 'trackingBookPrintArea'].includes(elementId);
 
-    // Extract clean inner content (just like ilpPrintArea) without any scaled stage/wrapper
-    const sourceNode = element.querySelector('.cert-page-a4') || element.querySelector('.honor-template-sheet') || element;
+    if (isFixedSheet) {
+      const targetW = isLandscape ? 1122 : 794;
+      const sourceNode = element.querySelector('.cert-page-a4') || element.querySelector('.honor-template-sheet') || element;
+      const cloned = document.createElement('div');
+      cloned.innerHTML = sourceNode.innerHTML;
+      cloned.className = sourceNode.className;
+      cloned.style.cssText = `display:block;width:${targetW}px;max-width:${targetW}px;background:#fff;color:#000;margin:0;padding:0;box-sizing:border-box;box-shadow:none;`;
+
+      if (elementId === 'idCardPrintArea') cloned.classList.add('idcard-pdf-mode');
+      if (elementId === 'trackingBookPrintArea') cloned.classList.add('booklet-pdf-mode');
+
+      cloned.querySelectorAll('.cert-scaler-wrapper, .a4-portrait-wrapper').forEach(w => {
+        w.style.transform = 'none';
+        w.style.height = 'auto';
+        w.style.width = targetW + 'px';
+      });
+
+      const appEl = document.getElementById('app');
+      const savedScrollY = window.scrollY || 0;
+      const prevAppDisplay = appEl ? appEl.style.display : '';
+      if (appEl) appEl.style.display = 'none';
+      window.scrollTo(0, 0);
+
+      const stagingHost = document.createElement('div');
+      stagingHost.style.cssText = `position:relative;left:0;top:0;width:${targetW}px;background:#fff;margin:0;padding:0;overflow:visible;`;
+      stagingHost.appendChild(cloned);
+      document.body.appendChild(stagingHost);
+
+      const opt = {
+        margin: 0,
+        filename: `${reportName || 'ឯកសារសាលា'}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, width: targetW, windowWidth: targetW, x: 0, y: 0, scrollY: 0, scrollX: 0 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait', compress: true }
+      };
+
+      try {
+        const pdfBlob = await html2pdf().set(opt).from(cloned).outputPdf('blob');
+        stagingHost.remove();
+        if (appEl) appEl.style.display = prevAppDisplay;
+        window.scrollTo(0, savedScrollY);
+        await shareOrDownloadPdfBlob(pdfBlob, opt.filename, reportName);
+      } catch (e) {
+        if (stagingHost.parentNode) stagingHost.remove();
+        if (appEl) appEl.style.display = prevAppDisplay;
+        window.scrollTo(0, savedScrollY);
+        window.print();
+      }
+      return;
+    }
+
+    // Standard document / report flow (EXACT SAME method as ilpPrintArea so it NEVER clips right-side or Khmer vowels!)
     const cloned = document.createElement('div');
-    cloned.innerHTML = sourceNode.innerHTML;
-    cloned.className = sourceNode.className;
-    cloned.style.cssText = `display:block;width:${targetW}px;max-width:${targetW}px;background:#fff;color:#000;margin:0;padding:${isDocBook ? '8px 14px' : '0'};box-sizing:border-box;box-shadow:none;`;
-
-    if (elementId === 'idCardPrintArea') cloned.classList.add('idcard-pdf-mode');
-    if (elementId === 'trackingBookPrintArea') cloned.classList.add('booklet-pdf-mode');
-    if (isDocBook) cloned.classList.add('docbook-pdf-mode');
-
-    cloned.querySelectorAll('.cert-scaler-wrapper, .a4-portrait-wrapper').forEach(w => {
-      w.style.transform = 'none';
-      w.style.height = 'auto';
-      w.style.width = targetW + 'px';
-    });
-
-    // Place cleanly at (0,0) on document.body while temporarily hiding #app so iOS WebKit never clips negative-left offscreen elements!
-    const appEl = document.getElementById('app');
-    const savedScrollY = window.scrollY || 0;
-    const prevAppDisplay = appEl ? appEl.style.display : '';
-    if (appEl) appEl.style.display = 'none';
-    window.scrollTo(0, 0);
-
-    const stagingHost = document.createElement('div');
-    stagingHost.id = 'pdfIsolatedStagingHost';
-    stagingHost.style.cssText = `position:relative;left:0;top:0;width:${targetW}px;background:#fff;margin:0;padding:0;overflow:visible;`;
-    stagingHost.appendChild(cloned);
-    document.body.appendChild(stagingHost);
+    cloned.innerHTML = element.innerHTML;
+    cloned.className = 'ilp-print-container docbook-clean-pdf';
+    cloned.style.cssText = 'display:block;width:100%;max-width:100%;background:#fff;color:#000;padding:8px 14px;box-sizing:border-box;';
 
     const opt = {
-      margin: isDocBook ? [6, 5, 6, 5] : 0,
+      margin: [6, 6, 6, 6],
       filename: `${reportName || 'ឯកសារសាលា'}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: {
-        scale: 2,
-        useCORS: true,
-        width: targetW,
-        windowWidth: targetW,
-        x: 0,
-        y: 0,
-        scrollY: 0,
-        scrollX: 0
-      },
+      html2canvas: { scale: 2, useCORS: true, scrollY: 0, scrollX: 0 },
       pagebreak: { mode: ['css', 'legacy'] },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait', compress: true }
+      jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait' }
     };
 
     try {
       const pdfBlob = await html2pdf().set(opt).from(cloned).outputPdf('blob');
-      stagingHost.remove();
-      if (appEl) appEl.style.display = prevAppDisplay;
-      window.scrollTo(0, savedScrollY);
-
-      const file = new File([pdfBlob], opt.filename, { type: 'application/pdf' });
-      if (navigator.canShare && navigator.canShare({ files: [file] })) {
-        await navigator.share({ files: [file], title: reportName, text: 'ឯកសារផ្លូវការ (A4)' });
-        setStatus('បានចែករំលែក PDF ជោគជ័យ ✓');
-      } else {
-        const downloadUrl = URL.createObjectURL(pdfBlob);
-        const a = document.createElement('a');
-        a.href = downloadUrl; a.download = opt.filename; a.click();
-        URL.revokeObjectURL(downloadUrl);
-        setStatus('បានទាញយក PDF ជោគជ័យ ✓');
-      }
+      await shareOrDownloadPdfBlob(pdfBlob, opt.filename, reportName);
     } catch (e) {
-      if (stagingHost.parentNode) stagingHost.remove();
-      if (appEl) appEl.style.display = prevAppDisplay;
-      window.scrollTo(0, savedScrollY);
       window.print();
     }
   } else {
@@ -3095,6 +3142,20 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
     }
     styleSheet.innerHTML = `@media print { @page { size: A4 ${isLandscape ? 'landscape' : 'portrait'}; margin: ${isLandscape ? '3mm' : '8mm 12mm'} !important; } }`;
     setTimeout(() => window.print(), 100);
+  }
+}
+
+async function shareOrDownloadPdfBlob(pdfBlob, filename, title){
+  const file = new File([pdfBlob], filename, { type: 'application/pdf' });
+  if (navigator.canShare && navigator.canShare({ files: [file] })) {
+    await navigator.share({ files: [file], title: title, text: 'ឯកសារផ្លូវការ (A4)' });
+    setStatus('បានចែករំលែក PDF ជោគជ័យ ✓');
+  } else {
+    const downloadUrl = URL.createObjectURL(pdfBlob);
+    const a = document.createElement('a');
+    a.href = downloadUrl; a.download = filename; a.click();
+    URL.revokeObjectURL(downloadUrl);
+    setStatus('បានទាញយក PDF ជោគជ័យ ✓');
   }
 }
 
@@ -5102,7 +5163,7 @@ ilp(){
         <div class="a4-portrait-wrapper">
           <div class="doc-book-sheet" id="teacherBookPrintArea">
             <!-- ទំព័រទី ១៖ ក្របសៀវភៅផែនការគ្រូបង្រៀន (ពេញ ១ សន្លឹក A4 ស្តង់ដារស្អាត) -->
-            <div style="min-height:1030px;border:4px double #15803d;outline:1.5px solid #16a34a;outline-offset:-8px;padding:36px 40px;display:flex;flex-direction:column;justify-content:space-between;text-align:center;position:relative;box-sizing:border-box;background:#fff">
+            <div class="plan-cover-frame" style="min-height:1010px;border:4px double #15803d;outline:1.5px solid #16a34a;outline-offset:-8px;padding:36px 40px;display:flex;flex-direction:column;justify-content:space-between;text-align:center;position:relative;box-sizing:border-box;background:#fff">
               <div style="padding-top:6px">
                 <div class="muol-title" style="font-size:21px;color:#0f172a;line-height:1.6">ព្រះរាជាណាចក្រកម្ពុជា</div>
                 <div class="muol-title" style="font-size:18.5px;color:#0f172a;line-height:1.6">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
