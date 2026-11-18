@@ -405,8 +405,8 @@ td select.ilp-ui-sel.black{color:#0f172a}
   margin-bottom: 8px;
 }
 .ilp-photo-box {
-  width: 88px;
-  height: 110px;
+  width: 86px;
+  height: 108px;
   border: 1px solid #444;
   display: flex;
   align-items: center;
@@ -414,7 +414,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
   overflow: hidden;
   background: #f8fafc;
   flex-shrink: 0;
-  margin-top: 24px;
+  margin-top: 46px;
 }
 .ilp-photo-box img { width: 100%; height: 100%; object-fit: cover; }
 .ilp-meta-grid {
@@ -1151,6 +1151,31 @@ td select.ilp-ui-sel.black{color:#0f172a}
   text-align: center;
 }
 .track-mini-table th { background: #f1f5f9; font-weight: 700; }
+.booklet-pdf-mode .cert-responsive-stage {
+  background: transparent !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  width: 1122px !important;
+  height: 792px !important;
+  overflow: hidden !important;
+}
+.booklet-pdf-mode .cert-scaler-wrapper {
+  transform: none !important;
+  width: 1122px !important;
+  height: 792px !important;
+}
+.booklet-pdf-mode .track-booklet-a4 {
+  width: 1122px !important;
+  height: 792px !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  page-break-after: always !important;
+}
+.booklet-pdf-mode .cert-responsive-stage:last-child .track-booklet-a4 {
+  page-break-after: auto !important;
+}
+
 @media print {
   .track-booklet-a4 {
     width: 297mm !important;
@@ -1205,7 +1230,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
   width:100%;border-collapse:collapse;margin:8px 0 12px;font-size:11.5px;
 }
 .doc-book-table th, .doc-book-table td{
-  border:1px solid #222;padding:4px 5px;text-align:center;
+  border:1px solid #222;padding:4px 5px;text-align:center;white-space:normal;word-wrap:break-word;
 }
 .doc-book-table th{background:#f1f5f9;font-weight:700}
 .doc-section-bar{
@@ -2959,7 +2984,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
         scrollY: 0,
         scrollX: 0
       },
-      jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait' }
+      jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait', compress: true }
     };
     try {
       const pdfBlob = await html2pdf().set(opt).from(printTarget).outputPdf('blob');
@@ -4811,7 +4836,7 @@ ilp(){
       </div>
       <div class="f row-2">
         <label>នាយករងបច្ចេកទេស<input value="${E(meta.deputyTechName)}" onchange="setPlanMeta('deputyTechName', this.value)"></label>
-        <label>ថ្នាក់ និងមុខវិជ្ជាបង្រៀន (ឧ. 7A-ខ្មែរ, 8A-ខ្មែរ, 9A-ខ្មែរ)<input placeholder="ឧ. 7A-ភាសាខ្មែរ, 8A-ភាសាខ្មែរ, 9A-ភាសាខ្មែរ" value="${E(meta.subjectsTaught)}" onchange="setPlanMeta('subjectsTaught', this.value)"></label>
+        <label>មុខវិជ្ជាបង្រៀន<input placeholder="បញ្ចូលមុខវិជ្ជាបង្រៀន" value="${E(meta.subjectsTaught)}" onchange="setPlanMeta('subjectsTaught', this.value)"></label>
       </div>
       <div class="f" style="margin-bottom:0">
         <label>អាសយដ្ឋានសាលារៀន (ភូមិ ឃុំ/សង្កាត់ ក្រុង/ស្រុក/ខណ្ឌ)<input value="${E(fullLocationStr)}" onchange="setPlanMeta('commune', this.value);setPlanMeta('district', '')"></label>
@@ -4983,7 +5008,7 @@ ilp(){
           ${subjs.map((sb, idx) => `<option value="${idx}" ${idx===planSubjIdx?'selected':''}>📘 មុខវិជ្ជា៖ ${E(sb.name)}</option>`).join('')}
         </select>
         <select onchange="window.planBookScope=this.value;R()">
-          <option value="ordered" ${window.planBookScope==='ordered'?'selected':''}>📑 បោះពុម្ពតាមលំដាប់ថ្នាក់ (7A ➔ 8A ➔ 9A)</option>
+          <option value="ordered" ${window.planBookScope==='ordered'?'selected':''}>📑 បោះពុម្ពតាមលំដាប់ថ្នាក់</option>
           <option value="single" ${window.planBookScope==='single'?'selected':''}>📄 បោះពុម្ពតែ ១ មុខវិជ្ជាដែលបានរើស</option>
           <option value="all_subjs" ${window.planBookScope==='all_subjs'?'selected':''}>📚 បោះពុម្ពរួមគ្រប់មុខវិជ្ជាក្នុងថ្នាក់</option>
         </select>
@@ -4995,7 +5020,7 @@ ilp(){
         </label>
         <button class="bt" onclick="executeStandardPrint('teacherBookPrintArea', 'សៀវភៅផែនការគ្រូបង្រៀន', false)">🖨️ បោះពុម្ពសៀវភៅផែនការគ្រូ (A4)</button>
       </div>
-      <small class="hint-note">💡 <b>ព័ត៌មានរូបថត និងលំដាប់ថ្នាក់៖</b> ប្រអប់រូបថត ៤x៦ ទាញយកអូតូពី <b>«ព័ត៌មានសាលា និងគ្រូ»</b> ឬអាចចុចផ្ទាល់លើប្រអប់ ៤x៦ ដើម្បីប្តូររូបដោយឡែក។ តារាងត្រូវបានតម្រៀបតាមលំដាប់ថ្នាក់ (7A ➔ 8A ➔ 9A) ស្វ័យប្រវត្តិ។</small>
+      <small class="hint-note">💡 <b>ព័ត៌មានរូបថត និងលំដាប់ថ្នាក់៖</b> ប្រអប់រូបថត ៤x៦ ទាញយកអូតូពី <b>«ព័ត៌មានសាលា និងគ្រូ»</b> ឬអាចចុចផ្ទាល់លើប្រអប់ ៤x៦ ដើម្បីប្តូររូបដោយឡែក។ តារាងត្រូវបានតម្រៀបតាមលំដាប់ថ្នាក់ដោយស្វ័យប្រវត្តិ។</small>
 
       <div class="a4-portrait-stage">
         <div class="a4-portrait-wrapper">
@@ -5276,22 +5301,22 @@ ilp(){
             </table>
 
             <div class="doc-section-bar">វត្ថុបំណងអភិវឌ្ឍវិជ្ជាជីវៈប្រចាំឆ្នាំរបស់គ្រូបង្រៀន</div>
-            <table class="doc-book-table">
+            <table class="doc-book-table" style="table-layout:fixed;width:100%">
               <thead>
                 <tr>
                   <th>វត្ថុបំណង និងសកម្មភាពអភិវឌ្ឍវិជ្ជាជីវៈ</th>
-                  <th style="width:120px">ចាប់ពីពេលណា</th>
-                  <th style="width:120px">ដល់ពេលណា</th>
+                  <th style="width:95px">ចាប់ពីពេលណា</th>
+                  <th style="width:95px">ដល់ពេលណា</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="text-align:left"><b>១) បង្កើនគុណវុឌ្ឍគ្រូបង្រៀន៖</b> សិក្សា និងអនុវត្តការធ្វើតេស្តស្តង់ដាវាយតម្លៃសមត្ថភាពសិស្ស ផលិតវិញ្ញាសាស្តង់ដា និងប្រើប្រាស់បច្ចេកវិទ្យាឌីជីថលតាមដានផែនការសិក្សាសិស្សម្នាក់ៗ (ILP)។</td>
+                  <td style="text-align:left;white-space:normal;word-break:break-word;line-height:1.45"><b>១) បង្កើនគុណវុឌ្ឍគ្រូបង្រៀន៖</b> សិក្សា និងអនុវត្តការធ្វើតេស្តស្តង់ដាវាយតម្លៃសមត្ថភាពសិស្ស ផលិតវិញ្ញាសាស្តង់ដា និងប្រើប្រាស់បច្ចេកវិទ្យាឌីជីថលតាមដានផែនការសិក្សាសិស្សម្នាក់ៗ (ILP)។</td>
                   <td>ខែធ្នូ</td>
                   <td>ខែសីហា</td>
                 </tr>
                 <tr>
-                  <td style="text-align:left"><b>២) ជួយបង្វឹកគ្រូក្នុងសាលា៖</b> ចូលរួមចែករំលែកបំណិនឌីជីថល និងការធ្វើកិច្ចព្រមព្រៀងគ្រូបង្រៀនដល់គ្រូក្នុងសាលាចំនួន <b>${toKhNum(ae.peerTrainCount)} នាក់</b> (ស្រី <b>${toKhNum(ae.peerTrainFemale)} នាក់</b>)។</td>
+                  <td style="text-align:left;white-space:normal;word-break:break-word;line-height:1.45"><b>២) ជួយបង្វឹកគ្រូក្នុងសាលា៖</b> ចូលរួមចែករំលែកបំណិនឌីជីថល និងការធ្វើកិច្ចព្រមព្រៀងគ្រូបង្រៀនដល់គ្រូក្នុងសាលាចំនួន <b>${toKhNum(ae.peerTrainCount)} នាក់</b> (ស្រី <b>${toKhNum(ae.peerTrainFemale)} នាក់</b>)។</td>
                   <td>ខែធ្នូ</td>
                   <td>ខែសីហា</td>
                 </tr>
@@ -5584,7 +5609,7 @@ tracking(){
   const i = S.info;
   const logoSrc = getLogoSrc();
   if (!S.st.length) {
-    return head('សៀវភៅតាមដានការសិក្សា (A4 ផ្តេក កឹបកណ្តាល)') + `<div class="card"><div class="em">មិនទាន់មានឈ្មោះសិស្សក្នុងបញ្ជី! សូមបញ្ចូលឈ្មោះសិស្សជាមុនសិន។</div></div>`;
+    return head('សៀវភៅតាមដានការសិក្សា') + `<div class="card"><div class="em">មិនទាន់មានឈ្មោះសិស្សក្នុងបញ្ជី! សូមបញ្ចូលឈ្មោះសិស្សជាមុនសិន។</div></div>`;
   }
   if (!window.trackStuId || !S.st.some(x => x.id === window.trackStuId)) window.trackStuId = S.st[0].id;
   if (!window.trackBookMode) window.trackBookMode = 'fullbook';
@@ -6120,12 +6145,12 @@ tracking(){
 
   const fullBookletHtml = sheet1_OuterCover + sheet2_InsideCover + termSheetsHtml;
 
-  return head('សៀវភៅតាមដានការសិក្សា (A4 ផ្តេក កឹបកណ្តាល)') + `<div class="card">
+  return head('សៀវភៅតាមដានការសិក្សា') + `<div class="card">
     <div class="f row-2">
       <select onchange="window.trackStuId=+this.value;R()">
         ${S.st.map((st, idx) => `<option value="${st.id}" ${st.id===stu.id?'selected':''}>${idx + 1}. ${E(st.name)}</option>`).join('')}
       </select>
-      <button class="bt" onclick="executeStandardPrint('trackingBookPrintArea', 'សៀវភៅតាមដាន_${E(stu.name)}', true)">🖨️ បោះពុម្ពសៀវភៅ (A4 ផ្តេក កឹបកណ្តាល)</button>
+      <button class="bt" onclick="executeStandardPrint('trackingBookPrintArea', 'សៀវភៅតាមដាន_${E(stu.name)}', true)">🖨️ បោះពុម្ពសៀវភៅតាមដាន</button>
     </div>
     <small class="hint-note">💡 <b>ស្តង់ដារក្រសួងអប់រំ ១០០%៖</b> បែងចែកទម្រង់ក្របមុខ ប្រវត្តិរូប បទបញ្ជាផ្ទៃក្នុង និងតារាងពិន្ទុពេញទំព័រ A5 តាមកម្រិត <b>(បឋមសិក្សា៖ ១៦ មុខវិជ្ជាគូស ✓ | អនុវិទ្យាល័យ និងវិទ្យាល័យ៖ ១៥ មុខវិជ្ជា + កិច្ចសន្យាអាណាព្យាបាល)</b>។</small>
 
@@ -6651,14 +6676,32 @@ theme(){
     </label>
   </div>
   
-  <h2 style="margin-top:16px">ជ្រើសរើសពណ៌ប៊ូតុង និងផ្ទាំងក្រោយ</h2>
-  <div class="f">
-    <div class="cp-box"><input type="color" value="${th.ac}" oninput="thUpdateLive('ac', this.value)" onchange="thUpdateSaveOnly('ac', this.value)"><span>ប៊ូតុងខៀវ</span></div>
-    <div class="cp-box"><input type="color" value="${th.gd}" oninput="thUpdateLive('gd', this.value)" onchange="thUpdateSaveOnly('gd', this.value)"><span>ប៊ូតុងលឿង</span></div>
-    <div class="cp-box"><input type="color" value="${th.ok}" oninput="thUpdateLive('ok', this.value)" onchange="thUpdateSaveOnly('ok', this.value)"><span>ប៊ូតុងបៃតង</span></div>
-    <div class="cp-box"><input type="color" value="${th.bk}" oninput="thUpdateLive('bk', this.value)" onchange="thUpdateSaveOnly('bk', this.value)"><span>ប៊ូតុងខ្មៅ</span></div>
-    <div class="cp-box"><input type="color" value="${th.rd}" oninput="thUpdateLive('rd', this.value)" onchange="thUpdateSaveOnly('rd', this.value)"><span>ប៊ូតុងក្រហម</span></div>
-    <div class="cp-box"><input type="color" value="${th.bg}" oninput="thUpdateLive('bg', this.value)" onchange="thUpdateSaveOnly('bg', this.value)"><span>ផ្ទៃខាងក្រោយ App</span></div>
+  <h2 style="margin-top:16px">ជ្រើសរើសពណ៌តាមឈ្មោះប៊ូតុង និងផ្ទាំងក្រោយ</h2>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:12px">
+    <div class="cp-box" style="background:#f8fafc;padding:8px 10px;border-radius:10px;border:1px solid var(--bd)">
+      <input type="color" value="${th.ac}" oninput="thUpdateLive('ac', this.value)" onchange="thUpdateSaveOnly('ac', this.value)">
+      <div style="text-align:left;line-height:1.35"><b style="font-size:13px">ប៊ូតុងគោល (ព័ត៌មានសាលា, ប្រវត្តិរូបសិស្ស, កាតសិស្ស)</b></div>
+    </div>
+    <div class="cp-box" style="background:#f8fafc;padding:8px 10px;border-radius:10px;border:1px solid var(--bd)">
+      <input type="color" value="${th.gd}" oninput="thUpdateLive('gd', this.value)" onchange="thUpdateSaveOnly('gd', this.value)">
+      <div style="text-align:left;line-height:1.35"><b style="font-size:13px">ប៊ូតុងពិន្ទុ (តារាងពិន្ទុប្រចាំខែ, សរុបពិន្ទុឆមាស)</b></div>
+    </div>
+    <div class="cp-box" style="background:#f8fafc;padding:8px 10px;border-radius:10px;border:1px solid var(--bd)">
+      <input type="color" value="${th.ok}" oninput="thUpdateLive('ok', this.value)" onchange="thUpdateSaveOnly('ok', this.value)">
+      <div style="text-align:left;line-height:1.35"><b style="font-size:13px">ប៊ូតុងរក្សាទុក & Backup / Restore</b></div>
+    </div>
+    <div class="cp-box" style="background:#f8fafc;padding:8px 10px;border-radius:10px;border:1px solid var(--bd)">
+      <input type="color" value="${th.bk}" oninput="thUpdateLive('bk', this.value)" onchange="thUpdateSaveOnly('bk', this.value)">
+      <div style="text-align:left;line-height:1.35"><b style="font-size:13px">ប៊ូតុងតារាងអវត្តមាន</b></div>
+    </div>
+    <div class="cp-box" style="background:#f8fafc;padding:8px 10px;border-radius:10px;border:1px solid var(--bd)">
+      <input type="color" value="${th.rd}" oninput="thUpdateLive('rd', this.value)" onchange="thUpdateSaveOnly('rd', this.value)">
+      <div style="text-align:left;line-height:1.35"><b style="font-size:13px">ប៊ូតុងសម្អាតទិន្នន័យ / លុប</b></div>
+    </div>
+    <div class="cp-box" style="background:#f8fafc;padding:8px 10px;border-radius:10px;border:1px solid var(--bd)">
+      <input type="color" value="${th.bg}" oninput="thUpdateLive('bg', this.value)" onchange="thUpdateSaveOnly('bg', this.value)">
+      <div style="text-align:left;line-height:1.35"><b style="font-size:13px">ផ្ទៃខាងក្រោយកម្មវិធី (Background)</b></div>
+    </div>
   </div>
 
   <div style="margin-top:20px" class="f">
