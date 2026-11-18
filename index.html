@@ -1148,15 +1148,17 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .track-mini-table {
   width: 100%;
+  flex: 1;
+  height: 100%;
   border-collapse: collapse;
-  font-size: 11.2px;
-  margin: 2px 0 4px;
+  font-size: 12px;
+  margin: 2px 0 6px;
 }
 .track-mini-table th, .track-mini-table td {
   border: 1px solid #1e293b;
-  padding: 2.2px 4px;
+  padding: 1.5px 5px;
   text-align: center;
-  line-height: 1.3;
+  line-height: 1.25;
 }
 .track-mini-table th { background: #f1f5f9; font-weight: 700; }
 .booklet-pdf-mode .cert-responsive-stage {
@@ -1249,11 +1251,23 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .docbook-pdf-mode {
   width: 730px !important;
   max-width: 730px !important;
-  padding: 0 !important;
-  margin: 0 auto !important;
+  padding: 0 4px !important;
+  margin: 0 !important;
   box-shadow: none !important;
-  font-size: 11px !important;
-  line-height: 1.42 !important;
+  font-size: 10.8px !important;
+  line-height: 1.4 !important;
+  box-sizing: border-box !important;
+}
+.docbook-pdf-mode .official-header,
+.docbook-pdf-mode .doc-book-table {
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+.docbook-pdf-mode .director-sign-box,
+.docbook-pdf-mode .teacher-sign-box {
+  min-width: 210px !important;
+  max-width: 250px !important;
 }
 .docbook-pdf-mode .doc-book-table {
   font-size: 10px !important;
@@ -3009,9 +3023,13 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       w.style.height = 'auto';
     });
 
+    const savedScrollY = window.scrollY || 0;
+    window.scrollTo(0, 0);
+
     const prevDisplay = element.style.display;
     element.style.display = 'block';
 
+    const targetW = isLandscape ? 1122 : (isDocBook ? 730 : 794);
     const opt = {
       margin: isDocBook ? [8, 8, 8, 8] : 0,
       filename: `${reportName || 'ឯកសារសាលា'}.pdf`,
@@ -3019,7 +3037,10 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       html2canvas: { 
         scale: 2, 
         useCORS: true,
-        windowWidth: isLandscape ? 1123 : 794,
+        width: targetW,
+        windowWidth: targetW,
+        x: 0,
+        y: 0,
         scrollY: 0,
         scrollX: 0
       },
@@ -3028,6 +3049,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
     };
     try {
       const pdfBlob = await html2pdf().set(opt).from(printTarget).outputPdf('blob');
+      window.scrollTo(0, savedScrollY);
       element.style.display = prevDisplay;
       element.classList.remove('idcard-pdf-mode', 'booklet-pdf-mode', 'docbook-pdf-mode');
       savedStyles.forEach(s => { s.el.style.transform = s.transform; s.el.style.height = s.height; });
@@ -3048,6 +3070,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       element.style.display = prevDisplay;
       element.classList.remove('idcard-pdf-mode', 'booklet-pdf-mode', 'docbook-pdf-mode');
       savedStyles.forEach(s => { s.el.style.transform = s.transform; s.el.style.height = s.height; });
+      window.scrollTo(0, savedScrollY);
       window.print();
     }
   } else {
