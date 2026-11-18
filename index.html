@@ -1148,17 +1148,15 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .track-mini-table {
   width: 100%;
-  flex: 1;
-  height: 100%;
   border-collapse: collapse;
-  font-size: 12px;
+  font-size: 11.5px;
   margin: 2px 0 6px;
 }
 .track-mini-table th, .track-mini-table td {
   border: 1px solid #1e293b;
-  padding: 1.5px 5px;
+  padding: 2.8px 5px;
   text-align: center;
-  line-height: 1.25;
+  line-height: 1.35;
 }
 .track-mini-table th { background: #f1f5f9; font-weight: 700; }
 .booklet-pdf-mode .cert-responsive-stage {
@@ -1255,8 +1253,12 @@ td select.ilp-ui-sel.black{color:#0f172a}
   margin: 0 !important;
   box-shadow: none !important;
   font-size: 10.8px !important;
-  line-height: 1.4 !important;
+  line-height: 1.65 !important;
   box-sizing: border-box !important;
+}
+.docbook-pdf-mode * {
+  line-height: 1.6 !important;
+  overflow: visible !important;
 }
 .docbook-pdf-mode .official-header,
 .docbook-pdf-mode .doc-book-table {
@@ -3005,37 +3007,46 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
   if (!element) { window.print(); return; }
 
   const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
-
   const isMobileOrTablet = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
   if (isStandalone && isMobileOrTablet && typeof html2pdf !== 'undefined') {
     setStatus('កំពុងបង្កើត PDF A4...');
-    
-    const printTarget = element.querySelector('.cert-page-a4') || element.querySelector('.honor-template-sheet') || element;
-    if (elementId === 'idCardPrintArea') element.classList.add('idcard-pdf-mode');
-    if (elementId === 'trackingBookPrintArea') element.classList.add('booklet-pdf-mode');
+
     const isDocBook = ['agreementPrintArea', 'teacherBookPrintArea', 'plan3yPrintArea'].includes(elementId);
-    if (isDocBook) element.classList.add('docbook-pdf-mode');
-    const wrappers = document.querySelectorAll('.cert-scaler-wrapper, .a4-portrait-wrapper');
-    const savedStyles = [];
-    wrappers.forEach(w => {
-      savedStyles.push({ el: w, transform: w.style.transform, height: w.style.height });
+    const targetW = isLandscape ? 1122 : (isDocBook ? 730 : 794);
+
+    // Clone into an isolated off-screen stage directly on document.body so mobile <main> width never clips the right side!
+    const stagingHost = document.createElement('div');
+    stagingHost.id = 'pdfIsolatedStagingHost';
+    stagingHost.style.cssText = `position:fixed;left:-9999px;top:0;width:${targetW}px;background:#fff;z-index:-1;overflow:visible;margin:0;padding:0;`;
+
+    const sourceNode = element.querySelector('.cert-page-a4') || element.querySelector('.honor-template-sheet') || element;
+    const cloned = sourceNode.cloneNode(true);
+    cloned.style.display = 'block';
+    cloned.style.width = targetW + 'px';
+    cloned.style.maxWidth = targetW + 'px';
+    cloned.style.margin = '0';
+    cloned.style.boxShadow = 'none';
+
+    if (elementId === 'idCardPrintArea') cloned.classList.add('idcard-pdf-mode');
+    if (elementId === 'trackingBookPrintArea') cloned.classList.add('booklet-pdf-mode');
+    if (isDocBook) cloned.classList.add('docbook-pdf-mode');
+
+    cloned.querySelectorAll('.cert-scaler-wrapper, .a4-portrait-wrapper').forEach(w => {
       w.style.transform = 'none';
       w.style.height = 'auto';
+      w.style.width = targetW + 'px';
     });
 
-    const savedScrollY = window.scrollY || 0;
-    window.scrollTo(0, 0);
+    stagingHost.appendChild(cloned);
+    document.body.appendChild(stagingHost);
 
-    const prevDisplay = element.style.display;
-    element.style.display = 'block';
-
-    const targetW = isLandscape ? 1122 : (isDocBook ? 730 : 794);
     const opt = {
       margin: isDocBook ? [8, 8, 8, 8] : 0,
       filename: `${reportName || 'ឯកសារសាលា'}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
-      html2canvas: { 
-        scale: 2, 
+      html2canvas: {
+        scale: 2,
         useCORS: true,
         width: targetW,
         windowWidth: targetW,
@@ -3047,15 +3058,12 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       pagebreak: { mode: ['css', 'legacy'] },
       jsPDF: { unit: 'mm', format: 'a4', orientation: isLandscape ? 'landscape' : 'portrait', compress: true }
     };
+
     try {
-      const pdfBlob = await html2pdf().set(opt).from(printTarget).outputPdf('blob');
-      window.scrollTo(0, savedScrollY);
-      element.style.display = prevDisplay;
-      element.classList.remove('idcard-pdf-mode', 'booklet-pdf-mode', 'docbook-pdf-mode');
-      savedStyles.forEach(s => { s.el.style.transform = s.transform; s.el.style.height = s.height; });
+      const pdfBlob = await html2pdf().set(opt).from(cloned).outputPdf('blob');
+      stagingHost.remove();
 
       const file = new File([pdfBlob], opt.filename, { type: 'application/pdf' });
-
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({ files: [file], title: reportName, text: 'ឯកសារផ្លូវការ (A4)' });
         setStatus('បានចែករំលែក PDF ជោគជ័យ ✓');
@@ -3067,10 +3075,7 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
         setStatus('បានទាញយក PDF ជោគជ័យ ✓');
       }
     } catch (e) {
-      element.style.display = prevDisplay;
-      element.classList.remove('idcard-pdf-mode', 'booklet-pdf-mode', 'docbook-pdf-mode');
-      savedStyles.forEach(s => { s.el.style.transform = s.transform; s.el.style.height = s.height; });
-      window.scrollTo(0, savedScrollY);
+      if (stagingHost.parentNode) stagingHost.remove();
       window.print();
     }
   } else {
