@@ -1154,9 +1154,9 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .track-mini-table th, .track-mini-table td {
   border: 1px solid #1e293b;
-  padding: 2.8px 5px;
+  padding: 2.2px 5px;
   text-align: center;
-  line-height: 1.35;
+  line-height: 1.32;
 }
 .track-mini-table th { background: #f1f5f9; font-weight: 700; }
 .booklet-pdf-mode .cert-responsive-stage {
@@ -1247,12 +1247,12 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .doc-page-break{page-break-before:always;margin-top:24px;padding-top:18px;border-top:2px dashed #cbd5e1}
 .docbook-pdf-mode {
-  width: 730px !important;
-  max-width: 730px !important;
-  padding: 0 4px !important;
+  width: 750px !important;
+  max-width: 750px !important;
+  padding: 6px 12px !important;
   margin: 0 !important;
   box-shadow: none !important;
-  font-size: 10.8px !important;
+  font-size: 11px !important;
   line-height: 1.65 !important;
   box-sizing: border-box !important;
 }
@@ -3013,20 +3013,14 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
     setStatus('កំពុងបង្កើត PDF A4...');
 
     const isDocBook = ['agreementPrintArea', 'teacherBookPrintArea', 'plan3yPrintArea'].includes(elementId);
-    const targetW = isLandscape ? 1122 : (isDocBook ? 730 : 794);
+    const targetW = isLandscape ? 1122 : (isDocBook ? 750 : 794);
 
-    // Clone into an isolated off-screen stage directly on document.body so mobile <main> width never clips the right side!
-    const stagingHost = document.createElement('div');
-    stagingHost.id = 'pdfIsolatedStagingHost';
-    stagingHost.style.cssText = `position:fixed;left:-9999px;top:0;width:${targetW}px;background:#fff;z-index:-1;overflow:visible;margin:0;padding:0;`;
-
+    // Extract clean inner content (just like ilpPrintArea) without any scaled stage/wrapper
     const sourceNode = element.querySelector('.cert-page-a4') || element.querySelector('.honor-template-sheet') || element;
-    const cloned = sourceNode.cloneNode(true);
-    cloned.style.display = 'block';
-    cloned.style.width = targetW + 'px';
-    cloned.style.maxWidth = targetW + 'px';
-    cloned.style.margin = '0';
-    cloned.style.boxShadow = 'none';
+    const cloned = document.createElement('div');
+    cloned.innerHTML = sourceNode.innerHTML;
+    cloned.className = sourceNode.className;
+    cloned.style.cssText = `display:block;width:${targetW}px;max-width:${targetW}px;background:#fff;color:#000;margin:0;padding:${isDocBook ? '8px 14px' : '0'};box-sizing:border-box;box-shadow:none;`;
 
     if (elementId === 'idCardPrintArea') cloned.classList.add('idcard-pdf-mode');
     if (elementId === 'trackingBookPrintArea') cloned.classList.add('booklet-pdf-mode');
@@ -3038,11 +3032,21 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       w.style.width = targetW + 'px';
     });
 
+    // Place cleanly at (0,0) on document.body while temporarily hiding #app so iOS WebKit never clips negative-left offscreen elements!
+    const appEl = document.getElementById('app');
+    const savedScrollY = window.scrollY || 0;
+    const prevAppDisplay = appEl ? appEl.style.display : '';
+    if (appEl) appEl.style.display = 'none';
+    window.scrollTo(0, 0);
+
+    const stagingHost = document.createElement('div');
+    stagingHost.id = 'pdfIsolatedStagingHost';
+    stagingHost.style.cssText = `position:relative;left:0;top:0;width:${targetW}px;background:#fff;margin:0;padding:0;overflow:visible;`;
     stagingHost.appendChild(cloned);
     document.body.appendChild(stagingHost);
 
     const opt = {
-      margin: isDocBook ? [8, 8, 8, 8] : 0,
+      margin: isDocBook ? [6, 5, 6, 5] : 0,
       filename: `${reportName || 'ឯកសារសាលា'}.pdf`,
       image: { type: 'jpeg', quality: 0.98 },
       html2canvas: {
@@ -3062,6 +3066,8 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
     try {
       const pdfBlob = await html2pdf().set(opt).from(cloned).outputPdf('blob');
       stagingHost.remove();
+      if (appEl) appEl.style.display = prevAppDisplay;
+      window.scrollTo(0, savedScrollY);
 
       const file = new File([pdfBlob], opt.filename, { type: 'application/pdf' });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
@@ -3076,6 +3082,8 @@ async function executeStandardPrint(elementId, reportName, isLandscape = false) 
       }
     } catch (e) {
       if (stagingHost.parentNode) stagingHost.remove();
+      if (appEl) appEl.style.display = prevAppDisplay;
+      window.scrollTo(0, savedScrollY);
       window.print();
     }
   } else {
