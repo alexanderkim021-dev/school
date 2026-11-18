@@ -1086,19 +1086,15 @@ td select.ilp-ui-sel.black{color:#0f172a}
 
 /* សៀវភៅតាមដានការសិក្សា A4 ផ្តេក កឹបកណ្តាល (2-up A5 Booklet + ចុចៗខ័ណ្ឌកណ្តាល) */
 .track-booklet-a4 {
-  width: 1122px;
-  height: 792px;
-  min-height: 792px;
-  max-height: 792px;
+  width: 1123px;
+  height: 794px;
   background: #fff;
   display: grid;
-  grid-template-columns: 561px 561px;
-  align-items: stretch;
-  justify-content: center;
+  grid-template-columns: 1fr 1fr;
   position: relative;
   box-shadow: 0 8px 30px rgba(0,0,0,0.18);
   box-sizing: border-box;
-  margin: 0 auto;
+  margin: 0 auto 20px;
   color: #0f172a;
   font-family: 'Leelawadee UI', 'Kantumruy Pro', sans-serif;
   overflow: hidden;
@@ -1106,24 +1102,27 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .track-booklet-a4::after {
   content: '';
   position: absolute;
-  top: 8px;
-  bottom: 8px;
+  top: 10px;
+  bottom: 10px;
   left: 50%;
-  transform: translateX(-0.5px);
-  border-left: 2px dashed #475569;
+  border-left: 2px dashed #64748b;
   pointer-events: none;
   z-index: 10;
 }
 .track-half-page {
-  width: 561px;
-  height: 792px;
-  padding: 22px 28px;
+  padding: 18px 24px;
+  height: 100%;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   position: relative;
-  overflow: hidden;
+}
+.track-half-top {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 .track-cover-box {
   border: 3px double #15803d;
@@ -1137,74 +1136,34 @@ td select.ilp-ui-sel.black{color:#0f172a}
   justify-content: space-between;
   text-align: center;
   box-sizing: border-box;
-  position: relative;
 }
-.track-corner-svg {
-  position: absolute;
-  width: 34px;
-  height: 34px;
-  fill: #15803d;
-  pointer-events: none;
-}
-.track-corner-svg.tl { top: 4px; left: 4px; }
-.track-corner-svg.tr { top: 4px; right: 4px; transform: scaleX(-1); }
-.track-corner-svg.bl { bottom: 4px; left: 4px; transform: scaleY(-1); }
-.track-corner-svg.br { bottom: 4px; right: 4px; transform: scale(-1, -1); }
 .track-mini-table {
   width: 100%;
+  flex: 1;
+  height: 100%;
   border-collapse: collapse;
-  font-size: 10px;
-  margin: 3px 0;
+  font-size: 10.5px;
+  margin: 3px 0 6px;
 }
 .track-mini-table th, .track-mini-table td {
   border: 1px solid #1e293b;
-  padding: 2px 3px;
+  padding: 2px 4px;
   text-align: center;
 }
 .track-mini-table th { background: #f1f5f9; font-weight: 700; }
-
-.booklet-pdf-mode .cert-responsive-stage {
-  background: transparent !important;
-  padding: 0 !important;
-  margin: 0 !important;
-  border-radius: 0 !important;
-  width: 1122px !important;
-  height: 792px !important;
-  overflow: hidden !important;
-}
-.booklet-pdf-mode .cert-scaler-wrapper {
-  transform: none !important;
-  width: 1122px !important;
-  height: 792px !important;
-}
-.booklet-pdf-mode .track-booklet-a4 {
-  box-shadow: none !important;
-  margin: 0 !important;
-  page-break-after: always !important;
-}
-.booklet-pdf-mode .cert-responsive-stage:last-child .track-booklet-a4 {
-  page-break-after: auto !important;
-}
-
 @media print {
   .track-booklet-a4 {
-    width: 291mm !important;
-    height: 203mm !important;
-    min-height: 203mm !important;
-    max-height: 203mm !important;
-    grid-template-columns: 145.5mm 145.5mm !important;
+    width: 297mm !important;
+    height: 209mm !important;
+    min-height: 209mm !important;
+    max-height: 209mm !important;
     box-shadow: none !important;
-    margin: 0 auto !important;
+    margin: 0 !important;
     page-break-after: always;
     page-break-inside: avoid;
   }
-  .track-half-page {
-    width: 145.5mm !important;
-    height: 203mm !important;
-    padding: 6mm 8mm !important;
-  }
   .track-booklet-a4::after {
-    border-left: 1.5px dashed #334155 !important;
+    border-left: 1.5px dashed #475569 !important;
   }
 }
 
@@ -5632,13 +5591,11 @@ tracking(){
     return head('សៀវភៅតាមដានការសិក្សា (A4 ផ្តេក កឹបកណ្តាល)') + `<div class="card"><div class="em">មិនទាន់មានឈ្មោះសិស្សក្នុងបញ្ជី! សូមបញ្ចូលឈ្មោះសិស្សជាមុនសិន។</div></div>`;
   }
   if (!window.trackStuId || !S.st.some(x => x.id === window.trackStuId)) window.trackStuId = S.st[0].id;
-  if (!window.trackOrderMode) window.trackOrderMode = 'duplex';
+  if (!window.trackBookMode) window.trackBookMode = 'fullbook';
   const stu = S.st.find(x => x.id === window.trackStuId);
   const stuIdx = S.st.findIndex(x => x.id === stu.id);
   const stdCode = 'STD' + String(stuIdx + 1).padStart(4, '0');
   const cols = getCols(currentLevel, S.info.stream);
-
-  const khmerCornerSvg = `<svg viewBox="0 0 40 40"><path d="M2,2 L36,2 C26,6 20,10 18,16 C24,14 30,14 34,18 C24,18 16,22 14,30 C12,22 8,18 2,18 Z"/></svg>`;
 
   const PRIMARY_16_SUBJECTS = [
     { name: 'រៀនអាន', keys: ['រៀនអាន', 'អំណាន', 'ភាសាខ្មែរ'] },
@@ -5659,7 +5616,7 @@ tracking(){
     { name: 'សុខភាព-អនាម័យ', keys: ['សុខភាព', 'អនាម័យ'] }
   ];
 
-  const SECONDARY_15_SUBJECTS = [
+  const SECONDARY_HIGH_15_SUBJECTS = [
     { name: 'ភាសាខ្មែរ', max: 100, keys: ['ខ្មែរ'] },
     { name: 'សីលធម៌-ពលរដ្ឋវិទ្យា', max: 50, keys: ['សីលធម៌', 'ពលរដ្ឋ'] },
     { name: 'ប្រវត្តិវិទ្យា', max: 50, keys: ['ប្រវត្តិ'] },
@@ -5701,7 +5658,8 @@ tracking(){
     return { avgGot, maxSub, pct };
   };
 
-  const renderTermCard = (titleStr, targetMonths, isSemOrAnnual = false, semIdxOrAnn = null, pageNumLbl = '') => {
+  // Helper to render one A5 result card (Left or Right half of A4 landscape) - Full height table matching original design
+  const renderTermCard = (titleStr, targetMonths, isSemOrAnnual = false, semIdxOrAnn = null) => {
     let totVal = 0, avVal = 0, rkVal = '-', grVal = '-';
     let abPerm = 0, abUnexc = 0;
 
@@ -5720,11 +5678,17 @@ tracking(){
       rkVal = avVal > 0 ? toKhNum(rank(id => semFinalAv(id, semIdxOrAnn), stu.id)) : '-';
       grVal = getGradeLetter(avVal, avVal > 0 ? 1 : 0);
       targetMonths.forEach(m => { const a = ((S.ab[m]||{})[stu.id])||[0,0]; abPerm += (+a[0]||0); abUnexc += (+a[1]||0); });
+    } else {
+      avVal = annualAv(stu.id);
+      totVal = avVal * getBaseDiv(currentLevel, S.info.stream);
+      rkVal = avVal > 0 ? toKhNum(rank(id => annualAv(id), stu.id)) : '-';
+      grVal = getGradeLetter(avVal, avVal > 0 ? 1 : 0);
+      targetMonths.forEach(m => { const a = ((S.ab[m]||{})[stu.id])||[0,0]; abPerm += (+a[0]||0); abUnexc += (+a[1]||0); });
     }
 
-    let tableBodyHtml = '';
+    let tableHtml = '';
     if (currentLevel === 'primary') {
-      // ស្តង់ដារបឋមសិក្សា៖ ១៦ មុខវិជ្ជា គូសសញ្ញា ✓ តាម ៤ កម្រិត + ចំណុចដែលត្រូវជួយពង្រឹងបន្ថែម
+      // បឋមសិក្សា៖ ១៦ មុខវិជ្ជាពេញទំព័រ (គូស ✓ តាម ៤ កម្រិត + ចំណុចដែលត្រូវជួយពង្រឹងបន្ថែម)
       const rowsHtml = PRIMARY_16_SUBJECTS.map(sb => {
         const { pct } = getScoreByKeys(sb.keys, 10, targetMonths);
         const isGood = pct !== null && pct >= 80;
@@ -5733,37 +5697,37 @@ tracking(){
         const isWeak = pct !== null && pct < 50;
         return `
           <tr>
-            <td style="text-align:start;padding-left:5px;font-weight:600">${E(sb.name)}</td>
+            <td style="text-align:start;padding-left:6px;font-weight:600">${E(sb.name)}</td>
             <td>${isGood ? '✓' : ''}</td>
             <td>${isFair ? '✓' : ''}</td>
             <td>${isAvg ? '✓' : ''}</td>
             <td style="color:#dc2626;font-weight:800">${isWeak ? '✓' : ''}</td>
-            <td style="text-align:start;padding-left:4px;font-size:8.8px;color:#dc2626">${isWeak ? 'ត្រូវពង្រឹងបន្ថែម' : ''}</td>
+            <td style="text-align:start;padding-left:5px;font-size:9.5px;color:#dc2626">${isWeak ? 'ត្រូវពង្រឹងបន្ថែម' : ''}</td>
           </tr>
         `;
       }).join('');
 
-      tableBodyHtml = `
-        <table class="track-mini-table" style="font-size:9.3px">
+      tableHtml = `
+        <table class="track-mini-table">
           <thead>
             <tr>
-              <th rowspan="2" style="width:118px">មុខវិជ្ជា</th>
+              <th rowspan="2" style="width:126px">មុខវិជ្ជា</th>
               <th colspan="4">និទ្ទេស</th>
               <th rowspan="2">ចំណុចដែលត្រូវជួយ<br>ពង្រឹងបន្ថែម</th>
             </tr>
             <tr>
-              <th style="width:36px">ល្អ<br><small style="font-size:7.5px">8-10</small></th>
-              <th style="width:42px">ល្អបង្គួរ<br><small style="font-size:7.5px">6.5-7.99</small></th>
-              <th style="width:38px">មធ្យម<br><small style="font-size:7.5px">5-6.49</small></th>
-              <th style="width:38px;color:#dc2626">ខ្សោយ<br><small style="font-size:7.5px">4.99-0</small></th>
+              <th style="width:38px">ល្អ<br><small style="font-size:8px">8-10</small></th>
+              <th style="width:44px">ល្អបង្គួរ<br><small style="font-size:8px">6.5-7.99</small></th>
+              <th style="width:40px">មធ្យម<br><small style="font-size:8px">5-6.49</small></th>
+              <th style="width:40px;color:#dc2626">ខ្សោយ<br><small style="font-size:8px">4.99-0</small></th>
             </tr>
           </thead>
           <tbody>${rowsHtml}</tbody>
         </table>
       `;
     } else {
-      // ស្តង់ដារអនុវិទ្យាល័យ និងវិទ្យាល័យ៖ ១៥ មុខវិជ្ជា (ល.រ | មុខវិជ្ជា | ពិន្ទុ[អតិបរមា, ពិន្ទុខែ] | និទ្ទេស[ល្អ, ល្អបង្គួរ, មធ្យម, ខ្សោយ])
-      const rowsHtml = SECONDARY_15_SUBJECTS.map((sb, idx) => {
+      // អនុវិទ្យាល័យ និង វិទ្យាល័យ៖ ១៥ មុខវិជ្ជាពេញទំព័រ (ល.រ | មុខវិជ្ជា | ពិន្ទុ[អតិបរមា, ពិន្ទុខែ] | និទ្ទេស[ល្អ, ល្អបង្គួរ, មធ្យម, ខ្សោយ])
+      const rowsHtml = SECONDARY_HIGH_15_SUBJECTS.map((sb, idx) => {
         const { avgGot, maxSub, pct } = getScoreByKeys(sb.keys, sb.max, targetMonths);
         const isGood = pct !== null && pct >= 80;
         const isFair = pct !== null && pct >= 65 && pct < 80;
@@ -5771,34 +5735,34 @@ tracking(){
         const isWeak = pct !== null && pct < 50;
         return `
           <tr>
-            <td style="width:24px">${toKhNum(idx + 1)}</td>
-            <td style="text-align:start;padding-left:5px;font-weight:600">${E(sb.name)}</td>
-            <td style="width:36px;color:#475569">${toKhNum(maxSub)}</td>
-            <td style="width:40px"><b>${avgGot !== null ? toKhNum(avgGot.toFixed(1)) : ''}</b></td>
-            <td style="width:26px">${isGood ? '✓' : ''}</td>
-            <td style="width:34px">${isFair ? '✓' : ''}</td>
-            <td style="width:30px">${isAvg ? '✓' : ''}</td>
-            <td style="width:30px;color:#dc2626;font-weight:800">${isWeak ? '✓' : ''}</td>
+            <td style="width:26px">${toKhNum(idx + 1)}</td>
+            <td style="text-align:start;padding-left:6px;font-weight:600">${E(sb.name)}</td>
+            <td style="width:42px;color:#475569">${toKhNum(maxSub)}</td>
+            <td style="width:44px"><b>${avgGot !== null ? toKhNum(avgGot.toFixed(1)) : ''}</b></td>
+            <td style="width:28px">${isGood ? '✓' : ''}</td>
+            <td style="width:36px">${isFair ? '✓' : ''}</td>
+            <td style="width:32px">${isAvg ? '✓' : ''}</td>
+            <td style="width:32px;color:#dc2626;font-weight:800">${isWeak ? '✓' : ''}</td>
           </tr>
         `;
       }).join('');
 
-      tableBodyHtml = `
-        <table class="track-mini-table" style="font-size:9.3px">
+      tableHtml = `
+        <table class="track-mini-table">
           <thead>
             <tr>
-              <th rowspan="2" style="width:24px">ល.រ</th>
+              <th rowspan="2" style="width:26px">ល.រ</th>
               <th rowspan="2">មុខវិជ្ជា</th>
               <th colspan="2">ពិន្ទុ</th>
               <th colspan="4">និទ្ទេស</th>
             </tr>
             <tr>
-              <th style="width:36px">អតិបរមា</th>
-              <th style="width:40px">ពិន្ទុខែ</th>
-              <th style="width:26px">ល្អ</th>
-              <th style="width:34px">ល្អបង្គួរ</th>
-              <th style="width:30px">មធ្យម</th>
-              <th style="width:30px;color:#dc2626">ខ្សោយ</th>
+              <th style="width:42px">អតិបរមា</th>
+              <th style="width:44px">ពិន្ទុខែ</th>
+              <th style="width:28px">ល្អ</th>
+              <th style="width:36px">ល្អបង្គួរ</th>
+              <th style="width:32px">មធ្យម</th>
+              <th style="width:32px;color:#dc2626">ខ្សោយ</th>
             </tr>
           </thead>
           <tbody>${rowsHtml}</tbody>
@@ -5808,31 +5772,30 @@ tracking(){
 
     return `
       <div class="track-half-page">
-        <div>
-          <div style="text-align:center;border-bottom:1.5px solid #1e3a8a;padding-bottom:3px;margin-bottom:4px;position:relative">
-            ${pageNumLbl ? `<span style="position:absolute;right:0;top:0;font-size:9px;color:#64748b">ទំព័រ ${pageNumLbl}</span>` : ''}
-            <div class="muol-title" style="font-size:12.5px;color:#1e3a8a">${titleStr}</div>
-            <div style="font-size:9.8px;font-weight:700">សិស្ស៖ ${E(stu.name)} · ថ្នាក់ទី ${E(i.cls || '...')} · ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
+        <div class="track-half-top">
+          <div style="text-align:center;border-bottom:1.5px solid #1e3a8a;padding-bottom:4px;margin-bottom:4px">
+            <div class="muol-title" style="font-size:13.5px;color:#1e3a8a">${titleStr}</div>
+            <div style="font-size:10.5px;font-weight:700">សិស្ស៖ ${E(stu.name)} · ថ្នាក់ទី ${E(i.cls || '...')} · ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
           </div>
-          ${tableBodyHtml}
+          ${tableHtml}
         </div>
 
-        <div style="font-size:9.8px;line-height:1.4">
-          <div style="background:#f8fafc;border:1px solid #94a3b8;padding:3px 6px;border-radius:4px;margin-bottom:3px">
-            ពិន្ទុសរុប៖ <b>${totVal > 0 ? toKhNum(totVal.toFixed(0)) : '......'}</b> · មធ្យមភាគ៖ <b style="color:#1e3a8a">${avVal > 0 ? toKhNum(avVal.toFixed(2)) : '......'}</b> · ចំណាត់ថ្នាក់៖ <b style="color:#b91c1c">${rkVal}</b> · និទ្ទេស៖ <b>${grVal}</b><br>
+        <div style="font-size:10.5px;line-height:1.45;flex-shrink:0">
+          <div style="background:#f8fafc;border:1px solid #94a3b8;padding:4px 6px;border-radius:5px;margin-bottom:4px">
+            ពិន្ទុសរុប៖ <b>${totVal > 0 ? toKhNum(totVal.toFixed(0)) : '......'}</b> · មធ្យមភាគ៖ <b style="color:#1e3a8a">${avVal > 0 ? toKhNum(avVal.toFixed(2)) : '......'}</b> · ចំ.ថ្នាក់៖ <b style="color:#b91c1c">${rkVal}</b> · និទ្ទេស៖ <b>${grVal}</b><br>
             អវត្តមាន៖ មានច្បាប់ <b>${toKhNum(abPerm)}</b> ដង · ឥតច្បាប់ <b style="color:#dc2626">${toKhNum(abUnexc)}</b> ដង
           </div>
-          <div style="border:1px dashed #94a3b8;padding:3px 6px;border-radius:4px;margin-bottom:4px;min-height:26px">
-            <b>មតិរបស់មាតាបិតា ឬអាណាព្យាបាលសិស្ស៖</b> ....................................................................
+          <div style="border:1px dashed #94a3b8;padding:4px 6px;border-radius:5px;margin-bottom:5px;min-height:32px">
+            <b>មតិមាតាបិតា/អាណាព្យាបាល៖</b> .............................................................................
           </div>
-          <div style="display:flex;justify-content:space-between;text-align:center;font-size:9.3px">
+          <div style="display:flex;justify-content:space-between;text-align:center;font-size:10px">
             <div>
               <div>បានឃើញ និងឯកភាព</div>
               <div style="font-weight:bold">នាយកសាលា</div>
             </div>
             <div>
               <div>${getKhmerSolarDateLine()}</div>
-              <div style="font-weight:bold">គ្រូទទួលបន្ទុកថ្នាក់ (${E(i.teacher || '')})</div>
+              <div style="font-weight:bold">គ្រូបន្ទុកថ្នាក់ (${E(i.teacher || '')})</div>
             </div>
           </div>
         </div>
@@ -5840,30 +5803,30 @@ tracking(){
     `;
   };
 
-  // Booklet Sheet 1 (Outer Cover): Left = Back Cover (Annual Result + Parent Contract for Secondary/High), Right = Front Cover
+  // Booklet Sheet 1 (Outer Cover): Left = Back Cover (Annual Summary + Parent Contract), Right = Front Cover
   const s1Av = semFinalAv(stu.id, 0);
   const s2Av = semFinalAv(stu.id, 1);
   const annVal = annualAv(stu.id);
   const annRk = annVal > 0 ? toKhNum(rank(id => annualAv(id), stu.id)) : '......';
   const annDec = getAnnualDecision(annVal);
-  const levelHeaderTitle = currentLevel === 'primary' ? 'សាលាបឋមសិក្សា' : (currentLevel === 'high' ? 'វិទ្យាល័យ' : 'អនុវិទ្យាល័យ / វិទ្យាល័យ');
+  const levelSubtitle = currentLevel === 'primary' ? 'សាលាបឋមសិក្សា' : (currentLevel === 'high' ? 'វិទ្យាល័យ' : 'អនុវិទ្យាល័យ / វិទ្យាល័យ');
 
   const sheet1_OuterCover = `
     <div class="cert-responsive-stage">
       <div class="cert-scaler-wrapper">
         <div class="track-booklet-a4 print-page">
-          <!-- ក្របខ្នងក្រោយ (ឆ្វេង) -->
+          <!-- ទំព័រខ្នងក្រោយ (ឆ្វេង)៖ សរុបលទ្ធផលប្រចាំឆ្នាំ និងកិច្ចសន្យាអាណាព្យាបាល -->
           <div class="track-half-page">
             <div>
               <div style="text-align:center;margin-bottom:6px">
-                <div class="muol-title" style="font-size:12.5px">ព្រះរាជាណាចក្រកម្ពុជា</div>
-                <div class="muol-title" style="font-size:11px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-                <div class="muol-title" style="font-size:14px;color:#1e3a8a;margin-top:6px">លទ្ធផលនៃការសិក្សាប្រចាំឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
+                <div class="muol-title" style="font-size:13px">ព្រះរាជាណាចក្រកម្ពុជា</div>
+                <div class="muol-title" style="font-size:11.5px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+                <div class="muol-title" style="font-size:14px;color:#1e3a8a;margin-top:6px">លទ្ធផលសិក្សាប្រចាំឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
               </div>
 
-              <table class="track-mini-table" style="font-size:11px;margin-bottom:8px">
+              <table class="track-mini-table" style="height:auto;flex:none;font-size:11px;margin-bottom:8px">
                 <tbody>
-                  <tr><td style="text-align:left;padding:5px 8px"><b>មធ្យមភាគប្រចាំឆមាសទី ១</b></td><td style="width:110px"><b>${s1Av > 0 ? toKhNum(s1Av.toFixed(2)) : ''}</b></td></tr>
+                  <tr><td style="text-align:left;padding:5px 8px"><b>មធ្យមភាគប្រចាំឆមាសទី ១</b></td><td style="width:115px"><b>${s1Av > 0 ? toKhNum(s1Av.toFixed(2)) : ''}</b></td></tr>
                   <tr><td style="text-align:left;padding:5px 8px"><b>មធ្យមភាគប្រចាំឆមាសទី ២</b></td><td><b>${s2Av > 0 ? toKhNum(s2Av.toFixed(2)) : ''}</b></td></tr>
                   <tr><td style="text-align:left;padding:5px 8px"><b>មធ្យមភាគប្រចាំឆ្នាំ</b></td><td style="color:#1e3a8a"><b>${annVal > 0 ? toKhNum(annVal.toFixed(2)) : ''}</b></td></tr>
                   <tr><td style="text-align:left;padding:5px 8px"><b>ចំណាត់ថ្នាក់ប្រចាំឆ្នាំ</b></td><td style="color:#b91c1c"><b>${annRk}</b></td></tr>
@@ -5871,14 +5834,17 @@ tracking(){
                 </tbody>
               </table>
 
-              <div style="background:#f8fafc;border:1px solid #cbd5e1;padding:8px 10px;border-radius:8px;font-size:10.5px;line-height:1.55;text-align:justify">
-                <div class="muol-title" style="font-size:12px;color:#1e3a8a;text-align:center;margin-bottom:4px">កិច្ចសន្យាអាណាព្យាបាលសិស្ស</div>
-                <div>ខ្ញុំបាទ/នាងខ្ញុំឈ្មោះ <b>${E(stu.fa || stu.mo || '....................................')}</b> ត្រូវជាឪពុក/ម្តាយ ឬអាណាព្យាបាលសិស្សឈ្មោះ <b>${E(stu.name)}</b> រៀនថ្នាក់ទី <b>${E(i.cls || '...')}</b> សូមសន្យាចំពោះមុខគណៈនាយកសាលា និងគ្រូទទួលបន្ទុកថ្នាក់ថា នឹងខិតខំជំរុញ ណែនាំ អប់រំកូន/ក្មួយ ឱ្យគោរពបទបញ្ជាផ្ទៃក្នុងសាលារៀន និងខិតខំរៀនសូត្រជារៀងរាល់ថ្ងៃ។</div>
+              <div style="background:#f8fafc;border:1px solid #cbd5e1;padding:8px 10px;border-radius:8px;font-size:10.5px;line-height:1.5;text-align:justify">
+                <div class="muol-title" style="font-size:12px;color:#1e3a8a;text-align:center;margin-bottom:3px">កិច្ចសន្យាអាណាព្យាបាលសិស្ស</div>
+                <div>ខ្ញុំបាទ/នាងខ្ញុំឈ្មោះ <b>${E(stu.fa || stu.mo || '....................................')}</b> ត្រូវជាឪពុក/ម្តាយ ឬអាណាព្យាបាលសិស្សឈ្មោះ <b>${E(stu.name)}</b> រៀនថ្នាក់ទី <b>${E(i.cls || '...')}</b> សូមសន្យាចំពោះមុខគណៈនាយកសាលា និងគ្រូបន្ទុកថ្នាក់ថា នឹងខិតខំជំរុញ ណែនាំ អប់រំកូន/ក្មួយ ឱ្យគោរពបទបញ្ជាផ្ទៃក្នុងសាលារៀន និងខិតខំរៀនសូត្រជារៀងរាល់ថ្ងៃ។</div>
               </div>
             </div>
 
             <div style="font-size:10.5px">
-              <div style="display:flex;justify-content:space-between;text-align:center;margin-top:6px">
+              <div style="border:1px dashed #64748b;padding:5px 8px;border-radius:6px;min-height:38px;margin-bottom:6px">
+                <b>មតិមាតាបិតាសិស្សចុងឆ្នាំ៖</b> .................................................................................
+              </div>
+              <div style="display:flex;justify-content:space-between;text-align:center">
                 <div>
                   <div>បានឃើញ និងឯកភាព</div>
                   <div style="font-weight:bold">នាយកសាលា</div>
@@ -5891,33 +5857,28 @@ tracking(){
             </div>
           </div>
 
-          <!-- ក្របមុខ (ស្តាំ) មានក្បាច់ភ្ញីខ្មែរពណ៌បៃតង ៤ ជ្រុង -->
+          <!-- ទំព័រក្របមុខ (ស្តាំ)៖ ឡូហ្គោក្រសួងអប់រំ និងឈ្មោះសិស្ស -->
           <div class="track-half-page">
             <div class="track-cover-box">
-              <div class="track-corner-svg tl">${khmerCornerSvg}</div>
-              <div class="track-corner-svg tr">${khmerCornerSvg}</div>
-              <div class="track-corner-svg bl">${khmerCornerSvg}</div>
-              <div class="track-corner-svg br">${khmerCornerSvg}</div>
-
               <div>
                 <div class="muol-title" style="font-size:14.5px;color:#0f172a">ព្រះរាជាណាចក្រកម្ពុជា</div>
                 <div class="muol-title" style="font-size:13px;color:#0f172a">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-                <img src="${logoSrc}" style="height:64px;width:auto;margin:8px auto 4px;display:block" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
+                <img src="${logoSrc}" style="height:68px;width:auto;margin:10px auto 4px;display:block" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
                 <div class="muol-title" style="font-size:13px;color:#1e3a8a">ក្រសួងអប់រំ យុវជន និងកីឡា</div>
-                <div style="font-weight:bold;font-size:12px;margin-top:2px">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : '')}</div>
-                <div class="muol-title" style="font-size:13.5px;color:#0f172a;margin-top:2px">${E(i.school || levelHeaderTitle)}</div>
+                <div style="font-weight:bold;font-size:12.5px;margin-top:2px">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : '')}</div>
+                <div style="font-weight:bold;font-size:13.5px;color:#0f172a;margin-top:2px">${E(i.school || levelSubtitle)}</div>
               </div>
 
-              <div style="margin:6px 0">
-                <div class="muol-title" style="font-size:22px;color:#15803d;line-height:1.5">សៀវភៅតាមដានការសិក្សា</div>
-                <div style="font-size:11.5px;font-weight:bold;color:#475569">(${levelHeaderTitle})</div>
+              <div style="margin:10px 0">
+                <div class="muol-title" style="font-size:23px;color:#15803d;line-height:1.5">សៀវភៅតាមដានការសិក្សា</div>
+                <div style="font-size:12.5px;font-weight:bold;color:#475569;margin-top:2px">(${levelSubtitle} · សម្រាប់ទំនាក់ទំនងរវាងសាលារៀន និងមាតាបិតាសិស្ស)</div>
               </div>
 
-              <div style="text-align:left;font-size:12.5px;line-height:1.95;background:#f8fafc;border:1px solid #cbd5e1;padding:10px 14px;border-radius:10px">
-                <div>របស់សិស្សឈ្មោះ៖ <span class="muol-title" style="font-size:13px;color:#b91c1c">${E(stu.name)}</span> (${stu.sex==='ស'?'ស្រី':'ប្រុស'})</div>
-                <div>ថ្នាក់ទី៖ <b>${E(i.cls || '...')}</b> · អត្តលេខ៖ <b>${stdCode}</b></div>
-                <div>ថ្ងៃខែឆ្នាំកំណើត៖ <b>${E(stu.dob || '....................')}</b></div>
+              <div style="text-align:left;font-size:13px;line-height:2;background:#f8fafc;border:1px solid #cbd5e1;padding:10px 14px;border-radius:10px">
+                <div>របស់សិស្សឈ្មោះ៖ <span class="muol-title" style="font-size:13.5px;color:#b91c1c">${E(stu.name)}</span> (${stu.sex==='ស'?'ស្រី':'ប្រុស'})</div>
+                <div>អត្តលេខ៖ <b>${stdCode}</b> · រៀនថ្នាក់ទី៖ <b>${E(i.cls || '...')}</b></div>
                 <div>ឆ្នាំសិក្សា៖ <b>${toKhNum(currentYear)}</b></div>
+                <div>គ្រូបន្ទុកថ្នាក់៖ <b>${E(i.teacher || '....................')}</b> · ទូរស័ព្ទ៖ <b>${E(i.teacherPhone || '..........')}</b></div>
               </div>
             </div>
           </div>
@@ -5926,40 +5887,42 @@ tracking(){
     </div>
   `;
 
-  // Booklet Sheet 2 (Inside Cover): Left = Internal Rules, Right = Student Bio + 4x6 Photo
+  // Booklet Sheet 2 (Inside Cover): Left = Internal Rules (9 points), Right = Student Profile & Family Bio
   const sheet2_InsideCover = `
     <div class="cert-responsive-stage">
       <div class="cert-scaler-wrapper">
         <div class="track-booklet-a4 print-page">
-          <div class="track-half-page" style="font-size:10.3px;line-height:1.46">
+          <!-- ទំព័រខាងក្នុងឆ្វេង៖ ចំណុចសំខាន់ៗនៃបទបញ្ជាផ្ទៃក្នុង -->
+          <div class="track-half-page" style="font-size:10.5px;line-height:1.48">
             <div>
               <div style="text-align:center;margin-bottom:5px">
-                <div class="muol-title" style="font-size:12.5px">ព្រះរាជាណាចក្រកម្ពុជា</div>
-                <div class="muol-title" style="font-size:11px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
-                <div class="muol-title" style="font-size:13.5px;color:#1e3a8a;margin-top:4px">ចំណុចសំខាន់ៗនៃបទបញ្ជាផ្ទៃក្នុង</div>
+                <div class="muol-title" style="font-size:13px">ព្រះរាជាណាចក្រកម្ពុជា</div>
+                <div class="muol-title" style="font-size:11.5px">ជាតិ សាសនា ព្រះមហាក្សត្រ</div>
+                <div class="muol-title" style="font-size:14px;color:#1e3a8a;margin-top:5px">ចំណុចសំខាន់ៗនៃបទបញ្ជាផ្ទៃក្នុង</div>
               </div>
               <div style="text-align:justify">
                 <div><b>១.</b> សិស្សត្រូវអនុវត្តតាមអង្គការវិន័យ និងបទបញ្ជាផ្ទៃក្នុងរបស់សាលារៀនឱ្យបានម៉ឺងម៉ាត់។</div>
                 <div><b>២.</b> សិស្សត្រូវស្អាតជានិច្ច មានសម្លៀកបំពាក់ ស-ខៀវ/ស-ខ្មៅ តាមឯកសណ្ឋានសាលា កាត់សក់ខ្លី និងសិតសក់ត្រឹមត្រូវ មិនត្រូវពាក់គ្រឿងអលង្ការក្នុងសាលាជាដាច់ខាត។</div>
                 <div><b>៣.</b> សិស្សត្រូវខិតខំរៀនសូត្រ គោរពលោកគ្រូ-អ្នកគ្រូ និងនាយកសាលា ព្រមទាំងចូលរួមគ្រប់សកម្មភាពអប់រំ ពលកម្មសង្គម អនាម័យ និងបរិស្ថានសាលា។</div>
                 <div><b>៤.</b> សិស្សឈប់ឥតច្បាប់ក្នុងពេលប្រឡងឆមាសត្រូវបានពិន្ទុសូន្យ។ សិស្សដែលមិនប្រឡង ៣ មុខវិជ្ជាក្នុងឆមាសណាមួយ ត្រូវចាត់ទុកថា «ឥតចំណាត់ថ្នាក់»។</div>
-                <div><b>៥.</b> សិស្សអាចឡើងថ្នាក់បាន លុះត្រាតែបានវិនិច្ឆ័យពីមធ្យមភាគឡើងទៅ (≥៥០%) ទាំងការសិក្សា សីលធម៌រស់នៅ និងពលកម្ម ឬអនាម័យ។</div>
+                <div><b>៥.</b> សិស្សអាចឡើងថ្នាក់បាន លុះត្រាតែទទួលបានមធ្យមភាគប្រចាំឆ្នាំចាប់ពីមធ្យមឡើងទៅ (≥៥០%) ទាំងការសិក្សា និងសីលធម៌រស់នៅ។</div>
                 <div><b>៦.</b> សិស្សឈប់មានច្បាប់ដោយមានមូលហេតុត្រឹមត្រូវពី ៣១ ទៅ ៦០ ពេល ត្រូវប្រឡងឡើងថ្នាក់ ឬរៀនត្រួតថ្នាក់។ បើលើសពី ៦០ ពេលត្រូវរៀនត្រួតថ្នាក់។</div>
                 <div><b>៧.</b> សិស្សដែលឈប់ឥតច្បាប់លើសពី ៦០ ពេល ត្រូវលុបឈ្មោះចេញពីបញ្ជីសាលារៀន។</div>
-                <div><b>៨.</b> ចំពោះសិស្សផ្ទេរការសិក្សា នាយកសាលាត្រូវបូកសរុបលទ្ធផលសិក្សាឱ្យបានសព្វគ្រប់ ហើយចុះហត្ថលេខា រួចផ្ញើទៅសាលាថ្មីតាមស្រោមសំបុត្រសម្ងាត់។</div>
-                <div><b>៩.</b> ហាមផ្តាច់មិនឱ្យកោសលុប ឬសរសេរបន្ថែម។ ក្នុងករណីមានកែតម្រូវត្រូវចុះហត្ថលេខាបញ្ជាក់បន្ថែមពីនាយកសាលា។</div>
+                <div><b>៨.</b> ចំពោះសិស្សផ្ទេរការសិក្សា នាយកសាលាត្រូវបូកសរុបលទ្ធផលសិក្សាឱ្យបានសព្វគ្រប់ រួចផ្ញើទៅសាលាថ្មីតាមស្រោមសំបុត្រសម្ងាត់។</div>
+                <div><b>៩.</b> ហាមផ្តាច់មិនឱ្យកោសលុប ឬសរសេរបន្ថែមក្នុងសៀវភៅតាមដាន។ រាល់ការកែតម្រូវត្រូវមានហត្ថលេខានាយកសាលា។</div>
               </div>
             </div>
-            <div style="border:1px dashed #64748b;padding:5px 8px;border-radius:6px;min-height:36px">
-              <b>សម្គាល់៖</b> មាតាបិតា ឬអាណាព្យាបាលសិស្ស ចុះហត្ថលេខារៀងរាល់ខែ ។
+            <div style="border:1px dashed #64748b;padding:5px 8px;border-radius:6px;min-height:42px">
+              <b>កំណត់សម្គាល់បន្ថែមរបស់សាលា៖</b> ........................................................................
             </div>
           </div>
 
-          <div class="track-half-page" style="font-size:11.8px;line-height:1.82">
+          <!-- ទំព័រខាងក្នុងស្តាំ៖ ប្រវត្តិរូបសង្ខេបរបស់សិស្ស -->
+          <div class="track-half-page" style="font-size:12px;line-height:1.85">
             <div>
               <div style="text-align:center;margin-bottom:8px;border-bottom:1.5px solid #1e3a8a;padding-bottom:6px">
-                <div class="muol-title" style="font-size:15px;color:#1e3a8a">សៀវភៅតាមដានការសិក្សា</div>
-                <div style="font-size:11.5px;font-weight:bold">${E(i.school || levelHeaderTitle)} · ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
+                <div class="muol-title" style="font-size:15px;color:#1e3a8a">ប្រវត្តិរូបសង្ខេបរបស់សិស្ស</div>
+                <div style="font-size:11.5px;font-weight:bold">${E(i.school || levelSubtitle)} · ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
               </div>
 
               <div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:8px">
@@ -5967,28 +5930,29 @@ tracking(){
                   ${stu.ph ? `<img src="${stu.ph}" style="width:100%;height:100%;object-fit:cover">` : '<span style="font-size:10px;color:#94a3b8;text-align:center">រូបថត<br>៤x៦</span>'}
                 </div>
                 <div style="flex:1">
-                  <div>• គោត្តនាម និងនាម៖ <b>${E(stu.name)}</b></div>
+                  <div>• ឈ្មោះសិស្ស៖ <b>${E(stu.name)}</b></div>
                   <div>• ភេទ៖ <b>${stu.sex==='ស'?'ស្រី':'ប្រុស'}</b> · អត្តលេខ៖ <b>${stdCode}</b></div>
-                  <div>• ថ្ងៃ-ខែ-ឆ្នាំកំណើត៖ <b>${E(stu.dob || '....................')}</b></div>
+                  <div>• ថ្ងៃខែឆ្នាំកំណើត៖ <b>${E(stu.dob || '....................')}</b></div>
                 </div>
               </div>
 
               <div>• ទីកន្លែងកំណើត / អាសយដ្ឋាន៖ <b>${E(stu.addr || '........................................')}</b></div>
-              <div>• ឈ្មោះ និងមុខរបរឪពុក៖ <b>${E(stu.fa || '....................')}</b></div>
-              <div>• ឈ្មោះ និងមុខរបរម្តាយ៖ <b>${E(stu.mo || '....................')}</b></div>
+              <div>• ឪពុកឈ្មោះ៖ <b>${E(stu.fa || '....................')}</b></div>
+              <div>• ម្តាយឈ្មោះ៖ <b>${E(stu.mo || '....................')}</b></div>
               <div>• លេខទូរស័ព្ទអាណាព្យាបាល៖ <b>${E(stu.phn || '....................')}</b></div>
-              <div>• រៀនថ្នាក់ទី៖ <b>${E(i.cls || '...')}</b> · គ្រូទទួលបន្ទុកថ្នាក់៖ <b>${E(i.teacher || '....................')}</b></div>
+              <div>• ស្ថានភាពគ្រួសារ៖ <b>${E(stu.status || 'មធ្យម')}</b></div>
+              <div>• រៀនថ្នាក់ទី៖ <b>${E(i.cls || '...')}</b> · គ្រូបន្ទុកថ្នាក់៖ <b>${E(i.teacher || '....................')}</b></div>
             </div>
 
             <div style="display:flex;justify-content:space-between;text-align:center;font-size:11px;margin-top:8px">
               <div>
-                <div>គំរូហត្ថលេខា ឬស្នាមមេដៃ</div>
+                <div>ហត្ថលេខា ឬស្នាមមេដៃ</div>
                 <div style="font-weight:bold">មាតាបិតា / អាណាព្យាបាល</div>
                 <div style="margin-top:34px">${E(stu.fa || stu.mo || '........................')}</div>
               </div>
               <div>
                 <div>${getKhmerSolarDateLine()}</div>
-                <div style="font-weight:bold">គ្រូទទួលបន្ទុកថ្នាក់</div>
+                <div style="font-weight:bold">គ្រូបន្ទុកថ្នាក់</div>
                 <div style="margin-top:34px;font-weight:bold">${E(i.teacher || '')}</div>
               </div>
             </div>
@@ -5998,51 +5962,23 @@ tracking(){
     </div>
   `;
 
-  const all14Pages = [
-    { p: '១', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ខែតុលា', ms: [0] },
-    { p: '២', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ខែវិច្ឆិកា', ms: [1] },
-    { p: '៣', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ខែធ្នូ', ms: [2] },
-    { p: '៤', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ខែមករា', ms: [3] },
-    { p: '៥', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ខែកុម្ភៈ', ms: [4] },
-    { p: '៦', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ខែមីនា', ms: [5] },
-    { p: '៧', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ឆមាសទី ១', ms: [0,1,2,3,4,5], sem: 0 },
-    { p: '៨', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ខែមេសា', ms: [6] },
-    { p: '៩', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ខែឧសភា', ms: [7] },
-    { p: '១០', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ខែមិថុនា', ms: [8] },
-    { p: '១១', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ខែកក្កដា', ms: [9] },
-    { p: '១២', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ខែសីហា', ms: [10] },
-    { p: '១៣', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ខែកញ្ញា', ms: [11] },
-    { p: '១៤', t: 'លទ្ធផលនៃការសិក្សាប្រចាំ ឆមាសទី ២', ms: [6,7,8,9,10,11], sem: 1 }
+  // Booklet Sheets 3..9: Monthly & Semester Results (2 halves per A4 landscape sheet, with center dashed fold line)
+  const termPairs = [
+    [ { t: 'លទ្ធផលសិក្សាប្រចាំ ខែតុលា', ms: [0] }, { t: 'លទ្ធផលសិក្សាប្រចាំ ខែវិច្ឆិកា', ms: [1] } ],
+    [ { t: 'លទ្ធផលសិក្សាប្រចាំ ខែធ្នូ', ms: [2] }, { t: 'លទ្ធផលសិក្សាប្រចាំ ខែមករា', ms: [3] } ],
+    [ { t: 'លទ្ធផលសិក្សាប្រចាំ ខែកុម្ភៈ', ms: [4] }, { t: 'លទ្ធផលសិក្សាប្រចាំ ខែមីនា', ms: [5] } ],
+    [ { t: 'លទ្ធផលសិក្សាប្រចាំ ឆមាសទី ១', ms: [0,1,2,3,4,5], sem: 0 }, { t: 'លទ្ធផលសិក្សាប្រចាំ ខែមេសា', ms: [6] } ],
+    [ { t: 'លទ្ធផលសិក្សាប្រចាំ ខែឧសភា', ms: [7] }, { t: 'លទ្ធផលសិក្សាប្រចាំ ខែមិថុនា', ms: [8] } ],
+    [ { t: 'លទ្ធផលសិក្សាប្រចាំ ខែកក្កដា', ms: [9] }, { t: 'លទ្ធផលសិក្សាប្រចាំ ខែសីហា', ms: [10] } ],
+    [ { t: 'លទ្ធផលសិក្សាប្រចាំ ខែកញ្ញា', ms: [11] }, { t: 'លទ្ធផលសិក្សាប្រចាំ ឆមាសទី ២', ms: [6,7,8,9,10,11], sem: 1 } ]
   ];
 
-  const duplexPairs = [
-    [all14Pages[13], all14Pages[0]],
-    [all14Pages[1],  all14Pages[12]],
-    [all14Pages[11], all14Pages[2]],
-    [all14Pages[3],  all14Pages[10]],
-    [all14Pages[9],  all14Pages[4]],
-    [all14Pages[5],  all14Pages[8]],
-    [all14Pages[7],  all14Pages[6]]
-  ];
-
-  const seqPairs = [
-    [all14Pages[0],  all14Pages[1]],
-    [all14Pages[2],  all14Pages[3]],
-    [all14Pages[4],  all14Pages[5]],
-    [all14Pages[6],  all14Pages[7]],
-    [all14Pages[8],  all14Pages[9]],
-    [all14Pages[10], all14Pages[11]],
-    [all14Pages[12], all14Pages[13]]
-  ];
-
-  const activePairs = window.trackOrderMode === 'duplex' ? duplexPairs : seqPairs;
-
-  const termSheetsHtml = activePairs.map(pair => `
+  const termSheetsHtml = termPairs.map(pair => `
     <div class="cert-responsive-stage">
       <div class="cert-scaler-wrapper">
         <div class="track-booklet-a4 print-page">
-          ${renderTermCard(pair[0].t, pair[0].ms, pair[0].sem !== undefined, pair[0].sem, pair[0].p)}
-          ${renderTermCard(pair[1].t, pair[1].ms, pair[1].sem !== undefined, pair[1].sem, pair[1].p)}
+          ${renderTermCard(pair[0].t, pair[0].ms, pair[0].sem !== undefined, pair[0].sem)}
+          ${renderTermCard(pair[1].t, pair[1].ms, pair[1].sem !== undefined, pair[1].sem)}
         </div>
       </div>
     </div>
@@ -6055,15 +5991,9 @@ tracking(){
       <select onchange="window.trackStuId=+this.value;R()">
         ${S.st.map((st, idx) => `<option value="${st.id}" ${st.id===stu.id?'selected':''}>${idx + 1}. ${E(st.name)}</option>`).join('')}
       </select>
-      <select onchange="window.trackOrderMode=this.value;R()">
-        <option value="duplex" ${window.trackOrderMode==='duplex'?'selected':''}>🖨️ ឆ្លាស់ទំព័រកឹបកណ្តាល (ព្រីន ២ មុខ)</option>
-        <option value="seq" ${window.trackOrderMode==='seq'?'selected':''}>📱 លំដាប់ខែជាប់គ្នា (តុលា - កញ្ញា)</option>
-      </select>
+      <button class="bt" onclick="executeStandardPrint('trackingBookPrintArea', 'សៀវភៅតាមដាន_${E(stu.name)}', true)">🖨️ បោះពុម្ពសៀវភៅ (A4 ផ្តេក កឹបកណ្តាល)</button>
     </div>
-    <div class="f">
-      <button class="bt" onclick="executeStandardPrint('trackingBookPrintArea', 'សៀវភៅតាមដាន_${E(stu.name)}', true)">🖨️ បោះពុម្ព / PDF (A4 ផ្តេក កឹបកណ្តាល)</button>
-    </div>
-    <small class="hint-note">💡 <b>ស្តង់ដារក្រសួងអប់រំ ១០០%៖</b> បែងចែកទម្រង់អូតូតាមកម្រិត <b>(បឋមសិក្សា៖ ១៦ មុខវិជ្ជាគូស ✓ | អនុវិទ្យាល័យ និងវិទ្យាល័យ៖ ១៥ មុខវិជ្ជា + កិច្ចសន្យាអាណាព្យាបាល)</b> តម្រឹមចំកណ្តាលក្រដាស A4 ផ្តេក មានបន្ទាត់ចុចៗខ័ណ្ឌកណ្តាល។</small>
+    <small class="hint-note">💡 <b>ទម្រង់ស្តង់ដាសៀវភៅកឹបកណ្តាល (A4 Landscape Booklet)៖</b> ក្រដាស A4 ផ្តេក ១ សន្លឹកចែកជា ២ ទំព័រ A5 ពេញទំហំ មាន <b>បន្ទាត់ចុចៗខ័ណ្ឌចំកណ្តាល</b> (បឋមសិក្សា៖ ១៦ មុខវិជ្ជាគូស ✓ | អនុវិទ្យាល័យ និងវិទ្យាល័យ៖ ១៥ មុខវិជ្ជា + កិច្ចសន្យាអាណាព្យាបាល)។</small>
 
     <div id="trackingBookPrintArea">${fullBookletHtml}</div>
   </div>`;
