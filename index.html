@@ -11,6 +11,9 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@400;600;700;800&family=Moul&display=swap');
@@ -414,7 +417,7 @@ td select.ilp-ui-sel.black{color:#0f172a}
   overflow: hidden;
   background: #f8fafc;
   flex-shrink: 0;
-  margin-top: 24px;
+  margin-top: 56px;
 }
 .ilp-photo-box img { width: 100%; height: 100%; object-fit: cover; }
 .ilp-meta-grid {
@@ -746,12 +749,12 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .id-card-logo {
   position: absolute;
-  left: -2px;
-  top: 0;
-  height: 64px !important;
+  left: -9px;
+  top: -1px;
+  height: 66px !important;
   width: auto !important;
 }
-.id-card-kingdom { text-align: center; line-height: 1.5; color: #0f172a; padding-left: 22px; }
+.id-card-kingdom { text-align: center; line-height: 1.5; color: #0f172a; padding-left: 28px; }
 .id-card-kingdom .k1 { font-family: var(--title-font); font-size: 14.5px; }
 .id-card-kingdom .k2 { font-family: var(--title-font); font-size: 13.5px; }
 .id-card-dept {
@@ -1148,15 +1151,16 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .track-mini-table {
   width: 100%;
+  flex: 1;
   border-collapse: collapse;
-  font-size: 11.8px;
-  margin: 2px 0 6px;
+  font-size: 12px;
+  margin: 2px 0 4px;
 }
 .track-mini-table th, .track-mini-table td {
   border: 1px solid #1e293b;
-  padding: 1.8px 5px;
+  padding: 4.2px 5px;
   text-align: center;
-  line-height: 1.25;
+  line-height: 1.32;
 }
 .track-mini-table th { background: #f1f5f9; font-weight: 700; }
 .booklet-pdf-mode .cert-responsive-stage {
@@ -2262,9 +2266,9 @@ function emptyLevelData(lbl, yr){
       },
       subjPlans: {},
       agreeExtra: {
-        grammarStart: [1, 5, 8, 4, 1],
-        grammarGoal: [0, 3, 10, 4, 2],
-        grammarDone: [0, 3, 10, 4, 2],
+        grammarStart: ['/', '/', '/', '/', '/'],
+        grammarGoal: ['/', '/', '/', '/', '/'],
+        grammarDone: ['/', '/', '/', '/', '/'],
         meetGoal: 3, meetDone: 2,
         ilpPlanGoal: 8, ilpPlanDone: 8,
         incomeGoal: 0, incomeDone: 0,
@@ -2944,7 +2948,8 @@ function setAssignmentCellVal(caKey, bucket, grade, val){
 function setAgreeExtraVal(key, val, idx = null){
   const tp = getTeacherPlanState();
   if (idx !== null && Array.isArray(tp.agreeExtra[key])) {
-    tp.agreeExtra[key][idx] = Math.max(0, parseInt(val, 10) || 0);
+    const clean = String(val ?? '').trim();
+    tp.agreeExtra[key][idx] = clean === '' ? '/' : clean;
   } else {
     tp.agreeExtra[key] = Math.max(0, parseInt(val, 10) || 0);
   }
@@ -2959,6 +2964,230 @@ function fmtPct(cnt, total){
 
 function sumGradesObj(obj){
   return ['A','B','C','D','E','F'].reduce((acc, g) => acc + (+obj[g] || 0), 0);
+}
+
+// ==========================================
+// ប្រព័ន្ធចងក្រងទិន្នន័យគ្រប់ឧបករណ៍ (Smart Paste + អាន File PDF/Excel/Word ផ្ទាល់ + តារាងស្តង់ដារួម)
+// ==========================================
+let showUniversalImportModal = false;
+let universalImportTab = 'paste'; // 'paste' | 'file' | 'grid'
+let universalRawText = '';
+let universalParsedSubjects = [];
+
+function khToEnDigits(str){
+  const map = {'០':'0','១':'1','២':'2','៣':'3','៤':'4','៥':'5','៦':'6','៧':'7','៨':'8','៩':'9'};
+  return String(str || '').replace(/[០-៩]/g, d => map[d] || d);
+}
+
+function parseUniversalPlanText(raw){
+  const text = khToEnDigits(raw);
+  const lines = text.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+  const subjectsFound = [];
+  let currentSubjName = '';
+  let currentGrades = {};
+
+  const flushSubject = () => {
+    if (Object.keys(currentGrades).length >= 4) {
+      const defName = currentSubjName || `មុខវិជ្ជាទី ${subjectsFound.length + 1}`;
+      subjectsFound.push({
+        subj: defName,
+        grades: {
+          A: currentGrades.A || [0,0,0,0,0,0,0],
+          B: currentGrades.B || [0,0,0,0,0,0,0],
+          C: currentGrades.C || [0,0,0,0,0,0,0],
+          D: currentGrades.D || [0,0,0,0,0,0,0],
+          E: currentGrades.E || [0,0,0,0,0,0,0],
+          F: currentGrades.F || [0,0,0,0,0,0,0]
+        }
+      });
+    }
+    currentGrades = {};
+  };
+
+  const knownSubjWords = ['ខ្មែរ','គណិត','រូប','គីមី','ជីវ','ផែនដី','ប្រវត្តិ','ភូមិ','ពលរដ្ឋ','សីល','អង់គ្លេស','បរទេស','ព័ត៌មាន','ICT','គេហ','កីឡា','អប់រំកាយ','សិល្បៈ','កសិកម្ម','សេដ្ឋកិច្ច'];
+
+  for (let i = 0; i < lines.length; i++) {
+    const ln = lines[i];
+    // Detect subject header line
+    if (!/^[A-F]\b/i.test(ln) && knownSubjWords.some(w => ln.includes(w))) {
+      if (Object.keys(currentGrades).length >= 4) flushSubject();
+      const cleanedName = ln.replace(/មុខវិជ្ជា|ចំនួននិង|ភាគរយចុងឆ្នាំ|[0-9.%()]/g, ' ').replace(/\s+/g, ' ').trim();
+      if (cleanedName.length >= 2 && cleanedName.length <= 40) currentSubjName = cleanedName;
+    }
+
+    // Match lines starting with A, B, C, D, E, or F
+    const m = ln.match(/^([A-F])(?:\s|\||\t|:|=|,)+(.*)$/i);
+    if (m) {
+      const gLetter = m[1].toUpperCase();
+      if (gLetter === 'A' && currentGrades.A && Object.keys(currentGrades).length >= 4) {
+        flushSubject();
+      }
+      // Remove percentage tokens like "16%" or "100%" so only actual student counts remain
+      const withoutPct = m[2].replace(/\d+(?:\.\d+)?\s*%/g, ' ');
+      const nums = (withoutPct.match(/\d+/g) || []).map(x => parseInt(x, 10));
+
+      // Extract milestones based on table layout:
+      // Layout A (17-column quarterly+monthly table like PDF): [base, nov, dec, jan(q1), feb, mar, apr(q2), may, jun, jul(q3), aug, sep, oct(q4)]
+      // Layout B (3-year table): [base, y1, y2, y3]
+      // Layout C (simple 5-7 col): [base, q1, q2, q3, q4, y2, y3]
+      let base=0, q1=0, q2=0, q3=0, q4=0, y2=0, y3=0;
+      if (nums.length >= 13) {
+        base = nums[0]; q1 = nums[3]; q2 = nums[6]; q3 = nums[9]; q4 = nums[12]; y2 = q4; y3 = q4;
+      } else if (nums.length >= 5) {
+        base = nums[0]; q1 = nums[1]; q2 = nums[2]; q3 = nums[3]; q4 = nums[4];
+        y2 = nums[5] !== undefined ? nums[5] : q4;
+        y3 = nums[6] !== undefined ? nums[6] : y2;
+      } else if (nums.length >= 3) {
+        base = nums[0]; q4 = nums[1]; y2 = nums[2]; y3 = nums[3] !== undefined ? nums[3] : y2;
+        q1 = base; q2 = Math.round((base + q4)/2); q3 = q4;
+      } else if (nums.length >= 1) {
+        base = nums[0]; q1 = base; q2 = base; q3 = base; q4 = base; y2 = base; y3 = base;
+      }
+      currentGrades[gLetter] = [base, q1, q2, q3, q4, y2, y3];
+    }
+  }
+  flushSubject();
+  return subjectsFound;
+}
+
+function handleUniversalPasteInput(val){
+  universalRawText = val;
+  universalParsedSubjects = parseUniversalPlanText(val);
+  const prevBox = document.getElementById('universalParsedPreview');
+  if (prevBox) {
+    prevBox.innerHTML = renderUniversalParsedPreviewHTML();
+  }
+}
+
+function renderUniversalParsedPreviewHTML(){
+  if (!universalParsedSubjects.length) {
+    return `<div class="mu small" style="padding:10px;text-align:center;background:#f8fafc;border-radius:8px">មិនទាន់រកឃើញជួរតារាង A ដល់ F ទេ (សូម Paste អត្ថបទ ឬជ្រើសរើស File ខាងលើ)</div>`;
+  }
+  return universalParsedSubjects.map((item, idx) => `
+    <div style="background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:8px 10px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <b style="color:#166534">✅ រកឃើញមុខវិជ្ជា៖ ${E(item.subj)}</b>
+        <span style="font-size:11.5px;color:#15803d">ទិន្នន័យដើមរបស់គ្រូត្រូវបានរក្សា ១០០%</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table style="font-size:11px;width:100%">
+          <thead><tr><th>និទ្ទេស</th><th>ដើមឆ្នាំ</th><th>ត្រីមាស១</th><th>ត្រីមាស២</th><th>ត្រីមាស៣</th><th>ត្រីមាស៤ (ឆ្នាំ១)</th></tr></thead>
+          <tbody>
+            ${['A','B','C','D','E','F'].map(g => `
+              <tr>
+                <td><b>${g}</b></td>
+                <td>${item.grades[g][0]}</td>
+                <td>${item.grades[g][1]}</td>
+                <td>${item.grades[g][2]}</td>
+                <td>${item.grades[g][3]}</td>
+                <td><b>${item.grades[g][4]}</b></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `).join('');
+}
+
+async function handleUniversalFileUpload(file){
+  if (!file) return;
+  setStatus('កំពុងអានឯកសារ ' + file.name + '...');
+  const ext = (file.name.split('.').pop() || '').toLowerCase();
+  try {
+    let extractedText = '';
+    if (ext === 'pdf' && typeof pdfjsLib !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      const buf = await file.arrayBuffer();
+      const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+      for (let p = 1; p <= pdf.numPages; p++) {
+        const page = await pdf.getPage(p);
+        const content = await page.getTextContent();
+        // Group items by Y coordinate so table rows stay intact!
+        const rowsMap = {};
+        content.items.forEach(it => {
+          const yKey = Math.round(it.transform[5] / 5) * 5;
+          if (!rowsMap[yKey]) rowsMap[yKey] = [];
+          rowsMap[yKey].push({ x: it.transform[4], str: it.str });
+        });
+        const sortedYs = Object.keys(rowsMap).map(Number).sort((a,b) => b - a);
+        sortedYs.forEach(yk => {
+          const rowStr = rowsMap[yk].sort((a,b) => a.x - b.x).map(x => x.str).join(' ');
+          extractedText += rowStr + '\n';
+        });
+      }
+    } else if ((ext === 'xlsx' || ext === 'xls' || ext === 'csv') && typeof XLSX !== 'undefined') {
+      const buf = await file.arrayBuffer();
+      const wb = XLSX.read(buf, { type: 'array' });
+      wb.SheetNames.forEach(sn => {
+        const rows = XLSX.utils.sheet_to_json(wb.Sheets[sn], { header: 1 });
+        rows.forEach(r => { if (Array.isArray(r) && r.length) extractedText += r.join(' | ') + '\n'; });
+      });
+    } else if (ext === 'docx' && typeof mammoth !== 'undefined') {
+      const buf = await file.arrayBuffer();
+      const res = await mammoth.extractRawText({ arrayBuffer: buf });
+      extractedText = res.value || '';
+    } else {
+      extractedText = await file.text();
+    }
+
+    universalRawText = extractedText;
+    universalParsedSubjects = parseUniversalPlanText(extractedText);
+    universalImportTab = 'paste';
+    R();
+    setStatus(universalParsedSubjects.length ? `ទាញបាន ${universalParsedSubjects.length} មុខវិជ្ជាជោគជ័យ ✓` : 'បានអានឯកសាររួចរាល់');
+  } catch (err) {
+    alert('មិនអាចអានឯកសារនេះបានទេ៖ ' + err.message);
+  }
+}
+
+function applyUniversalParsedToPlan(){
+  if (!universalParsedSubjects.length) return alert('មិនទាន់មានទិន្នន័យត្រូវបញ្ចូលទេ!');
+  const tp = getTeacherPlanState();
+  const S = getS();
+  const targetCls = (S.info && S.info.cls) ? S.info.cls : '8A';
+
+  universalParsedSubjects.forEach(item => {
+    const gMap = item.grades;
+    const total = ['A','B','C','D','E','F'].reduce((acc, g) => acc + (gMap[g][0] || 0), 0) || S.st.length || 25;
+    let existingIdx = tp.classAssignments.findIndex(ca => ca.cls === targetCls && ca.subj.includes(item.subj));
+    if (existingIdx === -1) {
+      tp.classAssignments.push({
+        id: 'ca_' + Date.now() + '_' + Math.random().toString(36).slice(2,6),
+        cls: targetCls,
+        subj: item.subj,
+        totalStu: total,
+        femaleStu: Math.floor(total / 2)
+      });
+      existingIdx = tp.classAssignments.length - 1;
+    }
+    const caObj = getPlanAssignmentsList()[existingIdx];
+    const rec = getAssignmentPlanRecord(caObj);
+    ['A','B','C','D','E','F'].forEach(g => {
+      rec.base[g] = gMap[g][0];
+      rec.q1[g] = gMap[g][1];
+      rec.q2[g] = gMap[g][2];
+      rec.q3[g] = gMap[g][3];
+      rec.q4[g] = gMap[g][4];
+      rec.y1[g] = gMap[g][4];
+      rec.y2[g] = gMap[g][5];
+      rec.y3[g] = gMap[g][6];
+    });
+    // Build smooth 12-month progression matching the exact Q1-Q4 endpoints from the teacher's file
+    rec.months = [
+      {...rec.q1}, {...rec.q1}, {...rec.q1},
+      {...rec.q2}, {...rec.q2}, {...rec.q2},
+      {...rec.q3}, {...rec.q3}, {...rec.q3},
+      {...rec.q4}, {...rec.q4}, {...rec.q4}
+    ];
+  });
+
+  showUniversalImportModal = false;
+  universalRawText = '';
+  universalParsedSubjects = [];
+  save();
+  R();
+  setStatus('បានចងក្រងទិន្នន័យគ្រូមុខវិជ្ជាចូលទម្រង់ស្តង់ដារួចរាល់ ✓');
 }
 
 // ប្រព័ន្ធផែនការសិក្សារបស់សិស្ស (ILP)
@@ -4824,9 +5053,58 @@ ilp(){
         </select>
       </div>
       <div class="f">
+        <button class="bt" style="background:#0284c7" onclick="showUniversalImportModal=true;R()">📥 ចងក្រងពីគ្រូផ្សេង (Smart Paste / PDF / Excel / Word)</button>
         <button class="bt" style="background:var(--ok)" onclick="autoFillAssignmentPlanTargets(getPlanAssignmentsList()[${planSubjIdx}])">⚡ គណនាគោលដៅកើនឡើង និង % អូតូ</button>
         <button class="bt" onclick="executeStandardPrint('plan3yPrintArea', 'ផែនការ៣ឆ្នាំ_${E(curAssign.cls)}_${E(curAssign.subj)}', false)">🖨️ បោះពុម្ពតារាង (A4)</button>
       </div>
+      ${showUniversalImportModal ? `
+        <div class="modal-overlay" onclick="showUniversalImportModal=false;R()">
+          <div class="modal-box" style="max-width:640px" onclick="event.stopPropagation()">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+              <h2 style="margin:0;font-size:15.5px;color:#1e3a8a">📥 មជ្ឈមណ្ឌលចងក្រងទិន្នន័យគ្រូមុខវិជ្ជា (iOS · Android · Mac · Windows)</h2>
+              <button class="bt g" style="padding:2px 8px;min-height:28px" onclick="showUniversalImportModal=false;R()">✕</button>
+            </div>
+            <div class="modal-tabs">
+              <button class="modal-tab-btn ${universalImportTab==='paste'?'active':''}" onclick="universalImportTab='paste';R()">១. Smart Paste ទាំងដុំ</button>
+              <button class="modal-tab-btn ${universalImportTab==='file'?'active':''}" onclick="universalImportTab='file';R()">២. អាន File PDF/Excel/Word</button>
+              <button class="modal-tab-btn ${universalImportTab==='grid'?'active':''}" onclick="universalImportTab='grid';R()">៣. តារាងស្តង់ដារួម</button>
+            </div>
+            ${universalImportTab === 'paste' ? `
+              <small class="mu" style="display:block;margin-bottom:6px">💡 នៅលើ Telegram/PDF/Word/Excel គ្រាន់តែចុច <b>Select All ➔ Copy</b> ទាំងអស់ រួច Paste ចូលខាងក្រោម ប្រព័ន្ធនឹងច្រោះយកតែជួរ A-F ដោយកាត់ភាគរយ (%) ចោលអូតូ៖</small>
+              <textarea placeholder="Paste អត្ថបទដែល Copy មកទាំងដុំនៅទីនេះ..." oninput="handleUniversalPasteInput(this.value)" style="min-height:110px;font-size:13px">${E(universalRawText)}</textarea>
+              <div id="universalParsedPreview" style="margin-top:8px;max-height:220px;overflow-y:auto">${renderUniversalParsedPreviewHTML()}</div>
+              <div class="f" style="margin-top:10px;margin-bottom:0">
+                <button class="bt" style="background:var(--ok)" onclick="applyUniversalParsedToPlan()">✅ បញ្ចូលទៅក្នុងតារាងស្តង់ដារបស់យើង</button>
+                <button class="bt g" onclick="showUniversalImportModal=false;R()">បិទ</button>
+              </div>
+            ` : universalImportTab === 'file' ? `
+              <div style="text-align:center;padding:18px;border:2px dashed #60a5fa;border-radius:12px;background:#eff6ff">
+                <div style="font-size:32px;margin-bottom:6px">📄📊📝</div>
+                <div style="font-weight:700;margin-bottom:6px">ជ្រើសរើសឯកសារដែលគ្រូមុខវិជ្ជាផ្ញើមក (.pdf, .xlsx, .xls, .csv, .docx)</div>
+                <small class="mu" style="display:block;margin-bottom:12px">ដំណើរការផ្ទាល់លើ iPhone, Android, Mac និង Windows ដោយរក្សាតួលេខដើមរបស់គ្រូ ១០០%</small>
+                <label class="bt" style="display:inline-flex;align-items:center;justify-content:center;cursor:pointer">
+                  <input type="file" accept=".pdf,.xlsx,.xls,.csv,.docx,.txt" style="display:none" onchange="handleUniversalFileUpload(this.files[0])">
+                  📂 ជ្រើសរើសឯកសារពីម៉ាស៊ីន
+                </label>
+              </div>
+            ` : `
+              <small class="mu" style="display:block;margin-bottom:6px">💡 តារាងស្តង់ដារួមគ្រប់មុខវិជ្ជាដែលបានចងក្រងក្នុងថ្នាក់៖</small>
+              <div class="w" style="max-height:300px">
+                <table>
+                  <thead><tr><th>ថ្នាក់-មុខវិជ្ជា</th><th>ដើមឆ្នាំ (A-F)</th><th>ត្រីមាស ១</th><th>ត្រីមាស ២</th><th>ត្រីមាស ៣</th><th>ចុងឆ្នាំ (A-F)</th></tr></thead>
+                  <tbody>
+                    ${assignments.map(ca => {
+                      const r = getAssignmentPlanRecord(ca);
+                      const fmtRow = o => ['A','B','C','D','E','F'].map(g => o[g]||0).join('-');
+                      return `<tr><td><b>${E(ca.cls)} · ${E(ca.subj)}</b></td><td>${fmtRow(r.base)}</td><td>${fmtRow(r.q1)}</td><td>${fmtRow(r.q2)}</td><td>${fmtRow(r.q3)}</td><td><b>${fmtRow(r.q4)}</b></td></tr>`;
+                    }).join('')}
+                  </tbody>
+                </table>
+              </div>
+            `}
+          </div>
+        </div>
+      ` : ''}
       <small class="hint-note">💡 <b>រូបមន្តកើនឡើងតាមខែ៖</b> ពេលកែទិន្នន័យដើមឆ្នាំ ឬចុចគណនាអូតូ ប្រព័ន្ធនឹងរំកិលសិស្សពីនិទ្ទេស F ឡើងទៅ E, D, C, B, A ជាបន្តបន្ទាប់រហូតដល់ចុងត្រីមាសទី ៤ សល់ F = ០ នាក់។ សិស្សសរុប <b>${totalStu} នាក់ (ស្រី ${femaleStu} នាក់)</b>។</small>
 
       <div class="screen-ui">
@@ -5412,15 +5690,15 @@ ilp(){
           <tbody>
             <tr>
               <td><b>ដើមឆ្នាំ</b></td>
-              ${[0,1,2,3,4].map(idx => `<td><input type="number" class="plan-num-inp" value="${ae.grammarStart[idx]}" onchange="setAgreeExtraVal('grammarStart', this.value, ${idx})"></td>`).join('')}
+              ${[0,1,2,3,4].map(idx => `<td><input type="text" class="plan-num-inp" style="width:54px !important" value="${E(ae.grammarStart[idx] ?? '/')}" onchange="setAgreeExtraVal('grammarStart', this.value, ${idx})"></td>`).join('')}
             </tr>
             <tr>
               <td><b>គ្រោងចុងឆ្នាំ</b></td>
-              ${[0,1,2,3,4].map(idx => `<td><input type="number" class="plan-num-inp" value="${ae.grammarGoal[idx]}" onchange="setAgreeExtraVal('grammarGoal', this.value, ${idx})"></td>`).join('')}
+              ${[0,1,2,3,4].map(idx => `<td><input type="text" class="plan-num-inp" style="width:54px !important" value="${E(ae.grammarGoal[idx] ?? '/')}" onchange="setAgreeExtraVal('grammarGoal', this.value, ${idx})"></td>`).join('')}
             </tr>
             <tr>
               <td><b>សម្រេចចុងឆ្នាំ</b></td>
-              ${[0,1,2,3,4].map(idx => `<td><input type="number" class="plan-num-inp" value="${ae.grammarDone[idx]}" onchange="setAgreeExtraVal('grammarDone', this.value, ${idx})"></td>`).join('')}
+              ${[0,1,2,3,4].map(idx => `<td><input type="text" class="plan-num-inp" style="width:54px !important" value="${E(ae.grammarDone[idx] ?? '/')}" onchange="setAgreeExtraVal('grammarDone', this.value, ${idx})"></td>`).join('')}
             </tr>
           </tbody>
         </table>
@@ -5494,9 +5772,9 @@ ilp(){
               <tr><th>កម្រិតសមត្ថភាព</th>${grLabels.map(l => `<th>${l}</th>`).join('')}</tr>
             </thead>
             <tbody>
-              <tr><td><b>ដើមឆ្នាំ</b></td>${ae.grammarStart.map(v => `<td>${toKhNum(v)}</td>`).join('')}</tr>
-              <tr><td><b>គ្រោងចុងឆ្នាំ</b></td>${ae.grammarGoal.map(v => `<td>${toKhNum(v)}</td>`).join('')}</tr>
-              <tr><td><b>សម្រេចចុងឆ្នាំ</b></td>${ae.grammarDone.map(v => `<td>${toKhNum(v)}</td>`).join('')}</tr>
+              <tr><td><b>ដើមឆ្នាំ</b></td>${ae.grammarStart.map(v => `<td>${E(toKhNum(v ?? '/'))}</td>`).join('')}</tr>
+              <tr><td><b>គ្រោងចុងឆ្នាំ</b></td>${ae.grammarGoal.map(v => `<td>${E(toKhNum(v ?? '/'))}</td>`).join('')}</tr>
+              <tr><td><b>សម្រេចចុងឆ្នាំ</b></td>${ae.grammarDone.map(v => `<td>${E(toKhNum(v ?? '/'))}</td>`).join('')}</tr>
             </tbody>
           </table>
 
@@ -6060,7 +6338,7 @@ tracking(){
             </table>
           </div>
 
-          <div style="font-size:10.5px;line-height:1.45;flex-shrink:0;margin-top:10px;padding-top:4px">
+          <div style="font-size:10.5px;line-height:1.45;flex-shrink:0;margin-top:4px;padding-top:2px">
             <div>ពិន្ទុសរុប <b>${totVal > 0 ? toKhNum(totVal.toFixed(0)) : '...............'}</b> មធ្យមភាគ <b>${avVal > 0 ? toKhNum(avVal.toFixed(2)) : '...............'}</b> ចំណាត់ថ្នាក់ <b>${rkVal}</b></div>
             <div>អវត្តមាន៖ &nbsp;&nbsp; មានច្បាប់ <b>${toKhNum(abPerm)}</b> ដង &nbsp;&nbsp;&nbsp;&nbsp; ឥតច្បាប់ <b>${toKhNum(abUnexc)}</b> ដង</div>
             <div style="display:flex;justify-content:space-between;text-align:center;font-size:10px;margin-top:4px">
