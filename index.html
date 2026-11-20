@@ -2238,11 +2238,11 @@ function smartKhmerDate(val){
 }
 
 const SUBJ_PRIMARY = [
-  {n:'ភាសាខ្មែរ', s:[['ស្តាប់',5],['និយាយ',5],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',5]]},
-  {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',5],['ដោះស្រាយ',5]]},
-  {n:'សិក្សាសង្គម', s:[['ចំណេះដឹង',5],['អនុវត្ត',5]]},
-  {n:'វិទ្យាសាស្ត្រ', s:[['ទ្រឹស្តី',5],['ពិសោធ',5]]},
-  {n:'អប់រំកាយ', s:[['សកម្មភាព',5]]}
+  {n:'ភាសាខ្មែរ', s:[['ស្តាប់',10],['និយាយ',10],['អាន',10],['សរសេរ',10],['អក្ខរាវិរុទ្ធ',10]]},
+  {n:'គណិតវិទ្យា', s:[['ចំនួន',10],['ប្រមាណវិធី',10],['ធរណីមាត្រ',10],['ដោះស្រាយ',10]]},
+  {n:'សិក្សាសង្គម', s:[['ចំណេះដឹង',10],['អនុវត្ត',10]]},
+  {n:'វិទ្យាសាស្ត្រ', s:[['ទ្រឹស្តី',10],['ពិសោធ',10]]},
+  {n:'អប់រំកាយ', s:[['សកម្មភាព',10]]}
 ];
 
 const SUBJ_SECONDARY = [
@@ -2303,10 +2303,10 @@ function getCols(lvl, stream){
 
 function getBaseDiv(lvl, stream){
   const S = getS();
-  if (S && S.info && +S.info.div > 0) return +S.info.div;
+  if (S && S.info && +S.info.div > 0 && +S.info.div !== 8.5) return +S.info.div;
   if (lvl === 'high') return stream === 'social' ? 12.5 : 13;
   if (lvl === 'secondary') return 17;
-  return 8.5;
+  return 14;
 }
 
 function smartClassDisplay(rawCls, fallback = ''){
@@ -2552,7 +2552,7 @@ let currentLevel = localStorage.getItem(LAST_LEVEL_KEY) || 'secondary';
 allYearsData = {};
 
 function emptyLevelData(lbl, yr){
-  let defDiv = 8.5;
+  let defDiv = 14;
   let defCls = 'ថ្នាក់ទី ៦';
   if (lbl === 'អនុវិទ្យាល័យ') { defDiv = 17; defCls = '៨A'; }
   if (lbl === 'វិទ្យាល័យ') { defDiv = 13; defCls = '១១A'; }
