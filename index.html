@@ -5360,7 +5360,7 @@ ilp(){
       ${classManagerHTML}
       <div class="f row-2">
         <select onchange="planSubjIdx=+this.value;R()">
-          ${assignments.map((ca, idx) => `<option value="${idx}" ${idx===planSubjIdx?'selected':''}>📘 ${toKhNum(idx+1)}. ថ្នាក់ទី ${E(ca.cls)} — ${E(ca.subj)} (${ca.totalStu} នាក់)</option>`).join('')}
+          ${assignments.map((ca, idx) => `<option value="${idx}" ${idx===planSubjIdx?'selected':''}>📘 ${toKhNum(idx+1)}. ${E(smartClassDisplay(ca.cls, ''))} — ${E(ca.subj)} (${ca.totalStu} នាក់)</option>`).join('')}
         </select>
         <select onchange="window.plan3yAllMode=(this.value==='all');R()">
           <option value="single" ${!window.plan3yAllMode?'selected':''}>📄 ទម្រង់ ១ ថ្នាក់/មុខវិជ្ជា</option>
@@ -5423,7 +5423,7 @@ ilp(){
       <small class="hint-note">💡 <b>រូបមន្តកើនឡើងតាមខែ៖</b> ពេលកែទិន្នន័យដើមឆ្នាំ ឬចុចគណនាអូតូ ប្រព័ន្ធនឹងរំកិលសិស្សពីនិទ្ទេស F ឡើងទៅ E, D, C, B, A ជាបន្តបន្ទាប់។ ប៉ុន្តែបើទិន្នន័យទាញពីគ្រូផ្សេង ប្រព័ន្ធនឹង <b>រក្សាតួលេខដើមរបស់គ្រូនោះ ១០០%</b>។ សិស្សសរុប <b>${totalStu} នាក់ (ស្រី ${femaleStu} នាក់)</b>។</small>
 
       <div class="screen-ui">
-        <h2 style="font-size:15px;margin:10px 0 6px">១. ផែនការបង្រៀន ៣ ឆ្នាំ និង ១ ឆ្នាំ (${E(curAssign.subj)} · ថ្នាក់ទី ${E(curAssign.cls)})</h2>
+        <h2 style="font-size:15px;margin:10px 0 6px">១. ផែនការបង្រៀន ៣ ឆ្នាំ និង ១ ឆ្នាំ (${E(curAssign.subj)} · ${E(smartClassDisplay(curAssign.cls, ''))})</h2>
         <div class="w" style="margin-bottom:16px">
           <table>
             <thead>
@@ -5567,7 +5567,7 @@ ilp(){
         ` : `
           <div style="text-align:center;margin:4px 0 8px">
             <div class="muol-title" style="font-size:15.5px">ផែនការ និងរបាយការណ៍បង្រៀន ៣ឆ្នាំ · ១ឆ្នាំ និង ៣ខែ</div>
-            <div style="font-weight:bold;font-size:13px">មុខវិជ្ជា៖ ${E(curAssign.subj)} · ថ្នាក់ទី ${E(curAssign.cls)} · ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
+            <div style="font-weight:bold;font-size:13px">មុខវិជ្ជា៖ ${E(curAssign.subj)} · ${E(smartClassDisplay(curAssign.cls, ''))} · ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
             <div style="font-size:12px">ចំនួនសិស្សសរុប៖ ${toKhNum(totalStu)} នាក់ (ស្រី ${toKhNum(femaleStu)} នាក់) · គ្រូបង្រៀន៖ ${E(i.teacher || '')}</div>
           </div>
 
@@ -5806,7 +5806,7 @@ ilp(){
             </tbody>
           </table>
 
-          <div style="font-weight:bold;font-size:12px;margin:6px 0 2px;text-align:center">ផែនការ និងរបាយការណ៍បង្រៀន ១ឆ្នាំ របស់គ្រូមុខវិជ្ជា (${toKhNum(currentYear)}) — ថ្នាក់ទី ${E(entry.cls)}</div>
+          <div style="font-weight:bold;font-size:12px;margin:6px 0 2px;text-align:center">ផែនការ និងរបាយការណ៍បង្រៀន ១ឆ្នាំ របស់គ្រូមុខវិជ្ជា (${toKhNum(currentYear)}) — ${E(smartClassDisplay(entry.cls, ''))}</div>
           <table class="doc-book-table" style="font-size:10.5px">
             <thead>
               <tr>
@@ -5836,7 +5836,7 @@ ilp(){
             </tbody>
           </table>
 
-          <div style="font-weight:bold;font-size:12px;margin:6px 0 2px;text-align:center">ផែនការ និងរបាយការណ៍បង្រៀន ៣ ខែ របស់គ្រូមុខវិជ្ជា (${toKhNum(currentYear)}) — ថ្នាក់ទី ${E(entry.cls)}</div>
+          <div style="font-weight:bold;font-size:12px;margin:6px 0 2px;text-align:center">ផែនការ និងរបាយការណ៍បង្រៀន ៣ ខែ របស់គ្រូមុខវិជ្ជា (${toKhNum(currentYear)}) — ${E(smartClassDisplay(entry.cls, ''))}</div>
           ${quarterlyTablesHtml}
         </div>
       `;
@@ -5848,7 +5848,7 @@ ilp(){
       ${sharedMetaFormHTML}
       <div class="f row-2">
         <select onchange="planSubjIdx=+this.value;R()">
-          ${assignments.map((ca, idx) => `<option value="${idx}" ${idx===planSubjIdx?'selected':''}>📘 ${toKhNum(idx+1)}. ថ្នាក់ទី ${E(ca.cls)} — ${E(ca.subj)}</option>`).join('')}
+          ${assignments.map((ca, idx) => `<option value="${idx}" ${idx===planSubjIdx?'selected':''}>📘 ${toKhNum(idx+1)}. ${E(smartClassDisplay(ca.cls, ''))} — ${E(ca.subj)}</option>`).join('')}
         </select>
         <select onchange="window.planBookScope=this.value;R()">
           <option value="ordered" ${window.planBookScope==='ordered'?'selected':''}>📑 បោះពុម្ពគ្រប់ថ្នាក់/មុខវិជ្ជាតាមលំដាប់ (${toKhNum(assignments.length)} ផ្នែក)</option>
@@ -6001,7 +6001,7 @@ ilp(){
       if (actRes.scored > 0) doneRow = actRes.counts;
     }
     return `
-      <div style="font-weight:bold;margin:6px 0 3px">${khClassLetters[cIdx] || toKhNum(cIdx+1)}. លទ្ធផលសិក្សារបស់សិស្សថ្នាក់ទី ${E(ca.cls)} មុខវិជ្ជា «${E(ca.subj)}» — សិស្សសរុបចំនួន ${toKhNum(ca.totalStu)} នាក់ ស្រី ${toKhNum(ca.femaleStu)} នាក់</div>
+      <div style="font-weight:bold;margin:6px 0 3px">${khClassLetters[cIdx] || toKhNum(cIdx+1)}. លទ្ធផលសិក្សារបស់សិស្ស${E(smartClassDisplay(ca.cls, ''))} មុខវិជ្ជា «${E(ca.subj)}» — សិស្សសរុបចំនួន ${toKhNum(ca.totalStu)} នាក់ ស្រី ${toKhNum(ca.femaleStu)} នាក់</div>
       <table class="doc-book-table" style="margin:3px 0 6px">
         <thead>
           <tr><th>និទ្ទេស</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th><th>សរុប</th></tr>
@@ -6115,7 +6115,7 @@ ilp(){
             </tbody>
           </table>
 
-          <div style="font-weight:bold;margin:6px 0 3px">វត្ថុបំណងទី ២៖ សមត្ថភាពអាន វេយ្យាករណ៍ និងការគណនា (${[...new Set(agreeTargetAssignments.map(x => 'ថ្នាក់ទី ' + x.cls))].join(', ')})</div>
+          <div style="font-weight:bold;margin:6px 0 3px">វត្ថុបំណងទី ២៖ សមត្ថភាពអាន វេយ្យាករណ៍ និងការគណនា (${[...new Set(agreeTargetAssignments.map(x => smartClassDisplay(x.cls, '')))].join(', ')})</div>
           <table class="doc-book-table">
             <thead>
               <tr><th>កម្រិតសមត្ថភាព</th>${grLabels.map(l => `<th>${l}</th>`).join('')}</tr>
