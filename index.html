@@ -1010,142 +1010,136 @@ td select.ilp-ui-sel.black{color:#0f172a}
 
 
 /* ========================================================
-   UI/UX & Theme Layout Packages (8 Pro Modes - Preserving Classic Default)
+   Pro Grid 2-Column Standard & Custom 3D/Line/Shadow/Group Colors
    ======================================================== */
-body.ux-dark {
-  --bg: #0b1120;
-  --cd: #111827;
-  --tx: #f1f5f9;
-  --mu: #94a3b8;
-  --bd: #1e293b;
-  --hd: #1e293b;
-}
-body.ux-dark .moeys-header { background: rgba(17, 24, 39, 0.94); }
-body.ux-dark .top { background: rgba(11, 17, 32, 0.94); }
-body.ux-dark .year-bar { background: #1e293b; }
-body.ux-dark .level-tabs-wrap { background: #1e293b; }
-body.ux-dark .ltab.active { background: #334155; color: #38bdf8; }
-body.ux-dark input, body.ux-dark select, body.ux-dark textarea { background: #0f172a; color: #f8fafc; border-color: #334155; }
-body.ux-dark td, body.ux-dark .sn { background: #111827; color: #f1f5f9; }
-body.ux-dark th, body.ux-dark th.sn { background: #1e293b; color: #cbd5e1; }
-
-/* Mode 2: Pro Grid 2-Column (Daily-Ads Style) */
 .hg.ux-grid2 {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+  gap: 11px;
 }
-@media(min-width: 720px) { .hg.ux-grid2 { grid-template-columns: repeat(3, 1fr); gap: 12px; } }
+@media(min-width: 720px) { .hg.ux-grid2 { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; } }
+
 .ux-card-btn {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
   padding: 12px 11px;
-  border-radius: 16px;
+  min-height: 76px;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: var(--btn-radius, 16px);
   text-align: left;
   cursor: pointer;
   user-select: none;
   -webkit-user-select: none;
-  transition: transform 0.14s ease, box-shadow 0.14s ease;
   position: relative;
   overflow: hidden;
+  background: var(--card-bg, linear-gradient(135deg, #082f49 0%, #0369a1 100%));
+  color: var(--card-tx, #ffffff);
+  border: var(--card-line-w, 1.5px) solid var(--card-line-c, rgba(56, 189, 248, 0.35));
+  border-bottom: calc(var(--card-line-w, 1.5px) + var(--card-3d, 3px)) solid var(--card-3d-c, #062134);
+  box-shadow: var(--card-shadow, 0 8px 18px rgba(8, 47, 73, 0.24), 0 2px 4px rgba(0, 0, 0, 0.12));
+  transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
 }
-.ux-card-btn:active { transform: scale(0.96); }
+
+/* Theme 2: Analytics KPI Card Style (matching Analytics Dashboard cards, equal size, 3-Group colors) */
+.ux-kpi-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 13px 13px;
+  min-height: 98px;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: var(--btn-radius, 16px);
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  position: relative;
+  overflow: hidden;
+  color: var(--card-tx, #ffffff);
+  border: var(--card-line-w, 1.5px) solid rgba(255, 255, 255, 0.25);
+  border-bottom: calc(var(--card-line-w, 1.5px) + var(--card-3d, 3px)) solid rgba(0, 0, 0, 0.28);
+  box-shadow: var(--card-shadow, 0 8px 18px rgba(15, 23, 42, 0.18));
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.ux-kpi-card:active {
+  transform: translateY(var(--card-3d, 3px)) !important;
+  border-bottom-width: var(--card-line-w, 1.5px) !important;
+}
+.ux-kpi-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 700;
+  opacity: 0.94;
+  width: 100%;
+}
+.ux-kpi-main {
+  font-size: 15.5px;
+  font-weight: 800;
+  line-height: 1.3;
+  margin: 4px 0 2px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.ux-kpi-sub {
+  font-size: 10.5px;
+  opacity: 0.85;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+.ux-card-btn:active {
+  transform: translateY(var(--card-3d, 3px)) !important;
+  border-bottom-width: var(--card-line-w, 1.5px) !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+}
+.ux-card-btn.is-danger {
+  background: linear-gradient(135deg, #991b1b 0%, #dc2626 100%) !important;
+  color: #ffffff !important;
+  border-color: rgba(254, 202, 202, 0.45) !important;
+  border-bottom-color: #7f1d1d !important;
+}
 .ux-card-left { display: flex; align-items: center; gap: 9px; min-width: 0; flex: 1; }
 .ux-card-ico {
   width: 38px; height: 38px; border-radius: 11px;
   display: flex; align-items: center; justify-content: center;
   font-size: 19px; flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.18);
 }
 .ux-card-meta { min-width: 0; flex: 1; }
-.ux-card-title { font-size: 13px; font-weight: 800; line-height: 1.3; display: block; }
-.ux-card-sub { font-size: 10.5px; opacity: 0.78; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+.ux-card-title { font-size: 13px; font-weight: 800; line-height: 1.3; display: block; color: inherit; }
+.ux-card-sub { font-size: 10.5px; opacity: 0.84; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; color: inherit; }
 .ux-card-arrow {
   width: 24px; height: 24px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
   font-size: 12px; font-weight: 800; flex-shrink: 0;
-}
-
-/* Specific Card Skins */
-.ux-skin-pro_grid .ux-card-btn {
-  background: linear-gradient(135deg, #082f49 0%, #0369a1 100%);
-  color: #ffffff;
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  box-shadow: 0 6px 14px rgba(8, 47, 73, 0.2);
-}
-.ux-skin-pro_grid .ux-card-btn.is-danger { background: linear-gradient(135deg, #991b1b, #dc2626); }
-.ux-skin-pro_grid .ux-card-ico { background: rgba(255, 255, 255, 0.16); }
-.ux-skin-pro_grid .ux-card-arrow { background: #ffffff; color: #082f49; }
-
-.ux-skin-teal_gold .ux-card-btn {
-  background: linear-gradient(145deg, #0c262d 0%, #133b44 100%);
-  color: #fef3c7;
-  border: 1.5px solid rgba(245, 158, 11, 0.55);
-  box-shadow: 0 6px 16px rgba(9, 30, 36, 0.28);
-}
-.ux-skin-teal_gold .ux-card-btn.is-danger { background: linear-gradient(135deg, #7f1d1d, #b91c1c); border-color: #fca5a5; }
-.ux-skin-teal_gold .ux-card-ico { background: rgba(245, 158, 11, 0.18); border: 1px solid rgba(251, 191, 36, 0.4); }
-.ux-skin-teal_gold .ux-card-arrow { background: linear-gradient(135deg, #f59e0b, #d97706); color: #091e24; }
-
-.ux-skin-saas_dash .ux-card-btn {
   background: #ffffff;
-  color: #0f172a;
-  border: 1.5px solid #e2e8f0;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+  color: #082f49;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.18);
 }
-.ux-skin-saas_dash .ux-card-ico { background: var(--ico-bg, #eff6ff); color: var(--ico-fg, #2563eb); }
-.ux-skin-saas_dash .ux-card-arrow { background: #f1f5f9; color: #475569; }
-
-.ux-skin-royal_edu .ux-card-btn {
-  background: #ffffff;
-  color: #1e3a8a;
-  border: 1.5px solid #bfdbfe;
-  border-left: 4px solid #1d4ed8;
-  box-shadow: 0 4px 10px rgba(30, 58, 138, 0.07);
-}
-.ux-skin-royal_edu .ux-card-btn.is-danger { border-color: #fecaca; border-left-color: #dc2626; color: #991b1b; }
-.ux-skin-royal_edu .ux-card-ico { background: #eff6ff; }
-.ux-skin-royal_edu .ux-card-arrow { background: #dbeafe; color: #1e40af; }
-
-.ux-skin-emerald_soft .ux-card-btn {
-  background: #ffffff;
-  color: #064e3b;
-  border: 1.5px solid #a7f3d0;
-  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.08);
-}
-.ux-skin-emerald_soft .ux-card-btn.is-danger { border-color: #fecaca; color: #991b1b; }
-.ux-skin-emerald_soft .ux-card-ico { background: #ecfdf5; }
-.ux-skin-emerald_soft .ux-card-arrow { background: #d1fae5; color: #065f46; }
-
-.ux-skin-midnight_pro .ux-card-btn {
-  background: #1e293b;
-  color: #f8fafc;
-  border: 1.5px solid #334155;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-}
-.ux-skin-midnight_pro .ux-card-btn.is-danger { background: #450a0a; border-color: #991b1b; }
-.ux-skin-midnight_pro .ux-card-ico { background: rgba(56, 189, 248, 0.15); }
-.ux-skin-midnight_pro .ux-card-arrow { background: #38bdf8; color: #0f172a; }
-
-.ux-skin-rose_indigo .ux-card-btn {
-  background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
-  color: #4c1d95;
-  border: 1.5px solid #fbcfe8;
-  border-radius: 20px;
-  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.08);
-}
-.ux-skin-rose_indigo .ux-card-btn.is-danger { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
-.ux-skin-rose_indigo .ux-card-ico { background: #fce7f3; }
-.ux-skin-rose_indigo .ux-card-arrow { background: #f3e8ff; color: #6d28d9; }
-
 .ux-group-title {
   text-align: left;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 800;
   color: var(--ac);
-  margin: 14px 0 7px;
-  padding-left: 4px;
+  margin: 15px 0 8px;
+  padding: 4px 10px;
+  background: rgba(37, 99, 235, 0.07);
+  border-left: 4px solid var(--ac);
+  border-radius: 6px;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -2365,16 +2359,43 @@ function getBtnOrder(){
 }
 
 const defaultTheme = {
-  layoutMode: 'classic',
-  ac: '#2563eb', gd: '#d97706', ok: '#16a34a', bk: '#334155', rd: '#dc2626', bg: '#f4f6fa',
-  radius: '999px', font: "'Leelawadee UI', 'Kantumruy Pro', 'Khmer UI', sans-serif",
+  layoutMode: 'pro_grid',
+  ac: '#0369a1', gd: '#d97706', ok: '#16a34a', bk: '#082f49', rd: '#dc2626', bg: '#eef2f7',
+  homeCardBg: '#ffffff',
+  radius: '16px', font: "'Leelawadee UI', 'Kantumruy Pro', 'Khmer UI', sans-serif",
   anim: 'fade', touch: 'touch-3d', btnShadow: '0 6px 16px rgba(0, 0, 0, 0.22), 0 2px 4px rgba(0, 0, 0, 0.15)',
-  btnGradOverlay: 'none'
+  btnGradOverlay: 'none',
+  // Pro Grid 3D, Line, Shadow & Group Color Controls
+  pg3dDepth: '3',
+  pgLineStyle: 'cyan', // 'cyan' | 'gold' | 'white' | 'none'
+  pgShadowLevel: 'medium', // 'soft' | 'medium' | 'deep'
+  pgGroupMode: false,
+  pgUniformStart: '#082f49',
+  pgUniformEnd: '#0369a1',
+  pgTextColor: '#ffffff',
+  pgG1Color: '#000088',
+  pgG2Color: '#037C00',
+  pgG3Color: '#ea580c'
 };
 
 function getTheme(){
-  try { return {...defaultTheme, ...JSON.parse(localStorage.getItem(THEME_KEY) || '{}')}; }
+  try {
+    const raw = JSON.parse(localStorage.getItem(THEME_KEY) || '{}');
+    if (raw.layoutMode && !['pro_grid', 'analytics_kpi', 'classic'].includes(raw.layoutMode)) {
+      raw.layoutMode = 'pro_grid';
+    }
+    return {...defaultTheme, ...raw};
+  }
   catch(e){ return defaultTheme; }
+}
+
+function darkenHex(hex, amt = 0.28){
+  const clean = String(hex || '#0369a1').replace('#', '');
+  if (clean.length !== 6) return '#062134';
+  const r = Math.max(0, Math.floor(parseInt(clean.slice(0,2), 16) * (1 - amt)));
+  const g = Math.max(0, Math.floor(parseInt(clean.slice(2,4), 16) * (1 - amt)));
+  const b = Math.max(0, Math.floor(parseInt(clean.slice(4,6), 16) * (1 - amt)));
+  return '#' + [r,g,b].map(x => x.toString(16).padStart(2,'0')).join('');
 }
 
 function applyTheme(th){
@@ -2389,9 +2410,40 @@ function applyTheme(th){
   r.setProperty('--app-font', th.font);
   r.setProperty('--btn-shadow', th.btnShadow || defaultTheme.btnShadow);
   r.setProperty('--btn-grad-overlay', th.btnGradOverlay || defaultTheme.btnGradOverlay);
-  if (document.body) {
-    document.body.classList.toggle('ux-dark', th.layoutMode === 'midnight_pro');
+
+  // Pro Grid 3D, Line, Shadow & Colors
+  const d3 = Math.max(0, Math.min(8, +(th.pg3dDepth ?? 3)));
+  r.setProperty('--card-3d', d3 + 'px');
+
+  if (th.pgLineStyle === 'gold') {
+    r.setProperty('--card-line-w', '1.5px');
+    r.setProperty('--card-line-c', '#fbbf24');
+    r.setProperty('--card-3d-c', '#b45309');
+  } else if (th.pgLineStyle === 'white') {
+    r.setProperty('--card-line-w', '1.5px');
+    r.setProperty('--card-line-c', 'rgba(255,255,255,0.45)');
+    r.setProperty('--card-3d-c', darkenHex(th.pgUniformEnd || '#0369a1', 0.35));
+  } else if (th.pgLineStyle === 'none') {
+    r.setProperty('--card-line-w', '0px');
+    r.setProperty('--card-line-c', 'transparent');
+    r.setProperty('--card-3d-c', darkenHex(th.pgUniformEnd || '#0369a1', 0.35));
+  } else {
+    r.setProperty('--card-line-w', '1.5px');
+    r.setProperty('--card-line-c', 'rgba(56, 189, 248, 0.42)');
+    r.setProperty('--card-3d-c', darkenHex(th.pgUniformEnd || '#0369a1', 0.35));
   }
+
+  if (th.pgShadowLevel === 'soft') {
+    r.setProperty('--card-shadow', '0 3px 8px rgba(15, 23, 42, 0.12)');
+  } else if (th.pgShadowLevel === 'deep') {
+    r.setProperty('--card-shadow', '0 12px 26px rgba(8, 47, 73, 0.36), 0 4px 10px rgba(0, 0, 0, 0.2)');
+  } else {
+    r.setProperty('--card-shadow', '0 7px 16px rgba(8, 47, 73, 0.24), 0 2px 5px rgba(0, 0, 0, 0.12)');
+  }
+
+  r.setProperty('--card-bg', `linear-gradient(135deg, ${th.pgUniformStart || '#082f49'} 0%, ${th.pgUniformEnd || '#0369a1'} 100%)`);
+  r.setProperty('--card-tx', th.pgTextColor || '#ffffff');
+  if (document.body) document.body.classList.remove('ux-dark');
 }
 
 function saveTheme(th){
@@ -4378,6 +4430,16 @@ home(){
     clean: {cls:'rd', danger:true, ico:'🧹', title:`សម្អាតទិន្នន័យ`, sub:`លុបទិន្នន័យ (${levelNames[currentLevel]})`, icoBg:'#fee2e2', icoFg:'#dc2626', txt:`🧹 សម្អាតទិន្នន័យ (${levelNames[currentLevel]})`, act:"reset()"}
   };
 
+  const g1Keys = ['info','stu','sc','examScore','ab'];
+  const g2Keys = ['official','sem','annual','charts','honor','cert','idcard','tracking','ilp'];
+  const g3Keys = ['bk','theme','clean'];
+
+  const getGroupColorForKey = k => {
+    if (g1Keys.includes(k)) return th.pgG1Color || '#000088';
+    if (g2Keys.includes(k)) return th.pgG2Color || '#037C00';
+    return th.pgG3Color || '#ea580c';
+  };
+
   let btnsHtml = '';
   if (layoutMode === 'classic') {
     btnsHtml = order.map(k => {
@@ -4385,12 +4447,55 @@ home(){
       if (!b) return '';
       return `<div class="pb ${b.cls} ${touchCls}" ${b.style?`style="${b.style}"`:''} draggable="true" data-id="${k}" onclick="${b.act}">${b.txt}</div>`;
     }).join('');
-  } else {
-    const renderModernCard = k => {
+  } else if (layoutMode === 'analytics_kpi') {
+    const renderKpiCard = (k, groupColor) => {
       const b = btnDefs[k];
       if (!b) return '';
+      const baseC = b.danger ? '#dc2626' : groupColor;
+      const darkC = darkenHex(baseC, 0.22);
+      const deep3d = th.pgLineStyle === 'gold' ? '#b45309' : darkenHex(baseC, 0.36);
+      const borderC = th.pgLineStyle === 'gold' ? '#fbbf24' : 'rgba(255,255,255,0.28)';
+      const st = `background:linear-gradient(135deg, ${baseC} 0%, ${darkC} 100%);border-color:${borderC};border-bottom-color:${deep3d};`;
       return `
-        <div class="pb ux-card-btn ${b.danger?'is-danger':''} ${touchCls}" draggable="true" data-id="${k}" onclick="${b.act}" style="--ico-bg:${b.icoBg};--ico-fg:${b.icoFg}">
+        <div class="pb ux-kpi-card ${touchCls}" draggable="true" data-id="${k}" onclick="${b.act}" style="${st}">
+          <div class="ux-kpi-top"><span>${b.ico}</span><span>${g1Keys.includes(k)?'គ្រប់គ្រង & ពិន្ទុ':(g2Keys.includes(k)?'របាយការណ៍ A4':'ប្រព័ន្ធ')}</span></div>
+          <div class="ux-kpi-main">${b.title}</div>
+          <div class="ux-kpi-sub">${b.sub}</div>
+        </div>
+      `;
+    };
+
+    if (th.pgGroupMode) {
+      const g1 = g1Keys.filter(k => order.includes(k));
+      const g2 = g2Keys.filter(k => order.includes(k));
+      const g3 = g3Keys.filter(k => order.includes(k));
+      const c1 = th.pgG1Color || '#000088';
+      const c2 = th.pgG2Color || '#037C00';
+      const c3 = th.pgG3Color || '#ea580c';
+      btnsHtml = `
+        <div class="ux-group-title" style="color:${c1};border-left-color:${c1};background:${c1}14">📌 ១. ការគ្រប់គ្រងថ្នាក់ និងបញ្ចូលពិន្ទុ</div>
+        <div class="hg ux-grid2" id="btnGrid">${g1.map(k => renderKpiCard(k, c1)).join('')}</div>
+        <div class="ux-group-title" style="color:${c2};border-left-color:${c2};background:${c2}14">🖨️ ២. របាយការណ៍ និងឯកសារបោះពុម្ពផ្លូវការ</div>
+        <div class="hg ux-grid2">${g2.map(k => renderKpiCard(k, c2)).join('')}</div>
+        <div class="ux-group-title" style="color:${c3};border-left-color:${c3};background:${c3}14">⚙️ ៣. ការកំណត់ និងសុវត្ថិភាពទិន្នន័យ</div>
+        <div class="hg ux-grid2">${g3.map(k => renderKpiCard(k, c3)).join('')}</div>
+      `;
+    } else {
+      // Keep exact user button order (តម្រៀបដូចដើម) while applying group colors & equal card sizes
+      btnsHtml = `<div class="hg ux-grid2" id="btnGrid">${order.map(k => renderKpiCard(k, getGroupColorForKey(k))).join('')}</div>`;
+    }
+  } else {
+    const renderModernCard = (k, groupColor = null) => {
+      const b = btnDefs[k];
+      if (!b) return '';
+      let inlineStyle = `--ico-bg:${b.icoBg};--ico-fg:${b.icoFg};`;
+      if (groupColor && !b.danger) {
+        const darkC = darkenHex(groupColor, 0.28);
+        const deep3d = th.pgLineStyle === 'gold' ? '#b45309' : darkenHex(groupColor, 0.38);
+        inlineStyle += `background:linear-gradient(135deg, ${darkC} 0%, ${groupColor} 100%);border-bottom-color:${deep3d};`;
+      }
+      return `
+        <div class="pb ux-card-btn ${b.danger?'is-danger':''} ${touchCls}" draggable="true" data-id="${k}" onclick="${b.act}" style="${inlineStyle}">
           <div class="ux-card-left">
             <div class="ux-card-ico">${b.ico}</div>
             <div class="ux-card-meta">
@@ -4398,29 +4503,32 @@ home(){
               <span class="ux-card-sub">${b.sub}</span>
             </div>
           </div>
-          <div class="ux-card-arrow">➔</div>
+          <div class="ux-card-arrow" style="color:${groupColor || th.pgUniformStart || '#082f49'}">➔</div>
         </div>
       `;
     };
 
-    if (layoutMode === 'saas_dash') {
-      const g1 = ['info','stu','sc','examScore','ab'].filter(k => order.includes(k));
-      const g2 = ['official','sem','annual','charts','honor','cert','idcard','tracking','ilp'].filter(k => order.includes(k));
-      const g3 = ['bk','theme','clean'].filter(k => order.includes(k));
+    if (th.pgGroupMode) {
+      const g1 = g1Keys.filter(k => order.includes(k));
+      const g2 = g2Keys.filter(k => order.includes(k));
+      const g3 = g3Keys.filter(k => order.includes(k));
+      const c1 = th.pgG1Color || '#000088';
+      const c2 = th.pgG2Color || '#037C00';
+      const c3 = th.pgG3Color || '#ea580c';
       btnsHtml = `
-        <div class="ux-group-title">📌 ១. ការគ្រប់គ្រងថ្នាក់ និងបញ្ចូលពិន្ទុ</div>
-        <div class="hg ux-grid2 ux-skin-${layoutMode}" id="btnGrid">${g1.map(renderModernCard).join('')}</div>
-        <div class="ux-group-title">🖨️ ២. របាយការណ៍ និងឯកសារបោះពុម្ពផ្លូវការ</div>
-        <div class="hg ux-grid2 ux-skin-${layoutMode}">${g2.map(renderModernCard).join('')}</div>
-        <div class="ux-group-title">⚙️ ៣. ការកំណត់ និងសុវត្ថិភាពទិន្នន័យ</div>
-        <div class="hg ux-grid2 ux-skin-${layoutMode}">${g3.map(renderModernCard).join('')}</div>
+        <div class="ux-group-title" style="color:${c1};border-left-color:${c1};background:${c1}14">📌 ១. ការគ្រប់គ្រងថ្នាក់ និងបញ្ចូលពិន្ទុ</div>
+        <div class="hg ux-grid2" id="btnGrid">${g1.map(k => renderModernCard(k, c1)).join('')}</div>
+        <div class="ux-group-title" style="color:${c2};border-left-color:${c2};background:${c2}14">🖨️ ២. របាយការណ៍ និងឯកសារបោះពុម្ពផ្លូវការ</div>
+        <div class="hg ux-grid2">${g2.map(k => renderModernCard(k, c2)).join('')}</div>
+        <div class="ux-group-title" style="color:${c3};border-left-color:${c3};background:${c3}14">⚙️ ៣. ការកំណត់ និងសុវត្ថិភាពទិន្នន័យ</div>
+        <div class="hg ux-grid2">${g3.map(k => renderModernCard(k, c3)).join('')}</div>
       `;
     } else {
-      btnsHtml = `<div class="hg ux-grid2 ux-skin-${layoutMode}" id="btnGrid">${order.map(renderModernCard).join('')}</div>`;
+      btnsHtml = `<div class="hg ux-grid2" id="btnGrid">${order.map(k => renderModernCard(k, null)).join('')}</div>`;
     }
   }
 
-  return `<div class="home">
+  return `<div class="home" style="background:${E(th.homeCardBg || '#ffffff')}">
   <div class="moeys-header">
     <div class="moeys-brand">
       <div class="moeys-logo-wrap" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
@@ -7733,91 +7841,108 @@ idcard(){
 theme(){
   const th = getTheme();
   const touchCls = th.touch || 'touch-3d';
+  const curMode = th.layoutMode || 'pro_grid';
 
   window.applyThemePreset = function(type){
-    if (type === 'classic') {
-      thUpdateMultiple({
-        layoutMode: 'classic',
-        ac: '#2563eb', gd: '#d97706', ok: '#16a34a', bk: '#334155', rd: '#dc2626', bg: '#f4f6fa',
-        radius: '999px',
-        btnShadow: '0 6px 16px rgba(0, 0, 0, 0.22), 0 2px 4px rgba(0, 0, 0, 0.15)',
-        btnGradOverlay: 'none'
-      });
-    } else if (type === 'pro_grid') {
+    if (type === 'pro_grid') {
       thUpdateMultiple({
         layoutMode: 'pro_grid',
-        ac: '#0369a1', gd: '#ea580c', ok: '#0284c7', bk: '#082f49', rd: '#e11d48', bg: '#f1f5f9',
-        radius: '16px',
-        btnShadow: '0 6px 16px rgba(8, 47, 73, 0.22)',
-        btnGradOverlay: 'none'
+        ac: '#0369a1', gd: '#d97706', ok: '#16a34a', bk: '#082f49', rd: '#dc2626',
+        bg: '#eef2f7', homeCardBg: '#ffffff', radius: '16px',
+        pg3dDepth: '3', pgLineStyle: 'cyan', pgShadowLevel: 'medium',
+        pgGroupMode: false, pgUniformStart: '#082f49', pgUniformEnd: '#0369a1', pgTextColor: '#ffffff'
       });
-    } else if (type === 'teal_gold') {
+    } else if (type === 'analytics_kpi') {
       thUpdateMultiple({
-        layoutMode: 'teal_gold',
-        ac: '#113841', gd: '#d97706', ok: '#0d9488', bk: '#091e24', rd: '#be123c', bg: '#f0f4f3',
-        radius: '16px',
-        btnShadow: '0 8px 20px rgba(17, 56, 65, 0.28)',
-        btnGradOverlay: 'none'
+        layoutMode: 'analytics_kpi',
+        ac: '#2563eb', gd: '#d97706', ok: '#16a34a', bk: '#0f172a', rd: '#dc2626',
+        bg: '#f1f5f9', homeCardBg: '#ffffff', radius: '16px',
+        pg3dDepth: '3', pgLineStyle: 'white', pgShadowLevel: 'medium',
+        pgGroupMode: false,
+        pgG1Color: '#000088', pgG2Color: '#037C00', pgG3Color: '#ea580c',
+        pgTextColor: '#ffffff'
       });
-    } else if (type === 'saas_dash') {
+    } else if (type === 'classic') {
       thUpdateMultiple({
-        layoutMode: 'saas_dash',
-        ac: '#2563eb', gd: '#f59e0b', ok: '#16a34a', bk: '#1e293b', rd: '#dc2626', bg: '#f8fafc',
-        radius: '14px',
-        btnShadow: '0 4px 12px rgba(15, 23, 42, 0.08)',
-        btnGradOverlay: 'none'
-      });
-    } else if (type === 'royal_edu') {
-      thUpdateMultiple({
-        layoutMode: 'royal_edu',
-        ac: '#1e3a8a', gd: '#b45309', ok: '#15803d', bk: '#1e293b', rd: '#b91c1c', bg: '#eff6ff',
-        radius: '12px',
-        btnShadow: '0 4px 12px rgba(30, 58, 138, 0.12)',
-        btnGradOverlay: 'none'
-      });
-    } else if (type === 'emerald_soft') {
-      thUpdateMultiple({
-        layoutMode: 'emerald_soft',
-        ac: '#059669', gd: '#d97706', ok: '#16a34a', bk: '#064e3b', rd: '#dc2626', bg: '#ecfdf5',
-        radius: '16px',
-        btnShadow: '0 4px 12px rgba(5, 150, 105, 0.12)',
-        btnGradOverlay: 'none'
-      });
-    } else if (type === 'midnight_pro') {
-      thUpdateMultiple({
-        layoutMode: 'midnight_pro',
-        ac: '#0284c7', gd: '#eab308', ok: '#10b981', bk: '#1e293b', rd: '#f43f5e', bg: '#0b1120',
-        radius: '16px',
-        btnShadow: '0 8px 22px rgba(0, 0, 0, 0.4)',
-        btnGradOverlay: 'none'
-      });
-    } else if (type === 'rose_indigo') {
-      thUpdateMultiple({
-        layoutMode: 'rose_indigo',
-        ac: '#6d28d9', gd: '#db2777', ok: '#059669', bk: '#3b0764', rd: '#e11d48', bg: '#fdf2f8',
-        radius: '20px',
-        btnShadow: '0 4px 14px rgba(109, 40, 217, 0.12)',
+        layoutMode: 'classic',
+        ac: '#2563eb', gd: '#d97706', ok: '#16a34a', bk: '#334155', rd: '#dc2626',
+        bg: '#f4f6fa', homeCardBg: '#ffffff', radius: '999px',
+        btnShadow: '0 6px 16px rgba(0, 0, 0, 0.22), 0 2px 4px rgba(0, 0, 0, 0.15)',
         btnGradOverlay: 'none'
       });
     }
   };
 
-  const curMode = th.layoutMode || 'classic';
   const markActive = m => curMode === m ? 'outline:3px solid #facc15;transform:scale(1.02);' : '';
+  const showGroupPickers = (curMode === 'analytics_kpi') || !!th.pgGroupMode;
 
   return head('កំណត់ស្ទីល និងពណ៌កម្មវិធី') + `<div class="card">
-  <h2>🌟 កញ្ចប់រចនា UI/UX & Theme ស្តង់ដាអាជីព (ចុចម្តង ប្តូរទាំងរូបរាង និងពណ៌)</h2>
-  <small class="hint-note">💡 <b>ទម្រង់ដើម (Classic List)</b> ត្រូវបានរក្សាទុកជាលំនាំដើម។ លោកគ្រូអាចចុចប្តូរទៅម៉ូដ UI/UX ២ ជួរទំនើបៗខាងក្រោម ឬចុចត្រឡប់មកទម្រង់ដើមវិញបានគ្រប់ពេល៖</small>
-  <div class="preset-grid">
-    <div class="preset-btn" style="${markActive('classic')}background:linear-gradient(135deg, #2563eb, #1d4ed8)" onclick="applyThemePreset('classic')">🏠 ទម្រង់ដើម (Classic)</div>
-    <div class="preset-btn" style="${markActive('pro_grid')}background:linear-gradient(135deg, #082f49, #0284c7 65%, #ea580c)" onclick="applyThemePreset('pro_grid')">📱 Pro Grid ២ ជួរ</div>
-    <div class="preset-btn" style="${markActive('teal_gold')}background:linear-gradient(135deg, #091e24, #113841 65%, #d97706);border:1.5px solid #fbbf24" onclick="applyThemePreset('teal_gold')">⚜️ Luxury Teal & Gold</div>
-    <div class="preset-btn" style="${markActive('saas_dash')}background:linear-gradient(135deg, #0f172a, #2563eb)" onclick="applyThemePreset('saas_dash')">📊 SaaS Dashboard</div>
-    <div class="preset-btn" style="${markActive('royal_edu')}background:linear-gradient(135deg, #1e3a8a, #3b82f6)" onclick="applyThemePreset('royal_edu')">💎 Royal Blue ក្រសួង</div>
-    <div class="preset-btn" style="${markActive('emerald_soft')}background:linear-gradient(135deg, #059669, #10b981)" onclick="applyThemePreset('emerald_soft')">🌿 Soft Emerald បៃតង</div>
-    <div class="preset-btn" style="${markActive('midnight_pro')}background:linear-gradient(135deg, #090d16, #1e293b);border:1px solid #38bdf8" onclick="applyThemePreset('midnight_pro')">🌌 Midnight Dark Pro</div>
-    <div class="preset-btn" style="${markActive('rose_indigo')}background:linear-gradient(135deg, #6d28d9, #db2777)" onclick="applyThemePreset('rose_indigo')">🌸 Rose & Indigo</div>
+  <h2>🌟 ទម្រង់បង្ហាញទំព័រដើម (Layout Mode)</h2>
+  <small class="hint-note">💡 <b>📱 Pro Grid ២ ជួរ</b> ត្រូវបានកំណត់ជាទម្រង់ស្តង់ដារដើម។ លោកគ្រូអាចប្តូរទៅ <b>📊 Analytics KPI Cards</b> (កាតពណ៌តាម ៣ ក្រុមមុខងារ) ឬ <b>📋 ទម្រង់បញ្ជី ១ ជួរ</b> បាន៖</small>
+  <div class="preset-grid" style="grid-template-columns:repeat(auto-fit,minmax(145px,1fr))">
+    <div class="preset-btn" style="${markActive('pro_grid')}background:linear-gradient(135deg, #082f49, #0369a1)" onclick="applyThemePreset('pro_grid')">📱 Pro Grid ២ ជួរ (ដើម)</div>
+    <div class="preset-btn" style="${markActive('analytics_kpi')}background:linear-gradient(135deg, #2563eb, #16a34a 55%, #ea580c)" onclick="applyThemePreset('analytics_kpi')">📊 Analytics KPI Cards</div>
+    <div class="preset-btn" style="${markActive('classic')}background:linear-gradient(135deg, #334155, #1e293b)" onclick="applyThemePreset('classic')">📋 បញ្ជី ១ ជួរ (Classic)</div>
   </div>
+
+  ${(curMode === 'pro_grid' || curMode === 'analytics_kpi') ? `
+    <div style="background:#f8fafc;border:1.5px solid #cbd5e1;border-radius:14px;padding:12px;margin:12px 0">
+      <h2 style="margin:0 0 8px;font-size:15px;color:#0f172a">🛠️ កែសម្រួល 📱 Pro Grid ២ ជួរ ដោយដៃ (3D · Line · Shadow · Background)</h2>
+      <div class="f row-2">
+        <label class="mu">បន្ទាត់ស៊ុមព័ទ្ធជុំវិញ (Border Line)
+          <select onchange="thUpdate('pgLineStyle', this.value)">
+            <option value="cyan" ${(th.pgLineStyle||'cyan')==='cyan'?'selected':''}>🔹 បន្ទាត់ខៀវភ្លឺស្តង់ដារ (Cyan Line)</option>
+            <option value="gold" ${th.pgLineStyle==='gold'?'selected':''}>👑 បន្ទាត់មាសប្រណីត (Gold Line VIP)</option>
+            <option value="white" ${th.pgLineStyle==='white'?'selected':''}>⚪ បន្ទាត់សភ្លឺស្រាល (White Line)</option>
+            <option value="none" ${th.pgLineStyle==='none'?'selected':''}>🚫 គ្មានបន្ទាត់ស៊ុម (No Line)</option>
+          </select>
+        </label>
+        <label class="mu">កម្រាស់ប៊ូតុង 3D (3D Thickness)
+          <select onchange="thUpdate('pg3dDepth', this.value)">
+            <option value="0" ${String(th.pg3dDepth)==='0'?'selected':''}>រាបស្មើ (0px - Flat)</option>
+            <option value="2" ${String(th.pg3dDepth)==='2'?'selected':''}>កម្រាស់ស្រាល (2px)</option>
+            <option value="3" ${String(th.pg3dDepth ?? '3')==='3'?'selected':''}>កម្រាស់ 3D ស្តង់ដារ (3px)</option>
+            <option value="5" ${String(th.pg3dDepth)==='5'?'selected':''}>កម្រាស់ 3D ក្រាស់ច្បាស់ (5px)</option>
+          </select>
+        </label>
+      </div>
+      <div class="f row-2">
+        <label class="mu">កម្រិតស្រមោល (Drop Shadow)
+          <select onchange="thUpdate('pgShadowLevel', this.value)">
+            <option value="soft" ${th.pgShadowLevel==='soft'?'selected':''}>ស្រមោលស្រាល (Soft)</option>
+            <option value="medium" ${(th.pgShadowLevel||'medium')==='medium'?'selected':''}>ស្រមោលស្តង់ដារ (Medium)</option>
+            <option value="deep" ${th.pgShadowLevel==='deep'?'selected':''}>ស្រមោលជ្រៅលេចធ្លោ (Deep 3D)</option>
+          </select>
+        </label>
+        <label class="mu">ការរៀបចំបង្ហាញលើទំព័រដើម
+          <select onchange="thUpdate('pgGroupMode', this.value === 'group')">
+            <option value="uniform" ${!th.pgGroupMode?'selected':''}>🔢 តម្រៀបតាមលំដាប់ដើម (ប៉ុនគ្នាទាំងអស់)</option>
+            <option value="group" ${th.pgGroupMode?'selected':''}>📑 បំបែកជា ៣ ផ្នែកមានចំណងជើងក្រុម</option>
+          </select>
+        </label>
+      </div>
+
+      ${!showGroupPickers ? `
+        <div class="f" style="margin-bottom:4px">
+          <div class="cp-box"><input type="color" value="${th.pgUniformStart || '#082f49'}" oninput="thUpdateLive('pgUniformStart', this.value)" onchange="thUpdate('pgUniformStart', this.value)"><span>ពណ៌ប៊ូតុង (ឆ្វេង)</span></div>
+          <div class="cp-box"><input type="color" value="${th.pgUniformEnd || '#0369a1'}" oninput="thUpdateLive('pgUniformEnd', this.value)" onchange="thUpdate('pgUniformEnd', this.value)"><span>ពណ៌ប៊ូតុង (ស្តាំ)</span></div>
+          <div class="cp-box"><input type="color" value="${th.pgTextColor || '#ffffff'}" oninput="thUpdateLive('pgTextColor', this.value)" onchange="thUpdate('pgTextColor', this.value)"><span>ពណ៌អក្សរ</span></div>
+        </div>
+      ` : `
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:10px;margin-bottom:6px">
+          <div style="font-size:12.5px;font-weight:700;color:#1e3a8a;margin-bottom:8px">📊 កំណត់ពណ៌ប៊ូតុងតាមក្រុមមុខងារទាំង ៣៖</div>
+          <div class="cp-box"><input type="color" value="${th.pgG1Color || '#000088'}" oninput="thUpdateSaveOnly('pgG1Color', this.value)" onchange="thUpdate('pgG1Color', this.value)"><span><b>ក្រុមទី ១៖</b> ការគ្រប់គ្រងថ្នាក់ និងបញ្ចូលពិន្ទុ</span></div>
+          <div class="cp-box"><input type="color" value="${th.pgG2Color || '#037C00'}" oninput="thUpdateSaveOnly('pgG2Color', this.value)" onchange="thUpdate('pgG2Color', this.value)"><span><b>ក្រុមទី ២៖</b> របាយការណ៍ និងឯកសារបោះពុម្ពផ្លូវការ</span></div>
+          <div class="cp-box" style="margin-bottom:0"><input type="color" value="${th.pgG3Color || '#ea580c'}" oninput="thUpdateSaveOnly('pgG3Color', this.value)" onchange="thUpdate('pgG3Color', this.value)"><span><b>ក្រុមទី ៣៖</b> ការកំណត់ និងសុវត្ថិភាពទិន្នន័យ</span></div>
+        </div>
+      `}
+
+      <div class="f" style="margin-top:8px;margin-bottom:0">
+        <div class="cp-box"><input type="color" value="${th.bg || '#eef2f7'}" oninput="thUpdateLive('bg', this.value)" onchange="thUpdateSaveOnly('bg', this.value)"><span>ពណ៌ផ្ទៃខាងក្រោយក្រៅ (Outer BG)</span></div>
+        <div class="cp-box"><input type="color" value="${th.homeCardBg || '#ffffff'}" oninput="thUpdateLive('homeCardBg', this.value)" onchange="thUpdate('homeCardBg', this.value)"><span>ពណ៌ផ្ទៃផ្ទាំងមុខ (Card BG)</span></div>
+      </div>
+    </div>
+  ` : ''}
 
   <h2>ជ្រើសរើសចលនា និងការចុច (Animation & Touch UX)</h2>
   <div class="f">
@@ -7852,6 +7977,7 @@ theme(){
       <select onchange="thUpdate('radius', this.value)">
         <option value="6px" ${th.radius==='6px'?'selected':''}>ជ្រុងស្មើរាប (Modern Minimal - 6px)</option>
         <option value="14px" ${th.radius==='14px'?'selected':''}>ជ្រុងមូលស្រាល (iOS Style - 14px)</option>
+        <option value="16px" ${th.radius==='16px'?'selected':''}>ជ្រុងមូលស្តង់ដារ Pro Grid (16px)</option>
         <option value="20px" ${th.radius==='20px'?'selected':''}>ជ្រុងមូលធំ (Smooth - 20px)</option>
         <option value="999px" ${th.radius==='999px'?'selected':''}>រង្វង់មូលទាំងស្រុង (Glossy Pill - 999px)</option>
       </select>
@@ -7865,7 +7991,7 @@ theme(){
     </label>
   </div>
   
-  <h2 style="margin-top:16px">ជ្រើសរើសពណ៌ប៊ូតុង និងផ្ទាំងក្រោយ</h2>
+  <h2 style="margin-top:16px">ជ្រើសរើសពណ៌ប៊ូតុងទូទៅ (សម្រាប់ទម្រង់ Classic និងផ្ទាំងខាងក្នុង)</h2>
   <div class="f">
     <div class="cp-box"><input type="color" value="${th.ac}" oninput="thUpdateLive('ac', this.value)" onchange="thUpdateSaveOnly('ac', this.value)"><span>ប៊ូតុងខៀវ</span></div>
     <div class="cp-box"><input type="color" value="${th.gd}" oninput="thUpdateLive('gd', this.value)" onchange="thUpdateSaveOnly('gd', this.value)"><span>ប៊ូតុងលឿង</span></div>
@@ -7876,7 +8002,7 @@ theme(){
   </div>
 
   <div style="margin-top:20px" class="f">
-    <button class="bt g" onclick="saveTheme(defaultTheme);localStorage.removeItem(ORDER_KEY);go('theme')">កំណត់ស្ទីល និងលំដាប់ប៊ូតុងដើមឡើងវិញ</button>
+    <button class="bt g" onclick="saveTheme(defaultTheme);localStorage.removeItem(ORDER_KEY);go('theme')">🔄 កំណត់ស្ទីលដើមឡើងវិញ (Reset Default)</button>
   </div>
   </div>`;
 },
