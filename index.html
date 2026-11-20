@@ -1008,6 +1008,149 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .preset-btn:active { transform: scale(0.96); }
 
+
+/* ========================================================
+   UI/UX & Theme Layout Packages (8 Pro Modes - Preserving Classic Default)
+   ======================================================== */
+body.ux-dark {
+  --bg: #0b1120;
+  --cd: #111827;
+  --tx: #f1f5f9;
+  --mu: #94a3b8;
+  --bd: #1e293b;
+  --hd: #1e293b;
+}
+body.ux-dark .moeys-header { background: rgba(17, 24, 39, 0.94); }
+body.ux-dark .top { background: rgba(11, 17, 32, 0.94); }
+body.ux-dark .year-bar { background: #1e293b; }
+body.ux-dark .level-tabs-wrap { background: #1e293b; }
+body.ux-dark .ltab.active { background: #334155; color: #38bdf8; }
+body.ux-dark input, body.ux-dark select, body.ux-dark textarea { background: #0f172a; color: #f8fafc; border-color: #334155; }
+body.ux-dark td, body.ux-dark .sn { background: #111827; color: #f1f5f9; }
+body.ux-dark th, body.ux-dark th.sn { background: #1e293b; color: #cbd5e1; }
+
+/* Mode 2: Pro Grid 2-Column (Daily-Ads Style) */
+.hg.ux-grid2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+@media(min-width: 720px) { .hg.ux-grid2 { grid-template-columns: repeat(3, 1fr); gap: 12px; } }
+.ux-card-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 11px;
+  border-radius: 16px;
+  text-align: left;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+  position: relative;
+  overflow: hidden;
+}
+.ux-card-btn:active { transform: scale(0.96); }
+.ux-card-left { display: flex; align-items: center; gap: 9px; min-width: 0; flex: 1; }
+.ux-card-ico {
+  width: 38px; height: 38px; border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 19px; flex-shrink: 0;
+}
+.ux-card-meta { min-width: 0; flex: 1; }
+.ux-card-title { font-size: 13px; font-weight: 800; line-height: 1.3; display: block; }
+.ux-card-sub { font-size: 10.5px; opacity: 0.78; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+.ux-card-arrow {
+  width: 24px; height: 24px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 800; flex-shrink: 0;
+}
+
+/* Specific Card Skins */
+.ux-skin-pro_grid .ux-card-btn {
+  background: linear-gradient(135deg, #082f49 0%, #0369a1 100%);
+  color: #ffffff;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  box-shadow: 0 6px 14px rgba(8, 47, 73, 0.2);
+}
+.ux-skin-pro_grid .ux-card-btn.is-danger { background: linear-gradient(135deg, #991b1b, #dc2626); }
+.ux-skin-pro_grid .ux-card-ico { background: rgba(255, 255, 255, 0.16); }
+.ux-skin-pro_grid .ux-card-arrow { background: #ffffff; color: #082f49; }
+
+.ux-skin-teal_gold .ux-card-btn {
+  background: linear-gradient(145deg, #0c262d 0%, #133b44 100%);
+  color: #fef3c7;
+  border: 1.5px solid rgba(245, 158, 11, 0.55);
+  box-shadow: 0 6px 16px rgba(9, 30, 36, 0.28);
+}
+.ux-skin-teal_gold .ux-card-btn.is-danger { background: linear-gradient(135deg, #7f1d1d, #b91c1c); border-color: #fca5a5; }
+.ux-skin-teal_gold .ux-card-ico { background: rgba(245, 158, 11, 0.18); border: 1px solid rgba(251, 191, 36, 0.4); }
+.ux-skin-teal_gold .ux-card-arrow { background: linear-gradient(135deg, #f59e0b, #d97706); color: #091e24; }
+
+.ux-skin-saas_dash .ux-card-btn {
+  background: #ffffff;
+  color: #0f172a;
+  border: 1.5px solid #e2e8f0;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05);
+}
+.ux-skin-saas_dash .ux-card-ico { background: var(--ico-bg, #eff6ff); color: var(--ico-fg, #2563eb); }
+.ux-skin-saas_dash .ux-card-arrow { background: #f1f5f9; color: #475569; }
+
+.ux-skin-royal_edu .ux-card-btn {
+  background: #ffffff;
+  color: #1e3a8a;
+  border: 1.5px solid #bfdbfe;
+  border-left: 4px solid #1d4ed8;
+  box-shadow: 0 4px 10px rgba(30, 58, 138, 0.07);
+}
+.ux-skin-royal_edu .ux-card-btn.is-danger { border-color: #fecaca; border-left-color: #dc2626; color: #991b1b; }
+.ux-skin-royal_edu .ux-card-ico { background: #eff6ff; }
+.ux-skin-royal_edu .ux-card-arrow { background: #dbeafe; color: #1e40af; }
+
+.ux-skin-emerald_soft .ux-card-btn {
+  background: #ffffff;
+  color: #064e3b;
+  border: 1.5px solid #a7f3d0;
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.08);
+}
+.ux-skin-emerald_soft .ux-card-btn.is-danger { border-color: #fecaca; color: #991b1b; }
+.ux-skin-emerald_soft .ux-card-ico { background: #ecfdf5; }
+.ux-skin-emerald_soft .ux-card-arrow { background: #d1fae5; color: #065f46; }
+
+.ux-skin-midnight_pro .ux-card-btn {
+  background: #1e293b;
+  color: #f8fafc;
+  border: 1.5px solid #334155;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+}
+.ux-skin-midnight_pro .ux-card-btn.is-danger { background: #450a0a; border-color: #991b1b; }
+.ux-skin-midnight_pro .ux-card-ico { background: rgba(56, 189, 248, 0.15); }
+.ux-skin-midnight_pro .ux-card-arrow { background: #38bdf8; color: #0f172a; }
+
+.ux-skin-rose_indigo .ux-card-btn {
+  background: linear-gradient(135deg, #ffffff 0%, #fdf2f8 100%);
+  color: #4c1d95;
+  border: 1.5px solid #fbcfe8;
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(219, 39, 119, 0.08);
+}
+.ux-skin-rose_indigo .ux-card-btn.is-danger { background: #fef2f2; border-color: #fecaca; color: #991b1b; }
+.ux-skin-rose_indigo .ux-card-ico { background: #fce7f3; }
+.ux-skin-rose_indigo .ux-card-arrow { background: #f3e8ff; color: #6d28d9; }
+
+.ux-group-title {
+  text-align: left;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--ac);
+  margin: 14px 0 7px;
+  padding-left: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 @media print{
   *, *::before, *::after {
     -webkit-print-color-adjust: exact !important;
@@ -1936,21 +2079,125 @@ function getKhmerCurrentDate(){
   const m = now.getMonth();
   const y = now.getFullYear();
   const dayOfWeek = now.getDay();
-
   const daysKh = ['អាទិត្យ', 'ចន្ទ', 'អង្គារ', 'ពុធ', 'ព្រហស្បតិ៍', 'សុក្រ', 'សៅរ៍'];
-  
-  const baseDate = new Date(2026, 10, 11);
-  const diffDays = Math.round((new Date(y, m, d) - baseDate) / (1000 * 60 * 60 * 24));
-  
-  let lunarDayNum = (2 + diffDays) % 30;
-  if (lunarDayNum <= 0) lunarDayNum += 30;
-  
-  const moonPhase = lunarDayNum <= 15 ? `${toKhNum(lunarDayNum)}កើត` : `${toKhNum(lunarDayNum - 15)}រោច`;
   const dayName = daysKh[dayOfWeek];
 
+  // ប្រតិទិនចន្ទគតិខ្មែរស្តង់ដារ (គណនាខែចន្ទគតិ ឆ្នាំសត្វ ស័ក និងពុទ្ធសករាជអូតូតាមថ្ងៃពិត)
+  const lunarMonthStarts = [
+    // 2025
+    { dt: [2025, 0, 29], m: 'មាឃ', len: 29 },
+    { dt: [2025, 1, 27], m: 'ផល្គុន', len: 30 },
+    { dt: [2025, 2, 29], m: 'ចេត្រ', len: 29 },
+    { dt: [2025, 3, 27], m: 'ពិសាខ', len: 30 },
+    { dt: [2025, 4, 27], m: 'ជេស្ឋ', len: 29 },
+    { dt: [2025, 5, 25], m: 'អាសាឍ', len: 30 },
+    { dt: [2025, 6, 25], m: 'ស្រាពណ៍', len: 29 },
+    { dt: [2025, 7, 23], m: 'ភទ្របទ', len: 30 },
+    { dt: [2025, 8, 22], m: 'អស្សុជ', len: 29 },
+    { dt: [2025, 9, 21], m: 'កត្តិក', len: 30 },
+    { dt: [2025, 10, 20], m: 'មិគសិរ', len: 29 },
+    { dt: [2025, 11, 19], m: 'បុស្ស', len: 30 },
+    // 2026 (អធិកមាស ទុតិយាសាឍ)
+    { dt: [2026, 0, 18], m: 'មាឃ', len: 29 },
+    { dt: [2026, 1, 16], m: 'ផល្គុន', len: 30 },
+    { dt: [2026, 2, 18], m: 'ចេត្រ', len: 29 },
+    { dt: [2026, 3, 16], m: 'ពិសាខ', len: 30 },
+    { dt: [2026, 4, 16], m: 'ជេស្ឋ', len: 29 },
+    { dt: [2026, 5, 14], m: 'បឋមាសាឍ', len: 30 },
+    { dt: [2026, 6, 14], m: 'ទុតិយាសាឍ', len: 30 },
+    { dt: [2026, 7, 13], m: 'ស្រាពណ៍', len: 29 },
+    { dt: [2026, 8, 11], m: 'ភទ្របទ', len: 30 },
+    { dt: [2026, 9, 11], m: 'អស្សុជ', len: 29 },
+    { dt: [2026, 10, 9], m: 'កត្តិក', len: 30 },
+    { dt: [2026, 11, 9], m: 'មិគសិរ', len: 29 },
+    // 2027
+    { dt: [2027, 0, 7], m: 'បុស្ស', len: 30 },
+    { dt: [2027, 1, 6], m: 'មាឃ', len: 29 },
+    { dt: [2027, 2, 7], m: 'ផល្គុន', len: 30 },
+    { dt: [2027, 3, 6], m: 'ចេត្រ', len: 29 },
+    { dt: [2027, 4, 5], m: 'ពិសាខ', len: 30 },
+    { dt: [2027, 5, 4], m: 'ជេស្ឋ', len: 29 },
+    { dt: [2027, 6, 3], m: 'អាសាឍ', len: 30 },
+    { dt: [2027, 7, 2], m: 'ស្រាពណ៍', len: 29 },
+    { dt: [2027, 7, 31], m: 'ភទ្របទ', len: 30 },
+    { dt: [2027, 8, 30], m: 'អស្សុជ', len: 29 },
+    { dt: [2027, 9, 29], m: 'កត្តិក', len: 30 },
+    { dt: [2027, 10, 28], m: 'មិគសិរ', len: 29 },
+    { dt: [2027, 11, 27], m: 'បុស្ស', len: 30 },
+    // 2028
+    { dt: [2028, 0, 26], m: 'មាឃ', len: 29 },
+    { dt: [2028, 1, 24], m: 'ផល្គុន', len: 30 },
+    { dt: [2028, 2, 25], m: 'ចេត្រ', len: 29 },
+    { dt: [2028, 3, 23], m: 'ពិសាខ', len: 30 },
+    { dt: [2028, 4, 23], m: 'ជេស្ឋ', len: 29 },
+    { dt: [2028, 5, 21], m: 'អាសាឍ', len: 30 },
+    { dt: [2028, 6, 21], m: 'ស្រាពណ៍', len: 29 },
+    { dt: [2028, 7, 19], m: 'ភទ្របទ', len: 30 },
+    { dt: [2028, 8, 18], m: 'អស្សុជ', len: 29 },
+    { dt: [2028, 9, 17], m: 'កត្តិក', len: 30 },
+    { dt: [2028, 10, 16], m: 'មិគសិរ', len: 29 },
+    { dt: [2028, 11, 15], m: 'បុស្ស', len: 30 },
+    // 2029 - 2030
+    { dt: [2029, 0, 14], m: 'មាឃ', len: 29 },
+    { dt: [2029, 1, 12], m: 'ផល្គុន', len: 30 },
+    { dt: [2029, 2, 14], m: 'ចេត្រ', len: 29 },
+    { dt: [2029, 3, 12], m: 'ពិសាខ', len: 30 },
+    { dt: [2029, 4, 12], m: 'ជេស្ឋ', len: 29 },
+    { dt: [2029, 5, 10], m: 'បឋមាសាឍ', len: 30 },
+    { dt: [2029, 6, 10], m: 'ទុតិយាសាឍ', len: 30 },
+    { dt: [2029, 7, 9], m: 'ស្រាពណ៍', len: 29 },
+    { dt: [2029, 8, 7], m: 'ភទ្របទ', len: 30 },
+    { dt: [2029, 9, 7], m: 'អស្សុជ', len: 29 },
+    { dt: [2029, 10, 5], m: 'កត្តិក', len: 30 },
+    { dt: [2029, 11, 5], m: 'មិគសិរ', len: 29 },
+    { dt: [2030, 0, 3], m: 'បុស្ស', len: 30 }
+  ];
+
+  const todayUtc = Date.UTC(y, m, d);
+  let matched = null;
+  for (let idx = lunarMonthStarts.length - 1; idx >= 0; idx--) {
+    const item = lunarMonthStarts[idx];
+    const startUtc = Date.UTC(item.dt[0], item.dt[1], item.dt[2]);
+    if (todayUtc >= startUtc) {
+      const diff = Math.floor((todayUtc - startUtc) / 86400000);
+      matched = { monthName: item.m, dayNum: diff + 1 };
+      break;
+    }
+  }
+
+  let lunarMonthName = 'កត្តិក';
+  let lunarDayNum = 1;
+  if (matched && matched.dayNum <= 30) {
+    lunarMonthName = matched.monthName;
+    lunarDayNum = matched.dayNum;
+  } else {
+    const baseUtc = Date.UTC(2026, 10, 9);
+    const diffDays = Math.floor((todayUtc - baseUtc) / 86400000);
+    const mCycle = ['កត្តិក','មិគសិរ','បុស្ស','មាឃ','ផល្គុន','ចេត្រ','ពិសាខ','ជេស្ឋ','អាសាឍ','ស្រាពណ៍','ភទ្របទ','អស្សុជ'];
+    const totalM = Math.floor(diffDays / 29.530588);
+    lunarMonthName = mCycle[((totalM % 12) + 12) % 12];
+    lunarDayNum = Math.floor(diffDays - totalM * 29.530588) + 1;
+    if (lunarDayNum < 1) lunarDayNum = 1;
+    if (lunarDayNum > 30) lunarDayNum = 30;
+  }
+
+  const moonPhase = lunarDayNum <= 15 ? `${toKhNum(lunarDayNum)}កើត` : `${toKhNum(lunarDayNum - 15)}រោច`;
+
+  // ឆ្នាំសត្វ ទាំង ១២ និង ស័ក ទាំង ១០ (ផ្លាស់ប្តូរនៅពាក់កណ្តាលខែមេសា - ចូលឆ្នាំខ្មែរ)
+  const animals = ['ជូត', 'ឆ្លូវ', 'ខាល', 'ថោះ', 'រោង', 'ម្សាញ់', 'មមី', 'មមែ', 'វក', 'រកា', 'ច', 'កុរ'];
+  const saks = ['សំរឹទ្ធិស័ក', 'ឯកស័ក', 'ទោស័ក', 'ត្រីស័ក', 'ចត្វាស័ក', 'បញ្ចស័ក', 'ឆស័ក', 'សប្តស័ក', 'អដ្ឋស័ក', 'នព្វស័ក'];
+  const isBeforeNewYear = (m < 3) || (m === 3 && d < 15);
+  const khSolarYear = isBeforeNewYear ? (y - 1) : y;
+  const animalName = animals[((khSolarYear - 4) % 12 + 12) % 12];
+  const sakName = saks[((khSolarYear - 8) % 10 + 10) % 10];
+
+  // ពុទ្ធសករាជ (ផ្លាស់ប្តូរនៅថ្ងៃ ១រោច ខែពិសាខ ~ ពាក់កណ្តាលខែឧសភា)
+  const isBeforeVisakha = (m < 4) || (m === 4 && d < 15);
+  const beYear = isBeforeVisakha ? (y + 543) : (y + 544);
+
   return `
-    <div style="font-size:11px;font-weight:bold;white-space:nowrap">ថ្ងៃ${dayName} ${moonPhase} ខែកត្តិក ឆ្នាំមមី អដ្ឋស័ក ពុទ្ធសករាជ</div>
-    <div style="font-size:11.5px;font-weight:bold;margin-top:2px;white-space:nowrap">២៥៧០ ត្រូវនឹងថ្ងៃទី${toKhNum(String(d).padStart(2,'0'))} ខែ${KH_MONTHS[m]} ឆ្នាំ${toKhNum(y)}</div>
+    <div style="font-size:11px;font-weight:bold;white-space:nowrap">ថ្ងៃ${dayName} ${moonPhase} ខែ${lunarMonthName} ឆ្នាំ${animalName} ${sakName} ពុទ្ធសករាជ</div>
+    <div style="font-size:11.5px;font-weight:bold;margin-top:2px;white-space:nowrap">${toKhNum(beYear)} ត្រូវនឹងថ្ងៃទី${toKhNum(String(d).padStart(2,'0'))} ខែ${KH_MONTHS[m]} ឆ្នាំ${toKhNum(y)}</div>
   `;
 }
 
@@ -2118,6 +2365,7 @@ function getBtnOrder(){
 }
 
 const defaultTheme = {
+  layoutMode: 'classic',
   ac: '#2563eb', gd: '#d97706', ok: '#16a34a', bk: '#334155', rd: '#dc2626', bg: '#f4f6fa',
   radius: '999px', font: "'Leelawadee UI', 'Kantumruy Pro', 'Khmer UI', sans-serif",
   anim: 'fade', touch: 'touch-3d', btnShadow: '0 6px 16px rgba(0, 0, 0, 0.22), 0 2px 4px rgba(0, 0, 0, 0.15)',
@@ -2141,6 +2389,9 @@ function applyTheme(th){
   r.setProperty('--app-font', th.font);
   r.setProperty('--btn-shadow', th.btnShadow || defaultTheme.btnShadow);
   r.setProperty('--btn-grad-overlay', th.btnGradOverlay || defaultTheme.btnGradOverlay);
+  if (document.body) {
+    document.body.classList.toggle('ux-dark', th.layoutMode === 'midnight_pro');
+  }
 }
 
 function saveTheme(th){
@@ -4101,35 +4352,73 @@ home(){
   const levelNames = { primary: 'បឋមសិក្សា', secondary: 'អនុវិទ្យាល័យ', high: 'វិទ្យាល័យ' };
   const order = getBtnOrder();
   const yearList = Object.keys(allYearsData);
-  const touchCls = getTheme().touch || 'touch-3d';
+  const th = getTheme();
+  const layoutMode = th.layoutMode || 'classic';
+  const touchCls = th.touch || 'touch-3d';
   const logoSrc = getLogoSrc();
   const showInstallBtn = !isAppStandalone();
 
   const btnDefs = {
-    info: {cls:'bl', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
-    stu: {cls:'bl', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
-    sc: {cls:'gd', txt:'📊 តារាងពិន្ទុប្រចាំខែ', act:"go('sc')"},
-    examScore: {cls:'tl', txt:'📝 តារាងប្រឡងឆមាស', act:"go('examScore')"},
-    official: {cls:'in', txt:'🖨️ បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ', act:"go('official')"},
-    sem: {cls:'gd', txt:'🥇🥈 សរុបពិន្ទុឆមាស (Auto)', act:"go('sem')"},
-    annual: {cls:'ro', txt:'🏆 សរុបលទ្ធផលប្រចាំឆ្នាំ', act:"go('annual')"},
-    charts: {cls:'in', style:'background:#0ea5e9', txt:'📈 ក្រាហ្វិកវិភាគលទ្ធផលសិស្ស', act:"go('charts')"},
-    ab: {cls:'bk', txt:'📋 តារាងអវត្តមាន', act:"go('ab')"},
-    honor: {cls:'pu', txt:'🏅 តារាងកិត្តិយស', act:"go('honor')"},
-    cert: {cls:'tl', txt:'📜 បណ្ណសរសើរស្វ័យប្រវត្តិ', act:"go('cert')"},
-    idcard: {cls:'bl', txt:'🪪 កាតសម្គាល់ខ្លួនសិស្ស', act:"go('idcard')"},
-    tracking: {cls:'tl', style:'background:#0f766e', txt:'📓 សៀវភៅតាមដានការសិក្សា', act:"go('tracking')"},
-    ilp: {cls:'pu', style:'background:#7c3aed', txt:'📋 ផែនការ និងកិច្ចព្រមព្រៀង', act:"go('ilp')"},
-    bk: {cls:'gr', txt:'💾 Backup / Restore', act:"go('bk')"},
-    theme: {cls:'bl', style:'background:#6366f1', txt:'🎨 កំណត់ស្ទីល និងពណ៌', act:"go('theme')"},
-    clean: {cls:'rd', txt:`🧹 សម្អាតទិន្នន័យ (${levelNames[currentLevel]})`, act:"reset()"}
+    info: {cls:'bl', ico:'🏫', title:'ព័ត៌មានសាលា និងគ្រូ', sub:'ឈ្មោះសាលា គ្រូ និងតួចែក', icoBg:'#dbeafe', icoFg:'#1d4ed8', txt:'🏫 ព័ត៌មានសាលា និងគ្រូ', act:"go('info')"},
+    stu: {cls:'bl', ico:'👨‍🎓', title:`ប្រវត្តិរូបសិស្ស (${S.st.length})`, sub:'បញ្ជីឈ្មោះ រូបថត និងអាណាព្យាបាល', icoBg:'#e0e7ff', icoFg:'#4338ca', txt:`👨‍🎓 ប្រវត្តិរូបសិស្ស (${S.st.length} នាក់)`, act:"go('stu')"},
+    sc: {cls:'gd', ico:'📊', title:'តារាងពិន្ទុប្រចាំខែ', sub:'បញ្ចូលពិន្ទុ និងគណនាអូតូ', icoBg:'#fef3c7', icoFg:'#b45309', txt:'📊 តារាងពិន្ទុប្រចាំខែ', act:"go('sc')"},
+    examScore: {cls:'tl', ico:'📝', title:'តារាងប្រឡងឆមាស', sub:'ប្រឡងឆមាសទី ១ និងទី ២', icoBg:'#ccfbf1', icoFg:'#0f766e', txt:'📝 តារាងប្រឡងឆមាស', act:"go('examScore')"},
+    official: {cls:'in', ico:'🖨️', title:'ចំណាត់ថ្នាក់ប្រចាំខែ', sub:'តារាងផ្លូវការ A4 និងស្ថិតិ A-F', icoBg:'#e0f2fe', icoFg:'#0369a1', txt:'🖨️ បោះពុម្ពចំណាត់ថ្នាក់ប្រចាំខែ', act:"go('official')"},
+    sem: {cls:'gd', ico:'🥇', title:'សរុបពិន្ទុឆមាស', sub:'គណនាមធ្យមឆមាសស្វ័យប្រវត្តិ', icoBg:'#ffedd5', icoFg:'#c2410c', txt:'🥇🥈 សរុបពិន្ទុឆមាស (Auto)', act:"go('sem')"},
+    annual: {cls:'ro', ico:'🏆', title:'លទ្ធផលប្រចាំឆ្នាំ', sub:'សរុបប្រចាំឆ្នាំ និងឡើងថ្នាក់', icoBg:'#ffe4e6', icoFg:'#be123c', txt:'🏆 សរុបលទ្ធផលប្រចាំឆ្នាំ', act:"go('annual')"},
+    charts: {cls:'in', style:'background:#0ea5e9', ico:'📈', title:'ក្រាហ្វិកវិភាគសិស្ស', sub:'របាយការណ៍ និងអត្រាជាប់/ធ្លាក់', icoBg:'#e0f2fe', icoFg:'#0284c7', txt:'📈 ក្រាហ្វិកវិភាគលទ្ធផលសិស្ស', act:"go('charts')"},
+    ab: {cls:'bk', ico:'📋', title:'តារាងអវត្តមាន', sub:'កត់ត្រាច្បាប់ និងឥតច្បាប់', icoBg:'#f1f5f9', icoFg:'#334155', txt:'📋 តារាងអវត្តមាន', act:"go('ab')"},
+    honor: {cls:'pu', ico:'🏅', title:'តារាងកិត្តិយស', sub:'សិស្សពូកែ Top 5 ប្រចាំខែ/ឆ្នាំ', icoBg:'#f3e8ff', icoFg:'#7e22ce', txt:'🏅 តារាងកិត្តិយស', act:"go('honor')"},
+    cert: {cls:'tl', ico:'📜', title:'បណ្ណសរសើរអូតូ', sub:'បោះពុម្ពបណ្ណសរសើរ A4 ផ្តេក', icoBg:'#dcfce7', icoFg:'#15803d', txt:'📜 បណ្ណសរសើរស្វ័យប្រវត្តិ', act:"go('cert')"},
+    idcard: {cls:'bl', ico:'🪪', title:'កាតសម្គាល់ខ្លួនសិស្ស', sub:'បោះពុម្ពកាត A6 (៤ កាត/A4)', icoBg:'#dbeafe', icoFg:'#1e40af', txt:'🪪 កាតសម្គាល់ខ្លួនសិស្ស', act:"go('idcard')"},
+    tracking: {cls:'tl', style:'background:#0f766e', ico:'📓', title:'សៀវភៅតាមដាន', sub:'សៀវភៅតាមដានការសិក្សាសិស្ស', icoBg:'#ccfbf1', icoFg:'#115e59', txt:'📓 សៀវភៅតាមដានការសិក្សា', act:"go('tracking')"},
+    ilp: {cls:'pu', style:'background:#7c3aed', ico:'📋', title:'ផែនការ និងកិច្ចព្រមព្រៀង', sub:'ILP ផែនការ ៣ឆ្នាំ និងសៀវភៅគ្រូ', icoBg:'#ede9fe', icoFg:'#6d28d9', txt:'📋 ផែនការ និងកិច្ចព្រមព្រៀង', act:"go('ilp')"},
+    bk: {cls:'gr', ico:'💾', title:'Backup / Restore', sub:'រក្សាទុក និងទាញទិន្នន័យសុវត្ថិភាព', icoBg:'#dcfce7', icoFg:'#16a34a', txt:'💾 Backup / Restore', act:"go('bk')"},
+    theme: {cls:'bl', style:'background:#6366f1', ico:'🎨', title:'កំណត់ស្ទីល និងពណ៌', sub:'ប្តូរទម្រង់ UI/UX ទាំង ៨ ម៉ូដ', icoBg:'#e0e7ff', icoFg:'#4f46e5', txt:'🎨 កំណត់ស្ទីល និងពណ៌', act:"go('theme')"},
+    clean: {cls:'rd', danger:true, ico:'🧹', title:`សម្អាតទិន្នន័យ`, sub:`លុបទិន្នន័យ (${levelNames[currentLevel]})`, icoBg:'#fee2e2', icoFg:'#dc2626', txt:`🧹 សម្អាតទិន្នន័យ (${levelNames[currentLevel]})`, act:"reset()"}
   };
 
-  const btnsHtml = order.map(k => {
-    const b = btnDefs[k];
-    if (!b) return '';
-    return `<div class="pb ${b.cls} ${touchCls}" ${b.style?`style="${b.style}"`:''} draggable="true" data-id="${k}" onclick="${b.act}">${b.txt}</div>`;
-  }).join('');
+  let btnsHtml = '';
+  if (layoutMode === 'classic') {
+    btnsHtml = order.map(k => {
+      const b = btnDefs[k];
+      if (!b) return '';
+      return `<div class="pb ${b.cls} ${touchCls}" ${b.style?`style="${b.style}"`:''} draggable="true" data-id="${k}" onclick="${b.act}">${b.txt}</div>`;
+    }).join('');
+  } else {
+    const renderModernCard = k => {
+      const b = btnDefs[k];
+      if (!b) return '';
+      return `
+        <div class="pb ux-card-btn ${b.danger?'is-danger':''} ${touchCls}" draggable="true" data-id="${k}" onclick="${b.act}" style="--ico-bg:${b.icoBg};--ico-fg:${b.icoFg}">
+          <div class="ux-card-left">
+            <div class="ux-card-ico">${b.ico}</div>
+            <div class="ux-card-meta">
+              <span class="ux-card-title">${b.title}</span>
+              <span class="ux-card-sub">${b.sub}</span>
+            </div>
+          </div>
+          <div class="ux-card-arrow">➔</div>
+        </div>
+      `;
+    };
+
+    if (layoutMode === 'saas_dash') {
+      const g1 = ['info','stu','sc','examScore','ab'].filter(k => order.includes(k));
+      const g2 = ['official','sem','annual','charts','honor','cert','idcard','tracking','ilp'].filter(k => order.includes(k));
+      const g3 = ['bk','theme','clean'].filter(k => order.includes(k));
+      btnsHtml = `
+        <div class="ux-group-title">📌 ១. ការគ្រប់គ្រងថ្នាក់ និងបញ្ចូលពិន្ទុ</div>
+        <div class="hg ux-grid2 ux-skin-${layoutMode}" id="btnGrid">${g1.map(renderModernCard).join('')}</div>
+        <div class="ux-group-title">🖨️ ២. របាយការណ៍ និងឯកសារបោះពុម្ពផ្លូវការ</div>
+        <div class="hg ux-grid2 ux-skin-${layoutMode}">${g2.map(renderModernCard).join('')}</div>
+        <div class="ux-group-title">⚙️ ៣. ការកំណត់ និងសុវត្ថិភាពទិន្នន័យ</div>
+        <div class="hg ux-grid2 ux-skin-${layoutMode}">${g3.map(renderModernCard).join('')}</div>
+      `;
+    } else {
+      btnsHtml = `<div class="hg ux-grid2 ux-skin-${layoutMode}" id="btnGrid">${order.map(renderModernCard).join('')}</div>`;
+    }
+  }
 
   return `<div class="home">
   <div class="moeys-header">
@@ -4176,7 +4465,7 @@ home(){
   ` : ''}
 
   <div class="mu small" style="margin-bottom:10px">💡 អ្នកអាចចុចអូស (Drag & Drop) ប៊ូតុងដើម្បីរៀបចំទីតាំងតាមចិត្តបាន</div>
-  <div class="hg" id="btnGrid">${btnsHtml}</div></div>`;
+  ${layoutMode === 'classic' ? `<div class="hg" id="btnGrid">${btnsHtml}</div>` : btnsHtml}</div>`;
 },
 
 sc(){
@@ -7446,56 +7735,88 @@ theme(){
   const touchCls = th.touch || 'touch-3d';
 
   window.applyThemePreset = function(type){
-    if (type === 'gold') {
+    if (type === 'classic') {
       thUpdateMultiple({
-        ac: '#b45309', gd: '#d97706', ok: '#059669', bk: '#1e293b', rd: '#b91c1c', bg: '#fdfbf7',
-        btnShadow: '0 8px 20px rgba(180, 83, 9, 0.35), 0 2px 6px rgba(0,0,0,0.15)',
-        btnGradOverlay: 'linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.05) 100%)'
+        layoutMode: 'classic',
+        ac: '#2563eb', gd: '#d97706', ok: '#16a34a', bk: '#334155', rd: '#dc2626', bg: '#f4f6fa',
+        radius: '999px',
+        btnShadow: '0 6px 16px rgba(0, 0, 0, 0.22), 0 2px 4px rgba(0, 0, 0, 0.15)',
+        btnGradOverlay: 'none'
       });
-    } else if (type === 'ocean') {
+    } else if (type === 'pro_grid') {
       thUpdateMultiple({
-        ac: '#0284c7', gd: '#0d9488', ok: '#10b981', bk: '#0f172a', rd: '#e11d48', bg: '#f0f9ff',
-        btnShadow: '0 8px 20px rgba(2, 132, 199, 0.35), 0 2px 6px rgba(0,0,0,0.15)',
-        btnGradOverlay: 'linear-gradient(180deg, rgba(255,255,255,0.5) 0%, rgba(255,255,255,0.08) 100%)'
-      });
-    } else if (type === 'emerald') {
-      thUpdateMultiple({
-        ac: '#059669', gd: '#d97706', ok: '#16a34a', bk: '#064e3b', rd: '#dc2626', bg: '#f0fdf4',
-        btnShadow: '0 8px 20px rgba(5, 150, 105, 0.35), 0 2px 6px rgba(0,0,0,0.15)',
-        btnGradOverlay: 'linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.05) 100%)'
-      });
-    } else if (type === 'midnight') {
-      thUpdateMultiple({
-        ac: '#6366f1', gd: '#eab308', ok: '#10b981', bk: '#090d16', rd: '#f43f5e', bg: '#f8fafc',
-        btnShadow: '0 8px 22px rgba(99, 102, 241, 0.35), 0 2px 6px rgba(0,0,0,0.2)',
-        btnGradOverlay: 'linear-gradient(180deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0.02) 100%)'
-      });
-    } else if (type === 'cyan_sunset') {
-      thUpdateMultiple({
-        ac: '#082f49', gd: '#ea580c', ok: '#0284c7', bk: '#0f172a', rd: '#e11d48', bg: '#f8fafc',
-        radius: '18px',
-        btnShadow: '0 8px 20px rgba(8, 47, 73, 0.28), 0 2px 6px rgba(0,0,0,0.12)',
-        btnGradOverlay: 'linear-gradient(135deg, rgba(56,189,248,0.28) 0%, rgba(255,255,255,0.02) 100%)'
+        layoutMode: 'pro_grid',
+        ac: '#0369a1', gd: '#ea580c', ok: '#0284c7', bk: '#082f49', rd: '#e11d48', bg: '#f1f5f9',
+        radius: '16px',
+        btnShadow: '0 6px 16px rgba(8, 47, 73, 0.22)',
+        btnGradOverlay: 'none'
       });
     } else if (type === 'teal_gold') {
       thUpdateMultiple({
-        ac: '#113841', gd: '#d97706', ok: '#0d9488', bk: '#091e24', rd: '#be123c', bg: '#f1f5f4',
-        radius: '999px',
-        btnShadow: '0 8px 22px rgba(17, 56, 65, 0.35), 0 0 0 1.5px rgba(217, 119, 6, 0.45)',
-        btnGradOverlay: 'linear-gradient(180deg, rgba(253,224,71,0.22) 0%, rgba(255,255,255,0.02) 100%)'
+        layoutMode: 'teal_gold',
+        ac: '#113841', gd: '#d97706', ok: '#0d9488', bk: '#091e24', rd: '#be123c', bg: '#f0f4f3',
+        radius: '16px',
+        btnShadow: '0 8px 20px rgba(17, 56, 65, 0.28)',
+        btnGradOverlay: 'none'
+      });
+    } else if (type === 'saas_dash') {
+      thUpdateMultiple({
+        layoutMode: 'saas_dash',
+        ac: '#2563eb', gd: '#f59e0b', ok: '#16a34a', bk: '#1e293b', rd: '#dc2626', bg: '#f8fafc',
+        radius: '14px',
+        btnShadow: '0 4px 12px rgba(15, 23, 42, 0.08)',
+        btnGradOverlay: 'none'
+      });
+    } else if (type === 'royal_edu') {
+      thUpdateMultiple({
+        layoutMode: 'royal_edu',
+        ac: '#1e3a8a', gd: '#b45309', ok: '#15803d', bk: '#1e293b', rd: '#b91c1c', bg: '#eff6ff',
+        radius: '12px',
+        btnShadow: '0 4px 12px rgba(30, 58, 138, 0.12)',
+        btnGradOverlay: 'none'
+      });
+    } else if (type === 'emerald_soft') {
+      thUpdateMultiple({
+        layoutMode: 'emerald_soft',
+        ac: '#059669', gd: '#d97706', ok: '#16a34a', bk: '#064e3b', rd: '#dc2626', bg: '#ecfdf5',
+        radius: '16px',
+        btnShadow: '0 4px 12px rgba(5, 150, 105, 0.12)',
+        btnGradOverlay: 'none'
+      });
+    } else if (type === 'midnight_pro') {
+      thUpdateMultiple({
+        layoutMode: 'midnight_pro',
+        ac: '#0284c7', gd: '#eab308', ok: '#10b981', bk: '#1e293b', rd: '#f43f5e', bg: '#0b1120',
+        radius: '16px',
+        btnShadow: '0 8px 22px rgba(0, 0, 0, 0.4)',
+        btnGradOverlay: 'none'
+      });
+    } else if (type === 'rose_indigo') {
+      thUpdateMultiple({
+        layoutMode: 'rose_indigo',
+        ac: '#6d28d9', gd: '#db2777', ok: '#059669', bk: '#3b0764', rd: '#e11d48', bg: '#fdf2f8',
+        radius: '20px',
+        btnShadow: '0 4px 14px rgba(109, 40, 217, 0.12)',
+        btnGradOverlay: 'none'
       });
     }
   };
 
+  const curMode = th.layoutMode || 'classic';
+  const markActive = m => curMode === m ? 'outline:3px solid #facc15;transform:scale(1.02);' : '';
+
   return head('កំណត់ស្ទីល និងពណ៌កម្មវិធី') + `<div class="card">
-  <h2>🌟 ជ្រើសរើស Theme Style បែប Premium (ចុចម្តងបានភ្លាម)</h2>
+  <h2>🌟 កញ្ចប់រចនា UI/UX & Theme ស្តង់ដាអាជីព (ចុចម្តង ប្តូរទាំងរូបរាង និងពណ៌)</h2>
+  <small class="hint-note">💡 <b>ទម្រង់ដើម (Classic List)</b> ត្រូវបានរក្សាទុកជាលំនាំដើម។ លោកគ្រូអាចចុចប្តូរទៅម៉ូដ UI/UX ២ ជួរទំនើបៗខាងក្រោម ឬចុចត្រឡប់មកទម្រង់ដើមវិញបានគ្រប់ពេល៖</small>
   <div class="preset-grid">
-    <div class="preset-btn" style="background:linear-gradient(135deg, #b45309, #d97706)" onclick="applyThemePreset('gold')">👑 Royal Gold</div>
-    <div class="preset-btn" style="background:linear-gradient(135deg, #0284c7, #2563eb)" onclick="applyThemePreset('ocean')">🌊 Ocean Luxury</div>
-    <div class="preset-btn" style="background:linear-gradient(135deg, #059669, #10b981)" onclick="applyThemePreset('emerald')">💎 Emerald Glass</div>
-    <div class="preset-btn" style="background:linear-gradient(135deg, #0f172a, #6366f1)" onclick="applyThemePreset('midnight')">🌌 Midnight Dark</div>
-    <div class="preset-btn" style="background:linear-gradient(135deg, #082f49, #0284c7 65%, #ea580c)" onclick="applyThemePreset('cyan_sunset')">🚀 Cyan & Sunset</div>
-    <div class="preset-btn" style="background:linear-gradient(135deg, #091e24, #113841 65%, #d97706);border:1.5px solid #fbbf24" onclick="applyThemePreset('teal_gold')">⚜️ Teal & Gold VIP</div>
+    <div class="preset-btn" style="${markActive('classic')}background:linear-gradient(135deg, #2563eb, #1d4ed8)" onclick="applyThemePreset('classic')">🏠 ទម្រង់ដើម (Classic)</div>
+    <div class="preset-btn" style="${markActive('pro_grid')}background:linear-gradient(135deg, #082f49, #0284c7 65%, #ea580c)" onclick="applyThemePreset('pro_grid')">📱 Pro Grid ២ ជួរ</div>
+    <div class="preset-btn" style="${markActive('teal_gold')}background:linear-gradient(135deg, #091e24, #113841 65%, #d97706);border:1.5px solid #fbbf24" onclick="applyThemePreset('teal_gold')">⚜️ Luxury Teal & Gold</div>
+    <div class="preset-btn" style="${markActive('saas_dash')}background:linear-gradient(135deg, #0f172a, #2563eb)" onclick="applyThemePreset('saas_dash')">📊 SaaS Dashboard</div>
+    <div class="preset-btn" style="${markActive('royal_edu')}background:linear-gradient(135deg, #1e3a8a, #3b82f6)" onclick="applyThemePreset('royal_edu')">💎 Royal Blue ក្រសួង</div>
+    <div class="preset-btn" style="${markActive('emerald_soft')}background:linear-gradient(135deg, #059669, #10b981)" onclick="applyThemePreset('emerald_soft')">🌿 Soft Emerald បៃតង</div>
+    <div class="preset-btn" style="${markActive('midnight_pro')}background:linear-gradient(135deg, #090d16, #1e293b);border:1px solid #38bdf8" onclick="applyThemePreset('midnight_pro')">🌌 Midnight Dark Pro</div>
+    <div class="preset-btn" style="${markActive('rose_indigo')}background:linear-gradient(135deg, #6d28d9, #db2777)" onclick="applyThemePreset('rose_indigo')">🌸 Rose & Indigo</div>
   </div>
 
   <h2>ជ្រើសរើសចលនា និងការចុច (Animation & Touch UX)</h2>
