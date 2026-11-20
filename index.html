@@ -42,7 +42,7 @@ main{max-width:1100px;width:100%;margin:0 auto;padding:12px 14px 60px;will-chang
 
 @keyframes appFade { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes appSlide { from { opacity: 0; transform: translateX(35px); } to { opacity: 1; transform: translateX(0); } }
-@keyframes appScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(0.95); } }
+@keyframes appScale { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
 
 .update-banner{
   position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-100px);
@@ -2068,6 +2068,13 @@ function getBaseDiv(lvl, stream){
   return 8.5;
 }
 
+function smartClassDisplay(rawCls, fallback = ''){
+  const s = String(rawCls ?? '').trim();
+  if (!s) return fallback;
+  if (/^(?:ថ្នាក់ទី|ថ្នាក់)\s*/.test(s)) return s;
+  return 'ថ្នាក់ទី ' + s;
+}
+
 function getDiv(lvl, stream, mIdx = null){
   const S = getS();
   if (S && mIdx !== null && S.monthDivs && +S.monthDivs[mIdx] > 0) {
@@ -2659,10 +2666,17 @@ function getTeacherPlanState(){
   const tp = S.teacherPlan;
   if (!Array.isArray(tp.classAssignments) || !tp.classAssignments.length) {
     const defCls = (S.info && S.info.cls) ? S.info.cls : '8A';
-    const subjs = getDistinctSubjectsList();
-    const defSubj = subjs[0] ? subjs[0].name : 'ភាសាខ្មែរ';
+    const defSubj = currentLevel === 'high' ? 'អក្សរសាស្ត្រខ្មែរ' : 'ភាសាខ្មែរ';
+    const hasHome = S.st.length > 0;
     tp.classAssignments = [
-      { id: 'ca_1', cls: defCls, subj: defSubj, totalStu: S.st.length || 20, femaleStu: S.st.filter(x => x.sex === 'ស').length || 10 }
+      {
+        id: 'ca_1',
+        cls: defCls,
+        subj: defSubj,
+        totalStu: hasHome ? S.st.length : 25,
+        femaleStu: hasHome ? S.st.filter(x => x.sex === 'ស').length : 12,
+        customCount: !hasHome
+      }
     ];
   }
   return tp;
@@ -2685,12 +2699,13 @@ function getPlanAssignmentsList(){
   const S = getS();
   return tp.classAssignments.map((ca, idx) => {
     const isHomeClass = (ca.cls || '').trim() === (S.info.cls || '').trim();
-    const total = isHomeClass && S.st.length > 0 ? S.st.length : (parseInt(ca.totalStu, 10) || 20);
-    const female = isHomeClass && S.st.length > 0 ? S.st.filter(s => s.sex === 'ស').length : (parseInt(ca.femaleStu, 10) || 0);
+    const useHomeCount = isHomeClass && S.st.length > 0 && !ca.customCount;
+    const total = useHomeCount ? S.st.length : (parseInt(ca.totalStu, 10) || 20);
+    const female = useHomeCount ? S.st.filter(s => s.sex === 'ស').length : (parseInt(ca.femaleStu, 10) || 0);
     return {
       ...ca,
       idx,
-      key: `${ca.cls}__${ca.subj}`,
+      key: ca.id ? `${ca.id}__${ca.cls}__${ca.subj}` : `${ca.cls}__${ca.subj}`,
       totalStu: total,
       femaleStu: Math.min(total, female)
     };
@@ -2699,14 +2714,14 @@ function getPlanAssignmentsList(){
 
 function addPlanAssignment(){
   const tp = getTeacherPlanState();
-  const subjs = getDistinctSubjectsList();
-  const defSubj = subjs[0] ? subjs[0].name : 'ភាសាខ្មែរ';
+  const defSubj = currentLevel === 'high' ? 'អក្សរសាស្ត្រខ្មែរ' : 'ភាសាខ្មែរ';
   tp.classAssignments.push({
     id: 'ca_' + Date.now(),
     cls: '9A',
     subj: defSubj,
-    totalStu: 20,
-    femaleStu: 10
+    totalStu: 25,
+    femaleStu: 12,
+    customCount: true
   });
   planSubjIdx = tp.classAssignments.length - 1;
   save();
@@ -2715,7 +2730,24 @@ function addPlanAssignment(){
 
 function removePlanAssignment(idx){
   const tp = getTeacherPlanState();
-  if (tp.classAssignments.length <= 1) return alert('ត្រូវមានយ៉ាងហោចណាស់ ១ ថ្នាក់/មុខវិជ្ជា!');
+  if (tp.classAssignments.length <= 1) {
+    // Allow resetting the last remaining row cleanly instead of blocking
+    const defCls = (getS().info && getS().info.cls) ? getS().info.cls : '8A';
+    const defSubj = currentLevel === 'high' ? 'អក្សរសាស្ត្រខ្មែរ' : 'ភាសាខ្មែរ';
+    const hasHome = getS().st.length > 0;
+    tp.classAssignments[0] = {
+      id: 'ca_' + Date.now(),
+      cls: defCls,
+      subj: defSubj,
+      totalStu: hasHome ? getS().st.length : 25,
+      femaleStu: hasHome ? getS().st.filter(x => x.sex === 'ស').length : 12,
+      customCount: !hasHome
+    };
+    planSubjIdx = 0;
+    save();
+    R();
+    return;
+  }
   if (!confirm('លុបថ្នាក់ និងមុខវិជ្ជានេះចេញពីផែនការ?')) return;
   tp.classAssignments.splice(idx, 1);
   if (planSubjIdx >= tp.classAssignments.length) planSubjIdx = 0;
@@ -2729,8 +2761,12 @@ function updatePlanAssignment(idx, field, val){
   if (!item) return;
   if (field === 'totalStu' || field === 'femaleStu') {
     item[field] = Math.max(0, parseInt(val, 10) || 0);
+    item.customCount = true;
   } else {
     item[field] = val.trim();
+    if (field === 'cls' && item[field] !== ((getS().info && getS().info.cls) || '').trim()) {
+      item.customCount = true;
+    }
   }
   save();
   R();
@@ -3219,6 +3255,9 @@ async function handleUniversalFileUpload(file){
   if (!file) return;
   setStatus('កំពុងអានឯកសារ ' + file.name + '...');
   const ext = (file.name.split('.').pop() || '').toLowerCase();
+  const baseFileName = file.name.replace(/\.[^/.]+$/, '');
+  const fileSubjHint = normalizeKhmerSubjectLabel(baseFileName);
+  const fileClsHint = detectClassCodeInLine(baseFileName);
   try {
     let extractedText = '';
     if (ext === 'pdf' && typeof pdfjsLib !== 'undefined') {
@@ -3257,6 +3296,15 @@ async function handleUniversalFileUpload(file){
 
     universalRawText = extractedText;
     universalParsedSubjects = parseUniversalPlanText(extractedText);
+    // Apply filename hints if subject/class fell back to generic defaults
+    universalParsedSubjects.forEach(item => {
+      if (item.subj.startsWith('មុខវិជ្ជាទី') && fileSubjHint && fileSubjHint !== baseFileName) {
+        item.subj = fileSubjHint;
+      }
+      if (fileClsHint) {
+        item.cls = fileClsHint;
+      }
+    });
     universalImportTab = 'paste';
     R();
     setStatus(universalParsedSubjects.length ? `ទាញបាន ${universalParsedSubjects.length} មុខវិជ្ជាជោគជ័យ ✓` : 'បានអានឯកសាររួចរាល់');
@@ -3287,13 +3335,15 @@ function applyUniversalParsedToPlan(){
         cls: targetCls,
         subj: cleanSubj,
         totalStu: total,
-        femaleStu: female
+        femaleStu: female,
+        customCount: true
       });
       existingIdx = tp.classAssignments.length - 1;
     } else {
       tp.classAssignments[existingIdx].totalStu = total;
       tp.classAssignments[existingIdx].femaleStu = female;
       tp.classAssignments[existingIdx].subj = cleanSubj;
+      tp.classAssignments[existingIdx].customCount = true;
     }
     const caObj = getPlanAssignmentsList()[existingIdx];
     const rec = getAssignmentPlanRecord(caObj);
@@ -3361,9 +3411,14 @@ function syncAllHomeClassSubjectsFromScores(){
         cls: homeCls,
         subj: sb.name,
         totalStu,
-        femaleStu
+        femaleStu,
+        customCount: false
       });
       idx = tp.classAssignments.length - 1;
+    } else {
+      tp.classAssignments[idx].totalStu = totalStu;
+      tp.classAssignments[idx].femaleStu = femaleStu;
+      tp.classAssignments[idx].customCount = false;
     }
     const caObj = getPlanAssignmentsList()[idx];
     const rec = getAssignmentPlanRecord(caObj);
@@ -4059,7 +4114,7 @@ home(){
     sem: {cls:'gd', txt:'🥇🥈 សរុបពិន្ទុឆមាស (Auto)', act:"go('sem')"},
     annual: {cls:'ro', txt:'🏆 សរុបលទ្ធផលប្រចាំឆ្នាំ', act:"go('annual')"},
     charts: {cls:'in', style:'background:#0ea5e9', txt:'📈 ក្រាហ្វិកវិភាគលទ្ធផលសិស្ស', act:"go('charts')"},
-    ab: {cls:'bk', txt:'📅 តារាងអវត្តមាន', act:"go('ab')"},
+    ab: {cls:'bk', txt:'📋 តារាងអវត្តមាន', act:"go('ab')"},
     honor: {cls:'pu', txt:'🏅 តារាងកិត្តិយស', act:"go('honor')"},
     cert: {cls:'tl', txt:'📜 បណ្ណសរសើរស្វ័យប្រវត្តិ', act:"go('cert')"},
     idcard: {cls:'bl', txt:'🪪 កាតសម្គាល់ខ្លួនសិស្ស', act:"go('idcard')"},
@@ -4193,7 +4248,7 @@ sc(){
 
     <div style="text-align:center;margin:2px 0 4px">
       <div class="muol-title" style="font-size:15.5px">តារាងស្រង់ពិន្ទុប្រចាំ ខែ${MO[mo]}</div>
-      <div style="font-size:12.5px;font-weight:bold;margin-top:2px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-size:12.5px;font-weight:bold;margin-top:2px">${E(smartClassDisplay(i.cls, ''))} ឆ្នាំសិក្សា ${E(currentYear)}</div>
       <div style="font-size:11px;color:#475569;margin-top:1px">( រូបមន្ត៖ មធ្យមភាគ = ពិន្ទុសរុប ÷ ${divVal} )</div>
     </div>
 
@@ -4294,7 +4349,7 @@ official(){
 
         <div class="official-title">
           <h2 class="muol-title">ចំណាត់ថ្នាក់សិស្សប្រចាំ ខែ${MO[mo]}</h2>
-          <div style="font-weight:bold;font-size:14px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+          <div style="font-weight:bold;font-size:14px">${E(smartClassDisplay(i.cls, ''))} ឆ្នាំសិក្សា ${E(currentYear)}</div>
           <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមភាគ = ពិន្ទុសរុប ÷ ${divVal} )</div>
         </div>
 
@@ -4427,7 +4482,7 @@ examScore(){
 
     <div style="text-align:center;margin:2px 0 4px">
       <div class="muol-title" style="font-size:15.5px">តារាងស្រង់ពិន្ទុប្រឡងឆមាសទី ${examSem + 1}</div>
-      <div style="font-size:12.5px;font-weight:bold;margin-top:2px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-size:12.5px;font-weight:bold;margin-top:2px">${E(smartClassDisplay(i.cls, ''))} ឆ្នាំសិក្សា ${E(currentYear)}</div>
       <div style="font-size:11px;color:#475569;margin-top:1px">( រូបមន្ត៖ មធ្យមប្រឡង = សរុបប្រឡង ÷ ${divVal} )</div>
     </div>
 
@@ -4550,7 +4605,7 @@ sem(){
 
     <div style="text-align:center;margin:2px 0 4px">
       <div class="muol-title" style="font-size:16px">តារាងសរុបពិន្ទុ ឆមាសទី ${sem + 1}</div>
-      <div style="font-size:13px;font-weight:bold;margin-top:2px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+      <div style="font-size:13px;font-weight:bold;margin-top:2px">${E(smartClassDisplay(i.cls, ''))} ឆ្នាំសិក្សា ${E(currentYear)}</div>
       <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមឆមាសរួម = [មធ្យមខែ + មធ្យមប្រឡង] ÷ ២ )</div>
     </div>
 
@@ -4642,7 +4697,7 @@ annual(){
 
         <div class="official-title">
           <h2 class="muol-title">តារាងបូកសរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ</h2>
-          <div style="font-weight:bold;font-size:14px">ថ្នាក់ទី ${E(i.cls || '')} ឆ្នាំសិក្សា ${E(currentYear)}</div>
+          <div style="font-weight:bold;font-size:14px">${E(smartClassDisplay(i.cls, ''))} ឆ្នាំសិក្សា ${E(currentYear)}</div>
           <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមប្រចាំឆ្នាំ = [មធ្យម ឆ.១ + មធ្យម ឆ.២ × ២] ÷ ៣ )</div>
         </div>
 
@@ -5212,30 +5267,58 @@ ilp(){
       : `<span class="plan-sum-err">${s}/${totalStu} នាក់!</span>`;
   };
 
-  // Reusable Class & Subject Manager Bar (Shared cleanly across Tab 2, Tab 3, Tab 4)
+  // Reusable Class & Subject Manager Bar (Clean Pro UI: 1-line compact + Long-Press Drag & Tap-to-Edit)
+  if (!window.planEditRowIdx && window.planEditRowIdx !== 0) window.planEditRowIdx = -1;
   const classManagerHTML = `
-    <div class="screen-ui" style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:12px;padding:12px;margin-bottom:12px">
+    <div class="screen-ui" style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:14px;padding:11px;margin-bottom:12px">
       <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:8px">
-        <div style="font-weight:700;font-size:13.5px;color:#1e3a8a">📚 បញ្ជីថ្នាក់ និងមុខវិជ្ជាតាមលំដាប់ (${toKhNum(assignments.length)} មុខវិជ្ជា)</div>
+        <div style="font-weight:700;font-size:13.5px;color:#1e3a8a">📚 បញ្ជីថ្នាក់ និងមុខវិជ្ជាតាមលំដាប់ (${toKhNum(assignments.length)})</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
-          <button class="bt" style="padding:4px 10px;min-height:32px;font-size:12px;background:#0284c7" onclick="syncAllHomeClassSubjectsFromScores()">⚡ ទាញគ្រប់មុខវិជ្ជាក្នុងថ្នាក់អូតូ</button>
-          <button class="bt" style="padding:4px 10px;min-height:32px;font-size:12px;background:var(--ok)" onclick="addPlanAssignment()">➕ បន្ថែមជួរ</button>
+          <button class="bt" style="padding:4px 10px;min-height:32px;font-size:12px;background:#0284c7" onclick="syncAllHomeClassSubjectsFromScores()">⚡ ទាញអូតូ</button>
+          <button class="bt" style="padding:4px 10px;min-height:32px;font-size:12px;background:var(--ok)" onclick="addPlanAssignment()">➕ បន្ថែម</button>
         </div>
       </div>
-      ${assignments.map((ca, idx) => `
-        <div style="display:grid;grid-template-columns:68px 1.4fr 62px 62px 54px 28px;gap:5px;align-items:center;margin-bottom:6px;background:${idx===planSubjIdx?'#dbeafe':'#fff'};padding:6px 7px;border-radius:8px;border:1px solid ${idx===planSubjIdx?'#2563eb':'#cbd5e1'}">
-          <input placeholder="ថ្នាក់" value="${E(ca.cls)}" onchange="updatePlanAssignment(${idx}, 'cls', this.value)" style="min-height:34px;padding:4px;font-size:13px;font-weight:700;text-align:center">
-          <input placeholder="មុខវិជ្ជា" value="${E(ca.subj)}" onchange="updatePlanAssignment(${idx}, 'subj', this.value)" style="min-height:34px;padding:4px 6px;font-size:13px;font-weight:600">
-          <input type="number" title="សិស្សសរុប" placeholder="សរុប" value="${ca.totalStu}" onchange="updatePlanAssignment(${idx}, 'totalStu', this.value)" style="min-height:34px;padding:4px;font-size:13px;text-align:center">
-          <input type="number" title="សិស្សស្រី" placeholder="ស្រី" value="${ca.femaleStu}" onchange="updatePlanAssignment(${idx}, 'femaleStu', this.value)" style="min-height:34px;padding:4px;font-size:13px;text-align:center">
-          <div style="display:flex;gap:2px;justify-content:center">
-            <button type="button" class="bt g" style="padding:2px 5px;min-height:28px;font-size:11px" onclick="movePlanAssignment(${idx},-1)" title="រំកិលឡើងលើ">▲</button>
-            <button type="button" class="bt g" style="padding:2px 5px;min-height:28px;font-size:11px" onclick="movePlanAssignment(${idx},1)" title="រំកិលចុះក្រោម">▼</button>
-          </div>
-          <button class="x" onclick="removePlanAssignment(${idx})" title="លុប">✕</button>
-        </div>
-      `).join('')}
-      <small class="mu" style="display:block;font-size:11.5px">💡 ជួរឈរ៖ <b>[ថ្នាក់ទី] | [មុខវិជ្ជា] | [សិស្សសរុប] | [ស្រី] | [រៀបលំដាប់ ▲▼]</b> — ប្រព័ន្ធភ្ជាប់ទៅសៀវភៅផែនការ និងកិច្ចព្រមព្រៀងអូតូ ១០០%។</small>
+      <div id="planAssignList">
+        ${assignments.map((ca, idx) => {
+          const isEditing = window.planEditRowIdx === idx;
+          const isSelected = idx === planSubjIdx;
+          return isEditing ? `
+            <div class="plan-assign-item" data-pidx="${idx}" style="margin-bottom:7px;background:#ffffff;padding:9px;border-radius:11px;border:2px solid #2563eb;box-shadow:0 4px 12px rgba(37,99,235,0.14)">
+              <div style="display:grid;grid-template-columns:78px 1fr;gap:6px;margin-bottom:6px">
+                <input placeholder="ថ្នាក់ (8A)" value="${E(ca.cls)}" onchange="updatePlanAssignment(${idx}, 'cls', this.value)" style="min-height:36px;padding:4px 6px;font-size:13.5px;font-weight:700;text-align:center">
+                <input placeholder="ឈ្មោះមុខវិជ្ជា" value="${E(ca.subj)}" onchange="updatePlanAssignment(${idx}, 'subj', this.value)" style="min-height:36px;padding:4px 10px;font-size:13.5px;font-weight:700;text-align:start">
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:6px;flex-wrap:wrap">
+                <div style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:600;color:#334155">
+                  <span>សរុប៖</span>
+                  <input type="number" min="1" value="${ca.totalStu}" onchange="updatePlanAssignment(${idx}, 'totalStu', this.value)" style="width:56px !important;min-height:32px;padding:2px 4px;font-size:13px;font-weight:700;text-align:center">
+                  <span>ស្រី៖</span>
+                  <input type="number" min="0" value="${ca.femaleStu}" onchange="updatePlanAssignment(${idx}, 'femaleStu', this.value)" style="width:52px !important;min-height:32px;padding:2px 4px;font-size:13px;font-weight:700;text-align:center">
+                </div>
+                <div style="display:flex;align-items:center;gap:5px">
+                  <button type="button" class="bt" style="padding:3px 10px;min-height:30px;font-size:12px;background:var(--ok)" onclick="window.planEditRowIdx=-1;R()">✓ រួចរាល់</button>
+                  <button type="button" class="bt g" style="padding:3px 9px;min-height:30px;font-size:12px;color:var(--bad)" onclick="window.planEditRowIdx=-1;removePlanAssignment(${idx})" title="លុប">🗑️</button>
+                </div>
+              </div>
+            </div>
+          ` : `
+            <div class="plan-assign-item" data-pidx="${idx}" draggable="true"
+              onclick="if(!window._planJustDragged){planSubjIdx=${idx};R()}"
+              style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;background:${isSelected?'#dbeafe':'#ffffff'};padding:8px 10px;border-radius:10px;border:1.5px solid ${isSelected?'#2563eb':'#cbd5e1'};user-select:none;-webkit-user-select:none;cursor:grab;transition:transform 0.12s ease, box-shadow 0.12s ease">
+              <div style="display:flex;align-items:center;gap:7px;min-width:0;flex:1">
+                <span style="color:#94a3b8;font-size:14px;flex-shrink:0" title="ចុចសង្កត់រួចអូសប្តូរទីតាំង">⠿</span>
+                <span style="background:${isSelected?'#2563eb':'#e2e8f0'};color:${isSelected?'#fff':'#1e293b'};font-size:11.5px;font-weight:800;padding:2px 7px;border-radius:6px;flex-shrink:0">${E(ca.cls)}</span>
+                <span style="font-size:13.5px;font-weight:700;color:#0f172a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${E(ca.subj)}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:6px;flex-shrink:0">
+                <span style="font-size:11.5px;font-weight:600;color:#475569;background:#f1f5f9;padding:2px 7px;border-radius:999px">${toKhNum(ca.totalStu)} នាក់ (ស្រី ${toKhNum(ca.femaleStu)})</span>
+                <button type="button" onclick="event.stopPropagation();planSubjIdx=${idx};window.planEditRowIdx=${idx};R()" style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:7px;padding:3px 7px;font-size:12px;cursor:pointer" title="កែប្រែ">✏️</button>
+              </div>
+            </div>
+          `;
+        }).join('')}
+      </div>
+      <small class="mu" style="display:block;font-size:11.5px;margin-top:4px">💡 <b>ចុចលើជួរ</b> ដើម្បីមើលតារាង · <b>ចុច ✏️ (ឬសង្កត់ ០.៤ វិនាទី)</b> ដើម្បីកែប្រែ ឬអូសរំកិលប្តូរលំដាប់តាមចិត្ត។</small>
     </div>
   `;
 
@@ -5761,7 +5844,7 @@ ilp(){
 
     return head('សៀវភៅផែនការគ្រូបង្រៀន') + `<div class="card">
       ${tabsNav}
-      ${classManagerHTML}
+      <div class="screen-ui" style="display:flex;align-items:center;justify-content:space-between;gap:8px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:7px 11px;margin-bottom:10px;font-size:12.5px;color:#1e3a8a"><span>🔗 <b>ទាញទិន្នន័យអូតូ ១០០%</b> ពីបញ្ជី (${toKhNum(assignments.length)} មុខវិជ្ជា)</span><button type="button" class="bt g" style="padding:2px 9px;min-height:28px;font-size:12px" onclick="planSubTab='plan3y';R()">✏️ កែនៅ Tab ២</button></div>
       ${sharedMetaFormHTML}
       <div class="f row-2">
         <select onchange="planSubjIdx=+this.value;R()">
@@ -5934,7 +6017,7 @@ ilp(){
 
   return head('កិច្ចព្រមព្រៀងលទ្ធផលការងារប្រចាំឆ្នាំ') + `<div class="card">
     ${tabsNav}
-    ${classManagerHTML}
+    <div class="screen-ui" style="display:flex;align-items:center;justify-content:space-between;gap:8px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:7px 11px;margin-bottom:10px;font-size:12.5px;color:#1e3a8a"><span>🔗 <b>ទាញទិន្នន័យអូតូ ១០០%</b> ពីបញ្ជី (${toKhNum(assignments.length)} មុខវិជ្ជា)</span><button type="button" class="bt g" style="padding:2px 9px;min-height:28px;font-size:12px" onclick="planSubTab='plan3y';R()">✏️ កែនៅ Tab ២</button></div>
     ${sharedMetaFormHTML}
 
     <div class="screen-ui" style="background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;padding:12px;margin-bottom:12px">
@@ -6018,7 +6101,7 @@ ilp(){
           </table>
 
           <div class="doc-section-bar">វត្ថុបំណងស្ថាប័ន ស្តង់ដាទី ១៖ សាលារៀនមានដំណើរការសម្រេចផលការសិក្សារៀនសូត្ររបស់សិស្ស (៤០ សប្តាហ៍)</div>
-          <div style="font-weight:bold;margin:4px 0">វត្ថុបំណងទី ១៖ លទ្ធផលសិក្សារៀនសូត្ររបស់សិស្ស ${window.agreeScopeMode==='all' ? `ថ្នាក់ទី ${E(i.cls || '')} (គ្រប់មុខវិជ្ជាតាមលំដាប់)` : `មុខវិជ្ជា «${E(curAssign.subj)}»`}</div>
+          <div style="font-weight:bold;margin:4px 0">វត្ថុបំណងទី ១៖ លទ្ធផលសិក្សារៀនសូត្ររបស់សិស្ស ${window.agreeScopeMode==='all' ? `${E(smartClassDisplay(i.cls, ''))} (គ្រប់មុខវិជ្ជាតាមលំដាប់)` : `មុខវិជ្ជា «${E(curAssign.subj)}»`}</div>
           <div style="font-size:11px;margin-bottom:4px">
             <b>សកម្មភាព៖</b> ១) ធ្វើតេស្តដើមឆ្នាំ · ២) កត់ត្រាលទ្ធផលតេស្តកសាងផែនការថ្នាក់រៀន · ៣) ពិភាក្សាជាមួយសិស្ស និងមាតាបិតានៅដើមឆ្នាំ
           </div>
@@ -7060,7 +7143,7 @@ honor(){
         </div>
 
         <div class="honor-tpl-subhead">
-          ${periodSubTitle} · ថ្នាក់ទី ${E(i.cls || '...')} · ឆ្នាំសិក្សា ${toKhNum(currentYear)}
+          ${periodSubTitle} · ${E(smartClassDisplay(i.cls, '...'))} · ឆ្នាំសិក្សា ${toKhNum(currentYear)}
         </div>
 
         ${renderSlot(0)}
@@ -7297,7 +7380,7 @@ idcard(){
                 <div class="id-card-title-box">
                   <div class="t-main">ប័ណ្ណសម្គាល់ខ្លួនសិស្ស</div>
                   <div class="t-sub">ឆ្នាំសិក្សា ${toKhNum(currentYear)}</div>
-                  <div class="t-sub">ថ្នាក់ទី ${E(i.cls || '...')}</div>
+                  <div class="t-sub">${E(smartClassDisplay(i.cls, '...'))}</div>
                 </div>
 
                 <div class="id-card-info-rows">
@@ -7515,6 +7598,109 @@ function thUpdateMultiple(obj){
   R();
 }
 
+
+function initPlanAssignDragDrop(){
+  const listEl = document.getElementById('planAssignList');
+  if (!listEl) return;
+  let draggedEl = null;
+  let dragStartIdx = -1;
+  let holdTimer = null;
+  let isDragging = false;
+  let startY = 0;
+
+  const commitReorder = () => {
+    const items = [...listEl.querySelectorAll('.plan-assign-item')];
+    const newOrderIndices = items.map(el => parseInt(el.dataset.pidx, 10));
+    if (newOrderIndices.some((v, i) => v !== i)) {
+      const tp = getTeacherPlanState();
+      const oldArr = [...tp.classAssignments];
+      const selectedItem = oldArr[planSubjIdx];
+      tp.classAssignments = newOrderIndices.map(i => oldArr[i]);
+      if (selectedItem) {
+        const newIdx = tp.classAssignments.indexOf(selectedItem);
+        if (newIdx !== -1) planSubjIdx = newIdx;
+      }
+      save();
+      R();
+      setStatus('បានប្តូរលំដាប់ជោគជ័យ ✓');
+    }
+  };
+
+  listEl.querySelectorAll('.plan-assign-item').forEach(el => {
+    const idx = parseInt(el.dataset.pidx, 10);
+
+    // Desktop HTML5 Drag & Drop
+    el.addEventListener('dragstart', e => {
+      if (window.planEditRowIdx === idx) { e.preventDefault(); return; }
+      draggedEl = el;
+      dragStartIdx = idx;
+      el.style.opacity = '0.45';
+      e.dataTransfer.effectAllowed = 'move';
+    });
+    el.addEventListener('dragover', e => {
+      e.preventDefault();
+      if (!draggedEl || draggedEl === el) return;
+      const rect = el.getBoundingClientRect();
+      const midY = rect.top + rect.height / 2;
+      if (e.clientY < midY) listEl.insertBefore(draggedEl, el);
+      else listEl.insertBefore(draggedEl, el.nextSibling);
+    });
+    el.addEventListener('dragend', () => {
+      if (draggedEl) draggedEl.style.opacity = '';
+      draggedEl = null;
+      commitReorder();
+    });
+
+    // Mobile Long-Press (380ms) to Drag & Reorder smoothly
+    el.addEventListener('touchstart', e => {
+      if (e.target.closest('input,button') || window.planEditRowIdx === idx) return;
+      startY = e.touches[0].clientY;
+      holdTimer = setTimeout(() => {
+        isDragging = true;
+        window._planJustDragged = true;
+        draggedEl = el;
+        el.style.transform = 'scale(1.03)';
+        el.style.boxShadow = '0 10px 24px rgba(37,99,235,0.28)';
+        el.style.borderColor = '#2563eb';
+        el.style.zIndex = '50';
+        if (navigator.vibrate) navigator.vibrate(45);
+      }, 380);
+    }, { passive: true });
+
+    el.addEventListener('touchmove', e => {
+      const touch = e.touches[0];
+      if (!isDragging) {
+        if (Math.abs(touch.clientY - startY) > 10) clearTimeout(holdTimer);
+        return;
+      }
+      e.preventDefault();
+      const target = document.elementFromPoint(touch.clientX, touch.clientY);
+      const targetRow = target ? target.closest('.plan-assign-item') : null;
+      if (targetRow && targetRow !== draggedEl && targetRow.parentElement === listEl) {
+        const rect = targetRow.getBoundingClientRect();
+        const midY = rect.top + rect.height / 2;
+        if (touch.clientY < midY) listEl.insertBefore(draggedEl, targetRow);
+        else listEl.insertBefore(draggedEl, targetRow.nextSibling);
+      }
+    }, { passive: false });
+
+    el.addEventListener('touchend', () => {
+      clearTimeout(holdTimer);
+      if (isDragging) {
+        isDragging = false;
+        if (draggedEl) {
+          draggedEl.style.transform = '';
+          draggedEl.style.boxShadow = '';
+          draggedEl.style.zIndex = '';
+        }
+        draggedEl = null;
+        commitReorder();
+        setTimeout(() => { window._planJustDragged = false; }, 120);
+      }
+    });
+  });
+}
+
 function initDragAndDrop(){
   const grid = $('#btnGrid');
   if (!grid) return;
@@ -7596,6 +7782,7 @@ function R(){
   app.innerHTML = P[pg]() + renderPaywallAndKhqrModal();
   if (pg === 'sc') upd();
   if (pg === 'home') initDragAndDrop();
+  if (pg === 'ilp') initPlanAssignDragDrop();
   if (pg === 'honor') initHonorDragSlots();
   if (['cert', 'official', 'annual', 'honor', 'idcard', 'ilp', 'tracking'].includes(pg)) {
     setTimeout(updateAllPreviewsScale, 50);
