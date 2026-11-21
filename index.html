@@ -2533,11 +2533,9 @@ function saveAccounts(){ localStorage.setItem(ACCKEY, JSON.stringify(accounts));
 
 
 // ========================================================
-// ប្រព័ន្ធការពារ ៣ ជាន់ (Active Session Lock + Level Lock + Print Identity Lock)
+// ប្រព័ន្ធការពារសុវត្ថិភាព (១ ឧបករណ៍សកម្ម + ១ កម្រិតសិក្សា + Preview Mode)
 // ========================================================
 const DEVICE_SESSION_KEY = 'sms_device_session_id_v1';
-let sessionCheckTimer = null;
-let showLegacySetupModal = false;
 
 function getOrCreateDeviceSessionId(){
   let sid = localStorage.getItem(DEVICE_SESSION_KEY);
@@ -2570,138 +2568,45 @@ function checkWriteAllowed(silent = false){
   if (!isPreviewMode()) return true;
   if (!silent) {
     const lockedLvl = SESSION.education_level || (accounts[SESSION.username] && accounts[SESSION.username].education_level);
-    alert(`🔒 មុខងារ Preview (មើលគំរូប៉ុណ្ណោះ)!\n\nគណនីរបស់អ្នកបានចុះឈ្មោះសម្រាប់កម្រិត [${getLevelDisplayName(lockedLvl)}]។\nអ្នកអាចចូលមើលគំរូតារាងកម្រិត [${getLevelDisplayName(currentLevel)}] បាន ប៉ុន្តែមិនអាចបញ្ចូលទិន្នន័យ រក្សាទុក ឬបោះពុម្ព PDF បានទេ។`);
+    alert(`🔒 មើលគំរូប៉ុណ្ណោះ!\n\nគណនីនេះកំណត់សម្រាប់ [${getLevelDisplayName(lockedLvl)}]។\nអ្នកអាចចូលមើលគំរូ [${getLevelDisplayName(currentLevel)}] បាន តែមិនអាចកែទិន្នន័យ រក្សាទុក ឬបោះពុម្ព PDF បានទេ។`);
   }
   return false;
 }
 
-function enforceSessionIdentityLocks(){
-  if (!SESSION || isVipAccount(SESSION.username)) return;
-  const acc = accounts[SESSION.username] || {};
-  const lockedSchool = (SESSION.school_name || acc.school_name || '').trim();
-  const lockedTeacher = (SESSION.fullname || acc.fullname || '').trim();
-  if (allYearsData) {
-    Object.keys(allYearsData).forEach(yr => {
-      ['primary', 'secondary', 'high'].forEach(lvl => {
-        if (allYearsData[yr] && allYearsData[yr][lvl] && allYearsData[yr][lvl].info) {
-          if (lockedSchool) allYearsData[yr][lvl].info.school = lockedSchool;
-          if (lockedTeacher) allYearsData[yr][lvl].info.teacher = lockedTeacher;
-        }
-      });
-    });
-  }
-}
-
-function startActiveSessionMonitor(){
-  stopActiveSessionMonitor();
-  if (!SESSION || isVipAccount(SESSION.username)) return;
-  sessionCheckTimer = setInterval(async () => {
-    if (!SESSION || !navigator.onLine) return;
-    if (isVipAccount(SESSION.username)) { stopActiveSessionMonitor(); return; }
-    try {
-      const remote = await sbPullUser(SESSION.username);
-      if (!remote) return;
-      if (remote.status && remote.status !== 'active') {
-        alert('គណនីនេះត្រូវបានផ្អាកបណ្តោះអាសន្ន!');
-        logout();
-        return;
-      }
-      const localSid = localStorage.getItem(DEVICE_SESSION_KEY);
-      if (remote.active_session_id && localSid && remote.active_session_id !== localSid) {
-        stopActiveSessionMonitor();
-        alert('⚠️ គណនីរបស់អ្នកត្រូវបានចូលប្រើប្រាស់នៅលើឧបករណ៍ផ្សេងទៀត!\n\nដើម្បីការពារសុវត្ថិភាព (១ គណនី = ១ ឧបករណ៍សកម្ម) ឧបករណ៍នេះត្រូវបានចាកចេញដោយស្វ័យប្រវត្តិ។');
-        SESSION = null; allYearsData = null;
-        clearTimeout(idleT);
-        pg = 'login';
-        R();
-      }
-    } catch(e){}
-  }, 12000);
-}
-
-function stopActiveSessionMonitor(){
-  if (sessionCheckTimer) {
-    clearInterval(sessionCheckTimer);
-    sessionCheckTimer = null;
-  }
-}
-
-async function confirmLegacyUserSetup(){
-  const lvl = ($('#legLvl') && $('#legLvl').value) || '';
-  const sch = ($('#legSchool') && $('#legSchool').value || '').trim();
-  if (!lvl) return alert('សូមជ្រើសរើសកម្រិតសិក្សាដែលអ្នកបង្រៀន!');
-  if (!sch) return alert('សូមបញ្ចូលឈ្មោះសាលារៀនរបស់អ្នក!');
-
-  const okConfirm = confirm(`តើអ្នកពិតជាបង្រៀននៅកម្រិត [${getLevelDisplayName(lvl)}] នៃ [${sch}] មែនទេ?\n\nបន្ទាប់ពីបញ្ជាក់រួច គណនីនេះនឹងត្រូវកំណត់ប្រើប្រាស់ផ្លូវការសម្រាប់កម្រិតនេះ (កម្រិតផ្សេងអាចចូលមើលគំរូបាន)។`);
-  if (!okConfirm) return;
-
-  const u = SESSION.username;
-  SESSION.education_level = lvl;
-  SESSION.school_name = sch;
-  if (accounts[u]) {
-    accounts[u].education_level = lvl;
-    accounts[u].school_name = sch;
-    saveAccounts();
-  }
-  currentLevel = lvl;
-  localStorage.setItem(LAST_LEVEL_KEY, lvl);
-  enforceSessionIdentityLocks();
-  showLegacySetupModal = false;
-  save();
-  R();
-  setStatus('បានកំណត់កម្រិតសិក្សា និងឈ្មោះសាលាជោគជ័យ ✓');
-}
-
-function renderLegacySetupModal(){
-  if (!SESSION || !showLegacySetupModal || isVipAccount(SESSION.username)) return '';
-  const existingSchool = (getS() && getS().info && getS().info.school) || '';
-  return `
-    <div class="paywall-overlay" style="z-index:99999">
-      <div class="paywall-card" style="max-width:410px;border-color:var(--ac)" onclick="event.stopPropagation()">
-        <div class="khqr-head" style="background:var(--ac);font-size:15.5px;letter-spacing:0.3px">
-          <span>🛡️ កំណត់អត្តសញ្ញាណគណនី (ធ្វើតែ ១ ដងគត់)</span>
-        </div>
-        <div class="khqr-body" style="text-align:left">
-          <p style="font-size:13px;color:#334155;line-height:1.6;margin:0 0 12px">
-            សូមស្វាគមន៍ <b>${E(SESSION.fullname)}</b>! ដើម្បីការពារសុវត្ថិភាពគណនី និងបោះពុម្ពឯកសារផ្លូវការ សូមបញ្ជាក់ព័ត៌មានខាងក្រោមតែម្តងគត់៖
-          </p>
-          <label style="display:block;font-weight:700;font-size:13px;color:#1e3a8a;margin-bottom:10px">
-            ១. ជ្រើសរើសកម្រិតសិក្សាដែលអ្នកបង្រៀន៖
-            <select id="legLvl" style="margin-top:4px">
-              <option value="primary">បឋមសិក្សា</option>
-              <option value="secondary" selected>អនុវិទ្យាល័យ</option>
-              <option value="high">វិទ្យាល័យ</option>
-            </select>
-          </label>
-          <label style="display:block;font-weight:700;font-size:13px;color:#1e3a8a;margin-bottom:12px">
-            ២. ឈ្មោះសាលារៀនរបស់អ្នក៖
-            <input id="legSchool" lang="km" placeholder="ឧ. អនុវិទ្យាល័យ ហ៊ុន សែន..." value="${E(existingSchool)}" style="margin-top:4px">
-          </label>
-          <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;padding:8px 10px;font-size:12px;color:#92400e;margin-bottom:12px;line-height:1.5">
-            ✨ <b>ប្រព័ន្ធអាប់ដេតថ្មី៖</b> ទិន្នន័យសិស្ស និងពិន្ទុចាស់ៗរបស់អ្នកនៅរក្សាទុកដដែល ១០០%។ សូមជ្រើសរើសកម្រិតសិក្សាដែលអ្នកបង្រៀនផ្ទាល់ (កម្រិត ២ ផ្សេងទៀតអាចចូលមើលគំរូបានធម្មតា)។
-          </div>
-          <button class="pb gr wide" style="cursor:pointer;font-size:15px" onclick="confirmLegacyUserSetup()">✅ បញ្ជាក់ និងចាប់ផ្តើមប្រើប្រាស់</button>
-          <div style="text-align:center;margin-top:8px">
-            <button type="button" class="btn-skip-install" onclick="logout()">↩️ បកក្រោយ (មិនទាន់បំពេញពេលនេះទេ)</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  `;
+async function verifyActiveDeviceBeforeAction(){
+  if (!SESSION || !navigator.onLine || isVipAccount(SESSION.username)) return true;
+  try {
+    const remote = await sbPullUser(SESSION.username);
+    if (!remote) return true;
+    if (remote.status && remote.status !== 'active') {
+      alert('គណនីនេះត្រូវបានផ្អាកបណ្តោះអាសន្ន!');
+      logout();
+      return false;
+    }
+    const localSid = localStorage.getItem(DEVICE_SESSION_KEY);
+    if (remote.active_session_id && localSid && remote.active_session_id !== localSid) {
+      alert('គណនីនេះត្រូវបានចូលប្រើលើឧបករណ៍ផ្សេងទៀត (១ គណនី = ១ ឧបករណ៍សកម្ម)។ សូមចូលប្រព័ន្ធម្តងទៀត។');
+      SESSION = null; allYearsData = null;
+      clearTimeout(idleT);
+      pg = 'login';
+      R();
+      return false;
+    }
+  } catch(e){}
+  return true;
 }
 
 function renderPreviewModeBannerHTML(){
   if (!SESSION || !isPreviewMode()) return '';
   const lockedLvl = SESSION.education_level || (accounts[SESSION.username] && accounts[SESSION.username].education_level);
   return `
-    <div style="background:#fef3c7;border:1.5px solid #f59e0b;color:#92400e;border-radius:12px;padding:9px 12px;margin:0 auto 12px;font-size:13px;line-height:1.55;text-align:center">
-      👁️ <b>កំពុងមើលគំរូ [${getLevelDisplayName(currentLevel)}] (Preview Only)</b><br>
-      គណនីរបស់អ្នកបានចុះឈ្មោះសម្រាប់កម្រិត <b>[${getLevelDisplayName(lockedLvl)}]</b> (អាចអូសមើលគំរូបាន តែមិនអាចកែទិន្នន័យ ឬបោះពុម្ព PDF បានទេ)។
+    <div style="background:#fef3c7;border:1.5px solid #f59e0b;color:#92400e;border-radius:12px;padding:8px 12px;margin:0 auto 12px;font-size:12.5px;line-height:1.5;text-align:center">
+      👁️ <b>កំពុងមើលគំរូ [${getLevelDisplayName(currentLevel)}]</b> · គណនីនេះសម្រាប់ <b>[${getLevelDisplayName(lockedLvl)}]</b> (មើលបាន តែមិនអាចកែទិន្នន័យ ឬបោះពុម្ព PDF បានទេ)
     </div>
   `;
 }
 
-async function createAccount(u, pw, fullname, eduLevel = 'secondary', schoolName = ''){
+async function createAccount(u, pw, fullname, eduLevel = 'secondary'){
   const salt = crypto.getRandomValues(new Uint8Array(16));
   const key = await deriveKey(pw, salt);
   const chk = await seal(key, 'ok');
@@ -2710,13 +2615,13 @@ async function createAccount(u, pw, fullname, eduLevel = 'secondary', schoolName
   const vipFlag = isVipAccount(u);
   accounts[u] = {
     fullname, salt: b64(salt), check: chk, data: null, status: 'active',
-    active_session_id: sid, education_level: eduLevel, school_name: schoolName, is_vip: vipFlag,
+    active_session_id: sid, education_level: eduLevel, is_vip: vipFlag,
     created: now, backupAt: 0
   };
   saveAccounts();
   sbPushUser({
     username: u, fullname: fullname, salt: b64(salt), check: chk, data: null, status: 'active',
-    active_session_id: sid, education_level: eduLevel, school_name: schoolName, is_vip: vipFlag,
+    active_session_id: sid, education_level: eduLevel, is_vip: vipFlag,
     updated_at: new Date().toISOString()
   }).catch(()=>{});
   return key;
@@ -2740,7 +2645,6 @@ async function unlock(u, pw){
           data: remote.data, 
           status: remote.status || 'active',
           education_level: remote.education_level || null,
-          school_name: remote.school_name || '',
           is_vip: !!remote.is_vip,
           created: Date.now(), 
           backupAt: Date.now() 
@@ -2778,15 +2682,10 @@ async function unlock(u, pw){
         return;
       }
       if (remote.education_level) accounts[u].education_level = remote.education_level;
-      if (remote.school_name) accounts[u].school_name = remote.school_name;
       if (remote.is_vip !== undefined) accounts[u].is_vip = !!remote.is_vip;
       if (SESSION && SESSION.username === u) {
         SESSION.education_level = accounts[u].education_level || null;
-        SESSION.school_name = accounts[u].school_name || '';
         SESSION.is_vip = !!accounts[u].is_vip;
-        if (!isVipAccount(u) && !SESSION.education_level) showLegacySetupModal = true;
-        enforceSessionIdentityLocks();
-        R();
       }
       saveAccounts();
     }
@@ -2799,7 +2698,6 @@ async function unlock(u, pw){
       status: accounts[u].status || 'active',
       active_session_id: freshSid,
       education_level: accounts[u].education_level || null,
-      school_name: accounts[u].school_name || '',
       is_vip: isVipAccount(u),
       updated_at: new Date().toISOString()
     }).catch(()=>{});
@@ -2949,7 +2847,6 @@ function save(){
           status: acc.status || 'active',
           active_session_id: localSid,
           education_level: SESSION.education_level || acc.education_level || null,
-          school_name: SESSION.school_name || acc.school_name || '',
           is_vip: isVipAccount(u),
           updated_at: new Date().toISOString()
         }).then(ok => {
@@ -3005,15 +2902,11 @@ async function openSession(u, key){
     key,
     fullname: acc.fullname,
     education_level: lockedLvl,
-    school_name: acc.school_name || '',
     is_vip: !!acc.is_vip
   };
-  showLegacySetupModal = (!isVipAccount(u) && !lockedLvl);
-  enforceSessionIdentityLocks();
   resetMobileZoom();
   pg = 'home';
   syncUserLicense(u);
-  startActiveSessionMonitor();
   R();
   resetIdle();
 
@@ -3037,9 +2930,7 @@ async function openSession(u, key){
 async function logout(){
   await saveChain;
   stopKhqrPolling();
-  stopActiveSessionMonitor();
   showKhqrModal = false;
-  showLegacySetupModal = false;
   DEMO_SIM_MODE = null;
   SESSION = null; allYearsData = null;
   clearTimeout(idleT);
@@ -3078,29 +2969,23 @@ async function doLogin(){
 
 async function doCreate(){
   const name = $('#cn').value.trim();
-  const school = ($('#cschool') ? $('#cschool').value : '').trim();
   const eduLvl = ($('#clevel') ? $('#clevel').value : 'secondary');
   const u = $('#cu').value.trim().toLowerCase();
   const p = $('#cp').value, p2 = $('#cp2').value;
 
-  if (!name) return amsg('សូមបញ្ចូលឈ្មោះគ្រូបន្ទុកថ្នាក់ / គ្រូមុខវិជ្ជា', true);
-  if (!school) return amsg('សូមបញ្ចូលឈ្មោះសាលារៀនរបស់អ្នក', true);
-  if (!eduLvl) return amsg('សូមជ្រើសរើសកម្រិតសិក្សាដែលអ្នកបង្រៀន', true);
+  if (!name) return amsg('សូមបញ្ចូលឈ្មោះគ្រូ', true);
+  if (!eduLvl) return amsg('សូមជ្រើសរើសកម្រិតសិក្សា', true);
   if (!USER_RE.test(u)) return amsg('ឈ្មោះគណនីត្រូវជា a-z, 0-9, _ . - (៣–៣០ តួ)', true);
   if (accounts[u]) return amsg('ឈ្មោះគណនីនេះមានរួចហើយ', true);
   if (p.length < 6) return amsg('ពាក្យសម្ងាត់យ៉ាងតិច ៦ តួ', true);
   if (p !== p2) return amsg('ពាក្យសម្ងាត់ទាំងពីរមិនដូចគ្នា', true);
 
-  const okLevel = confirm(`សូមបញ្ជាក់កម្រិតសិក្សា៖\n\nតើអ្នកពិតជាបង្រៀននៅកម្រិត [${getLevelDisplayName(eduLvl)}] នៃ [${school}] មែនទេ?\n(គណនីមួយអាចប្រើប្រាស់ផ្លូវការបានតែមួយកម្រិតសិក្សាប៉ុណ្ណោះ)`);
-  if (!okLevel) return;
-
-  const key = await createAccount(u, p, name, eduLvl, school);
+  const key = await createAccount(u, p, name, eduLvl);
   SESSION = {
     username: u,
     key,
     fullname: name,
     education_level: eduLvl,
-    school_name: school,
     is_vip: isVipAccount(u)
   };
   allYearsData = normalizeAllYears(null);
@@ -3108,10 +2993,8 @@ async function doCreate(){
   currentLevel = eduLvl;
   localStorage.setItem(LAST_YEAR_KEY, currentYear);
   localStorage.setItem(LAST_LEVEL_KEY, eduLvl);
-  enforceSessionIdentityLocks();
   save();
   syncUserLicense(u);
-  startActiveSessionMonitor();
   resetMobileZoom();
   pg = 'home';
   R();
@@ -3229,7 +3112,6 @@ function switchLevel(lvl){
   if (currentLevel === lvl) return;
   currentLevel = lvl;
   localStorage.setItem(LAST_LEVEL_KEY, lvl);
-  enforceSessionIdentityLocks();
   if (!isPreviewMode()) {
     getS().info.div = getBaseDiv(currentLevel, getS().info.stream);
     save();
@@ -4236,22 +4118,10 @@ function setIlpVal(stuId, group, key, val){
 
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   if (!checkWriteAllowed()) return;
+  const okDev = await verifyActiveDeviceBeforeAction();
+  if (!okDev) return;
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
-
-  // ចាក់សោអត្តសញ្ញាណម្ចាស់គណនីនៅបាតទំព័រ (Print Identity Footer)
-  if (SESSION && !isVipAccount(SESSION.username)) {
-    let wm = element.querySelector('.print-identity-watermark');
-    if (!wm) {
-      wm = document.createElement('div');
-      wm.className = 'print-identity-watermark';
-      wm.style.cssText = 'font-size:9.5px;color:#64748b;text-align:right;margin-top:6px;padding-top:3px;border-top:1px dotted #cbd5e1;';
-      element.appendChild(wm);
-    }
-    const sch = SESSION.school_name || (getS().info && getS().info.school) || '';
-    const tch = SESSION.fullname || (getS().info && getS().info.teacher) || '';
-    wm.textContent = `ឯកសារផ្លូវការ · ${sch} · គ្រូម្ចាស់គណនី៖ ${tch}`;
-  }
 
   const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
   const isMobileOrTablet = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -4702,16 +4572,15 @@ create(){
     🎁 ទទួលបានការប្រើប្រាស់ <b>ឥតគិតថ្លៃ ៦០ ថ្ងៃពេញ</b> ភ្លាមៗ!
   </div>
   <div id="amsg" class="msg"></div>
-  <label>ឈ្មោះពេញរបស់គ្រូ (សម្រាប់បោះពុម្ពលើឯកសារ)<input id="cn" lang="km" inputmode="text" autocomplete="name" placeholder="ឧ. លោកគ្រូ សុខ ដារ៉ា"></label>
-  <label>ឈ្មោះសាលារៀន (ចាក់សោលើឯកសារ Print)<input id="cschool" lang="km" inputmode="text" placeholder="ឧ. អនុវិទ្យាល័យ ហ៊ុន សែន..."></label>
-  <label>កម្រិតសិក្សាដែលបង្រៀន (ប្រើបានតែ ១ កម្រិត)
-    <select id="clevel">
+  <label style="color:#1e3a8a;font-weight:700">សូមលោកគ្រូ/អ្នកគ្រូជ្រើសរើសកម្រិតសិក្សា
+    <select id="clevel" style="margin-top:4px;font-weight:700;color:#0f172a;border:1.5px solid var(--ac);background:#f8fafc">
       <option value="primary">បឋមសិក្សា</option>
       <option value="secondary" selected>អនុវិទ្យាល័យ</option>
       <option value="high">វិទ្យាល័យ</option>
     </select>
   </label>
-  <label>ឈ្មោះគណនី (Username)<input id="cu" autocomplete="off" autocapitalize="off" placeholder="អក្សរឡាតាំងតូច ឧ. dara2026"></label>
+  <label>ឈ្មោះគ្រូ<input id="cn" lang="km" inputmode="text" autocomplete="name"></label>
+  <label>ឈ្មោះគណនី<input id="cu" autocomplete="off" autocapitalize="off"></label>
   <label>ពាក្យសម្ងាត់ (យ៉ាងតិច ៦ តួ)
     <div class="pw-wrap">
       <input id="cp" type="password">
@@ -5485,12 +5354,7 @@ annual(){
 info(){
   const S = getS();
   const i = S.info;
-  const isVip = SESSION && isVipAccount(SESSION.username);
-  const k = (l, key, num) => {
-    const lockedAttr = (!isVip && (key === 'school' || key === 'teacher')) ? 'readonly style="background:#f1f5f9;color:#475569;cursor:not-allowed" title="ចាក់សោអត្តសញ្ញាណម្ចាស់គណនី (ទាក់ទង Admin បើចង់កែប្រែ)"' : '';
-    const lockTag = (!isVip && (key === 'school' || key === 'teacher')) ? ' 🔒' : '';
-    return `<label class="mu">${l}${lockTag}<input type="${num?'number':'text'}" ${num?'inputmode="decimal"':'lang="km" inputmode="text"'} value="${E(i[key] ?? '')}" ${lockedAttr} onchange="setInfo('${key}', this.value, ${!!num})"></label>`;
-  };
+  const k = (l, key, num) => `<label class="mu">${l}<input type="${num?'number':'text'}" ${num?'inputmode="decimal"':'lang="km" inputmode="text"'} value="${E(i[key] ?? '')}" onchange="setInfo('${key}', this.value, ${!!num})"></label>`;
   return head('ព័ត៌មានសាលា និងគ្រូ') + `<div class="card">
   <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
     ${logo(84)}
@@ -8573,7 +8437,7 @@ function R(){
 
   if (pg === 'login' || pg === 'create') { app.innerHTML = P[pg](); return; }
   if (!SESSION || !allYearsData) { pg = 'login'; app.innerHTML = P.login(); return; }
-  app.innerHTML = P[pg]() + renderPaywallAndKhqrModal() + renderLegacySetupModal();
+  app.innerHTML = P[pg]() + renderPaywallAndKhqrModal();
   if (pg === 'sc') upd();
   if (pg === 'home') initDragAndDrop();
   if (pg === 'ilp') initPlanAssignDragDrop();
@@ -8702,7 +8566,6 @@ function pick(cb){
 
 function setInfo(key, v, num){
   if (!checkWriteAllowed()) { R(); return; }
-  if (SESSION && !isVipAccount(SESSION.username) && (key === 'school' || key === 'teacher')) { alert('🔒 ឈ្មោះសាលា និងឈ្មោះគ្រូត្រូវបានចាក់សោជាប់នឹងគណនី! សូមទាក់ទង Admin ប្រសិនបើត្រូវការកែប្រែ។'); R(); return; }
   getS().info[key] = num ? (+v > 0 ? +v : getBaseDiv(currentLevel, getS().info.stream)) : v;
   save();
 }
