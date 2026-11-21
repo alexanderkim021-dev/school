@@ -20,7 +20,7 @@
 
 :root{
   --bg:#f4f6fa;--cd:#ffffff;--tx:#0f172a;--mu:#64748b;--ak:#ffffff;--bd:#e2e8f0;
-  --ac:#2563eb;--gd:#d97706;--bk:#334155;--ok:#16a34a;--bad:#dc2626;--rd:#dc2626;
+  --ac:#371A94;--gd:#d97706;--bk:#334155;--ok:#16a34a;--bad:#dc2626;--rd:#dc2626;
   --hd:#f1f5f9;--warn:#fef3c7;
   --btn-radius: 999px;
   --card-radius: 18px;
@@ -229,42 +229,7 @@ h1, h2, h3, .muol-title { font-family: var(--title-font) !important; font-weight
 .touch-3d:active { transform: translateY(4px) !important; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; }
 .touch-scale:active { transform: scale(0.92) !important; box-shadow: 0 3px 8px rgba(0,0,0,0.2) !important; }
 .touch-glow:active { transform: scale(0.97) !important; box-shadow: 0 0 20px var(--ac) !important; filter: brightness(1.2) !important; }
-.pb.touch-dragging{opacity:0.45;transform:scale(1.04);z-index:60;box-shadow:0 14px 28px rgba(0,0,0,0.32)!important}
-@keyframes iosJiggle {
-  0% { transform: rotate(-1.1deg); }
-  50% { transform: rotate(1.1deg); }
-  100% { transform: rotate(-1.1deg); }
-}
-.home-jiggle-active .pb {
-  animation: iosJiggle 0.26s infinite ease-in-out;
-  overflow: visible !important;
-  cursor: grab;
-}
-.home-jiggle-active .pb:nth-child(even) {
-  animation-delay: -0.13s;
-}
-.home-del-badge {
-  position: absolute;
-  top: -7px;
-  left: -7px;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  background: #dc2626;
-  color: #fff;
-  border: 2px solid #fff;
-  font-size: 14px;
-  font-weight: 900;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.35);
-  z-index: 30;
-  cursor: pointer;
-  padding: 0;
-}
-.home-del-badge:active { transform: scale(0.88); }
+.pb.touch-dragging{opacity:0.4;transform:scale(0.96)}
 
 .bl{background:var(--ac)}.gd{background:var(--gd)}.bk{background:var(--bk)}.rd{background:var(--rd)}.gr{background:var(--ok)}.pu{background:#8b5cf6}.tl{background:#0d9488}.in{background:#0284c7}.ro{background:#e11d48}
 .wide{display:block;width:100%;margin:10px 0}
@@ -1479,7 +1444,8 @@ td select.ilp-ui-sel.black{color:#0f172a}
   .doc-book-table{margin:3px 0 4px !important;font-size:10px !important}
   .doc-book-table th, .doc-book-table td{padding:2px 3px !important}
   .doc-section-bar{padding:2px 6px !important;margin:5px 0 3px !important;font-size:11px !important}
-  .doc-page-break{display:block !important;page-break-before:always !important;break-before:page !important;margin-top:0 !important;padding-top:0 !important;border-top:none !important}
+  .doc-page-break{display:block !important;page-break-before:auto !important;break-before:auto !important;margin-top:10px !important;padding-top:8px !important;border-top:none !important}
+  .doc-book-table{page-break-inside:avoid !important;break-inside:avoid !important}
 }
 
 </style></head><body>
@@ -2428,66 +2394,21 @@ const LAST_YEAR_KEY = 'sms_last_selected_year_v1';
 
 const DEFAULT_BTNS = ['info','stu','sc','examScore','official','sem','annual','charts','ab','honor','cert','idcard','tracking','ilp','bk','theme','clean'];
 
-const HIDDEN_BTNS_KEY = 'sms_hidden_btns_v1';
-let homeJiggleMode = false;
-
-function getHiddenBtns(){
-  try {
-    const raw = localStorage.getItem(HIDDEN_BTNS_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch(e) { return []; }
-}
-
-function saveHiddenBtns(arr){
-  localStorage.setItem(HIDDEN_BTNS_KEY, JSON.stringify(arr));
-}
-
-function hideHomeBtn(k, e){
-  if (e) { e.stopPropagation(); e.preventDefault(); }
-  const hidden = getHiddenBtns();
-  if (!hidden.includes(k)) {
-    hidden.push(k);
-    saveHiddenBtns(hidden);
-  }
-  R();
-}
-
-function restoreHomeBtn(k){
-  const hidden = getHiddenBtns().filter(x => x !== k);
-  saveHiddenBtns(hidden);
-  const order = getBtnOrder();
-  if (!order.includes(k)) {
-    order.push(k);
-    localStorage.setItem(ORDER_KEY, JSON.stringify(order));
-  }
-  R();
-}
-
-function restoreAllHomeBtns(){
-  saveHiddenBtns([]);
-  localStorage.setItem(ORDER_KEY, JSON.stringify(DEFAULT_BTNS));
-  homeJiggleMode = false;
-  R();
-}
-
 function getBtnOrder(){
   try {
-    const hidden = getHiddenBtns();
     const s = localStorage.getItem(ORDER_KEY);
-    if (!s) return DEFAULT_BTNS.filter(k => !hidden.includes(k));
+    if (!s) return DEFAULT_BTNS;
     const parsed = JSON.parse(s);
-    ['ilp', 'charts', 'tracking'].forEach((reqKey, i) => {
-      if (!parsed.includes(reqKey) && !hidden.includes(reqKey)) {
-        parsed.splice(Math.min(parsed.length, 7 + i * 2), 0, reqKey);
-      }
-    });
-    return parsed.filter(k => !hidden.includes(k));
+    if (!parsed.includes('ilp')) parsed.splice(11, 0, 'ilp');
+    if (!parsed.includes('charts')) parsed.splice(7, 0, 'charts');
+    if (!parsed.includes('tracking')) parsed.splice(12, 0, 'tracking');
+    return parsed;
   } catch(e) { return DEFAULT_BTNS; }
 }
 
 const defaultTheme = {
   layoutMode: 'pro_grid',
-  ac: '#0369a1', gd: '#d97706', ok: '#16a34a', bk: '#082f49', rd: '#dc2626', bg: '#eef2f7',
+  ac: '#371A94', gd: '#d97706', ok: '#16a34a', bk: '#082f49', rd: '#dc2626', bg: '#eef2f7',
   homeCardBg: '#ffffff',
   radius: '16px', font: "'Leelawadee UI', 'Kantumruy Pro', 'Khmer UI', sans-serif",
   anim: 'fade', touch: 'touch-3d', btnShadow: '0 6px 16px rgba(0, 0, 0, 0.22), 0 2px 4px rgba(0, 0, 0, 0.15)',
@@ -2657,19 +2578,9 @@ async function verifyActiveDeviceBeforeAction(){
   if (!SESSION || !navigator.onLine || isVipAccount(SESSION.username)) return true;
   try {
     const remote = await sbPullUser(SESSION.username);
-    if (!remote) return true;
-    if (remote.status && remote.status !== 'active') {
+    if (remote && remote.status && remote.status !== 'active') {
       alert('គណនីនេះត្រូវបានផ្អាកបណ្តោះអាសន្ន!');
       logout();
-      return false;
-    }
-    const localSid = localStorage.getItem(DEVICE_SESSION_KEY);
-    if (remote.active_session_id && localSid && remote.active_session_id !== localSid) {
-      alert('គណនីនេះត្រូវបានចូលប្រើលើឧបករណ៍ផ្សេងទៀត (១ គណនី = ១ ឧបករណ៍សកម្ម)។ សូមចូលប្រព័ន្ធម្តងទៀត។');
-      SESSION = null; allYearsData = null;
-      clearTimeout(idleT);
-      pg = 'login';
-      R();
       return false;
     }
   } catch(e){}
@@ -4739,17 +4650,12 @@ home(){
     return th.pgG3Color || '#ea580c';
   };
 
-  const jiggleBadge = k => homeJiggleMode
-    ? `<button type="button" class="home-del-badge" ontouchstart="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="hideHomeBtn('${k}', event)" title="លាក់ប៊ូតុងនេះ">−</button>`
-    : '';
-  const safeClick = act => `if(!homeJiggleMode && !window._homeJustDragged){${act}}`;
-
   let btnsHtml = '';
   if (layoutMode === 'classic') {
     btnsHtml = order.map(k => {
       const b = btnDefs[k];
       if (!b) return '';
-      return `<div class="pb ${b.cls} ${touchCls}" ${b.style?`style="${b.style}"`:''} draggable="true" data-id="${k}" onclick="${safeClick(b.act)}">${jiggleBadge(k)}${b.txt}</div>`;
+      return `<div class="pb ${b.cls} ${touchCls}" ${b.style?`style="${b.style}"`:''} draggable="true" data-id="${k}" onclick="${b.act}">${b.txt}</div>`;
     }).join('');
   } else if (layoutMode === 'analytics_kpi') {
     const renderKpiCard = (k, groupColor) => {
@@ -4761,8 +4667,7 @@ home(){
       const borderC = th.pgLineStyle === 'gold' ? '#fbbf24' : 'rgba(255,255,255,0.28)';
       const st = `background:linear-gradient(135deg, ${baseC} 0%, ${darkC} 100%);border-color:${borderC};border-bottom-color:${deep3d};`;
       return `
-        <div class="pb ux-kpi-card ${touchCls}" draggable="true" data-id="${k}" onclick="${safeClick(b.act)}" style="${st}">
-          ${jiggleBadge(k)}
+        <div class="pb ux-kpi-card ${touchCls}" draggable="true" data-id="${k}" onclick="${b.act}" style="${st}">
           <div class="ux-kpi-top"><span>${b.ico}</span><span>${g1Keys.includes(k)?'គ្រប់គ្រង & ពិន្ទុ':(g2Keys.includes(k)?'របាយការណ៍ A4':'ប្រព័ន្ធ')}</span></div>
           <div class="ux-kpi-main">${b.title}</div>
           <div class="ux-kpi-sub">${b.sub}</div>
@@ -4799,8 +4704,7 @@ home(){
         inlineStyle += `background:linear-gradient(135deg, ${darkC} 0%, ${groupColor} 100%);border-bottom-color:${deep3d};`;
       }
       return `
-        <div class="pb ux-card-btn ${b.danger?'is-danger':''} ${touchCls}" draggable="true" data-id="${k}" onclick="${safeClick(b.act)}" style="${inlineStyle}">
-          ${jiggleBadge(k)}
+        <div class="pb ux-card-btn ${b.danger?'is-danger':''} ${touchCls}" draggable="true" data-id="${k}" onclick="${b.act}" style="${inlineStyle}">
           <div class="ux-card-left">
             <div class="ux-card-ico">${b.ico}</div>
             <div class="ux-card-meta">
@@ -4833,28 +4737,7 @@ home(){
     }
   }
 
-  const hiddenList = getHiddenBtns();
-  const jiggleBarHTML = homeJiggleMode ? `
-    <div style="background:#eff6ff;border:1.5px solid #2563eb;border-radius:14px;padding:10px 12px;margin:0 auto 12px;display:flex;flex-direction:column;gap:8px">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
-        <span style="font-size:13px;font-weight:800;color:#1e3a8a">✨ កំពុងរៀបចំប៊ូតុង (អូសប្តូរទីតាំង ឬចុច − ដើម្បីលាក់)</span>
-        <button type="button" class="bt" style="padding:4px 14px;min-height:32px;font-size:12.5px;background:var(--ok);border-radius:999px" onclick="homeJiggleMode=false;R()">✓ រួចរាល់</button>
-      </div>
-      ${hiddenList.length ? `
-        <div style="display:flex;flex-wrap:wrap;gap:6px;padding-top:6px;border-top:1px dashed #93c5fd;align-items:center">
-          <span style="font-size:11.5px;font-weight:700;color:#475569">➕ ប៊ូតុងដែលបានលាក់៖</span>
-          ${hiddenList.map(hk => btnDefs[hk] ? `<button type="button" class="bt g" style="padding:2px 9px;min-height:26px;font-size:11.5px;border-radius:999px" onclick="restoreHomeBtn('${hk}')">+ ${btnDefs[hk].title}</button>` : '').join('')}
-          <button type="button" class="bt g" style="padding:2px 9px;min-height:26px;font-size:11.5px;color:#2563eb;border-radius:999px" onclick="restoreAllHomeBtns()">🔄 យកទាំងអស់វិញ</button>
-        </div>
-      ` : ''}
-    </div>
-  ` : (hiddenList.length ? `
-    <div style="margin:0 auto 10px;text-align:center">
-      <button type="button" class="bt g" style="padding:3px 12px;min-height:28px;font-size:12px;border-radius:999px" onclick="homeJiggleMode=true;R()">⚙️ រៀបចំ / បង្ហាញប៊ូតុងដែលលាក់ (${toKhNum(hiddenList.length)})</button>
-    </div>
-  ` : '');
-
-  return `<div class="home ${homeJiggleMode?'home-jiggle-active':''}" style="background:${E(th.homeCardBg || '#ffffff')}">
+  return `<div class="home" style="background:${E(th.homeCardBg || '#ffffff')}">
   <div class="moeys-header">
     <div class="moeys-brand">
       <div class="moeys-logo-wrap" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
@@ -4906,8 +4789,7 @@ home(){
     </div>
   ` : ''}
 
-  ${jiggleBarHTML}
-  <div class="mu small" style="margin-bottom:10px">💡 ចុចសង្កត់លើប៊ូតុងណាមួយ ០.៤ វិនាទី ដើម្បីឱ្យញ័រៗ អូសប្តូរទីតាំង ឬចុចសញ្ញា (−) លាក់ប៊ូតុង</div>
+  <div class="mu small" style="margin-bottom:10px">💡 អ្នកអាចចុចអូស (Drag & Drop) ប៊ូតុងដើម្បីរៀបចំទីតាំងតាមចិត្តបាន</div>
   ${layoutMode === 'classic' ? `<div class="hg" id="btnGrid">${btnsHtml}</div>` : btnsHtml}</div>`;
 },
 
@@ -6488,7 +6370,7 @@ ilp(){
       `).join('');
 
       return `
-        <div class="doc-page-break" style="border:2px solid #1e293b;padding:14px 18px;border-radius:6px">
+        <div class="doc-page-break" style="border:2px solid #1e293b;padding:12px 16px;border-radius:6px;margin-bottom:14px">
           <div style="text-align:center;margin-bottom:6px">
             <div class="muol-title" style="font-size:14.5px">ផែនការ និងរបាយការណ៍បង្រៀន ៣ឆ្នាំ របស់គ្រូមុខវិជ្ជា (${toKhNum(currentYear)}) — ផ្នែកទី ${toKhNum(eIdx + 1)}</div>
             <div style="font-size:11.5px;font-weight:bold">សាលា៖ ${E(i.school || '')} (${E(fullLocationStr)} ${E(i.province || '')})</div>
@@ -8498,7 +8380,6 @@ function initDragAndDrop(){
 
   grid.querySelectorAll('.pb').forEach(el => {
     el.addEventListener('dragstart', e => {
-      if (e.target.closest('.home-del-badge')) { e.preventDefault(); return; }
       dragged = el;
       el.classList.add('touch-dragging');
       e.dataTransfer.effectAllowed = 'move';
@@ -8515,43 +8396,23 @@ function initDragAndDrop(){
     });
 
     el.addEventListener('touchstart', e => {
-      if (e.target.closest('.home-del-badge')) return;
       if (e.touches[0]) {
         startX = e.touches[0].clientX;
         startY = e.touches[0].clientY;
       }
-      if (homeJiggleMode) {
-        isTouchDragging = true;
-        window._homeJustDragged = true;
-        dragged = el;
-        el.classList.add('touch-dragging');
-        return;
-      }
       touchTimer = setTimeout(() => {
         isTouchDragging = true;
-        window._homeJustDragged = true;
         dragged = el;
-        if (!homeJiggleMode) {
-          homeJiggleMode = true;
-          const homeBox = document.querySelector('.home');
-          if (homeBox) homeBox.classList.add('home-jiggle-active');
-          grid.querySelectorAll('.pb').forEach(btn => {
-            if (!btn.querySelector('.home-del-badge')) {
-              const bid = btn.dataset.id;
-              btn.insertAdjacentHTML('afterbegin', `<button type="button" class="home-del-badge" ontouchstart="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="hideHomeBtn('${bid}', event)" title="លាក់ប៊ូតុងនេះ">−</button>`);
-            }
-          });
-        }
         el.classList.add('touch-dragging');
-        if (navigator.vibrate) navigator.vibrate(45);
-      }, 380);
+        if (navigator.vibrate) navigator.vibrate(50);
+      }, 450);
     }, {passive: true});
 
     el.addEventListener('touchmove', e => {
       const touch = e.touches[0];
       if (!touch) return;
       if (!isTouchDragging) {
-        if (Math.abs(touch.clientX - startX) > 10 || Math.abs(touch.clientY - startY) > 10) {
+        if (Math.abs(touch.clientX - startX) > 8 || Math.abs(touch.clientY - startY) > 8) {
           clearTimeout(touchTimer);
         }
         return;
@@ -8571,7 +8432,6 @@ function initDragAndDrop(){
         if (dragged) dragged.classList.remove('touch-dragging');
         dragged = null;
         saveNewOrder();
-        setTimeout(() => { window._homeJustDragged = false; R(); }, 60);
       }
     });
   });
