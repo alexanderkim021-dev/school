@@ -2825,7 +2825,6 @@ function save(){
     setStatus('🔒 Preview Mode (មិនរក្សាទុក)', true);
     return;
   }
-  enforceSessionIdentityLocks();
   const key = SESSION.key, u = SESSION.username, snapshot = JSON.stringify(allYearsData);
   setStatus('កំពុងរក្សាទុក...');
   saveChain = saveChain.then(async () => {
@@ -3089,6 +3088,7 @@ const go = p => {
 };
 
 function setMonthDiv(mIdx, val){
+  if (!checkWriteAllowed()) { R(); return; }
   const S = getS();
   if (!S.monthDivs) S.monthDivs = {};
   const num = +val;
@@ -3099,6 +3099,7 @@ function setMonthDiv(mIdx, val){
 }
 
 function setExamDiv(sIdx, val){
+  if (!checkWriteAllowed()) { R(); return; }
   const S = getS();
   if (!S.examDivs) S.examDivs = {};
   const num = +val;
@@ -3120,6 +3121,7 @@ function switchLevel(lvl){
 }
 
 function switchStream(st){
+  if (!checkWriteAllowed()) { R(); return; }
   getS().info.stream = st;
   getS().info.div = (st === 'social') ? 12.5 : 13;
   save();
@@ -3135,6 +3137,7 @@ function switchYear(yr){
 }
 
 function addNewYearPrompt(){
+  if (!checkWriteAllowed()) { R(); return; }
   const def = '២០២៦ - ២០២៧';
   const val = prompt('សូមបញ្ចូលឆ្នាំសិក្សាថ្មី (ឧ. ២០២៦ - ២០២៧)៖', def);
   if (!val || !val.trim()) return;
@@ -3209,6 +3212,7 @@ function getPlanAssignmentsList(){
 }
 
 function addPlanAssignment(){
+  if (!checkWriteAllowed()) { R(); return; }
   const tp = getTeacherPlanState();
   const defSubj = currentLevel === 'high' ? 'អក្សរសាស្ត្រខ្មែរ' : 'ភាសាខ្មែរ';
   tp.classAssignments.push({
@@ -3225,6 +3229,7 @@ function addPlanAssignment(){
 }
 
 function removePlanAssignment(idx){
+  if (!checkWriteAllowed()) { R(); return; }
   const tp = getTeacherPlanState();
   if (tp.classAssignments.length <= 1) {
     // Allow resetting the last remaining row cleanly instead of blocking
@@ -3244,7 +3249,6 @@ function removePlanAssignment(idx){
     R();
     return;
   }
-  if (!confirm('លុបថ្នាក់ និងមុខវិជ្ជានេះចេញពីផែនការ?')) return;
   tp.classAssignments.splice(idx, 1);
   if (planSubjIdx >= tp.classAssignments.length) planSubjIdx = 0;
   save();
@@ -3252,6 +3256,7 @@ function removePlanAssignment(idx){
 }
 
 function updatePlanAssignment(idx, field, val){
+  if (!checkWriteAllowed()) { R(); return; }
   const tp = getTeacherPlanState();
   const item = tp.classAssignments[idx];
   if (!item) return;
@@ -3386,6 +3391,7 @@ function getAssignmentPlanRecord(caObj){
 }
 
 function autoFillAssignmentPlanTargets(caObj){
+  if (!checkWriteAllowed()) { R(); return; }
   const rec = getAssignmentPlanRecord(caObj);
   const S = getS();
   const total = caObj.totalStu;
@@ -3416,6 +3422,7 @@ function autoFillAssignmentPlanTargets(caObj){
 }
 
 function uploadTeacherPlanPhoto(file) {
+  if (!checkWriteAllowed()) { R(); return; }
   if (!file) return;
   const r = new FileReader();
   r.onload = () => {
@@ -3454,12 +3461,14 @@ function formatSubjectsSummaryText(){
 }
 
 function setPlanMeta(key, val){
+  if (!checkWriteAllowed()) { R(); return; }
   const tp = getTeacherPlanState();
   tp.meta[key] = val.trim();
   save();
 }
 
 function setAssignmentCellVal(caKey, bucket, grade, val){
+  if (!checkWriteAllowed()) { R(); return; }
   const list = getPlanAssignmentsList();
   const caObj = list.find(x => x.key === caKey) || list[0];
   const rec = getAssignmentPlanRecord(caObj);
@@ -3478,6 +3487,7 @@ function setAssignmentCellVal(caKey, bucket, grade, val){
 }
 
 function setAgreeExtraVal(key, val, idx = null){
+  if (!checkWriteAllowed()) { R(); return; }
   const tp = getTeacherPlanState();
   if (idx !== null && Array.isArray(tp.agreeExtra[key])) {
     const clean = String(val ?? '').trim();
@@ -3810,6 +3820,7 @@ async function handleUniversalFileUpload(file){
 }
 
 function applyUniversalParsedToPlan(){
+  if (!checkWriteAllowed()) { R(); return; }
   if (!universalParsedSubjects.length) return alert('មិនទាន់មានទិន្នន័យត្រូវបញ្ចូលទេ!');
   const tp = getTeacherPlanState();
   const S = getS();
@@ -3876,6 +3887,7 @@ function applyUniversalParsedToPlan(){
 }
 
 function syncAllHomeClassSubjectsFromScores(){
+  if (!checkWriteAllowed()) { R(); return; }
   const S = getS();
   if (!S.st.length) return alert('មិនទាន់មានឈ្មោះសិស្សក្នុងបញ្ជី! សូមបញ្ចូលសិស្សជាមុនសិន។');
   const tp = getTeacherPlanState();
@@ -3940,6 +3952,7 @@ function syncAllHomeClassSubjectsFromScores(){
 }
 
 function movePlanAssignment(idx, dir){
+  if (!checkWriteAllowed()) { R(); return; }
   const tp = getTeacherPlanState();
   const target = idx + dir;
   if (target < 0 || target >= tp.classAssignments.length) return;
@@ -4072,6 +4085,7 @@ function getAutoBaseActual(stuId, subjIdx, gradeLabel, colKey){
 }
 
 function autoGenerateIlpTargets(stuId){
+  if (!checkWriteAllowed()) { R(); return; }
   const rec = getStudentIlpRecord(stuId);
   const ladder = ['F', 'E', 'D', 'C', 'B', 'A'];
   const curGrade = detectCurrentGradeRowLabel(getS().info.cls);
@@ -4110,6 +4124,7 @@ function autoGenerateIlpTargets(stuId){
 }
 
 function setIlpVal(stuId, group, key, val){
+  if (!checkWriteAllowed()) { R(); return; }
   const rec = getStudentIlpRecord(stuId);
   rec[group][key] = val;
   save();
@@ -5905,7 +5920,7 @@ ilp(){
                 </div>
                 <div style="display:flex;align-items:center;gap:5px">
                   <button type="button" class="bt" style="padding:3px 10px;min-height:30px;font-size:12px;background:var(--ok)" onclick="window.planEditRowIdx=-1;R()">✓ រួចរាល់</button>
-                  <button type="button" class="bt g" style="padding:3px 9px;min-height:30px;font-size:12px;color:var(--bad)" onclick="window.planEditRowIdx=-1;removePlanAssignment(${idx})" title="លុប">🗑️</button>
+                  <button type="button" class="bt g" style="padding:4px 11px;min-height:32px;font-size:12.5px;color:var(--bad);border-color:#fca5a5;background:#fef2f2" ontouchstart="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="event.stopPropagation();window.planEditRowIdx=-1;removePlanAssignment(${idx})" title="លុប">🗑️ លុប</button>
                 </div>
               </div>
             </div>
@@ -8487,6 +8502,7 @@ function updatePhotoCropY(val){
 }
 
 function applyPhotoCrop(id){
+  if (!checkWriteAllowed()) { R(); return; }
   const s = getS().st.find(x => x.id === id);
   const srcData = tempPhotoRawData || (s && s.ph);
   if (!s || !srcData) return;
@@ -8526,6 +8542,7 @@ function applyPhotoCrop(id){
 }
 
 function deleteStuPhoto(id){
+  if (!checkWriteAllowed()) { R(); return; }
   const s = getS().st.find(x => x.id === id);
   if (s) {
     delete s.ph;
@@ -8571,16 +8588,19 @@ function setInfo(key, v, num){
 }
 
 function setDobDirect(id, val){
+  if (!checkWriteAllowed()) { R(); return; }
   const s = getS().st.find(x => x.id === id);
   if(s){ s.dob = smartKhmerDate(val); save(); R(); }
 }
 
 function setStuProp(id, prop, val){
+  if (!checkWriteAllowed()) { R(); return; }
   const s = getS().st.find(x => x.id === id);
   if(s){ s[prop] = val.trim(); save(); }
 }
 
 function setSex(id, v){
+  if (!checkWriteAllowed()) { R(); return; }
   const s = getS().st.find(x => x.id === id);
   if(s){ s.sex = v; save(); }
 }
