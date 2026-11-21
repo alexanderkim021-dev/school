@@ -229,7 +229,42 @@ h1, h2, h3, .muol-title { font-family: var(--title-font) !important; font-weight
 .touch-3d:active { transform: translateY(4px) !important; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; }
 .touch-scale:active { transform: scale(0.92) !important; box-shadow: 0 3px 8px rgba(0,0,0,0.2) !important; }
 .touch-glow:active { transform: scale(0.97) !important; box-shadow: 0 0 20px var(--ac) !important; filter: brightness(1.2) !important; }
-.pb.touch-dragging{opacity:0.4;transform:scale(0.96)}
+.pb.touch-dragging{opacity:0.45;transform:scale(1.04);z-index:60;box-shadow:0 14px 28px rgba(0,0,0,0.32)!important}
+@keyframes iosJiggle {
+  0% { transform: rotate(-1.1deg); }
+  50% { transform: rotate(1.1deg); }
+  100% { transform: rotate(-1.1deg); }
+}
+.home-jiggle-active .pb {
+  animation: iosJiggle 0.26s infinite ease-in-out;
+  overflow: visible !important;
+  cursor: grab;
+}
+.home-jiggle-active .pb:nth-child(even) {
+  animation-delay: -0.13s;
+}
+.home-del-badge {
+  position: absolute;
+  top: -7px;
+  left: -7px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #dc2626;
+  color: #fff;
+  border: 2px solid #fff;
+  font-size: 14px;
+  font-weight: 900;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.35);
+  z-index: 30;
+  cursor: pointer;
+  padding: 0;
+}
+.home-del-badge:active { transform: scale(0.88); }
 
 .bl{background:var(--ac)}.gd{background:var(--gd)}.bk{background:var(--bk)}.rd{background:var(--rd)}.gr{background:var(--ok)}.pu{background:#8b5cf6}.tl{background:#0d9488}.in{background:#0284c7}.ro{background:#e11d48}
 .wide{display:block;width:100%;margin:10px 0}
@@ -2393,15 +2428,60 @@ const LAST_YEAR_KEY = 'sms_last_selected_year_v1';
 
 const DEFAULT_BTNS = ['info','stu','sc','examScore','official','sem','annual','charts','ab','honor','cert','idcard','tracking','ilp','bk','theme','clean'];
 
+const HIDDEN_BTNS_KEY = 'sms_hidden_btns_v1';
+let homeJiggleMode = false;
+
+function getHiddenBtns(){
+  try {
+    const raw = localStorage.getItem(HIDDEN_BTNS_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch(e) { return []; }
+}
+
+function saveHiddenBtns(arr){
+  localStorage.setItem(HIDDEN_BTNS_KEY, JSON.stringify(arr));
+}
+
+function hideHomeBtn(k, e){
+  if (e) { e.stopPropagation(); e.preventDefault(); }
+  const hidden = getHiddenBtns();
+  if (!hidden.includes(k)) {
+    hidden.push(k);
+    saveHiddenBtns(hidden);
+  }
+  R();
+}
+
+function restoreHomeBtn(k){
+  const hidden = getHiddenBtns().filter(x => x !== k);
+  saveHiddenBtns(hidden);
+  const order = getBtnOrder();
+  if (!order.includes(k)) {
+    order.push(k);
+    localStorage.setItem(ORDER_KEY, JSON.stringify(order));
+  }
+  R();
+}
+
+function restoreAllHomeBtns(){
+  saveHiddenBtns([]);
+  localStorage.setItem(ORDER_KEY, JSON.stringify(DEFAULT_BTNS));
+  homeJiggleMode = false;
+  R();
+}
+
 function getBtnOrder(){
   try {
+    const hidden = getHiddenBtns();
     const s = localStorage.getItem(ORDER_KEY);
-    if (!s) return DEFAULT_BTNS;
+    if (!s) return DEFAULT_BTNS.filter(k => !hidden.includes(k));
     const parsed = JSON.parse(s);
-    if (!parsed.includes('ilp')) parsed.splice(11, 0, 'ilp');
-    if (!parsed.includes('charts')) parsed.splice(7, 0, 'charts');
-    if (!parsed.includes('tracking')) parsed.splice(12, 0, 'tracking');
-    return parsed;
+    ['ilp', 'charts', 'tracking'].forEach((reqKey, i) => {
+      if (!parsed.includes(reqKey) && !hidden.includes(reqKey)) {
+        parsed.splice(Math.min(parsed.length, 7 + i * 2), 0, reqKey);
+      }
+    });
+    return parsed.filter(k => !hidden.includes(k));
   } catch(e) { return DEFAULT_BTNS; }
 }
 
@@ -2763,6 +2843,7 @@ function normalizeLevel(d, lbl, yr){
     st, sc: d.sc || {}, ab: d.ab || {}, rm: d.rm || {}, ilp: d.ilp || {},
     teacherPlan: {
       meta: { ...e.teacherPlan.meta, ...((d.teacherPlan && d.teacherPlan.meta) || {}) },
+      classAssignments: Array.isArray(d.teacherPlan && d.teacherPlan.classAssignments) ? d.teacherPlan.classAssignments : [],
       subjPlans: (d.teacherPlan && d.teacherPlan.subjPlans) || {},
       agreeExtra: { ...e.teacherPlan.agreeExtra, ...((d.teacherPlan && d.teacherPlan.agreeExtra) || {}) }
     },
@@ -4658,12 +4739,17 @@ home(){
     return th.pgG3Color || '#ea580c';
   };
 
+  const jiggleBadge = k => homeJiggleMode
+    ? `<button type="button" class="home-del-badge" ontouchstart="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="hideHomeBtn('${k}', event)" title="លាក់ប៊ូតុងនេះ">−</button>`
+    : '';
+  const safeClick = act => `if(!homeJiggleMode && !window._homeJustDragged){${act}}`;
+
   let btnsHtml = '';
   if (layoutMode === 'classic') {
     btnsHtml = order.map(k => {
       const b = btnDefs[k];
       if (!b) return '';
-      return `<div class="pb ${b.cls} ${touchCls}" ${b.style?`style="${b.style}"`:''} draggable="true" data-id="${k}" onclick="${b.act}">${b.txt}</div>`;
+      return `<div class="pb ${b.cls} ${touchCls}" ${b.style?`style="${b.style}"`:''} draggable="true" data-id="${k}" onclick="${safeClick(b.act)}">${jiggleBadge(k)}${b.txt}</div>`;
     }).join('');
   } else if (layoutMode === 'analytics_kpi') {
     const renderKpiCard = (k, groupColor) => {
@@ -4675,7 +4761,8 @@ home(){
       const borderC = th.pgLineStyle === 'gold' ? '#fbbf24' : 'rgba(255,255,255,0.28)';
       const st = `background:linear-gradient(135deg, ${baseC} 0%, ${darkC} 100%);border-color:${borderC};border-bottom-color:${deep3d};`;
       return `
-        <div class="pb ux-kpi-card ${touchCls}" draggable="true" data-id="${k}" onclick="${b.act}" style="${st}">
+        <div class="pb ux-kpi-card ${touchCls}" draggable="true" data-id="${k}" onclick="${safeClick(b.act)}" style="${st}">
+          ${jiggleBadge(k)}
           <div class="ux-kpi-top"><span>${b.ico}</span><span>${g1Keys.includes(k)?'គ្រប់គ្រង & ពិន្ទុ':(g2Keys.includes(k)?'របាយការណ៍ A4':'ប្រព័ន្ធ')}</span></div>
           <div class="ux-kpi-main">${b.title}</div>
           <div class="ux-kpi-sub">${b.sub}</div>
@@ -4699,7 +4786,6 @@ home(){
         <div class="hg ux-grid2">${g3.map(k => renderKpiCard(k, c3)).join('')}</div>
       `;
     } else {
-      // Keep exact user button order (តម្រៀបដូចដើម) while applying group colors & equal card sizes
       btnsHtml = `<div class="hg ux-grid2" id="btnGrid">${order.map(k => renderKpiCard(k, getGroupColorForKey(k))).join('')}</div>`;
     }
   } else {
@@ -4713,7 +4799,8 @@ home(){
         inlineStyle += `background:linear-gradient(135deg, ${darkC} 0%, ${groupColor} 100%);border-bottom-color:${deep3d};`;
       }
       return `
-        <div class="pb ux-card-btn ${b.danger?'is-danger':''} ${touchCls}" draggable="true" data-id="${k}" onclick="${b.act}" style="${inlineStyle}">
+        <div class="pb ux-card-btn ${b.danger?'is-danger':''} ${touchCls}" draggable="true" data-id="${k}" onclick="${safeClick(b.act)}" style="${inlineStyle}">
+          ${jiggleBadge(k)}
           <div class="ux-card-left">
             <div class="ux-card-ico">${b.ico}</div>
             <div class="ux-card-meta">
@@ -4746,7 +4833,28 @@ home(){
     }
   }
 
-  return `<div class="home" style="background:${E(th.homeCardBg || '#ffffff')}">
+  const hiddenList = getHiddenBtns();
+  const jiggleBarHTML = homeJiggleMode ? `
+    <div style="background:#eff6ff;border:1.5px solid #2563eb;border-radius:14px;padding:10px 12px;margin:0 auto 12px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+        <span style="font-size:13px;font-weight:800;color:#1e3a8a">✨ កំពុងរៀបចំប៊ូតុង (អូសប្តូរទីតាំង ឬចុច − ដើម្បីលាក់)</span>
+        <button type="button" class="bt" style="padding:4px 14px;min-height:32px;font-size:12.5px;background:var(--ok);border-radius:999px" onclick="homeJiggleMode=false;R()">✓ រួចរាល់</button>
+      </div>
+      ${hiddenList.length ? `
+        <div style="display:flex;flex-wrap:wrap;gap:6px;padding-top:6px;border-top:1px dashed #93c5fd;align-items:center">
+          <span style="font-size:11.5px;font-weight:700;color:#475569">➕ ប៊ូតុងដែលបានលាក់៖</span>
+          ${hiddenList.map(hk => btnDefs[hk] ? `<button type="button" class="bt g" style="padding:2px 9px;min-height:26px;font-size:11.5px;border-radius:999px" onclick="restoreHomeBtn('${hk}')">+ ${btnDefs[hk].title}</button>` : '').join('')}
+          <button type="button" class="bt g" style="padding:2px 9px;min-height:26px;font-size:11.5px;color:#2563eb;border-radius:999px" onclick="restoreAllHomeBtns()">🔄 យកទាំងអស់វិញ</button>
+        </div>
+      ` : ''}
+    </div>
+  ` : (hiddenList.length ? `
+    <div style="margin:0 auto 10px;text-align:center">
+      <button type="button" class="bt g" style="padding:3px 12px;min-height:28px;font-size:12px;border-radius:999px" onclick="homeJiggleMode=true;R()">⚙️ រៀបចំ / បង្ហាញប៊ូតុងដែលលាក់ (${toKhNum(hiddenList.length)})</button>
+    </div>
+  ` : '');
+
+  return `<div class="home ${homeJiggleMode?'home-jiggle-active':''}" style="background:${E(th.homeCardBg || '#ffffff')}">
   <div class="moeys-header">
     <div class="moeys-brand">
       <div class="moeys-logo-wrap" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
@@ -4798,7 +4906,8 @@ home(){
     </div>
   ` : ''}
 
-  <div class="mu small" style="margin-bottom:10px">💡 អ្នកអាចចុចអូស (Drag & Drop) ប៊ូតុងដើម្បីរៀបចំទីតាំងតាមចិត្តបាន</div>
+  ${jiggleBarHTML}
+  <div class="mu small" style="margin-bottom:10px">💡 ចុចសង្កត់លើប៊ូតុងណាមួយ ០.៤ វិនាទី ដើម្បីឱ្យញ័រៗ អូសប្តូរទីតាំង ឬចុចសញ្ញា (−) លាក់ប៊ូតុង</div>
   ${layoutMode === 'classic' ? `<div class="hg" id="btnGrid">${btnsHtml}</div>` : btnsHtml}</div>`;
 },
 
@@ -6640,8 +6749,13 @@ ilp(){
 
   return head('កិច្ចព្រមព្រៀងលទ្ធផលការងារប្រចាំឆ្នាំ') + `<div class="card">
     ${tabsNav}
-    <div class="screen-ui" style="display:flex;align-items:center;justify-content:space-between;gap:8px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:7px 11px;margin-bottom:10px;font-size:12.5px;color:#1e3a8a"><span>🔗 <b>ទាញទិន្នន័យអូតូ ១០០%</b> ពីបញ្ជី (${toKhNum(assignments.length)} មុខវិជ្ជា)</span><button type="button" class="bt g" style="padding:2px 9px;min-height:28px;font-size:12px" onclick="planSubTab='plan3y';R()">✏️ កែនៅ Tab ២</button></div>
-    ${sharedMetaFormHTML}
+    <div class="screen-ui" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:8px 11px;margin-bottom:10px;font-size:12px;color:#1e3a8a">
+      <span>🔗 <b>ទាញទិន្នន័យអូតូ ១០០%</b> (មុខវិជ្ជា និងព័ត៌មានរដ្ឋបាល)</span>
+      <div style="display:flex;gap:5px">
+        <button type="button" class="bt g" style="padding:2px 8px;min-height:26px;font-size:11.5px" onclick="planSubTab='plan3y';R()">✏️ មុខវិជ្ជា (Tab ២)</button>
+        <button type="button" class="bt g" style="padding:2px 8px;min-height:26px;font-size:11.5px" onclick="planSubTab='book';R()">⚙️ រដ្ឋបាល (Tab ៣)</button>
+      </div>
+    </div>
 
     <div class="screen-ui" style="background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;padding:12px;margin-bottom:12px">
       <div style="font-weight:700;font-size:13.5px;color:#92400e;margin-bottom:8px">📝 កែសម្រួលតួលេខវត្ថុបំណងទី ២ ដល់ ទី ៤ (តួលេខ A-F វត្ថុបំណងទី ១ ទាញអូតូពីបញ្ជីថ្នាក់ខាងលើរួចហើយ!)</div>
@@ -8380,9 +8494,11 @@ function initDragAndDrop(){
   let dragged = null;
   let touchTimer = null;
   let isTouchDragging = false;
+  let startX = 0, startY = 0;
 
   grid.querySelectorAll('.pb').forEach(el => {
     el.addEventListener('dragstart', e => {
+      if (e.target.closest('.home-del-badge')) { e.preventDefault(); return; }
       dragged = el;
       el.classList.add('touch-dragging');
       e.dataTransfer.effectAllowed = 'move';
@@ -8399,18 +8515,48 @@ function initDragAndDrop(){
     });
 
     el.addEventListener('touchstart', e => {
-      touchTimer = setTimeout(() => {
+      if (e.target.closest('.home-del-badge')) return;
+      if (e.touches[0]) {
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
+      }
+      if (homeJiggleMode) {
         isTouchDragging = true;
+        window._homeJustDragged = true;
         dragged = el;
         el.classList.add('touch-dragging');
-        if (navigator.vibrate) navigator.vibrate(50);
-      }, 400);
+        return;
+      }
+      touchTimer = setTimeout(() => {
+        isTouchDragging = true;
+        window._homeJustDragged = true;
+        dragged = el;
+        if (!homeJiggleMode) {
+          homeJiggleMode = true;
+          const homeBox = document.querySelector('.home');
+          if (homeBox) homeBox.classList.add('home-jiggle-active');
+          grid.querySelectorAll('.pb').forEach(btn => {
+            if (!btn.querySelector('.home-del-badge')) {
+              const bid = btn.dataset.id;
+              btn.insertAdjacentHTML('afterbegin', `<button type="button" class="home-del-badge" ontouchstart="event.stopPropagation()" onmousedown="event.stopPropagation()" onclick="hideHomeBtn('${bid}', event)" title="លាក់ប៊ូតុងនេះ">−</button>`);
+            }
+          });
+        }
+        el.classList.add('touch-dragging');
+        if (navigator.vibrate) navigator.vibrate(45);
+      }, 380);
     }, {passive: true});
 
     el.addEventListener('touchmove', e => {
-      if (!isTouchDragging) { clearTimeout(touchTimer); return; }
-      e.preventDefault();
       const touch = e.touches[0];
+      if (!touch) return;
+      if (!isTouchDragging) {
+        if (Math.abs(touch.clientX - startX) > 10 || Math.abs(touch.clientY - startY) > 10) {
+          clearTimeout(touchTimer);
+        }
+        return;
+      }
+      e.preventDefault();
       const target = document.elementFromPoint(touch.clientX, touch.clientY);
       const targetBtn = target ? target.closest('.pb') : null;
       if (targetBtn && targetBtn !== dragged && targetBtn.parentElement === grid) {
@@ -8425,6 +8571,7 @@ function initDragAndDrop(){
         if (dragged) dragged.classList.remove('touch-dragging');
         dragged = null;
         saveNewOrder();
+        setTimeout(() => { window._homeJustDragged = false; R(); }, 60);
       }
     });
   });
@@ -8438,7 +8585,7 @@ function initDragAndDrop(){
 
   function saveNewOrder(){
     const newOrder = [...grid.querySelectorAll('.pb')].map(b => b.dataset.id);
-    localStorage.setItem(ORDER_KEY, JSON.stringify(newOrder));
+    if (newOrder.length) localStorage.setItem(ORDER_KEY, JSON.stringify(newOrder));
   }
 }
 
