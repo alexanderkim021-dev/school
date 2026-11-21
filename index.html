@@ -1471,8 +1471,9 @@ const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFz
 // ========================================================
 // ប្រព័ន្ធគ្រប់គ្រងអាជ្ញាប័ណ្ណ (60 ថ្ងៃ Free Trial + ABA KHQR $7/ឆ្នាំ)
 // ========================================================
-const VIP_OWNERS = ['sokhim', 'alexanderkim021', 'alexanderkim021@gmail.com', 'admin'];
+const VIP_OWNERS = ['kim', 'sokhim', 'alexanderkim021', 'alexanderkim021@gmail.com', 'admin'];
 const LICENSE_CACHE_KEY = 'sms_license_cache_v1';
+let DEMO_SIM_MODE = null; // null | 'trial60' | 'expired'
 let LICENSE_STATE = {
   loading: false,
   isVip: false,
@@ -1488,7 +1489,32 @@ let khqrPollTimer = null;
 function isVipAccount(u){
   if (!u) return false;
   const clean = String(u).trim().toLowerCase();
+  const acc = accounts[clean];
+  if (acc && acc.is_vip === true) return true;
+  if (SESSION && SESSION.username === clean && SESSION.is_vip === true) return true;
   return VIP_OWNERS.includes(clean);
+}
+
+function getEffectiveLicense(){
+  if (DEMO_SIM_MODE === 'trial60') {
+    return { loading: false, isVip: false, isPaid: false, expired: false, daysLeft: 60, expiresAt: null, isDemo: true };
+  }
+  if (DEMO_SIM_MODE === 'expired') {
+    return { loading: false, isVip: false, isPaid: false, expired: true, daysLeft: 0, expiresAt: null, isDemo: true };
+  }
+  return LICENSE_STATE;
+}
+
+function setDemoSimMode(mode){
+  DEMO_SIM_MODE = mode;
+  if (mode === 'expired') {
+    showKhqrModal = false;
+    khqrOrder = null;
+  } else {
+    showKhqrModal = false;
+    stopKhqrPolling();
+  }
+  R();
 }
 
 function getLocalCachedLicense(u){
@@ -1584,7 +1610,9 @@ function stopKhqrPolling(){
 }
 
 function closeKhqrModal(){
-  if (LICENSE_STATE.expired) return; // បើផុតកំណត់ 60 ថ្ងៃហើយ មិនអាចបិទផ្ទាំងចាក់សោបានទេ
+  const eff = getEffectiveLicense();
+  if (eff.expired && !DEMO_SIM_MODE) return; // បើផុតកំណត់ 60 ថ្ងៃហើយ មិនអាចបិទផ្ទាំងចាក់សោបានទេ
+  if (DEMO_SIM_MODE === 'expired') DEMO_SIM_MODE = null;
   showKhqrModal = false;
   stopKhqrPolling();
   R();
@@ -1669,27 +1697,45 @@ function startKhqrPolling(md5){
 
 function renderLicenseBannerHTML(){
   if (!SESSION) return '';
-  if (LICENSE_STATE.isVip) {
+  const eff = getEffectiveLicense();
+  const isRealVip = isVipAccount(SESSION.username);
+
+  const adminDemoBar = isRealVip ? `
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-top:4px;padding-top:6px;border-top:1px dashed rgba(120,53,15,0.28);width:100%">
+      <span style="font-size:11.5px;font-weight:700;align-self:center">🎬 ធ្វើបទបង្ហាញ៖</span>
+      <button type="button" class="btn-upgrade-mini" style="background:${!DEMO_SIM_MODE?'#b45309':'#64748b'};font-size:11.5px;padding:3px 9px" onclick="setDemoSimMode(null)">👑 VIP សេរី</button>
+      <button type="button" class="btn-upgrade-mini" style="background:${DEMO_SIM_MODE==='trial60'?'#2563eb':'#475569'};font-size:11.5px;padding:3px 9px" onclick="setDemoSimMode('trial60')">🎁 សាក ៦០ថ្ងៃ</button>
+      <button type="button" class="btn-upgrade-mini" style="background:${DEMO_SIM_MODE==='expired'?'#dc2626':'#475569'};font-size:11.5px;padding:3px 9px" onclick="setDemoSimMode('expired')">🔒 ផុតកំណត់</button>
+      <button type="button" class="btn-upgrade-mini" style="background:#005783;font-size:11.5px;padding:3px 9px" onclick="openKhqrCheckout()">💳 KHQR $7</button>
+    </div>
+  ` : '';
+
+  if (eff.isVip) {
     return `<div class="license-bar vip">
-      <div>👑 <b>គណនី VIP ម្ចាស់កម្មវិធី (Lifetime)</b> · ប្រើប្រាស់បានមួយជីវិតដោយគ្មានដែនកំណត់</div>
+      <div>👑 <b>គណនី VIP ម្ចាស់កម្មវិធី (Lifetime)</b> · បើកប្រើសេរី ១០០% គ្រប់កម្រិតសិក្សា និងគ្រប់ឧបករណ៍</div>
+      ${adminDemoBar}
     </div>`;
   }
-  if (LICENSE_STATE.isPaid && !LICENSE_STATE.expired) {
+  if (eff.isPaid && !eff.expired) {
     return `<div class="license-bar paid">
-      <div>✅ <b>អាជ្ញាប័ណ្ណផ្លូវការ (Pro)</b> · នៅសល់សុពលភាព <b>${toKhNum(LICENSE_STATE.daysLeft)} ថ្ងៃ</b>ទៀត</div>
+      <div>✅ <b>អាជ្ញាប័ណ្ណផ្លូវការ (Pro)</b> · នៅសល់សុពលភាព <b>${toKhNum(eff.daysLeft)} ថ្ងៃ</b>ទៀត</div>
       <button class="btn-upgrade-mini" onclick="openKhqrCheckout()">🔄 បន្តសុពលភាព ($7/ឆ្នាំ)</button>
+      ${adminDemoBar}
     </div>`;
   }
-  const isLow = LICENSE_STATE.daysLeft <= 10;
+  const isLow = eff.daysLeft <= 10;
   return `<div class="license-bar ${isLow ? 'warn' : ''}">
-    <div>🎁 <b>សាកល្បងឥតគិតថ្លៃ (Free Trial)៖</b> នៅសល់ <b>${toKhNum(LICENSE_STATE.daysLeft)} ថ្ងៃ</b>ទៀត</div>
+    <div>🎁 <b>សាកល្បងឥតគិតថ្លៃ (Free Trial)៖</b> នៅសល់ <b>${toKhNum(eff.daysLeft)} ថ្ងៃ</b>ទៀត</div>
     <button class="btn-upgrade-mini" onclick="openKhqrCheckout()">💳 ទិញអាជ្ញាប័ណ្ណ ($7.00/ឆ្នាំ)</button>
+    ${adminDemoBar}
   </div>`;
 }
 
 function renderPaywallAndKhqrModal(){
-  if (!SESSION || LICENSE_STATE.isVip) return '';
-  const isLocked = LICENSE_STATE.expired;
+  if (!SESSION) return '';
+  const eff = getEffectiveLicense();
+  if (eff.isVip && !showKhqrModal) return '';
+  const isLocked = eff.expired;
   if (!isLocked && !showKhqrModal) return '';
 
   const showQrStep = showKhqrModal && khqrOrder;
@@ -1711,6 +1757,7 @@ function renderPaywallAndKhqrModal(){
             <button class="pb bl wide" style="background:#005783;cursor:pointer;font-size:15.5px" onclick="openKhqrCheckout()">
               💳 បង់ប្រាក់តាម ABA KHQR ($7.00)
             </button>
+            ${DEMO_SIM_MODE === 'expired' ? `<button class="btn-upgrade-mini" style="margin-top:8px;background:#b45309" onclick="setDemoSimMode(null)">👑 ត្រឡប់ទៅគណនី VIP វិញ (បិទផ្ទាំងសាកល្បង)</button><br>` : ''}
             <button class="btn-skip-install" style="margin-top:8px" onclick="logout()">🚪 ចាកចេញពីគណនី</button>
           ` : `
             <div class="khqr-merchant">SOKHIM KHOM (ABA USD)</div>
@@ -2484,14 +2531,191 @@ function readAccounts(){
 let accounts = readAccounts();
 function saveAccounts(){ localStorage.setItem(ACCKEY, JSON.stringify(accounts)); }
 
-async function createAccount(u, pw, fullname){
+
+// ========================================================
+// ប្រព័ន្ធការពារ ៣ ជាន់ (Active Session Lock + Level Lock + Print Identity Lock)
+// ========================================================
+const DEVICE_SESSION_KEY = 'sms_device_session_id_v1';
+let sessionCheckTimer = null;
+let showLegacySetupModal = false;
+
+function getOrCreateDeviceSessionId(){
+  let sid = localStorage.getItem(DEVICE_SESSION_KEY);
+  if (!sid) {
+    sid = 'sess_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+    localStorage.setItem(DEVICE_SESSION_KEY, sid);
+  }
+  return sid;
+}
+
+function generateFreshDeviceSessionId(){
+  const sid = 'sess_' + Date.now() + '_' + Math.random().toString(36).slice(2, 10);
+  localStorage.setItem(DEVICE_SESSION_KEY, sid);
+  return sid;
+}
+
+function getLevelDisplayName(lvl){
+  return ({ primary: 'បឋមសិក្សា', secondary: 'អនុវិទ្យាល័យ', high: 'វិទ្យាល័យ' })[lvl] || lvl;
+}
+
+function isPreviewMode(){
+  if (!SESSION) return false;
+  if (isVipAccount(SESSION.username)) return false;
+  const lockedLvl = SESSION.education_level || (accounts[SESSION.username] && accounts[SESSION.username].education_level);
+  if (!lockedLvl) return false;
+  return currentLevel !== lockedLvl;
+}
+
+function checkWriteAllowed(silent = false){
+  if (!isPreviewMode()) return true;
+  if (!silent) {
+    const lockedLvl = SESSION.education_level || (accounts[SESSION.username] && accounts[SESSION.username].education_level);
+    alert(`🔒 មុខងារ Preview (មើលគំរូប៉ុណ្ណោះ)!\n\nគណនីរបស់អ្នកបានចុះឈ្មោះសម្រាប់កម្រិត [${getLevelDisplayName(lockedLvl)}]។\nអ្នកអាចចូលមើលគំរូតារាងកម្រិត [${getLevelDisplayName(currentLevel)}] បាន ប៉ុន្តែមិនអាចបញ្ចូលទិន្នន័យ រក្សាទុក ឬបោះពុម្ព PDF បានទេ។`);
+  }
+  return false;
+}
+
+function enforceSessionIdentityLocks(){
+  if (!SESSION || isVipAccount(SESSION.username)) return;
+  const acc = accounts[SESSION.username] || {};
+  const lockedSchool = (SESSION.school_name || acc.school_name || '').trim();
+  const lockedTeacher = (SESSION.fullname || acc.fullname || '').trim();
+  if (allYearsData) {
+    Object.keys(allYearsData).forEach(yr => {
+      ['primary', 'secondary', 'high'].forEach(lvl => {
+        if (allYearsData[yr] && allYearsData[yr][lvl] && allYearsData[yr][lvl].info) {
+          if (lockedSchool) allYearsData[yr][lvl].info.school = lockedSchool;
+          if (lockedTeacher) allYearsData[yr][lvl].info.teacher = lockedTeacher;
+        }
+      });
+    });
+  }
+}
+
+function startActiveSessionMonitor(){
+  stopActiveSessionMonitor();
+  if (!SESSION || isVipAccount(SESSION.username)) return;
+  sessionCheckTimer = setInterval(async () => {
+    if (!SESSION || !navigator.onLine) return;
+    if (isVipAccount(SESSION.username)) { stopActiveSessionMonitor(); return; }
+    try {
+      const remote = await sbPullUser(SESSION.username);
+      if (!remote) return;
+      if (remote.status && remote.status !== 'active') {
+        alert('គណនីនេះត្រូវបានផ្អាកបណ្តោះអាសន្ន!');
+        logout();
+        return;
+      }
+      const localSid = localStorage.getItem(DEVICE_SESSION_KEY);
+      if (remote.active_session_id && localSid && remote.active_session_id !== localSid) {
+        stopActiveSessionMonitor();
+        alert('⚠️ គណនីរបស់អ្នកត្រូវបានចូលប្រើប្រាស់នៅលើឧបករណ៍ផ្សេងទៀត!\n\nដើម្បីការពារសុវត្ថិភាព (១ គណនី = ១ ឧបករណ៍សកម្ម) ឧបករណ៍នេះត្រូវបានចាកចេញដោយស្វ័យប្រវត្តិ។');
+        SESSION = null; allYearsData = null;
+        clearTimeout(idleT);
+        pg = 'login';
+        R();
+      }
+    } catch(e){}
+  }, 12000);
+}
+
+function stopActiveSessionMonitor(){
+  if (sessionCheckTimer) {
+    clearInterval(sessionCheckTimer);
+    sessionCheckTimer = null;
+  }
+}
+
+async function confirmLegacyUserSetup(){
+  const lvl = ($('#legLvl') && $('#legLvl').value) || '';
+  const sch = ($('#legSchool') && $('#legSchool').value || '').trim();
+  if (!lvl) return alert('សូមជ្រើសរើសកម្រិតសិក្សាដែលអ្នកបង្រៀន!');
+  if (!sch) return alert('សូមបញ្ចូលឈ្មោះសាលារៀនរបស់អ្នក!');
+
+  const okConfirm = confirm(`តើអ្នកពិតជាបង្រៀននៅកម្រិត [${getLevelDisplayName(lvl)}] នៃ [${sch}] មែនទេ?\n\nបន្ទាប់ពីបញ្ជាក់រួច គណនីនេះនឹងត្រូវកំណត់ប្រើប្រាស់ផ្លូវការសម្រាប់កម្រិតនេះ (កម្រិតផ្សេងអាចចូលមើលគំរូបាន)។`);
+  if (!okConfirm) return;
+
+  const u = SESSION.username;
+  SESSION.education_level = lvl;
+  SESSION.school_name = sch;
+  if (accounts[u]) {
+    accounts[u].education_level = lvl;
+    accounts[u].school_name = sch;
+    saveAccounts();
+  }
+  currentLevel = lvl;
+  localStorage.setItem(LAST_LEVEL_KEY, lvl);
+  enforceSessionIdentityLocks();
+  showLegacySetupModal = false;
+  save();
+  R();
+  setStatus('បានកំណត់កម្រិតសិក្សា និងឈ្មោះសាលាជោគជ័យ ✓');
+}
+
+function renderLegacySetupModal(){
+  if (!SESSION || !showLegacySetupModal || isVipAccount(SESSION.username)) return '';
+  const existingSchool = (getS() && getS().info && getS().info.school) || '';
+  return `
+    <div class="paywall-overlay" style="z-index:99999">
+      <div class="paywall-card" style="max-width:410px;border-color:var(--ac)" onclick="event.stopPropagation()">
+        <div class="khqr-head" style="background:var(--ac);font-size:15.5px;letter-spacing:0.3px">
+          <span>🛡️ កំណត់អត្តសញ្ញាណគណនី (ធ្វើតែ ១ ដងគត់)</span>
+        </div>
+        <div class="khqr-body" style="text-align:left">
+          <p style="font-size:13px;color:#334155;line-height:1.6;margin:0 0 12px">
+            សូមស្វាគមន៍ <b>${E(SESSION.fullname)}</b>! ដើម្បីការពារសុវត្ថិភាពគណនី និងបោះពុម្ពឯកសារផ្លូវការ សូមបញ្ជាក់ព័ត៌មានខាងក្រោមតែម្តងគត់៖
+          </p>
+          <label style="display:block;font-weight:700;font-size:13px;color:#1e3a8a;margin-bottom:10px">
+            ១. ជ្រើសរើសកម្រិតសិក្សាដែលអ្នកបង្រៀន៖
+            <select id="legLvl" style="margin-top:4px">
+              <option value="primary">បឋមសិក្សា</option>
+              <option value="secondary" selected>អនុវិទ្យាល័យ</option>
+              <option value="high">វិទ្យាល័យ</option>
+            </select>
+          </label>
+          <label style="display:block;font-weight:700;font-size:13px;color:#1e3a8a;margin-bottom:12px">
+            ២. ឈ្មោះសាលារៀនរបស់អ្នក៖
+            <input id="legSchool" lang="km" placeholder="ឧ. អនុវិទ្យាល័យ ហ៊ុន សែន..." value="${E(existingSchool)}" style="margin-top:4px">
+          </label>
+          <div style="background:#fef3c7;border:1px solid #f59e0b;border-radius:10px;padding:8px 10px;font-size:12px;color:#92400e;margin-bottom:12px;line-height:1.5">
+            💡 កម្រិតសិក្សា ២ ផ្សេងទៀត អ្នកនៅតែអាចចុចចូលមើលគំរូ (Preview) បានធម្មតា តែមិនអាចរក្សាទុក ឬបោះពុម្ព PDF បានទេ។
+          </div>
+          <button class="pb gr wide" style="cursor:pointer;font-size:15px" onclick="confirmLegacyUserSetup()">✅ បញ្ជាក់ និងចាប់ផ្តើមប្រើប្រាស់</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderPreviewModeBannerHTML(){
+  if (!SESSION || !isPreviewMode()) return '';
+  const lockedLvl = SESSION.education_level || (accounts[SESSION.username] && accounts[SESSION.username].education_level);
+  return `
+    <div style="background:#fef3c7;border:1.5px solid #f59e0b;color:#92400e;border-radius:12px;padding:9px 12px;margin:0 auto 12px;font-size:13px;line-height:1.55;text-align:center">
+      👁️ <b>កំពុងមើលគំរូ [${getLevelDisplayName(currentLevel)}] (Preview Only)</b><br>
+      គណនីរបស់អ្នកបានចុះឈ្មោះសម្រាប់កម្រិត <b>[${getLevelDisplayName(lockedLvl)}]</b> (អាចអូសមើលគំរូបាន តែមិនអាចកែទិន្នន័យ ឬបោះពុម្ព PDF បានទេ)។
+    </div>
+  `;
+}
+
+async function createAccount(u, pw, fullname, eduLevel = 'secondary', schoolName = ''){
   const salt = crypto.getRandomValues(new Uint8Array(16));
   const key = await deriveKey(pw, salt);
   const chk = await seal(key, 'ok');
   const now = Date.now();
-  accounts[u] = {fullname, salt: b64(salt), check: chk, data: null, status: 'active', created: now, backupAt: 0};
+  const sid = generateFreshDeviceSessionId();
+  const vipFlag = isVipAccount(u);
+  accounts[u] = {
+    fullname, salt: b64(salt), check: chk, data: null, status: 'active',
+    active_session_id: sid, education_level: eduLevel, school_name: schoolName, is_vip: vipFlag,
+    created: now, backupAt: 0
+  };
   saveAccounts();
-  sbPushUser({ username: u, fullname: fullname, salt: b64(salt), check: chk, data: null, status: 'active', updated_at: new Date().toISOString() }).catch(()=>{});
+  sbPushUser({
+    username: u, fullname: fullname, salt: b64(salt), check: chk, data: null, status: 'active',
+    active_session_id: sid, education_level: eduLevel, school_name: schoolName, is_vip: vipFlag,
+    updated_at: new Date().toISOString()
+  }).catch(()=>{});
   return key;
 }
 
@@ -2512,6 +2736,9 @@ async function unlock(u, pw){
           check: remote.check, 
           data: remote.data, 
           status: remote.status || 'active',
+          education_level: remote.education_level || null,
+          school_name: remote.school_name || '',
+          is_vip: !!remote.is_vip,
           created: Date.now(), 
           backupAt: Date.now() 
         };
@@ -2534,13 +2761,45 @@ async function unlock(u, pw){
   try { ok = (await open(key, acc.check)) === 'ok'; } catch (e) { ok = false; }
   if (!ok) throw new Error('bad-password');
 
+  const freshSid = generateFreshDeviceSessionId();
+  accounts[u].active_session_id = freshSid;
+  saveAccounts();
+
   sbPullUser(u).then(remote => {
-    if (remote && remote.status && remote.status !== 'active') {
-      accounts[u].status = remote.status;
+    if (remote) {
+      if (remote.status && remote.status !== 'active') {
+        accounts[u].status = remote.status;
+        saveAccounts();
+        alert('គណនីនេះត្រូវបានផ្អាកបណ្តោះអាសន្ន!');
+        logout();
+        return;
+      }
+      if (remote.education_level) accounts[u].education_level = remote.education_level;
+      if (remote.school_name) accounts[u].school_name = remote.school_name;
+      if (remote.is_vip !== undefined) accounts[u].is_vip = !!remote.is_vip;
+      if (SESSION && SESSION.username === u) {
+        SESSION.education_level = accounts[u].education_level || null;
+        SESSION.school_name = accounts[u].school_name || '';
+        SESSION.is_vip = !!accounts[u].is_vip;
+        if (!isVipAccount(u) && !SESSION.education_level) showLegacySetupModal = true;
+        enforceSessionIdentityLocks();
+        R();
+      }
       saveAccounts();
-      alert('គណនីនេះត្រូវបានផ្អាកបណ្តោះអាសន្ន!');
-      logout();
     }
+    sbPushUser({
+      username: u,
+      fullname: accounts[u].fullname,
+      salt: accounts[u].salt,
+      check: accounts[u].check,
+      data: accounts[u].data,
+      status: accounts[u].status || 'active',
+      active_session_id: freshSid,
+      education_level: accounts[u].education_level || null,
+      school_name: accounts[u].school_name || '',
+      is_vip: isVipAccount(u),
+      updated_at: new Date().toISOString()
+    }).catch(()=>{});
   }).catch(()=>{});
 
   return key;
@@ -2661,6 +2920,11 @@ function setStatus(text, err){
 
 function save(){
   if (!SESSION || !allYearsData) return;
+  if (isPreviewMode()) {
+    setStatus('🔒 Preview Mode (មិនរក្សាទុក)', true);
+    return;
+  }
+  enforceSessionIdentityLocks();
   const key = SESSION.key, u = SESSION.username, snapshot = JSON.stringify(allYearsData);
   setStatus('កំពុងរក្សាទុក...');
   saveChain = saveChain.then(async () => {
@@ -2672,6 +2936,7 @@ function save(){
 
       if (navigator.onLine) {
         const acc = accounts[u];
+        const localSid = localStorage.getItem(DEVICE_SESSION_KEY) || acc.active_session_id || null;
         sbPushUser({
           username: u,
           fullname: acc.fullname,
@@ -2679,6 +2944,10 @@ function save(){
           check: acc.check,
           data: acc.data,
           status: acc.status || 'active',
+          active_session_id: localSid,
+          education_level: SESSION.education_level || acc.education_level || null,
+          school_name: SESSION.school_name || acc.school_name || '',
+          is_vip: isVipAccount(u),
           updated_at: new Date().toISOString()
         }).then(ok => {
           if (ok) setStatus('ពពក (Cloud Sync) ជោគជ័យ ☁️✓');
@@ -2720,13 +2989,28 @@ async function openSession(u, key){
   if (savedLastYear && allYearsData[savedLastYear]) currentYear = savedLastYear;
   else currentYear = Object.keys(allYearsData)[Object.keys(allYearsData).length - 1] || '២០២៥ - ២០២៦';
 
+  const lockedLvl = acc.education_level || null;
   const savedLevel = localStorage.getItem(LAST_LEVEL_KEY);
-  if (savedLevel && ['primary','secondary','high'].includes(savedLevel)) currentLevel = savedLevel;
+  if (!isVipAccount(u) && lockedLvl && ['primary','secondary','high'].includes(lockedLvl)) {
+    currentLevel = lockedLvl;
+  } else if (savedLevel && ['primary','secondary','high'].includes(savedLevel)) {
+    currentLevel = savedLevel;
+  }
 
-  SESSION = {username: u, key, fullname: acc.fullname};
+  SESSION = {
+    username: u,
+    key,
+    fullname: acc.fullname,
+    education_level: lockedLvl,
+    school_name: acc.school_name || '',
+    is_vip: !!acc.is_vip
+  };
+  showLegacySetupModal = (!isVipAccount(u) && !lockedLvl);
+  enforceSessionIdentityLocks();
   resetMobileZoom();
   pg = 'home';
   syncUserLicense(u);
+  startActiveSessionMonitor();
   R();
   resetIdle();
 
@@ -2750,7 +3034,10 @@ async function openSession(u, key){
 async function logout(){
   await saveChain;
   stopKhqrPolling();
+  stopActiveSessionMonitor();
   showKhqrModal = false;
+  showLegacySetupModal = false;
+  DEMO_SIM_MODE = null;
   SESSION = null; allYearsData = null;
   clearTimeout(idleT);
   homeScrollY = 0;
@@ -2788,22 +3075,40 @@ async function doLogin(){
 
 async function doCreate(){
   const name = $('#cn').value.trim();
+  const school = ($('#cschool') ? $('#cschool').value : '').trim();
+  const eduLvl = ($('#clevel') ? $('#clevel').value : 'secondary');
   const u = $('#cu').value.trim().toLowerCase();
   const p = $('#cp').value, p2 = $('#cp2').value;
 
-  if (!name) return amsg('សូមបញ្ចូលឈ្មោះគ្រូ', true);
+  if (!name) return amsg('សូមបញ្ចូលឈ្មោះគ្រូបន្ទុកថ្នាក់ / គ្រូមុខវិជ្ជា', true);
+  if (!school) return amsg('សូមបញ្ចូលឈ្មោះសាលារៀនរបស់អ្នក', true);
+  if (!eduLvl) return amsg('សូមជ្រើសរើសកម្រិតសិក្សាដែលអ្នកបង្រៀន', true);
   if (!USER_RE.test(u)) return amsg('ឈ្មោះគណនីត្រូវជា a-z, 0-9, _ . - (៣–៣០ តួ)', true);
   if (accounts[u]) return amsg('ឈ្មោះគណនីនេះមានរួចហើយ', true);
   if (p.length < 6) return amsg('ពាក្យសម្ងាត់យ៉ាងតិច ៦ តួ', true);
   if (p !== p2) return amsg('ពាក្យសម្ងាត់ទាំងពីរមិនដូចគ្នា', true);
 
-  const key = await createAccount(u, p, name);
-  SESSION = {username: u, key, fullname: name};
+  const okLevel = confirm(`សូមបញ្ជាក់កម្រិតសិក្សា៖\n\nតើអ្នកពិតជាបង្រៀននៅកម្រិត [${getLevelDisplayName(eduLvl)}] នៃ [${school}] មែនទេ?\n(គណនីមួយអាចប្រើប្រាស់ផ្លូវការបានតែមួយកម្រិតសិក្សាប៉ុណ្ណោះ)`);
+  if (!okLevel) return;
+
+  const key = await createAccount(u, p, name, eduLvl, school);
+  SESSION = {
+    username: u,
+    key,
+    fullname: name,
+    education_level: eduLvl,
+    school_name: school,
+    is_vip: isVipAccount(u)
+  };
   allYearsData = normalizeAllYears(null);
   currentYear = '២០២៥ - ២០២៦';
+  currentLevel = eduLvl;
   localStorage.setItem(LAST_YEAR_KEY, currentYear);
+  localStorage.setItem(LAST_LEVEL_KEY, eduLvl);
+  enforceSessionIdentityLocks();
   save();
   syncUserLicense(u);
+  startActiveSessionMonitor();
   resetMobileZoom();
   pg = 'home';
   R();
@@ -2884,7 +3189,7 @@ function getAnnualDecision(a){
 
 const rank = (f, id) => 1 + getS().st.filter(s => f(s.id) > f(id)).length;
 const moSel = () => `<select onchange="mo=+this.value;R()">${MO.map((m,i) => `<option value="${i}" ${i===mo?'selected':''}>ខែ${m}</option>`).join('')}</select>`;
-const head = t => `<div class="top"><button class="bt g" onclick="go('home')">🏠 ទំព័រដើម</button><h1>${t}</h1><button class="bt g" style="color:var(--bad)" onclick="logout()">🚪 ចាកចេញ</button></div>`;
+const head = t => `<div class="top"><button class="bt g" onclick="go('home')">🏠 ទំព័រដើម</button><h1>${t}</h1><button class="bt g" style="color:var(--bad)" onclick="logout()">🚪 ចាកចេញ</button></div>${renderPreviewModeBannerHTML()}`;
 let homeScrollY = 0;
 const go = p => {
   if (pg === 'home' && p !== 'home') homeScrollY = window.scrollY || window.pageYOffset || 0;
@@ -2921,8 +3226,11 @@ function switchLevel(lvl){
   if (currentLevel === lvl) return;
   currentLevel = lvl;
   localStorage.setItem(LAST_LEVEL_KEY, lvl);
-  getS().info.div = getBaseDiv(currentLevel, getS().info.stream);
-  save();
+  enforceSessionIdentityLocks();
+  if (!isPreviewMode()) {
+    getS().info.div = getBaseDiv(currentLevel, getS().info.stream);
+    save();
+  }
   R();
 }
 
@@ -3924,8 +4232,23 @@ function setIlpVal(stuId, group, key, val){
 }
 
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
+  if (!checkWriteAllowed()) return;
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
+
+  // ចាក់សោអត្តសញ្ញាណម្ចាស់គណនីនៅបាតទំព័រ (Print Identity Footer)
+  if (SESSION && !isVipAccount(SESSION.username)) {
+    let wm = element.querySelector('.print-identity-watermark');
+    if (!wm) {
+      wm = document.createElement('div');
+      wm.className = 'print-identity-watermark';
+      wm.style.cssText = 'font-size:9.5px;color:#64748b;text-align:right;margin-top:6px;padding-top:3px;border-top:1px dotted #cbd5e1;';
+      element.appendChild(wm);
+    }
+    const sch = SESSION.school_name || (getS().info && getS().info.school) || '';
+    const tch = SESSION.fullname || (getS().info && getS().info.teacher) || '';
+    wm.textContent = `ឯកសារផ្លូវការ · ${sch} · គ្រូម្ចាស់គណនី៖ ${tch}`;
+  }
 
   const isStandalone = window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches;
   const isMobileOrTablet = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -4376,8 +4699,16 @@ create(){
     🎁 ទទួលបានការប្រើប្រាស់ <b>ឥតគិតថ្លៃ ៦០ ថ្ងៃពេញ</b> ភ្លាមៗ!
   </div>
   <div id="amsg" class="msg"></div>
-  <label>ឈ្មោះគ្រូ<input id="cn" lang="km" inputmode="text" autocomplete="name"></label>
-  <label>ឈ្មោះគណនី<input id="cu" autocomplete="off" autocapitalize="off"></label>
+  <label>ឈ្មោះពេញរបស់គ្រូ (សម្រាប់បោះពុម្ពលើឯកសារ)<input id="cn" lang="km" inputmode="text" autocomplete="name" placeholder="ឧ. លោកគ្រូ សុខ ដារ៉ា"></label>
+  <label>ឈ្មោះសាលារៀន (ចាក់សោលើឯកសារ Print)<input id="cschool" lang="km" inputmode="text" placeholder="ឧ. អនុវិទ្យាល័យ ហ៊ុន សែន..."></label>
+  <label>កម្រិតសិក្សាដែលបង្រៀន (ប្រើបានតែ ១ កម្រិត)
+    <select id="clevel">
+      <option value="primary">បឋមសិក្សា</option>
+      <option value="secondary" selected>អនុវិទ្យាល័យ</option>
+      <option value="high">វិទ្យាល័យ</option>
+    </select>
+  </label>
+  <label>ឈ្មោះគណនី (Username)<input id="cu" autocomplete="off" autocapitalize="off" placeholder="អក្សរឡាតាំងតូច ឧ. dara2026"></label>
   <label>ពាក្យសម្ងាត់ (យ៉ាងតិច ៦ តួ)
     <div class="pw-wrap">
       <input id="cp" type="password">
@@ -4559,11 +4890,19 @@ home(){
     <button class="bt g" style="padding:4px 10px;min-height:32px;font-size:12.5px" onclick="addNewYearPrompt()">➕ ឆ្នាំថ្មី</button>
   </div>
 
-  <div class="level-tabs-wrap">
-    <button class="ltab ${currentLevel==='primary'?'active':''}" onclick="switchLevel('primary')">បឋមសិក្សា</button>
-    <button class="ltab ${currentLevel==='secondary'?'active':''}" onclick="switchLevel('secondary')">អនុវិទ្យាល័យ</button>
-    <button class="ltab ${currentLevel==='high'?'active':''}" onclick="switchLevel('high')">វិទ្យាល័យ</button>
-  </div>
+  ${(() => {
+    const isVip = SESSION && isVipAccount(SESSION.username);
+    const lockedLvl = SESSION && (SESSION.education_level || (accounts[SESSION.username] && accounts[SESSION.username].education_level));
+    const tabLbl = (lvl, name) => (!isVip && lockedLvl && lockedLvl !== lvl) ? `${name} 🔒` : name;
+    return `
+      <div class="level-tabs-wrap">
+        <button class="ltab ${currentLevel==='primary'?'active':''}" onclick="switchLevel('primary')">${tabLbl('primary', 'បឋមសិក្សា')}</button>
+        <button class="ltab ${currentLevel==='secondary'?'active':''}" onclick="switchLevel('secondary')">${tabLbl('secondary', 'អនុវិទ្យាល័យ')}</button>
+        <button class="ltab ${currentLevel==='high'?'active':''}" onclick="switchLevel('high')">${tabLbl('high', 'វិទ្យាល័យ')}</button>
+      </div>
+      ${renderPreviewModeBannerHTML()}
+    `;
+  })()}
 
   ${currentLevel === 'high' ? `
     <div class="stream-tabs-wrap">
@@ -5143,7 +5482,12 @@ annual(){
 info(){
   const S = getS();
   const i = S.info;
-  const k = (l, key, num) => `<label class="mu">${l}<input type="${num?'number':'text'}" ${num?'inputmode="decimal"':'lang="km" inputmode="text"'} value="${E(i[key] ?? '')}" onchange="setInfo('${key}', this.value, ${!!num})"></label>`;
+  const isVip = SESSION && isVipAccount(SESSION.username);
+  const k = (l, key, num) => {
+    const lockedAttr = (!isVip && (key === 'school' || key === 'teacher')) ? 'readonly style="background:#f1f5f9;color:#475569;cursor:not-allowed" title="ចាក់សោអត្តសញ្ញាណម្ចាស់គណនី (ទាក់ទង Admin បើចង់កែប្រែ)"' : '';
+    const lockTag = (!isVip && (key === 'school' || key === 'teacher')) ? ' 🔒' : '';
+    return `<label class="mu">${l}${lockTag}<input type="${num?'number':'text'}" ${num?'inputmode="decimal"':'lang="km" inputmode="text"'} value="${E(i[key] ?? '')}" ${lockedAttr} onchange="setInfo('${key}', this.value, ${!!num})"></label>`;
+  };
   return head('ព័ត៌មានសាលា និងគ្រូ') + `<div class="card">
   <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
     ${logo(84)}
@@ -8226,7 +8570,7 @@ function R(){
 
   if (pg === 'login' || pg === 'create') { app.innerHTML = P[pg](); return; }
   if (!SESSION || !allYearsData) { pg = 'login'; app.innerHTML = P.login(); return; }
-  app.innerHTML = P[pg]() + renderPaywallAndKhqrModal();
+  app.innerHTML = P[pg]() + renderPaywallAndKhqrModal() + renderLegacySetupModal();
   if (pg === 'sc') upd();
   if (pg === 'home') initDragAndDrop();
   if (pg === 'ilp') initPlanAssignDragDrop();
@@ -8354,6 +8698,8 @@ function pick(cb){
 }
 
 function setInfo(key, v, num){
+  if (!checkWriteAllowed()) { R(); return; }
+  if (SESSION && !isVipAccount(SESSION.username) && (key === 'school' || key === 'teacher')) { alert('🔒 ឈ្មោះសាលា និងឈ្មោះគ្រូត្រូវបានចាក់សោជាប់នឹងគណនី! សូមទាក់ទង Admin ប្រសិនបើត្រូវការកែប្រែ។'); R(); return; }
   getS().info[key] = num ? (+v > 0 ? +v : getBaseDiv(currentLevel, getS().info.stream)) : v;
   save();
 }
@@ -8374,6 +8720,7 @@ function setSex(id, v){
 }
 
 function setSc(id, i, el){
+  if (!checkWriteAllowed()) { R(); return; }
   const cols = getCols(currentLevel, getS().info.stream);
   const m = cols[i].m;
   const v = el.value === '' ? null : Math.max(0, Math.min(m, +el.value));
@@ -8385,6 +8732,7 @@ function setSc(id, i, el){
 }
 
 function setExamSc(id, i, el){
+  if (!checkWriteAllowed()) { R(); return; }
   const cols = getCols(currentLevel, getS().info.stream);
   const m = cols[i].m;
   const v = el.value === '' ? null : Math.max(0, Math.min(m, +el.value));
@@ -8410,8 +8758,9 @@ function setExamSc(id, i, el){
   if (gEl) gEl.textContent = gr;
 }
 
-function setRm(id, v){ (getS().rm[mo] = getS().rm[mo] || {})[id] = v; save(); }
+function setRm(id, v){ if (!checkWriteAllowed()) { R(); return; } (getS().rm[mo] = getS().rm[mo] || {})[id] = v; save(); }
 function setAb(id, k, v){
+  if (!checkWriteAllowed()) { R(); return; }
   const o = (getS().ab[mo] = getS().ab[mo] || {});
   const a = (o[id] = o[id] || [0,0]);
   a[k] = Math.max(0, +v || 0);
@@ -8421,6 +8770,7 @@ function setAb(id, k, v){
 }
 
 function addS(){
+  if (!checkWriteAllowed()) return;
   const n = $('#nn').value.trim();
   const rawDob = $('#ndob').value.trim();
   const fa = $('#nfa').value.trim();
@@ -8441,12 +8791,14 @@ function addS(){
 }
 
 function del(id){
+  if (!checkWriteAllowed()) return;
   if (!confirm('លុបសិស្សនេះ?')) return;
   getS().st = getS().st.filter(s => s.id !== id);
   save(); R();
 }
 
 function reset(){
+  if (!checkWriteAllowed()) return;
   const levelNames = { primary: 'បឋមសិក្សា', secondary: 'អនុវិទ្យាល័យ', high: 'វិទ្យាល័យ' };
   if (!confirm(`លុបទិន្នន័យកម្រិត ${levelNames[currentLevel]} នៃឆ្នាំសិក្សា ${currentYear} ទាំងអស់?`)) return;
   const i = getS().info;
