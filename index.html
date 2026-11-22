@@ -262,7 +262,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
   text-align:center;font-weight:800;color:var(--ac);border-radius:7px;font-size:15px;
 }
 
-.w{overflow:auto;max-height:74vh;border:1px solid var(--bd);border-radius:12px;-webkit-overflow-scrolling:touch}
+.w{overflow:auto;max-height:66vh;border:1px solid var(--bd);border-radius:12px;-webkit-overflow-scrolling:touch;position:relative}
 table{border-collapse:separate;border-spacing:0;font-size:13px;width:100%}
 th,td{padding:8px 8px;border-bottom:1px solid var(--bd);border-inline-end:1px solid var(--bd);white-space:nowrap;text-align:center;background:var(--cd)}
 th{background:var(--hd);position:sticky;top:0;z-index:2;font-weight:600;color:#334155}
@@ -749,9 +749,9 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .id-card-logo {
   position: absolute;
-  left: -9px;
-  top: -1px;
-  height: 66px !important;
+  left: -13px;
+  top: -4px;
+  height: 76px !important;
   width: auto !important;
 }
 .id-card-kingdom { text-align: center; line-height: 1.5; color: #0f172a; padding-left: 28px; }
@@ -1430,14 +1430,25 @@ td select.ilp-ui-sel.black{color:#0f172a}
   margin: 7px 0 4px !important;
 }
 .docbook-clean-pdf .plan-cover-frame {
-  min-height: 920px !important;
-  padding: 24px 28px !important;
+  height: 1052px !important;
+  min-height: 1052px !important;
+  max-height: 1052px !important;
+  padding: 36px 40px !important;
+  margin: 0 !important;
+  box-sizing: border-box !important;
+  page-break-after: always !important;
+  break-after: page !important;
 }
 .docbook-clean-pdf .doc-page-break {
   border-top: none !important;
-  margin-top: 0 !important;
-  padding-top: 0 !important;
-  page-break-before: always !important;
+  margin-top: 6px !important;
+  padding-top: 4px !important;
+  page-break-before: auto !important;
+  break-before: auto !important;
+}
+.docbook-clean-pdf .doc-book-table {
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
 }
 @media print{
   .doc-book-sheet{width:100% !important;box-shadow:none !important;padding:0 !important;font-size:10.2px !important;line-height:1.3 !important}
@@ -4125,8 +4136,6 @@ function setIlpVal(stuId, group, key, val){
 
 async function executeStandardPrint(elementId, reportName, isLandscape = false) {
   if (!checkWriteAllowed()) return;
-  const okDev = await verifyActiveDeviceBeforeAction();
-  if (!okDev) return;
   const element = document.getElementById(elementId);
   if (!element) { window.print(); return; }
 
@@ -7729,16 +7738,12 @@ honor(){
   };
 
   return head('តារាងកិត្តិយស (Top 5)') + `<div class="card">
-  <div class="f row-nowrap">
-    <select onchange="honorPeriod=this.value;R()">
-      <option value="monthly" ${honorPeriod==='monthly'?'selected':''}>📅 ប្រចាំខែ</option>
-      <option value="exam1" ${honorPeriod==='exam1'?'selected':''}>📝 ប្រឡងឆមាសទី ១</option>
-      <option value="sem1" ${honorPeriod==='sem1'?'selected':''}>🥇 សរុបឆមាសទី ១</option>
-      <option value="exam2" ${honorPeriod==='exam2'?'selected':''}>📝 ប្រឡងឆមាសទី ២</option>
-      <option value="sem2" ${honorPeriod==='sem2'?'selected':''}>🥈 សរុបឆមាសទី ២</option>
-      <option value="annual" ${honorPeriod==='annual'?'selected':''}>🏆 សរុបប្រចាំឆ្នាំ</option>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">
+    <button type="button" class="bt ${honorPeriod==='monthly'?'':'g'}" style="padding:6px 4px;font-size:13px;border-radius:10px" onclick="honorPeriod='monthly';R()">📅 ប្រចាំខែ</button>
+    <button type="button" class="bt ${honorPeriod==='annual'?'':'g'}" style="padding:6px 4px;font-size:13px;border-radius:10px" onclick="honorPeriod='annual';R()">🏆 ប្រចាំឆ្នាំ</button>
+    <select onchange="honorPeriod='monthly';mo=+this.value;R()" style="padding:4px 6px;font-size:13px;border-radius:10px;${honorPeriod!=='monthly'?'opacity:0.65':''}">
+      ${MO.map((m,idx) => `<option value="${idx}" ${idx===mo?'selected':''}>ខែ${m}</option>`).join('')}
     </select>
-    ${honorPeriod === 'monthly' ? moSel() : ''}
   </div>
   <div class="f row-nowrap">
     <button class="bt g" onclick="showHonorModal=true;R()">📂 រើសម៉ូដ</button>
@@ -8481,7 +8486,7 @@ function upd(){
   });
 }
 
-const logo = z => `<div class="lg" style="width:${z}px;height:${z}px" onclick="pick(u=>{getS().info.logo=u;save();R()})" title="ចុចដើម្បីដាក់រូបសាលា">${getS().info.logo ? `<img src="${getS().info.logo}" alt="">` : '<span>ចុចដាក់<br>រូបសាលា</span>'}</div>`;
+const logo = z => `<div class="lg" style="width:${z}px;height:${z}px" onclick="pick(u=>{getS().info.logo=u;save();R()})" title="ចុចដើម្បីដាក់រូបភាព">${getS().info.logo ? `<img src="${getS().info.logo}" alt="">` : '<span>ចុចដាក់<br>រូបភាព</span>'}</div>`;
 const photo = s => `<div class="ph" onclick="handleStuPhotoClick(${s.id})" title="ចុចដើម្បីដាក់ ប្តូរ ឬលុបរូបថត">${s.ph ? `<img src="${s.ph}" alt="">` : '+'}</div>`;
 
 function handleStuPhotoClick(id){
