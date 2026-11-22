@@ -626,15 +626,17 @@ td select.ilp-ui-sel.black{color:#0f172a}
 .cert-sign-name { margin-top: 34px; font-weight: 800; font-size: 14.5px; }
 
 .modal-overlay {
-  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(15, 23, 42, 0.65);
+  position: fixed; inset: 0; width: 100vw; height: 100dvh;
+  background: rgba(15, 23, 42, 0.68);
   display: flex; align-items: center; justify-content: center;
-  z-index: 9999; backdrop-filter: blur(3px);
+  padding: 16px; box-sizing: border-box;
+  z-index: 9999; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
 }
 .modal-box {
-  background: #fff; border-radius: 18px; padding: 18px;
-  width: 92%; max-width: 680px; max-height: 78vh;
-  overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  background: #fff; border-radius: 20px; padding: 18px;
+  width: 94%; max-width: 680px; max-height: 82dvh;
+  margin: auto; position: relative;
+  overflow-y: auto; box-shadow: 0 16px 40px rgba(0,0,0,0.32);
   display: flex; flex-direction: column;
 }
 .modal-tabs {
@@ -749,14 +751,14 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .id-card-logo {
   position: absolute;
-  left: -16px;
-  top: -3px;
-  height: 74px !important;
+  left: -24px;
+  top: -6px;
+  height: 72px !important;
   width: auto !important;
 }
-.id-card-kingdom { text-align: center; line-height: 1.5; color: #0f172a; padding-left: 44px; }
-.id-card-kingdom .k1 { font-family: var(--title-font); font-size: 14.5px; }
-.id-card-kingdom .k2 { font-family: var(--title-font); font-size: 13.5px; }
+.id-card-kingdom { text-align: center; line-height: 1.5; color: #0f172a; padding-left: 0; }
+.id-card-kingdom .k1 { font-family: var(--title-font); font-size: 15.5px; }
+.id-card-kingdom .k2 { font-family: var(--title-font); font-size: 14.5px; }
 .id-card-dept {
   text-align: center;
   font-family: var(--title-font);
@@ -824,17 +826,17 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .honor-tpl-school-box {
   position: absolute;
-  top: 9.0%;
-  left: 6.5%;
-  width: 245px;
+  top: 8.2%;
+  left: 5.5%;
+  width: 270px;
   text-align: center;
-  line-height: 1.35;
+  line-height: 1.4;
 }
 .honor-tpl-school-box img {
-  height: 40px !important;
+  height: 54px !important;
   width: auto !important;
   display: block;
-  margin: 0 auto 2px;
+  margin: 0 auto 3px;
 }
 .honor-tpl-subhead {
   position: absolute;
@@ -2924,9 +2926,34 @@ async function openSession(u, key){
       if (remote && remote.data && remote.data !== acc.data) {
         try {
           const remoteBox = typeof remote.data === 'string' ? JSON.parse(remote.data) : remote.data;
-          const remoteParsed = JSON.parse(await open(key, remoteBox));
-          allYearsData = normalizeAllYears(remoteParsed);
-          accounts[u].data = remote.data;
+          const remoteParsed = normalizeAllYears(JSON.parse(await open(key, remoteBox)));
+          // Preserve any local student photos & school logos if remote lacks them
+          for (const yr of Object.keys(allYearsData || {})) {
+            if (!remoteParsed[yr]) continue;
+            for (const lvl of ['primary', 'secondary', 'high']) {
+              const locLvl = allYearsData[yr][lvl];
+              const remLvl = remoteParsed[yr][lvl];
+              if (!locLvl || !remLvl) continue;
+              if (locLvl.info && locLvl.info.logo && !remLvl.info.logo) remLvl.info.logo = locLvl.info.logo;
+              if (locLvl.info && locLvl.info.moeysLogo && !remLvl.info.moeysLogo) remLvl.info.moeysLogo = locLvl.info.moeysLogo;
+              if (locLvl.info && locLvl.info.teacherPhoto && !remLvl.info.teacherPhoto) remLvl.info.teacherPhoto = locLvl.info.teacherPhoto;
+              const locPhotoById = {};
+              const locPhotoByName = {};
+              (locLvl.st || []).forEach(s => {
+                if (s.ph) {
+                  locPhotoById[s.id] = s.ph;
+                  if (s.name) locPhotoByName[s.name.trim()] = s.ph;
+                }
+              });
+              (remLvl.st || []).forEach(s => {
+                if (!s.ph) {
+                  s.ph = locPhotoById[s.id] || (s.name ? locPhotoByName[s.name.trim()] : null) || null;
+                }
+              });
+            }
+          }
+          allYearsData = remoteParsed;
+          accounts[u].data = JSON.stringify(await seal(key, JSON.stringify(allYearsData)));
           saveAccounts();
           R();
           setStatus('ទាញយកទិន្នន័យថ្មីពី Cloud ជោគជ័យ ☁️✓');
@@ -7769,8 +7796,8 @@ honor(){
         
         <div class="honor-tpl-school-box">
           <img src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
-          <div style="font-size:11.5px;font-weight:bold;color:#1e3a8a">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
-          <div style="font-size:12.5px;font-weight:bold;color:#0f172a">${E(i.school || 'សាលារៀន')}</div>
+          <div style="font-size:13.5px;font-weight:bold;color:#1e3a8a">${E(i.province ? ('មន្ទីរអប់រំ យុវជន និងកីឡា ' + i.province) : 'ក្រសួងអប់រំ យុវជន និងកីឡា')}</div>
+          <div style="font-size:14.5px;font-weight:bold;color:#0f172a">${E(i.school || 'សាលារៀន')}</div>
         </div>
 
         <div class="honor-tpl-subhead">
