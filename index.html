@@ -749,12 +749,12 @@ td select.ilp-ui-sel.black{color:#0f172a}
 }
 .id-card-logo {
   position: absolute;
-  left: -13px;
-  top: -4px;
-  height: 76px !important;
+  left: -16px;
+  top: -3px;
+  height: 74px !important;
   width: auto !important;
 }
-.id-card-kingdom { text-align: center; line-height: 1.5; color: #0f172a; padding-left: 28px; }
+.id-card-kingdom { text-align: center; line-height: 1.5; color: #0f172a; padding-left: 44px; }
 .id-card-kingdom .k1 { font-family: var(--title-font); font-size: 14.5px; }
 .id-card-kingdom .k2 { font-family: var(--title-font); font-size: 13.5px; }
 .id-card-dept {
@@ -2811,10 +2811,17 @@ function getS(){
 
 let saveChain = Promise.resolve();
 let pg = 'login';
-let mo = 7;
+const LAST_MO_KEY = 'sms_last_selected_mo_v1';
+let mo = localStorage.getItem(LAST_MO_KEY) !== null ? +localStorage.getItem(LAST_MO_KEY) : 7;
+function setMo(val){
+  mo = +val;
+  localStorage.setItem(LAST_MO_KEY, String(mo));
+  R();
+}
 let sem = 0;
 let examSem = 0;
 let certLimit = 5;
+let certPeriod = 'monthly';
 let idleT = null;
 
 function setStatus(text, err){
@@ -3076,7 +3083,7 @@ function getAnnualDecision(a){
 }
 
 const rank = (f, id) => 1 + getS().st.filter(s => f(s.id) > f(id)).length;
-const moSel = () => `<select onchange="mo=+this.value;R()">${MO.map((m,i) => `<option value="${i}" ${i===mo?'selected':''}>ខែ${m}</option>`).join('')}</select>`;
+const moSel = () => `<select onchange="setMo(this.value)">${MO.map((m,i) => `<option value="${i}" ${i===mo?'selected':''}>ខែ${m}</option>`).join('')}</select>`;
 const head = t => `<div class="top"><button class="bt g" onclick="go('home')">🏠 ទំព័រដើម</button><h1>${t}</h1><button class="bt g" style="color:var(--bad)" onclick="logout()">🚪 ចាកចេញ</button></div>${renderPreviewModeBannerHTML()}`;
 let homeScrollY = 0;
 const go = p => {
@@ -7741,7 +7748,7 @@ honor(){
   <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px">
     <button type="button" class="bt ${honorPeriod==='monthly'?'':'g'}" style="padding:6px 4px;font-size:13px;border-radius:10px" onclick="honorPeriod='monthly';R()">📅 ប្រចាំខែ</button>
     <button type="button" class="bt ${honorPeriod==='annual'?'':'g'}" style="padding:6px 4px;font-size:13px;border-radius:10px" onclick="honorPeriod='annual';R()">🏆 ប្រចាំឆ្នាំ</button>
-    <select onchange="honorPeriod='monthly';mo=+this.value;R()" style="padding:4px 6px;font-size:13px;border-radius:10px;${honorPeriod!=='monthly'?'opacity:0.65':''}">
+    <select onchange="honorPeriod='monthly';setMo(this.value)" style="padding:4px 6px;font-size:13px;border-radius:10px;${honorPeriod!=='monthly'?'opacity:0.65':''}">
       ${MO.map((m,idx) => `<option value="${idx}" ${idx===mo?'selected':''}>ខែ${m}</option>`).join('')}
     </select>
   </div>
@@ -7838,9 +7845,17 @@ cert(){
     schoolDisplay = schoolVal || provVal || '....................';
   }
 
-  let list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
-    .filter(s => s.tot > 0)
-    .sort((a,b) => b.av - a.av);
+  let list = [];
+  if (certPeriod === 'annual') {
+    list = S.st.map(s => {
+      const a = annualAv(s.id);
+      return {...s, av: a, tot: a > 0 ? 1 : 0};
+    }).filter(s => s.tot > 0).sort((a,b) => b.av - a.av);
+  } else {
+    list = S.st.map(s => ({...s, av: av(s.id, mo), tot: tot(s.id, mo)}))
+      .filter(s => s.tot > 0)
+      .sort((a,b) => b.av - a.av);
+  }
 
   if (certLimit === 3) list = list.slice(0, 3);
   else if (certLimit === 5) list = list.slice(0, 5);
@@ -7871,7 +7886,7 @@ cert(){
             <div class="cert-reason-text">
               ដែលទទួលបានលទ្ធផលល្អក្នុងការសិក្សា និងទទួលបានចំណាត់ថ្នាក់លេខ <span class="cert-red-auto">${toKhNum(idx + 1)}</span>
               ${s.av > 0 ? `( មធ្យមភាគ <span class="cert-red-auto">${toKhNum(s.av.toFixed(2))}</span> និទ្ទេស <span class="cert-red-auto">${getGradeLetter(s.av, s.tot)}</span> )` : ''}
-              <div style="margin-top:3px">ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា <span class="cert-red-auto">${toKhNum(currentYear)}</span></div>
+              <div style="margin-top:3px">${certPeriod === 'annual' ? 'ប្រចាំ <b>ឆ្នាំសិក្សា</b>' : `ប្រចាំ <b>ខែ${MO[mo]}</b> ឆ្នាំសិក្សា`} <span class="cert-red-auto">${toKhNum(currentYear)}</span></div>
             </div>
 
             <div class="cert-bless-text">
@@ -7901,8 +7916,14 @@ cert(){
   const generalBorders = BUILTIN_BORDERS.slice(7);
 
   return head('បណ្ណសរសើរស្វ័យប្រវត្តិ (A4 Landscape)') + `<div class="card">
-  <div class="f">
-    ${moSel()}
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+    <button type="button" class="bt ${certPeriod==='monthly'?'':'g'}" style="padding:6px 4px;font-size:13px;border-radius:10px" onclick="certPeriod='monthly';R()">📅 ប្រចាំខែ</button>
+    <button type="button" class="bt ${certPeriod==='annual'?'':'g'}" style="padding:6px 4px;font-size:13px;border-radius:10px" onclick="certPeriod='annual';R()">🏆 ប្រចាំឆ្នាំ</button>
+    <select onchange="certPeriod='monthly';setMo(this.value)" style="padding:4px 6px;font-size:13px;border-radius:10px;${certPeriod!=='monthly'?'opacity:0.65':''}">
+      ${MO.map((m,idx) => `<option value="${idx}" ${idx===mo?'selected':''}>ខែ${m}</option>`).join('')}
+    </select>
+  </div>
+  <div class="f row-nowrap">
     <select onchange="certLimit=isNaN(+this.value)?this.value:+this.value;R()">
       <option value="3" ${certLimit===3?'selected':''}>🎖️ សិស្សពូកែ Top 3</option>
       <option value="5" ${certLimit===5?'selected':''}>🎖️ សិស្សពូកែ Top 5</option>
@@ -7911,6 +7932,8 @@ cert(){
       <option value="all" ${certLimit==='all'?'selected':''}>👥 សិស្សទាំងអស់ដែលមានពិន្ទុ</option>
     </select>
     <button class="bt g" onclick="showBorderModal=true;R()">📂 រើសស៊ុមក្បាច់</button>
+  </div>
+  <div class="f">
     <button class="bt" onclick="executeStandardPrint('certPrintArea', 'បណ្ណសរសើរស្វ័យប្រវត្តិ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
   </div>
 
