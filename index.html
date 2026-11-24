@@ -2362,10 +2362,172 @@ const SUBJ_HIGH_SOCIAL = [
   {n:'អប់រំកាយ', s:[['កីឡា', 25]]}
 ];
 
-function getCols(lvl, stream){
+let showSubjConfigModal = false;
+
+function getRawCols(lvl, stream){
   if (lvl === 'high') return (stream === 'social' ? SUBJ_HIGH_SOCIAL : SUBJ_HIGH_SCIENCE).flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
   if (lvl === 'secondary') return SUBJ_SECONDARY.flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
   return SUBJ_PRIMARY.flatMap((s,i) => s.s.map(([n,m]) => ({sub:i, n, m, sn: s.n})));
+}
+
+function getCols(lvl, stream){
+  const S = (typeof allYearsData !== 'undefined' && allYearsData) ? getS() : null;
+  const stKey = (lvl === 'high') ? (stream || 'science') : 'default';
+  const cfgAll = (S && S.subjCfg && S.subjCfg[stKey]) ? S.subjCfg[stKey] : {};
+  const baseList = getRawCols(lvl, stream).map((c, origIdx) => {
+    const ov = cfgAll[origIdx] || {};
+    return {
+      ...c,
+      origIdx,
+      isCustom: false,
+      n: ov.n !== undefined ? ov.n : c.n,
+      sn: ov.sn !== undefined ? ov.sn : c.sn,
+      m: (ov.m !== undefined && +ov.m > 0) ? +ov.m : c.m,
+      enabled: ov.enabled !== false
+    };
+  });
+  const extras = (S && S.extraSubjs && Array.isArray(S.extraSubjs[stKey])) ? S.extraSubjs[stKey] : [];
+  const extraCols = extras.map((ex, eIdx) => ({
+    sub: 100 + eIdx,
+    n: ex.n || ex.sn || 'មុខវិជ្ជាបន្ថែម',
+    sn: ex.sn || ex.n || 'មុខវិជ្ជាបន្ថែម',
+    m: (+ex.m > 0) ? +ex.m : 50,
+    origIdx: baseList.length + eIdx,
+    isCustom: true,
+    extraIdx: eIdx,
+    enabled: ex.enabled !== false
+  }));
+  return [...baseList, ...extraCols];
+}
+
+function getActiveCols(lvl, stream){
+  return getCols(lvl, stream).filter(c => c.enabled !== false);
+}
+
+function updateSubjConfig(origIdx, field, val){
+  if (!checkWriteAllowed()) { R(); return; }
+  const S = getS();
+  const stKey = (currentLevel === 'high') ? (S.info.stream || 'science') : 'default';
+  if (!S.subjCfg) S.subjCfg = {};
+  if (!S.subjCfg[stKey]) S.subjCfg[stKey] = {};
+  if (!S.subjCfg[stKey][origIdx]) S.subjCfg[stKey][origIdx] = {};
+  if (field === 'm') {
+    const num = Math.max(1, Math.min(1000, +val || 50));
+    S.subjCfg[stKey][origIdx].m = num;
+  } else if (field === 'enabled') {
+    S.subjCfg[stKey][origIdx].enabled = !!val;
+  }
+  save();
+  R();
+}
+
+function addExtraSubjConfig(){
+  if (!checkWriteAllowed()) { R(); return; }
+  const nameEl = document.getElementById('newExtraSubjName');
+  const maxEl = document.getElementById('newExtraSubjMax');
+  const name = nameEl ? nameEl.value.trim() : '';
+  const maxVal = maxEl ? Math.max(1, Math.min(1000, +maxEl.value || 50)) : 50;
+  if (!name) return alert('សូមបញ្ចូលឈ្មោះមុខវិជ្ជាថ្មី!');
+  const S = getS();
+  const stKey = (currentLevel === 'high') ? (S.info.stream || 'science') : 'default';
+  if (!S.extraSubjs) S.extraSubjs = {};
+  if (!Array.isArray(S.extraSubjs[stKey])) S.extraSubjs[stKey] = [];
+  S.extraSubjs[stKey].push({ n: name, sn: name, m: maxVal, enabled: true });
+  save();
+  R();
+  setStatus('បានបន្ថែមមុខវិជ្ជាថ្មី ✓');
+}
+
+function updateExtraSubjConfig(eIdx, field, val){
+  if (!checkWriteAllowed()) { R(); return; }
+  const S = getS();
+  const stKey = (currentLevel === 'high') ? (S.info.stream || 'science') : 'default';
+  if (!S.extraSubjs || !S.extraSubjs[stKey] || !S.extraSubjs[stKey][eIdx]) return;
+  if (field === 'm') {
+    S.extraSubjs[stKey][eIdx].m = Math.max(1, Math.min(1000, +val || 50));
+  } else if (field === 'enabled') {
+    S.extraSubjs[stKey][eIdx].enabled = !!val;
+  } else if (field === 'delete') {
+    S.extraSubjs[stKey].splice(eIdx, 1);
+  }
+  save();
+  R();
+}
+
+function resetSubjConfigToDefault(){
+  if (!checkWriteAllowed()) { R(); return; }
+  if (!confirm('ត្រឡប់ពិន្ទុអតិបរមា និងបញ្ជីមុខវិជ្ជាទាំងអស់មកស្តង់ដារក្រសួងដើមវិញ?')) return;
+  const S = getS();
+  const stKey = (currentLevel === 'high') ? (S.info.stream || 'science') : 'default';
+  if (S.subjCfg) delete S.subjCfg[stKey];
+  if (S.extraSubjs) delete S.extraSubjs[stKey];
+  save();
+  R();
+  setStatus('បានត្រឡប់មកស្តង់ដារក្រសួងដើម ✓');
+}
+
+function renderSubjConfigModalHTML(){
+  if (!showSubjConfigModal) return '';
+  const S = getS();
+  const allCols = getCols(currentLevel, S.info.stream);
+  return `
+    <div class="modal-overlay" style="padding:12px" onclick="showSubjConfigModal=false;R()">
+      <div class="modal-box" style="max-width:520px;max-height:84dvh;padding:14px 16px" onclick="event.stopPropagation()">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;border-bottom:1px solid var(--bd);padding-bottom:8px">
+          <h2 style="margin:0;font-size:15.5px;color:var(--ac)">⚙️ កែពិន្ទុអតិបរមា និងមុខវិជ្ជា</h2>
+          <button type="button" class="bt g" style="padding:2px 10px;min-height:30px;font-size:13px" onclick="showSubjConfigModal=false;R()">✕ បិទ</button>
+        </div>
+        <div class="mu" style="font-size:12px;margin-bottom:8px;line-height:1.45">
+          💡 ប្តូរលេខ <b>ពិន្ទុអតិបរមា</b> តាមស្តង់ដាសាលា ឬ <b>ដោះធីក</b> ដើម្បីបិទមុខវិជ្ជាដែលមិនមានបង្រៀន។
+        </div>
+        <div style="overflow-y:auto;flex:1;border:1px solid var(--bd);border-radius:10px;margin-bottom:10px">
+          <table style="font-size:13px;width:100%">
+            <thead>
+              <tr>
+                <th style="width:46px">បង្ហាញ</th>
+                <th style="text-align:start;padding-left:8px">មុខវិជ្ជា</th>
+                <th style="width:92px">អតិបរមា</th>
+                <th style="width:44px"></th>
+              </tr>
+            </thead>
+            <tbody>
+              ${allCols.map(c => {
+                const label = currentLevel === 'primary' ? `${c.sn} (${c.n})` : (c.sn || c.n);
+                return `
+                  <tr style="${c.enabled ? '' : 'opacity:0.5;background:#f8fafc'}">
+                    <td>
+                      <input type="checkbox" ${c.enabled ? 'checked' : ''} style="width:20px;height:20px;min-height:20px;cursor:pointer"
+                        onchange="${c.isCustom ? `updateExtraSubjConfig(${c.extraIdx}, 'enabled', this.checked)` : `updateSubjConfig(${c.origIdx}, 'enabled', this.checked)`}">
+                    </td>
+                    <td style="text-align:start;padding-left:8px;font-weight:600;white-space:normal">${E(label)}</td>
+                    <td>
+                      <input type="number" inputmode="decimal" min="1" max="1000" value="${c.m}" style="width:74px;min-height:34px;padding:3px 6px;font-weight:700;text-align:center"
+                        onchange="${c.isCustom ? `updateExtraSubjConfig(${c.extraIdx}, 'm', this.value)` : `updateSubjConfig(${c.origIdx}, 'm', this.value)`}">
+                    </td>
+                    <td>
+                      ${c.isCustom ? `<button type="button" class="x" onclick="updateExtraSubjConfig(${c.extraIdx}, 'delete', true)">🗑️</button>` : ''}
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div style="background:#f8fafc;border:1px solid var(--bd);border-radius:10px;padding:8px;margin-bottom:10px">
+          <div style="font-size:12px;font-weight:700;color:var(--ac);margin-bottom:5px">➕ បន្ថែមមុខវិជ្ជាថ្មី</div>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input id="newExtraSubjName" type="text" lang="km" placeholder="ឈ្មោះមុខវិជ្ជាថ្មី..." style="flex:1;min-height:36px;padding:4px 8px;font-size:13.5px">
+            <input id="newExtraSubjMax" type="number" inputmode="numeric" value="50" placeholder="អតិបរមា" style="width:74px;min-height:36px;padding:4px 6px;font-size:13.5px;text-align:center">
+            <button type="button" class="bt" style="min-height:36px;padding:4px 12px;font-size:13px;background:var(--ok)" onclick="addExtraSubjConfig()">បន្ថែម</button>
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;gap:8px">
+          <button type="button" class="bt g" style="font-size:12.5px;min-height:38px" onclick="resetSubjConfigToDefault()">🔄 ត្រឡប់មកស្តង់ដារដើម</button>
+          <button type="button" class="bt" style="font-size:13.5px;min-height:38px;padding:6px 18px" onclick="showSubjConfigModal=false;R()">✓ រួចរាល់</button>
+        </div>
+      </div>
+    </div>
+  `;
 }
 
 function getBaseDiv(lvl, stream){
@@ -3051,14 +3213,22 @@ function togglePw(id, btn){
   btn.textContent = isPw ? '🙈' : '👁️';
 }
 
-const tot = (id, m) => sum(((getS().sc[m] || {})[id]) || []);
+const tot = (id, m) => {
+  const arr = ((getS().sc[m] || {})[id]) || [];
+  const activeCols = getActiveCols(currentLevel, getS().info.stream);
+  return activeCols.reduce((acc, c) => acc + (+arr[c.origIdx] || 0), 0);
+};
 const av = (id, m) => {
   const t = tot(id, m);
   const div = getDiv(currentLevel, getS().info.stream, m);
   return t ? t / div : 0;
 };
 
-const totSemExam = (id, sIdx) => sum(((getS().semExamScores[sIdx] || {})[id]) || []);
+const totSemExam = (id, sIdx) => {
+  const arr = ((getS().semExamScores[sIdx] || {})[id]) || [];
+  const activeCols = getActiveCols(currentLevel, getS().info.stream);
+  return activeCols.reduce((acc, c) => acc + (+arr[c.origIdx] || 0), 0);
+};
 const avSemExam = (id, sIdx) => {
   const t = totSemExam(id, sIdx);
   const div = getExamDiv(currentLevel, getS().info.stream, sIdx);
@@ -4303,16 +4473,22 @@ function renderOfficialHeaderHTML(i){
 
 function renderScoreTableHeadHTML(type){
   const lvl = currentLevel;
-  const cols = getCols(lvl, getS().info.stream);
+  const cols = getActiveCols(lvl, getS().info.stream);
 
   if (lvl === 'primary') {
+    const groups = [];
+    cols.forEach(c => {
+      const last = groups[groups.length - 1];
+      if (last && last.sn === c.sn) last.count++;
+      else groups.push({ sn: c.sn, count: 1 });
+    });
     return `
       <thead>
         <tr>
           <th rowspan="2" style="width:45px">ល.រ</th>
           <th rowspan="2" class="sn" style="min-width:110px">គោត្តនាម និងនាម</th>
           <th rowspan="2" style="width:45px">ភេទ</th>
-          ${SUBJ_PRIMARY.map(sub => `<th colspan="${sub.s.length}" style="background:#e2e8f0;font-weight:bold">${sub.n}</th>`).join('')}
+          ${groups.map(g => `<th colspan="${g.count}" style="background:#e2e8f0;font-weight:bold">${E(g.sn)}</th>`).join('')}
           <th rowspan="2" style="width:75px">${type==='exam'?'សរុបប្រឡង':'សរុប'}</th>
           <th rowspan="2" style="width:85px;background:#fef3c7">${type==='exam'?'មធ្យមប្រឡង':'មធ្យម'}</th>
           ${type==='exam' ? `
@@ -4325,7 +4501,7 @@ function renderScoreTableHeadHTML(type){
           `}
         </tr>
         <tr>
-          ${cols.map(c => `<th>${c.n}<br><small class="mu">(${c.m})</small></th>`).join('')}
+          ${cols.map(c => `<th>${E(c.n)}<br><small class="mu">(${c.m})</small></th>`).join('')}
         </tr>
       </thead>
     `;
@@ -4336,7 +4512,7 @@ function renderScoreTableHeadHTML(type){
           <th style="width:45px">ល.រ</th>
           <th class="sn" style="min-width:110px">គោត្តនាម និងនាម</th>
           <th style="width:45px">ភេទ</th>
-          ${cols.map(c => `<th>${c.sn || c.n}<br><small class="mu">(${c.m})</small></th>`).join('')}
+          ${cols.map(c => `<th>${E(c.sn || c.n)}<br><small class="mu">(${c.m})</small></th>`).join('')}
           <th style="width:75px">${type==='exam'?'សរុបប្រឡង':'សរុប'}</th>
           <th style="width:85px;background:#fef3c7">${type==='exam'?'មធ្យមប្រឡង':'មធ្យម'}</th>
           ${type==='exam' ? `
@@ -4845,7 +5021,7 @@ home(){
 sc(){
   const S = getS();
   const i = S.info;
-  const cols = getCols(currentLevel, S.info.stream);
+  const cols = getActiveCols(currentLevel, S.info.stream);
   const divVal = getDiv(currentLevel, S.info.stream, mo);
   const curDateStr = getKhmerCurrentDate();
   const dirDateStr = getDirectorSolarDate();
@@ -4856,7 +5032,7 @@ sc(){
       <td style="width:45px">${k+1}</td>
       <td class="sn" style="min-width:110px"><b>${E(s.name)}</b></td>
       <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
-      ${cols.map((c,idx) => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[idx] ?? ''}" onchange="setSc(${s.id},${idx},this)"></td>`).join('')}
+      ${cols.map(c => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[c.origIdx] ?? ''}" onchange="setSc(${s.id},${c.origIdx},this)"></td>`).join('')}
       <td id="t${s.id}" style="font-weight:bold"></td>
       <td id="a${s.id}" style="font-weight:bold;color:var(--ac)"></td>
       <td id="r${s.id}" style="font-weight:bold"></td>
@@ -4876,7 +5052,7 @@ sc(){
       <td class="col-name" style="font-weight:bold">${E(s.name)}</td>
       <td class="col-sex">${s.sex==='ស'?'ស':'ប'}</td>
       <td class="col-dob">${E(s.dob || '-')}</td>
-      ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
+      ${cols.map(c => `<td>${a[c.origIdx] ?? '-'}</td>`).join('')}
       <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
       <td style="font-weight:bold">${rk}</td>
@@ -4887,13 +5063,14 @@ sc(){
   const totalStudents = S.st.length;
   const femaleStudents = S.st.filter(s => s.sex === 'ស').length;
 
-  return head('តារាងពិន្ទុប្រចាំខែ') + `<div class="card">
+  return head('តារាងពិន្ទុប្រចាំខែ') + `${renderSubjConfigModalHTML()}<div class="card">
   <div class="f row-nowrap">
     ${moSel()}
     <div class="div-inline-box" title="តួចែកមធ្យមភាគសម្រាប់ខែ${MO[mo]}">
       <span>តួចែក ÷</span>
       <input type="number" inputmode="decimal" step="0.5" value="${divVal}" onchange="setMonthDiv(${mo}, this.value)">
     </div>
+    <button type="button" class="bt g" style="flex:0 0 auto !important;padding:0 10px;font-size:13px" onclick="showSubjConfigModal=true;R()" title="កែពិន្ទុអតិបរមា និងមុខវិជ្ជា">⚙️ អតិបរមា</button>
   </div>
   <div class="f">
     <button class="bt" onclick="executeStandardPrint('monthlyScorePrintContainer', 'តារាងពិន្ទុប្រចាំខែ', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
@@ -5072,7 +5249,7 @@ official(){
 examScore(){
   const S = getS();
   const i = S.info;
-  const cols = getCols(currentLevel, S.info.stream);
+  const cols = getActiveCols(currentLevel, S.info.stream);
   const divVal = getExamDiv(currentLevel, S.info.stream, examSem);
   const curDateStr = getKhmerCurrentDate();
   const dirDateStr = getDirectorSolarDate();
@@ -5087,7 +5264,7 @@ examScore(){
       <td style="width:45px">${k+1}</td>
       <td class="sn" style="min-width:110px"><b>${E(s.name)}</b></td>
       <td style="width:45px">${s.sex==='ស'?'ស្រី':'ប្រុស'}</td>
-      ${cols.map((c,idx) => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[idx] ?? ''}" onchange="setExamSc(${s.id},${idx},this)"></td>`).join('')}
+      ${cols.map(c => `<td><input type="number" inputmode="decimal" step="0.25" min="0" max="${c.m}" value="${a[c.origIdx] ?? ''}" onchange="setExamSc(${s.id},${c.origIdx},this)"></td>`).join('')}
       <td id="ext${s.id}" style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td id="exa${s.id}" style="background:#fef3c7;font-weight:bold;color:#b45309">${avVal ? avVal.toFixed(2) : '-'}</td>
       <td id="exr${s.id}" style="font-weight:bold">${rk}</td>
@@ -5109,7 +5286,7 @@ examScore(){
       <td class="col-name" style="font-weight:bold">${E(s.name)}</td>
       <td class="col-sex">${s.sex==='ស'?'ស':'ប'}</td>
       <td class="col-dob">${E(s.dob || '-')}</td>
-      ${cols.map(c => `<td>${a[cols.indexOf(c)] ?? '-'}</td>`).join('')}
+      ${cols.map(c => `<td>${a[c.origIdx] ?? '-'}</td>`).join('')}
       <td style="font-weight:bold">${t ? t.toFixed(0) : '-'}</td>
       <td style="font-weight:bold;background:#fef3c7">${avVal ? avVal.toFixed(2) : '-'}</td>
       <td style="font-weight:bold">${rk}</td>
@@ -5117,7 +5294,7 @@ examScore(){
     </tr>`;
   }).join('');
 
-  return head('តារាងប្រឡងឆមាស') + `<div class="card">
+  return head('តារាងប្រឡងឆមាស') + `${renderSubjConfigModalHTML()}<div class="card">
   <div class="f row-nowrap">
     <select onchange="examSem=+this.value;R()">
       <option value="0" ${examSem===0?'selected':''}>📝 ប្រឡងឆមាសទី ១</option>
@@ -5127,6 +5304,7 @@ examScore(){
       <span>តួចែក ÷</span>
       <input type="number" inputmode="decimal" step="0.5" value="${divVal}" onchange="setExamDiv(${examSem}, this.value)">
     </div>
+    <button type="button" class="bt g" style="flex:0 0 auto !important;padding:0 10px;font-size:13px" onclick="showSubjConfigModal=true;R()" title="កែពិន្ទុអតិបរមា និងមុខវិជ្ជា">⚙️ អតិបរមា</button>
   </div>
   <div class="f">
     <button class="bt" onclick="executeStandardPrint('examPrintSheetArea', 'តារាងប្រឡងឆមាស', true)">🖨️ បោះពុម្ព / ទាញយកជា PDF (A4 Landscape)</button>
