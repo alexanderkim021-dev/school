@@ -3101,7 +3101,7 @@ const semFinalAv = (id, sIdx) => {
 const annualAv = id => {
   const s1 = semFinalAv(id, 0);
   const s2 = semFinalAv(id, 1);
-  if (s1 > 0 && s2 > 0) return (s1 + s2 * 2) / 3;
+  if (s1 > 0 && s2 > 0) return (s1 + s2) / 2;
   if (s2 > 0) return s2;
   return s1;
 };
@@ -5351,7 +5351,7 @@ annual(){
   <div class="f">
     <button class="bt" onclick="executeStandardPrint('annualPrintArea', 'សរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ', false)">🖨️ បោះពុម្ពតារាងផ្លូវការ (A4 Portrait)</button>
   </div>
-  <small class="hint-note">💡 លទ្ធផលប្រចាំឆ្នាំត្រូវបានគណនាស្វ័យប្រវត្តិតាមរូបមន្តក្រសួង៖ <b>មធ្យមប្រចាំឆ្នាំ = (មធ្យមឆមាសទី១ + មធ្យមឆមាសទី២ × ២) ÷ ៣</b> និងកំណត់លទ្ធផលឡើងថ្នាក់ ប្រឡងសង ឬត្រួតថ្នាក់ដោយអូតូ។</small>
+  <small class="hint-note">💡 លទ្ធផលប្រចាំឆ្នាំត្រូវបានគណនាស្វ័យប្រវត្តិតាមរូបមន្តក្រសួង៖ <b>មធ្យមប្រចាំឆ្នាំ = (មធ្យមឆមាសទី១ + មធ្យមឆមាសទី២) ÷ ២</b> និងកំណត់លទ្ធផលឡើងថ្នាក់ ប្រឡងសង ឬត្រួតថ្នាក់ដោយអូតូ។</small>
 
   <div class="a4-portrait-stage">
     <div class="a4-portrait-wrapper">
@@ -5361,7 +5361,7 @@ annual(){
         <div class="official-title">
           <h2 class="muol-title">តារាងបូកសរុបលទ្ធផលការសិក្សាប្រចាំឆ្នាំ</h2>
           <div style="font-weight:bold;font-size:14px">${E(smartClassDisplay(i.cls, ''))} ឆ្នាំសិក្សា ${E(currentYear)}</div>
-          <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមប្រចាំឆ្នាំ = [មធ្យម ឆ.១ + មធ្យម ឆ.២ × ២] ÷ ៣ )</div>
+          <div style="font-size:11.5px;color:#475569;margin-top:2px">( រូបមន្ត៖ មធ្យមប្រចាំឆ្នាំ = [មធ្យម ឆ.១ + មធ្យម ឆ.២] ÷ ២ )</div>
         </div>
 
         <table class="official-table">
