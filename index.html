@@ -268,9 +268,9 @@ th,td{padding:8px 8px;border-bottom:1px solid var(--bd);border-inline-end:1px so
 th{background:var(--hd);position:sticky;top:0;z-index:2;font-weight:600;color:#334155}
 .sn{position:sticky;left:0;z-index:3;text-align:start;min-width:110px;background:#fff;box-shadow:2px 0 5px rgba(0,0,0,0.04)}
 th.sn{z-index:4;background:var(--hd)}
-td input{width:56px;padding:4px;min-height:32px;text-align:center;border-radius:6px;font-size:14px}
-td input.t{width:120px;text-align:start;font-size:14px}
-td select.sex-sel{width:68px;min-width:68px;padding:4px 4px;min-height:34px;font-size:13.5px;border-radius:6px;text-align:center}
+td input{width:60px;padding:4px;min-height:34px;text-align:center;border-radius:6px;font-size:16px}
+td input.t{width:124px;text-align:start;font-size:16px}
+td select.sex-sel{width:72px;min-width:72px;padding:4px 4px;min-height:36px;font-size:16px;border-radius:6px;text-align:center}
 
 td select.ilp-ui-sel{
   width:56px;min-width:56px;padding:4px 2px;min-height:34px;
@@ -2501,7 +2501,7 @@ function renderSubjConfigModalHTML(){
                     </td>
                     <td style="text-align:start;padding-left:8px;font-weight:600;white-space:normal">${E(label)}</td>
                     <td>
-                      <input type="number" inputmode="decimal" min="1" max="1000" value="${c.m}" style="width:74px;min-height:34px;padding:3px 6px;font-weight:700;text-align:center"
+                      <input type="number" inputmode="decimal" min="1" max="1000" value="${c.m}" style="width:78px;min-height:36px;padding:3px 6px;font-weight:700;text-align:center;font-size:16px"
                         onchange="${c.isCustom ? `updateExtraSubjConfig(${c.extraIdx}, 'm', this.value)` : `updateSubjConfig(${c.origIdx}, 'm', this.value)`}">
                     </td>
                     <td>
@@ -2516,8 +2516,8 @@ function renderSubjConfigModalHTML(){
         <div style="background:#f8fafc;border:1px solid var(--bd);border-radius:10px;padding:8px;margin-bottom:10px">
           <div style="font-size:12px;font-weight:700;color:var(--ac);margin-bottom:5px">➕ បន្ថែមមុខវិជ្ជាថ្មី</div>
           <div style="display:flex;gap:6px;align-items:center">
-            <input id="newExtraSubjName" type="text" lang="km" placeholder="ឈ្មោះមុខវិជ្ជាថ្មី..." style="flex:1;min-height:36px;padding:4px 8px;font-size:13.5px">
-            <input id="newExtraSubjMax" type="number" inputmode="numeric" value="50" placeholder="អតិបរមា" style="width:74px;min-height:36px;padding:4px 6px;font-size:13.5px;text-align:center">
+            <input id="newExtraSubjName" type="text" lang="km" placeholder="ឈ្មោះមុខវិជ្ជាថ្មី..." style="flex:1;min-height:38px;padding:4px 8px;font-size:16px">
+            <input id="newExtraSubjMax" type="number" inputmode="numeric" value="50" placeholder="អតិបរមា" style="width:78px;min-height:38px;padding:4px 6px;font-size:16px;text-align:center">
             <button type="button" class="bt" style="min-height:36px;padding:4px 12px;font-size:13px;background:var(--ok)" onclick="addExtraSubjConfig()">បន្ថែម</button>
           </div>
         </div>
@@ -3038,17 +3038,28 @@ function save(){
   });
 }
 
-function resetMobileZoom(){
-  if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
-  window.scrollTo(0, 0);
+function resetMobileZoom(keepScroll = false){
+  if (!keepScroll) {
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    window.scrollTo(0, 0);
+  }
   const vp = document.querySelector('meta[name="viewport"]');
   if (vp) {
     vp.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover');
     setTimeout(() => {
       vp.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover');
-    }, 100);
+    }, 120);
   }
 }
+document.addEventListener('focusout', e => {
+  if (e.target && ['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) {
+    setTimeout(() => {
+      if (!document.activeElement || !['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) {
+        resetMobileZoom(true);
+      }
+    }, 80);
+  }
+});
 
 async function openSession(u, key){
   const acc = accounts[u];
@@ -4965,7 +4976,7 @@ home(){
   return `<div class="home" style="background:${E(th.homeCardBg || '#ffffff')}">
   <div class="moeys-header">
     <div class="moeys-brand">
-      <div class="moeys-logo-wrap" onclick="pick(u=>{getS().info.moeysLogo=u;save();R()})" title="ចុចដើម្បីប្តូររូបឡូហ្គោ">
+      <div class="moeys-logo-wrap" onclick="openCircleCropModal('moeysLogo')" title="ចុចដើម្បីដាក់ ពង្រីក រំកិល ឬត្រឡប់ទៅ Logo ដើម">
         <img class="moeys-logo" src="${logoSrc}" onerror="this.onerror=null;this.src='3602-ministere-leducation-jeunesse-et-sport-cambodge-moeys.png';">
       </div>
       <div class="moeys-text">
@@ -5015,7 +5026,9 @@ home(){
   ` : ''}
 
   <div class="mu small" style="margin-bottom:10px">💡 អ្នកអាចចុចអូស (Drag & Drop) ប៊ូតុងដើម្បីរៀបចំទីតាំងតាមចិត្តបាន</div>
-  ${layoutMode === 'classic' ? `<div class="hg" id="btnGrid">${btnsHtml}</div>` : btnsHtml}</div>`;
+  ${layoutMode === 'classic' ? `<div class="hg" id="btnGrid">${btnsHtml}</div>` : btnsHtml}
+  ${renderCircleCropModalHTML()}
+  </div>`;
 },
 
 sc(){
@@ -8720,7 +8733,135 @@ function upd(){
   });
 }
 
-const logo = z => `<div class="lg" style="width:${z}px;height:${z}px" onclick="pick(u=>{getS().info.logo=u;save();R()})" title="ចុចដើម្បីដាក់រូបភាព">${getS().info.logo ? `<img src="${getS().info.logo}" alt="">` : '<span>ចុចដាក់<br>រូបភាព</span>'}</div>`;
+let circleCropTarget = null; // 'logo' | 'moeysLogo'
+let circleCropRaw = null;
+let circleCropZoom = 100;
+let circleCropX = 50;
+let circleCropY = 50;
+
+function openCircleCropModal(target){
+  if (!checkWriteAllowed()) { R(); return; }
+  const S = getS();
+  const currentImg = target === 'moeysLogo' ? S.info.moeysLogo : S.info.logo;
+  if (!currentImg) {
+    pick(u => {
+      circleCropTarget = target;
+      circleCropRaw = u;
+      circleCropZoom = 100;
+      circleCropX = 50;
+      circleCropY = 50;
+      R();
+    });
+  } else {
+    circleCropTarget = target;
+    circleCropRaw = currentImg;
+    circleCropZoom = 100;
+    circleCropX = 50;
+    circleCropY = 50;
+    R();
+  }
+}
+
+function updateCircleCropPreview(){
+  const img = document.getElementById('circleCropPreviewImg');
+  if (!img) return;
+  const scale = circleCropZoom / 100;
+  const tx = (50 - circleCropX) * 0.65;
+  const ty = (50 - circleCropY) * 0.65;
+  img.style.transform = `translate(${tx}%, ${ty}%) scale(${scale})`;
+}
+
+function applyCircleCrop(){
+  if (!checkWriteAllowed()) { R(); return; }
+  const S = getS();
+  const srcData = circleCropRaw || (circleCropTarget === 'moeysLogo' ? getLogoSrc() : S.info.logo);
+  if (!circleCropTarget || !srcData) return;
+
+  const im = new Image();
+  im.onload = () => {
+    const size = 280;
+    const c = document.createElement('canvas');
+    c.width = size;
+    c.height = size;
+    const ctx = c.getContext('2d');
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, size, size);
+
+    const scale = circleCropZoom / 100;
+    const baseFit = Math.min(size / im.width, size / im.height);
+    const drawW = im.width * baseFit * scale;
+    const drawH = im.height * baseFit * scale;
+    const offsetX = (size - drawW) / 2 + (50 - circleCropX) * 0.0065 * size;
+    const offsetY = (size - drawH) / 2 + (50 - circleCropY) * 0.0065 * size;
+
+    ctx.drawImage(im, offsetX, offsetY, drawW, drawH);
+    const outUrl = c.toDataURL('image/png', 0.92);
+
+    if (circleCropTarget === 'moeysLogo') {
+      S.info.moeysLogo = outUrl;
+    } else {
+      S.info.logo = outUrl;
+    }
+    circleCropTarget = null;
+    circleCropRaw = null;
+    save();
+    R();
+    setStatus('បានរក្សាទុកទីតាំង និងទំហំរូបភាព ✓');
+  };
+  im.src = srcData;
+}
+
+function deleteCircleCropImage(){
+  if (!checkWriteAllowed()) { R(); return; }
+  const S = getS();
+  if (circleCropTarget === 'moeysLogo') {
+    delete S.info.moeysLogo;
+    setStatus('បានលុបរូប និងត្រឡប់មក Logo ដើមវិញ ✓');
+  } else if (circleCropTarget === 'logo') {
+    delete S.info.logo;
+    setStatus('បានលុបរូបភាពចេញ ✓');
+  }
+  circleCropTarget = null;
+  circleCropRaw = null;
+  save();
+  R();
+}
+
+function renderCircleCropModalHTML(){
+  if (!circleCropTarget) return '';
+  const S = getS();
+  const isMoeys = circleCropTarget === 'moeysLogo';
+  const title = isMoeys ? 'កែរូប Logo ខាងលើឆ្វេង' : 'កែរូបថតគ្រូ / Logo សាលា';
+  const previewSrc = circleCropRaw || (isMoeys ? getLogoSrc() : S.info.logo);
+  const delLabel = isMoeys ? '🔄 លុបមកដើម' : '🗑️ លុបរូប';
+
+  return `
+    <div class="modal-overlay" style="padding:10px" onclick="circleCropTarget=null;circleCropRaw=null;R()">
+      <div class="modal-box" style="width:90%;max-width:305px;max-height:86dvh;padding:10px 12px;text-align:center" onclick="event.stopPropagation()">
+        <h2 style="margin:0 0 6px;font-size:14.5px;line-height:1.35;color:var(--ac)">${title}</h2>
+        <div style="width:94px;height:94px;margin:0 auto 7px;border-radius:50%;border:2px solid var(--ac);overflow:hidden;background:#ffffff;display:flex;align-items:center;justify-content:center">
+          <img id="circleCropPreviewImg" src="${previewSrc}" style="width:100%;height:100%;object-fit:contain;transform:scale(1)">
+        </div>
+        <div style="margin-bottom:8px;background:#f1f5f9;padding:6px 9px;border-radius:10px;text-align:left">
+          <label style="font-size:11.5px;font-weight:700;color:var(--tx);display:block;margin-bottom:1px">🔍 ពង្រីក / បង្រួម (Zoom)</label>
+          <input type="range" min="60" max="200" value="${circleCropZoom}" oninput="circleCropZoom=+this.value;updateCircleCropPreview()" style="min-height:18px;padding:0;margin-bottom:3px">
+          <label style="font-size:11.5px;font-weight:700;color:var(--tx);display:block;margin-bottom:1px">↕️ រំកិលឡើងលើ / ចុះក្រោម</label>
+          <input type="range" min="0" max="100" value="${circleCropY}" oninput="circleCropY=+this.value;updateCircleCropPreview()" style="min-height:18px;padding:0;margin-bottom:3px">
+          <label style="font-size:11.5px;font-weight:700;color:var(--tx);display:block;margin-bottom:1px">↔️ រំកិលឆ្វេង / ស្តាំ</label>
+          <input type="range" min="0" max="100" value="${circleCropX}" oninput="circleCropX=+this.value;updateCircleCropPreview()" style="min-height:18px;padding:0">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <button type="button" class="bt" style="grid-column:span 2;min-height:36px;padding:5px 8px;font-size:13px;background:var(--ok)" onclick="applyCircleCrop()">💾 រក្សាទុកទីតាំង</button>
+          <button type="button" class="bt" style="min-height:35px;padding:5px 6px;font-size:12.5px" onclick="pick(u=>{circleCropRaw=u;circleCropZoom=100;circleCropX=50;circleCropY=50;R()})">📷 ប្តូររូបថ្មី</button>
+          <button type="button" class="bt r" style="min-height:35px;padding:5px 6px;font-size:12.5px" onclick="deleteCircleCropImage()">${delLabel}</button>
+          <button type="button" class="bt g" style="grid-column:span 2;min-height:34px;padding:4px 8px;font-size:12.5px" onclick="circleCropTarget=null;circleCropRaw=null;R()">បោះបង់</button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+const logo = z => `<div class="lg" style="width:${z}px;height:${z}px" onclick="openCircleCropModal('logo')" title="ចុចដើម្បីដាក់ ពង្រីក រំកិល ឬលុបរូបភាព">${getS().info.logo ? `<img src="${getS().info.logo}" alt="" style="object-fit:cover">` : '<span>ចុចដាក់<br>រូបភាព</span>'}</div>`;
 const photo = s => `<div class="ph" onclick="handleStuPhotoClick(${s.id})" title="ចុចដើម្បីដាក់ ប្តូរ ឬលុបរូបថត">${s.ph ? `<img src="${s.ph}" alt="">` : '+'}</div>`;
 
 function handleStuPhotoClick(id){
